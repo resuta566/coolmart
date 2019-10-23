@@ -1,5 +1,5 @@
 (function($, window){
-    "use strict"; 
+    "use strict";
     var arrowWidth = 16;
 
     $.fn.resizeselect = function(settings) {
@@ -577,11 +577,11 @@
 
         $('#owl-brands').owlCarousel({
             "items":5,
-            "navRewind":true,
             "autoplayHoverPause":true,
-            "nav":true,"stagePadding":1,
+            "nav":true,
             "dots":false,
             "rtl":false,
+            "loop": true,
             "navText":["<i class=\"fa fa-chevron-left\"><\/i>",
             "<i class=\"fa fa-chevron-right\"><\/i>"],
             "touchDrag":false,
