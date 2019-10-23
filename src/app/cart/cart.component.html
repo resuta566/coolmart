@@ -22,64 +22,35 @@
                             </thead>
                             <tbody>
 
-                                <tr class="cart_item">
+                                <tr class="cart_item" *ngFor="let product of products">
 
                                     <td class="product-remove">
-                                        <a class="remove" href="#">×</a>
+                                        <a class="remove" (click)="removeItem(product)">×</a>
                                     </td>
 
                                     <td class="product-thumbnail">
-                                        <a href="single-product.html"><img width="180" height="180" src="assets/images/products/2.jpg" alt=""></a>
+                                        <a href="single-product.html"><img width="180" height="180" src="{{ product.img }}" alt=""></a>
                                     </td>
 
                                     <td data-title="Product" class="product-name">
-                                        <a href="single-product.html">Wireless Audio System Multiroom 360</a>
+                                        <a href="single-product.html">{{ product.name }}</a>
                                     </td>
 
                                     <td data-title="Price" class="product-price">
-                                        <span class="amount">$1,999.00</span>
+                                        <span class="amount">₱{{ product.price }}</span>
                                     </td>
 
                                     <td data-title="Quantity" class="product-quantity">
-                                        <div class="quantity buttons_added"><input type="button" class="minus" value="-">
+                                        <div class="quantity buttons_added">
+                                            <input type="button" class="minus" value="-" (click)="decreaseQty(product)">
                                             <label>Quantity:</label>
-                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                            <input type="button" class="plus" value="+">
+                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="{{ product.qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
+                                            <input type="button" class="plus" value="+" (click)="addQty(product)">
                                         </div>
                                     </td>
 
                                     <td data-title="Total" class="product-subtotal">
-                                        <span class="amount">$1,999.00</span>
-                                    </td>
-                                </tr>
-                                <tr class="cart_item">
-
-                                    <td class="product-remove">
-                                        <a data-product_sku="5487FB8/26" data-product_id="2606" title="Remove this item" class="remove" href="#">×</a>
-                                    </td>
-
-                                    <td class="product-thumbnail">
-                                        <a href="single-product.html"><img width="180" height="180" alt="LaptopYoga" class="wp-post-image" src="assets/images/products/1.jpg"></a>
-                                    </td>
-
-                                    <td data-title="Product" class="product-name">
-                                        <a href="single-product.html">Tablet White EliteBook  Revolve 810 G2</a>
-                                    </td>
-
-                                    <td data-title="Price" class="product-price">
-                                        <span class="amount">$1,300.00</span>
-                                    </td>
-
-                                    <td data-title="Quantity" class="product-quantity">
-                                        <div class="quantity buttons_added"><input type="button" class="minus" value="-">
-                                            <label>Quantity:</label>
-                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="cart[a431d70133ef6cf688bc4f6093922b48][qty]" max="30" min="0" step="1">
-                                            <input type="button" class="plus" value="+">
-                                        </div>
-                                    </td>
-
-                                    <td data-title="Total" class="product-subtotal">
-                                        <span class="amount">$1,300.00</span>
+                                        <span class="amount">₱ {{ product.price * product.qty }}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -115,13 +86,13 @@
                                 <tbody>
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
-                                        <td data-title="Subtotal"><span class="amount">$3,299.00</span></td>
+                                        <td data-title="Subtotal"><span class="amount">₱{{ sum }}</span></td>
                                     </tr>
 
 
                                     <tr class="shipping">
                                         <th>Shipping</th>
-                                        <td data-title="Shipping">Flat Rate: <span class="amount">$300.00</span> <input type="hidden" class="shipping_method" value="international_delivery" id="shipping_method_0" data-index="0" name="shipping_method[0]">
+                                        <td data-title="Shipping">Flat Rate: <span class="amount">₱500.00</span> <input type="hidden" class="shipping_method" value="international_delivery" id="shipping_method_0" data-index="0" name="shipping_method[0]">
 
                                             <form method="post" action="cart.html" class="woocommerce-shipping-calculator">
 
@@ -155,7 +126,7 @@
 
                                     <tr class="order-total">
                                         <th>Total</th>
-                                        <td data-title="Total"><strong><span class="amount">$3,599.00</span></strong> </td>
+                                        <td data-title="Total"><strong><span class="amount">₱{{ sum + 500 }}</span></strong> </td>
                                     </tr>
                                 </tbody>
                             </table>
