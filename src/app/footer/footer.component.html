@@ -66,15 +66,15 @@
                 <h4 class="widget-title">Customer Care</h4>
                 <div class="menu-footer-menu-3-container">
                   <ul id="menu-footer-menu-3" class="menu">
-                    <li class="menu-item"><a href="/sign_in_up">My Account</a></li>
+                    <li class="menu-item"><a [routerLink]="['/sign_in_up']">My Account</a></li>
                     <li class="menu-item"><a href="/track">Track your Order</a></li>
                     <li class="menu-item"><a href="/wishlist">Wishlist</a></li>
                     <li class="menu-item"><a href="single-product.html">Customer Service</a></li>
                     <li class="menu-item"><a href="single-product.html">Returns/Exchange</a></li>
-                    <li class="menu-item"><a href="/frequently-ask-questions">FAQs</a></li>
+                    <li class="menu-item"><a [routerLink]="['/frequently-ask-questions']">FAQs</a></li>
                     <li class="menu-item"><a href="single-product.html">Product Support</a></li>
-                    <li class="menu-item"><a href="/contact-us">Contact Us</a></li>
-                    <li class="menu-item"><a href="/about-us">About Us</a></li>
+                    <li class="menu-item"><a [routerLink]="['/contact-us']">Contact Us</a></li>
+                    <li class="menu-item"><a [routerLink]="['/about-us']">About Us</a></li>
                   </ul>
                 </div>
               </div>
@@ -103,7 +103,7 @@
 
           <div class="footer-address">
             <strong class="footer-address-title">Contact Info</strong>
-            <address>TSP Bldg 2nd Floor Unit 7, Tunasan, Muntinlupa, Metro Manila, Philippines</address>
+            <address>Unit 8, 2nd Floor, TSP Bldg., Tunasan, Muntinlupa, Metro Manila, Philippines</address>
           </div><!-- /.footer-address -->
 
           <div class="footer-social-icons">
@@ -127,7 +127,7 @@
 
   <div class="copyright-bar">
     <div class="container">
-      <div class="pull-left flip copyright">&copy; <a href="/" >Cool Mart</a> - All Rights Reserved {{ year }}</div>
+      <div class="pull-left flip copyright">&copy; <a href="/" >Cool Mart</a> - All Rights Reserved <a target="_blank" href="https://jeires.ml" >{{ year }}</a></div>
       <div class="pull-right flip payment">
         <div class="footer-payment-logo">
           <ul class="cash-card card-inline">

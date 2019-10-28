@@ -1,0 +1,23 @@
+.fa-shopping-cart {
+  font-size: 20px !important;
+}
+.cart-name {
+  padding-right: 20px !important;
+}
+
+.navbar-mini-cart .nav-link > .fa {
+  margin-right: 7px;
+}
+
+.logout:hover {
+  cursor: pointer;
+}
+
+// .container{
+//   height: 69px;
+// }
+@media (min-width: 768px){
+  .site-header{
+    height: 77px;
+  }
+}

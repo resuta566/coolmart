@@ -742,9 +742,11 @@ fieldset {
     padding-right: 0.9375rem;
     width: 100%; }
     @media (min-width: 768px) {
-      .col2-set .col-1,
+      .col2-set .col-1{
+        width: 65%;
+      }
       .col2-set .col-2 {
-        width: 50%; } }
+        width: 35%; } }
 
 .page-template-template-homepage-v2 #primary section:last-child,
 .page-template-template-homepage-v2 #sidebar aside:last-child {
@@ -3655,7 +3657,7 @@ div.quantity.buttons_added {
 .site-header {
   padding: 2.893em 0; }
   .site-header .dropdown-menu {
-    z-index: 1001; }
+    z-index: 999; }
 
 .header-logo {
   position: relative;
@@ -3743,7 +3745,7 @@ div.quantity.buttons_added {
   background-color: #fed700; }
 
 .full-color-background .header-v3 {
-  padding-top: 1.4em; }
+  padding-top: 0.8em; }
   .full-color-background .header-v3 .navbar-search .input-group .btn, .full-color-background .header-v3 .navbar-search .input-group .hero-action-btn {
     background-color: #333e48;
     color: #fff;
