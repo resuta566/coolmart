@@ -1,0 +1,10 @@
+.deals-img{
+  width: 410px !important;
+  height: 281px !important;
+}
+@media (min-width: 768px){
+  .deals-img{
+    height: 281px ;
+    width: 410px ;
+  }
+}
