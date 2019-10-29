@@ -1275,85 +1275,85 @@
         /*  Electro Product Gallery Carousel
         /*===================================================================================*/
 
-        $( '.single-product .electro-gallery' ).each( function() {
-            var $sync1 = $(this).children('.thumbnails-single');
-            var $sync2 = $(this).children('.thumbnails-all');
-            var flag = false;
-            var duration = 300;
+        // $( '.single-product .electro-gallery' ).each( function() {
+        //     var $sync1 = $(this).children('.thumbnails-single');
+        //     var $sync2 = $(this).children('.thumbnails-all');
+        //     var flag = false;
+        //     var duration = 300;
 
-            $sync1.owlCarousel( {
-                items: 1,
-                margin: 0,
-                dots: false,
-                nav: false,
-                rtl: is_rtl,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    480:{
-                        items:1
-                    },
-                    768:{
-                        items:1
-                    },
-                }
-            });
+        //     $sync1.owlCarousel( {
+        //         items: 1,
+        //         margin: 0,
+        //         dots: false,
+        //         nav: false,
+        //         rtl: is_rtl,
+        //         responsive:{
+        //             0:{
+        //                 items:1
+        //             },
+        //             480:{
+        //                 items:1
+        //             },
+        //             768:{
+        //                 items:1
+        //             },
+        //         }
+        //     });
 
-            $sync1.on('changed.owl.carousel', function (e) {
-                if (!flag) {
-                    flag = true;
-                    $sync2.trigger('to.owl.carousel', [e.item.index, duration, true]);
-                    flag = false;
-                }
-                $sync2.find(".owl-item").removeClass("synced").eq(e.item.index).addClass("synced");
-            });
+        //     $sync1.on('changed.owl.carousel', function (e) {
+        //         if (!flag) {
+        //             flag = true;
+        //             $sync2.trigger('to.owl.carousel', [e.item.index, duration, true]);
+        //             flag = false;
+        //         }
+        //         $sync2.find(".owl-item").removeClass("synced").eq(e.item.index).addClass("synced");
+        //     });
 
-            $sync2.on('initialized.owl.carousel',function (e) {
-                $sync2.find(".owl-item").eq(0).addClass("synced");
-            });
+        //     $sync2.on('initialized.owl.carousel',function (e) {
+        //         $sync2.find(".owl-item").eq(0).addClass("synced");
+        //     });
 
-            var thumbnail_column_class = $sync2.attr( 'class' );
-            var cols = parseInt( thumbnail_column_class.replace( 'thumbnails-all columns-', '' ) );
+        //     var thumbnail_column_class = $sync2.attr( 'class' );
+        //     var cols = parseInt( thumbnail_column_class.replace( 'thumbnails-all columns-', '' ) );
 
-            $sync2.owlCarousel( {
-                items: cols,
-                margin: 8,
-                dots: true,
-                nav: false,
-                rtl: is_rtl,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    480:{
-                        items:3
-                    },
-                    768:{
-                        items:cols
-                    },
-                }
-            });
+        //     $sync2.owlCarousel( {
+        //         items: cols,
+        //         margin: 8,
+        //         dots: true,
+        //         nav: false,
+        //         rtl: is_rtl,
+        //         responsive:{
+        //             0:{
+        //                 items:1
+        //             },
+        //             480:{
+        //                 items:3
+        //             },
+        //             768:{
+        //                 items:cols
+        //             },
+        //         }
+        //     });
 
-            $sync2.on('click', 'a', function (e) {
-                e.preventDefault();
-            });
+        //     $sync2.on('click', 'a', function (e) {
+        //         e.preventDefault();
+        //     });
 
-            $sync2.on('click', '.owl-item', function () {
-                $sync1.trigger('to.owl.carousel', [$(this).index(), duration, true]);
-            });
+        //     $sync2.on('click', '.owl-item', function () {
+        //         $sync1.trigger('to.owl.carousel', [$(this).index(), duration, true]);
+        //     });
 
-            $sync2.on('changed.owl.carousel', function (e) {
-                if (!flag) {
-                    flag = true;
-                    $sync1.trigger('to.owl.carousel', [e.item.index, duration, true]);
-                    flag = false;
-                }
-            });
-        });
+        //     $sync2.on('changed.owl.carousel', function (e) {
+        //         if (!flag) {
+        //             flag = true;
+        //             $sync1.trigger('to.owl.carousel', [e.item.index, duration, true]);
+        //             flag = false;
+        //         }
+        //     });
+        // });
 
 
-        $(".electro-store-directory .product-categories > li").arrangeObjects('ul', 4);
+        // $(".electro-store-directory .product-categories > li").arrangeObjects('ul', 4);
 
 
         /*===================================================================================*/

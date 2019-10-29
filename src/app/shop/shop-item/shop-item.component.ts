@@ -1,21 +1,23 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductService } from '@app/_service/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environments/environment';
-
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 @Component({
   selector: 'app-shop-item',
   templateUrl: './shop-item.component.html',
   styleUrls: ['./shop-item.component.scss']
 })
-export class ShopItemComponent implements OnInit, AfterViewInit {
+export class ShopItemComponent implements OnInit {
 
+  apiUrl = `${environment.apiUrl}`;
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
   imgArray = [];
   img: string;
   slug: string;
   response: any;
-  apiUrl = `${environment.apiUrl}`;
   constructor(
     private route: ActivatedRoute,
     private service: ProductService
@@ -26,41 +28,67 @@ export class ShopItemComponent implements OnInit, AfterViewInit {
       this.slug = rt.get('slug');
     });
     // console.log(this.route);
+    this.getProduct(this.slug);
 
-    this.service.getProduct(this.slug).subscribe(r =>{
+  }
+
+  getProduct(slug){
+    this.service.getProduct(slug).subscribe(r =>{
 
       this.response = r;
       this.imgArray = this.response.attributes.images;
-      let string: string;
-      for(let i=0;i<=this.imgArray.length -1;i++){
-        string+= ' <a href="images/single-product/s1-1.jpg" class="zoom" title="" data-rel="prettyPhoto[product-gallery]"><img src="this.apiUrl/this.imgArray[i]" attr.data-echo="{ this.apiUrl }/this.imgArray[i]" class="wp-post-image" alt=""></a>';
+      console.log(this.imgArray[0]);
+      if(this.imgArray !== null){
+        this.gallery();
       }
-      string = string.replace('undefined','');
-      jQuery('.images').append(string);
+    });
 
-    })
   }
 
-  ngAfterViewInit() {
-    setTimeout(function () {
-      jQuery('.images').owlCarousel({
-        loop: true,
-        margin: 10,
-         nav: false,
-        responsive: {
-          0: {
-            items: 1
-          },
-          600: {
-            items: 2
-          },
-          1000: {
-            items: 4
-          }
-        }
+  gallery(){
+    this.galleryOptions = [
+      {
+          width: '470px',
+          height: '590px',
+          thumbnailsColumns: 3,
+          imageAnimation: NgxGalleryAnimation.Fade,
+          // thumbnailsRemainingCount: true,
+          imageArrowsAutoHide: true,
+          thumbnailsArrowsAutoHide: true
+      },
+      // max-width 800
+      {
+          breakpoint: 800,
+          width: '100%',
+          height: '300px',
+          imagePercent: 80,
+          thumbnailsPercent: 10,
+          thumbnailsMargin: 20,
+          thumbnailMargin: 20,
+          thumbnailsColumns: 3
+      },
+      // max-width 400
+      {
+          breakpoint: 300,
+          preview: false ,
+          width: "100%",
+          height: "200px",
+          thumbnailsColumns: 2
+      }
+  ];
 
-      });
-    }, 300);
-}
+  this.galleryImages = [];
+  for(const imgUrl of this.imgArray) {
+    const image = {
+      small: this.apiUrl+'/'+imgUrl,
+      medium: this.apiUrl+'/'+imgUrl,
+      big: this.apiUrl+'/'+imgUrl
+    }
+    this.galleryImages.push(image)
+  }
+  }
 
+  addtoCart(){
+    
+  }
 }

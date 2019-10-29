@@ -11,7 +11,7 @@ import { User } from '@app/_models';
 export class NavbarComponent implements OnInit {
 
   currentUser: User;
-
+  isLogged = false;
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService
@@ -20,10 +20,15 @@ export class NavbarComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.isLoggedIn();
+  }
+
+  isLoggedIn(){
+    if(this.currentUser) return true;
   }
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/sign_in_up']);
+    this.router.navigate(['/sign_in_up'])
 }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '@app/_service/product.service';
 import { environment } from '@environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -13,7 +14,10 @@ export class ShopComponent implements OnInit {
   imgThumb: string;
   img: string;
   apiImgUrl = `${environment.apiUrl}`;
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
     this.getProducts();
@@ -27,5 +31,9 @@ export class ShopComponent implements OnInit {
         error => {
         console.log(error);
     });
+  }
+
+  addToCart(){
+    this.router.navigate(['/cart']);
   }
 }

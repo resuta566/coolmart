@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { PagesModule } from './_modules/pages.module';
@@ -20,7 +20,15 @@ import { OwlModule } from 'ngx-owl-carousel';
 import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
+import { NgxGalleryModule } from 'ngx-gallery';
+import { GalleryComponent } from './shop/shop-item/gallery/gallery.component';
 
+export class CustomHammerConfig extends HammerGestureConfig  {
+  overrides = {
+      pinch: { enable: false },
+      rotate: { enable: false }
+  };
+}
 
 @NgModule({
   declarations: [
@@ -35,7 +43,8 @@ import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
     ShopComponent,
     ShopItemComponent,
     StoreLocationComponent,
-    DashboardComponent
+    DashboardComponent,
+    GalleryComponent
   ],
   imports: [
     BrowserModule,
@@ -45,11 +54,13 @@ import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
     HomeModule,
     HttpClientModule,
     OwlModule,
-    FormsModule
+    FormsModule,
+    NgxGalleryModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
   ],
   bootstrap: [AppComponent]
 })

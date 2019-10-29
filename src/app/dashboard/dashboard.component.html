@@ -1,3 +1,122 @@
-<div class="container">
-  Hello!
+<br>
+<div class="containerlist">
+    <header class="entry-header"><h1 itemprop="name" class="entry-title">DASHBOARD</h1></header>
+  <!-- <div class="row">
+    <div class="col">
+
+    </div>
+    <div class="col">
+
+    </div>
+  </div> -->
+
+  <div class="col2-set11" id="dashboard">
+
+      <div class="col-1">
+
+          <div class="card" style="width: 20rem;">
+              <div class="card-header">
+                  Hello, User.
+                </div>
+            <div id="account" class="card" style="width: 18rem; margin: 15px; ">
+              <div class="card-header">
+                Manage My Account
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">My Profile</li>
+                <li class="list-group-item">Address Book</li>
+                <li class="list-group-item">My Payment Options</li>
+                <li class="list-group-item">Vouchers</li>
+              </ul>
+            </div>
+            <div id="orders" class="card" style="width: 18rem; margin: 15px; ">
+                <div class="card-header">
+                  My Orders
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">My Returns</li>
+                  <li class="list-group-item">My Cancellations</li>
+                </ul>
+              </div>
+          </div>
+
+      </div><!-- .col-1 -->
+
+      <div class="col-2">
+        <div class="card">
+            <div class="card-header bg-warning mb-3" >
+              Manage My Account
+            </div>
+            <div class="info-container">
+                <div class="info">
+                    <div class="card">
+                        Personal Profile | EDIT
+                        James Lester Orfano
+                        resut.a566@gmail.com
+                        Subscribe to our Newsletter
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="card">
+                        Personal Profile | EDIT
+                        James Lester Orfano
+                        resut.a566@gmail.com
+                        Subscribe to our Newsletter
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="card" >
+                        Personal Profile | EDIT
+                        James Lester Orfano
+                        resut.a566@gmail.com
+                        Subscribe to our Newsletter
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" >
+                Recent Orders
+              </div>
+            <table class="shop_table shop_table_responsive cart">
+                <thead>
+                    <tr>
+                        <th class="product-name">Product</th>
+                        <th class="product-thumbnail">&nbsp;</th>
+                        <th class="product-price">Price</th>
+                        <th class="product-quantity">Quantity</th>
+                        <th class="product-subtotal">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="cart_item" *ngFor="let product of products">
+
+                        <td class="product-thumbnail">
+                            <a href="single-product.html"><img width="180" height="180" src="{{ product.img }}" alt=""></a>
+                        </td>
+
+                        <td data-title="Product" class="product-name">
+                            <a href="single-product.html">{{ product.name }}</a>
+                        </td>
+
+                        <td data-title="Price" class="product-price">
+                            <span class="amount">₱{{ product.price }}</span>
+                        </td>
+
+                        <td data-title="Quantity" class="product-quantity">
+                                <span class="quantity" style="margin-left: 1rem;" >{{ product.qty }}</span>
+                        </td>
+
+                        <td data-title="Total" class="product-subtotal">
+                            <span class="amount">₱ {{ product.price * product.qty }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div><!-- .col-2 -->
+
+  </div><!-- .col2-set -->
+
 </div>

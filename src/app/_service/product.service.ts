@@ -43,4 +43,10 @@ export class ProductService {
       tap(_ => console.log('fetched product'))
       );
   }
+
+  addToCart(slug: string): Observable<Products>{
+    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
+      tap(_ => console.log('fetched product'))
+      );
+  }
 }

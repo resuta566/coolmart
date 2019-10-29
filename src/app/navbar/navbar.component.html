@@ -11,8 +11,56 @@
                   <li class="menu-item animate-dropdown"><a title="Store Locator" [routerLink]="['/store-location']"><i class="ec ec-map-pointer"></i>Store Locator</a></li>
                   <li class="menu-item animate-dropdown"><a title="Track Your Order" [routerLink]="['/track']"><i class="ec ec-transport"></i>Track Your Order</a></li>
                   <li class="menu-item animate-dropdown"><a title="Shop" href="/shop"><i class="ec ec-shopping-bag"></i>Shop</a></li>
-                  <li class="menu-item animate-dropdown"><a title="My Account" [routerLink]="['/sign_in_up']"><i class="ec ec-user"></i>My Account</a></li>
-                  <li class="menu-item animate-dropdown"><a title="Log Out" class="logout" (click)="logout()"><i class="ec ec-user"></i>Log Out</a></li>
+                  <li *ngIf="!isLoggedIn()" class="menu-item animate-dropdown"><a title="Sign In" [routerLink]="['/sign_in_up']"><i class="ec ec-user"></i>Sign In</a></li>
+                  <li *ngIf="isLoggedIn()" class="menu-item menu-item-has-children animate-dropdown nav-item dropdown">
+                      <a title="Log Out" class="nav-link logout"  data-toggle="dropdown">
+                        <i class="ec ec-user"></i>My Account
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-mini-cart myaccount">
+                        <li>
+                          <div class="widget_shopping_cart_content">
+
+                            <ul class="cart_list product_list_widget ">
+
+                              <li class="mini_cart_item">
+                                <a [routerLink]="['/dashboard']" >
+                                  Manage My Account
+                                </a>
+                              </li>
+
+
+                              <li class="mini_cart_item">
+                                  <a href="single-product.html">
+                                      My Orders
+                                    </a>
+                              </li>
+
+                              <li class="mini_cart_item">
+                                <a href="single-product.html">
+                                    My Wishlist
+                                  </a>
+                              </li>
+                              <li class="mini_cart_item">
+                                  <a href="single-product.html">
+                                      My Reviews
+                                    </a>
+                              </li>
+                              <li class="mini_cart_item">
+                                  <a href="single-product.html">
+                                      My Return &#038; Cancellations
+                                    </a>
+                              </li>
+                              <li class="mini_cart_item">
+                                  <a class="logout" (click)="logout()">
+                                     Logout
+                                    </a>
+                              </li>
+                            </ul><!-- dropdown -->
+
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
               </ul>
           </nav>
       </div>
@@ -35,7 +83,7 @@
               <form class="navbar-search" method="get" action="/">
                 <label class="sr-only screen-reader-text" for="search">Search for:</label>
                 <div class="input-group">
-                  <input type="text" id="search" class="form-control search-field" dir="ltr" value="" name="s" placeholder="Search for products" />
+                  <input type="text" id="search" class="form-control search-field" dir="ltr" value="" name="s" placeholder="Search" />
                   <div class="input-group-addon search-categories">
                     <select name='product_cat' id='product_cat' class='postform resizeselect' >
                       <option value='0' selected='selected'>All Categories</option>
@@ -149,7 +197,7 @@
   </header><!-- #masthead -->
 
   <nav class="navbar navbar-primary navbar-full yamm">
-      <div class="container">
+      <div class="containerlist">
         <div class="clearfix">
           <button class="navbar-toggler hidden-sm-up pull-right flip" type="button" data-toggle="collapse" data-target="#header-v3">
             &#9776;
@@ -211,8 +259,30 @@
                   <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Wearables</a></li>
                 </ul>
               </li>
-            <li class="menu-item"><a title="Gadgets" href="product-category.html">Gadgets</a></li>
-            <li class="menu-item"><a title="Health &amp; Wellness" href="product-category.html">Health &#038; Wellness</a></li>
+            <li class="menu-item menu-item-has-children animate-dropdown dropdown">
+              <a title="Gadgets" href="shop.html" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Gadgets <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+              <ul role="menu" class=" dropdown-menu">
+                <li class="menu-item animate-dropdown "><a title="Smartphone" href="home.html">Camera</a></li>
+                <li class="menu-item animate-dropdown "><a title="Tablets" href="home-v2.html">Computer</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Personal Audio</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Gaming</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Mobile Accessories</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Printers</a></li>
+              </ul>
+            </li>
+            <li class="menu-item menu-item-has-children animate-dropdown dropdown">
+              <a title="Health &amp; Wellness" href="shop.html" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Health
+                  &#038; Wellness
+                 <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+              <ul role="menu" class=" dropdown-menu">
+                <li class="menu-item animate-dropdown "><a title="Smartphone" href="home.html">Camera</a></li>
+                <li class="menu-item animate-dropdown "><a title="Tablets" href="home-v2.html">Computer</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Personal Audio</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Gaming</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Mobile Accessories</a></li>
+                <li class="menu-item animate-dropdown "><a title="Wearables" href="home-v2.html">Printers</a></li>
+              </ul>
+            </li>
           </ul>
         </div><!-- /.collpase -->
       </div><!-- /.-container -->

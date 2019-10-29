@@ -16,8 +16,30 @@
 // .container{
 //   height: 69px;
 // }
-@media (min-width: 768px){
+@media (min-width: 991px){
   .site-header{
     height: 77px;
   }
+}
+.containerlist{
+  padding-right:.9375rem;padding-left:.9375rem;margin-right:auto;margin-left:auto
+}
+.containerlist::after{
+  display:table;clear:both;content:""
+}
+@media (min-width:544px){
+  .containerlist{max-width:576px}
+}
+@media (min-width:768px){
+  .containerlist{max-width:720px}
+}
+@media (min-width:992px){
+  .containerlist{max-width:940px}
+}
+@media (min-width:1200px){
+  .containerlist{max-width:1209px}
+}
+
+.myaccount{
+  z-index: 10000;
 }
