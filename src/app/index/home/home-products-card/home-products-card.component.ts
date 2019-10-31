@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '@app/_service/product.service';
+import { environment } from '@environments/environment';
 
 @Component({
-  selector: 'home-tabs',
-  templateUrl: './hometabs.component.html',
-  styleUrls: ['./hometabs.component.scss']
+  selector: 'home-products-card',
+  templateUrl: './home-products-card.component.html',
+  styleUrls: ['./home-products-card.component.scss']
 })
-export class HometabsComponent implements OnInit{
-  products: Object;
+export class HomeProductsCardComponent implements OnInit {
 
+  products: Object;
+  apiUrl = `${environment.apiUrl}`;
+  imgArray = [];
   constructor(private productService: ProductService) { }
 
   ngOnInit() {
@@ -23,7 +26,4 @@ export class HometabsComponent implements OnInit{
         console.log(error);
     });
   }
-
-
-
 }

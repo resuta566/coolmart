@@ -5,10 +5,10 @@ import { PagesModule } from './_modules/pages.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './index/navbar/navbar.component';
+import { FooterComponent } from './index/footer/footer.component';
 import { CartComponent } from './dashboard/cart/cart.component';
-import { CompareComponent } from './compare/compare.component';
+import { CompareComponent } from './pages/compare/compare.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { TrackComponent } from './dashboard/track/track.component';
@@ -17,11 +17,10 @@ import { ShopItemComponent } from './shop/shop-item/shop-item.component';
 import { HomeModule } from './_modules/home.module';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
 import { OwlModule } from 'ngx-owl-carousel';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 import { NgxGalleryModule } from 'ngx-gallery';
-import { GalleryComponent } from './shop/shop-item/gallery/gallery.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -43,10 +42,11 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ShopComponent,
     ShopItemComponent,
     StoreLocationComponent,
-    DashboardComponent,
-    GalleryComponent
+    DashboardComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     CommonModule,
     AppRoutingModule,
@@ -54,7 +54,6 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     HomeModule,
     HttpClientModule,
     OwlModule,
-    FormsModule,
     NgxGalleryModule
   ],
   providers: [

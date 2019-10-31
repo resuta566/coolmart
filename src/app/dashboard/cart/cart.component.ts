@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { environment } from '@environments/environment';
+import { CartService } from '@app/_service/cart-service.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class CartComponent implements OnInit {
 
   sum = 0;
-
+  cart = `${environment.apiUrl}/cart`;
   products = [
     {
       id: 1,
@@ -27,9 +28,18 @@ export class CartComponent implements OnInit {
       stockQty: 10
     }
   ];
-  constructor() { }
+  constructor(
+    private cartService: CartService
+  ) { }
 
   ngOnInit() {
+    // this.cartService.addQty('accusantiumbqh2z').subscribe(r=>{
+    //   console.log(r);
+    // });
+    this.cartService.cart().subscribe(r=> {
+      console.log(r);
+      console.log(sessionStorage.getItem('cart'));
+    });
     this.subTotal();
   }
 

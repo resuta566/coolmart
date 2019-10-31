@@ -1,0 +1,49 @@
+<header>
+  <h2 class="h1">Laptops &amp; Computers</h2>
+</header><!-- /header-->
+
+
+<div id="homev3-products-cards-carousel">
+  <div class="woocommerce home-v3 columns-2 product-cards-carousel owl-carousel">
+
+      <ul class="products columns-4">
+          <ng-container *ngFor="let product of products;let i = index">
+            <li class="product" *ngIf="i<4">
+                <div class="product-outer">
+                    <div class="product-inner">
+                        <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
+                        <a href="shop-item/{{ product?.attributes.slug }}">
+                            <h3>{{ product?.attributes.name }}</h3>
+                            <div class="product-thumbnail">
+                                <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.images[0] }}" class="img-responsive" alt="">
+                            </div>
+                        </a>
+
+                        <div class="price-add-to-cart">
+                            <span class="price">
+                                <span class="electro-price">
+                                    <ins><span class="amount"> ${{ product?.attributes.srp }}</span></ins>
+                                    <del><span class="amount">$7,299.00</span></del>
+                                    <span class="amount"> </span>
+                                </span>
+                            </span>
+                            <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
+                        </div><!-- /.price-add-to-cart -->
+
+                        <div class="hover-area">
+                            <div class="action-buttons">
+
+                                <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
+
+                                <a href="compare.html" class="add-to-compare-link"> Compare</a>
+                            </div>
+                        </div>
+                    </div><!-- /.product-inner -->
+                </div><!-- /.product-outer -->
+              </li><!-- /.product -->
+            </ng-container>
+        </ul><!-- /.products -->
+
+
+  </div>
+</div><!-- /#homev3-products-cards-carousel-->

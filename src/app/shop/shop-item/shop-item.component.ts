@@ -18,6 +18,7 @@ export class ShopItemComponent implements OnInit {
   img: string;
   slug: string;
   response: any;
+  products: Object;
   constructor(
     private route: ActivatedRoute,
     private service: ProductService
@@ -29,7 +30,17 @@ export class ShopItemComponent implements OnInit {
     });
     // console.log(this.route);
     this.getProduct(this.slug);
+    this.getRelatedProducts();
+  }
 
+  getRelatedProducts() {
+    this.service.getProducts().subscribe((datas: any) => {
+      this.products = datas.data;
+      console.log(this.products);
+      },
+        error => {
+        console.log(error);
+    });
   }
 
   getProduct(slug){
@@ -37,7 +48,7 @@ export class ShopItemComponent implements OnInit {
 
       this.response = r;
       this.imgArray = this.response.attributes.images;
-      console.log(this.imgArray[0]);
+      // console.log(this.response.relationships);
       if(this.imgArray !== null){
         this.gallery();
       }
@@ -54,7 +65,11 @@ export class ShopItemComponent implements OnInit {
           imageAnimation: NgxGalleryAnimation.Fade,
           // thumbnailsRemainingCount: true,
           imageArrowsAutoHide: true,
-          thumbnailsArrowsAutoHide: true
+          thumbnailsArrowsAutoHide: true,
+          previewCloseOnClick: true,
+          previewCloseOnEsc: true,
+          previewZoom: true,
+          previewRotate: true
       },
       // max-width 800
       {
@@ -89,6 +104,27 @@ export class ShopItemComponent implements OnInit {
   }
 
   addtoCart(){
-    
+
   }
+
+
+  // addQty(item) {
+  //   const i = this.products.indexOf(item);
+  //   if(this.products[i].stockQty !== this.products[i].qty){
+  //   this.products[i].qty += 1;
+  //   this.subTotal();
+  //   }else {
+  //     alert('Stock Limit');
+  //   }
+  // }
+
+  // decreaseQty(item) {
+  //   const i = this.products.indexOf(item);
+  //   if(this.products[i].qty !== 1){
+  //   this.products[i].qty -= 1;
+  //   this.subTotal();
+  //   }else {
+  //     alert('Minimum.');
+  //   }
+  // }
 }

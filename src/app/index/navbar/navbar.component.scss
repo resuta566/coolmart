@@ -12,13 +12,20 @@
 .logout:hover {
   cursor: pointer;
 }
-
+.site-header{
+  z-index: 10000;
+}
 // .container{
 //   height: 69px;
 // }
-@media (min-width: 991px){
+@media (min-width: 992px){
   .site-header{
     height: 77px;
+  }
+}
+@media (max-width: 991px){
+  .site-header{
+    height: 260px;
   }
 }
 .containerlist{
@@ -31,7 +38,7 @@
   .containerlist{max-width:576px}
 }
 @media (min-width:768px){
-  .containerlist{max-width:720px}
+  .containerlist{max-width:620px}
 }
 @media (min-width:992px){
   .containerlist{max-width:940px}
@@ -41,5 +48,10 @@
 }
 
 .myaccount{
-  z-index: 10000;
+  z-index: 10002;
 }
+
+.hidden{
+  display: none;
+}
+

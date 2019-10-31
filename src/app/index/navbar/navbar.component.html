@@ -11,7 +11,7 @@
                   <li class="menu-item animate-dropdown"><a title="Store Locator" [routerLink]="['/store-location']"><i class="ec ec-map-pointer"></i>Store Locator</a></li>
                   <li class="menu-item animate-dropdown"><a title="Track Your Order" [routerLink]="['/track']"><i class="ec ec-transport"></i>Track Your Order</a></li>
                   <li class="menu-item animate-dropdown"><a title="Shop" href="/shop"><i class="ec ec-shopping-bag"></i>Shop</a></li>
-                  <li *ngIf="!isLoggedIn()" class="menu-item animate-dropdown"><a title="Sign In" [routerLink]="['/sign_in_up']"><i class="ec ec-user"></i>Sign In</a></li>
+                  <li *ngIf="!isLoggedIn()" class="menu-item animate-dropdown"><a title="Sign In" [routerLink]="['/sign_in']"><i class="ec ec-user"></i>Sign In</a></li>
                   <li *ngIf="isLoggedIn()" class="menu-item menu-item-has-children animate-dropdown nav-item dropdown">
                       <a title="Log Out" class="nav-link logout"  data-toggle="dropdown">
                         <i class="ec ec-user"></i>My Account
@@ -196,15 +196,15 @@
       </div>
   </header><!-- #masthead -->
 
-  <nav class="navbar navbar-primary navbar-full yamm">
-      <div class="containerlist">
+  <nav class="navbar navbar-primary navbar-full yamm hidden">
+      <div class="containerlist ">
         <div class="clearfix">
           <button class="navbar-toggler hidden-sm-up pull-right flip" type="button" data-toggle="collapse" data-target="#header-v3">
             &#9776;
           </button>
         </div>
 
-        <div class="collapse navbar-toggleable-xs" id="header-v3">
+        <div class="collapse navbar-toggleable-xs " id="header-v3">
           <ul class="nav navbar-nav yamm">
             <li class="menu-item menu-item-has-children animate-dropdown dropdown">
               <a title="Aircon" href="shop.html" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">Aircon <i class="fa fa-caret-down" aria-hidden="true"></i></a>

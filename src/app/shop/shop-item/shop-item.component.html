@@ -6,9 +6,7 @@
           <nav class="woocommerce-breadcrumb">
               <a href="home.html">Home</a>
               <span class="delimiter"><i class="fa fa-angle-right"></i></span>
-              <a href="product-category.html">Accessories</a>
-              <span class="delimiter"><i class="fa fa-angle-right"></i></span>
-              <a href="product-category.html">Headphones</a>
+              <a href="product-category.html">{{ response?.type | titlecase }}</a>
               <span class="delimiter"><i class="fa fa-angle-right"></i>
               </span>{{ response?.attributes.name }}
           </nav><!-- /.woocommerce-breadcrumb -->
@@ -20,16 +18,26 @@
 
                       <div class="single-product-wrapper">
                           <div class="product-images-wrapper">
-                              <span class="onsale">Sale!</span>
+                              <ng-container *ngIf="imgArray && imgArray.length">
+                                <span class="onsale">Sale!</span>
+                              </ng-container>
                               <div class="images electro-gallery">
+                                <ng-container *ngIf="imgArray && imgArray.length; else noimage">
                                   <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                                </ng-container>
+                                <ng-template #noimage>
+                                  <h3 class="text-danger">
+                                    <img src="assets/images/noimage.jpg" alt="No Image">
+                                  </h3>
+                                </ng-template>
+
                               </div><!-- .electro-gallery -->
                           </div><!-- /.product-images-wrapper -->
 
                           <div class="summary entry-summary">
 
                               <span class="loop-product-categories">
-                                  <a href="product-category.html" rel="tag">Headphones</a>
+                                  <a href="product-category.html" rel="tag">{{ response?.type | titlecase}}</a>
                               </span><!-- /.loop-product-categories -->
 
                               <h1 itemprop="name" class="product_title entry-title">{{ response?.attributes.name }}</h1>
@@ -49,11 +57,19 @@
 
                               <div class="brand">
                                   <a href="product-category.html">
-                                      <img src="assets/images/single-product/brand.png" alt="Gionee" />
+                                      <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}" alt="Gionee" />
                                   </a>
                               </div><!-- .brand -->
 
-                              <div class="availability in-stock">Availablity: <span>In stock</span></div><!-- .availability -->
+                              <div class="availability in-stock">Availablity:
+                                <ng-container *ngIf="response?.attributes.qty >= 0; else noStock">
+                                <span>In stock</span>
+                                </ng-container>
+                                <ng-template #noStock>
+                                <span class="text-danger">Out Of stock</span>
+                                </ng-template>
+
+                              </div><!-- .availability -->
 
                               <hr class="single-product-title-divider" />
 
@@ -69,13 +85,17 @@
 
                               <div itemprop="description">
                                   <ul>
-                                      <li>4.5 inch HD Touch Screen (1280 x 720)</li>
-                                      <li>Android 4.4 KitKat OS</li>
-                                      <li>1.4 GHz Quad Core™ Processor</li>
-                                      <li>20 MP front and 28 megapixel CMOS rear camera</li>
+                                    <ng-container *ngIf="response?.relationships.details.data.length; else nodetail">
+                                        <ng-container *ngFor="let detail of response?.relationships.details.data; let i = index">
+                                            <li *ngIf="i<4">{{ detail?.attributes.name }} - {{ detail?.attributes.description }}</li>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #nodetail>
+                                        <span class="text-danger">No details found!</span>
+                                    </ng-template>
                                   </ul>
 
-                                  <p>{{ response?.attributes.description }}</p>
+                                  <!-- <p>{{ response?.attributes.description }}</p> -->
                                   <p><strong>SKU</strong>: FW511948218</p>
                               </div><!-- .description -->
 
@@ -94,12 +114,23 @@
                                   <table class="variations">
                                       <tbody>
                                           <tr>
-                                              <td class="label"><label>Color</label></td>
+                                              <td class="label"><label>Installation Standard Service</label></td>
                                               <td class="value">
                                                   <select class="" name="attribute_pa_color">
-                                                      <option value="">Choose an option</option>
+                                                      <option value="" selected='selected'>Choose an option</option>
                                                       <option value="black-with-red" >Black with Red</option>
-                                                      <option value="white-with-gold"  selected='selected'>White with Gold</option>
+                                                      <option value="white-with-gold">White with Gold</option>
+                                                  </select>
+                                                  <a class="reset_variations" href="#">Clear</a>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td class="label"><label>Installation Additional Service</label></td>
+                                              <td class="value">
+                                                  <select class="" name="attribute_pa_color">
+                                                      <option value="" selected='selected'>Choose an option</option>
+                                                      <option value="black-with-red" >Black with Red</option>
+                                                      <option value="white-with-gold">White with Gold</option>
                                                   </select>
                                                   <a class="reset_variations" href="#">Clear</a>
                                               </td>
@@ -111,14 +142,16 @@
                                   <div class="single_variation_wrap">
                                       <div class="woocommerce-variation single_variation"></div>
                                       <div class="woocommerce-variation-add-to-cart variations_button">
-                                          <div class="quantity">
-                                              <label>Quantity:</label>
-                                              <input type="number" name="quantity" value="1" title="Qty" class="input-text qty text"/>
+                                          <div class="quantity buttons_added">
+                                            <input type="button" class="minus" value="-" (click)="decreaseQty(product)">
+                                            <label>Quantity:</label>
+                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
+                                            <input type="button" class="plus" value="+" (click)="addQty(product)">
                                           </div>
                                           <button type="submit" class="single_add_to_cart_button button">Add to cart</button>
                                           <input type="hidden" name="add-to-cart" value="2452" />
                                           <input type="hidden" name="product_id" value="2452" />
-                                          <input type="hidden" name="variation_id" class="variation_id" value="0" />
+                                          <input type="hidden" name="variation_id" class="variation_id" value="10" />
                                       </div>
                                   </div>
                               </form>
@@ -129,9 +162,6 @@
 
                       <div class="woocommerce-tabs wc-tabs-wrapper">
                           <ul class="nav nav-tabs electro-nav-tabs tabs wc-tabs" role="tablist">
-                              <li class="nav-item accessories_tab">
-                                  <a href="#tab-accessories" data-toggle="tab">Accessories</a>
-                              </li>
 
                               <li class="nav-item description_tab">
                                   <a href="#tab-description" class="active" data-toggle="tab">Description</a>
@@ -147,170 +177,13 @@
                           </ul>
 
                           <div class="tab-content">
-                              <div class="tab-pane panel entry-content wc-tab" id="tab-accessories">
 
-                                  <div class="accessories">
-
-                                      <div class="electro-wc-message"></div>
-                                      <div class="row">
-                                          <div class="col-xs-12 col-sm-9 col-left">
-                                              <ul class="products columns-3">
-
-                                                  <li class="product first">
-                                                      <div class="product-outer">
-                                                          <div class="product-inner">
-                                                              <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                                              <a href="single-product.html">
-                                                                  <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
-                                                                  <div class="product-thumbnail">
-
-                                                                      <img data-echo="assets/images/products/4.jpg" src="assets/images/blank.gif" alt="">
-
-                                                                  </div>
-                                                              </a>
-
-                                                              <div class="price-add-to-cart">
-                                                                  <span class="price">
-                                                                      <span class="electro-price">
-                                                                          <ins><span class="amount">&#036;1,999.00</span></ins>
-                                                                          <del><span class="amount">&#036;2,299.00</span></del>
-                                                                      </span>
-                                                                  </span>
-                                                                  <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                                                              </div><!-- /.price-add-to-cart -->
-
-                                                              <div class="hover-area">
-                                                                  <div class="action-buttons">
-                                                                      <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
-                                                                      <a href="#" class="add-to-compare-link">Compare</a>
-                                                                  </div>
-                                                              </div>
-                                                          </div><!-- /.product-inner -->
-                                                      </div><!-- /.product-outer -->
-                                                  </li>
-                                                  <li class="product ">
-                                                      <div class="product-outer">
-                                                          <div class="product-inner">
-                                                              <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                                              <a href="single-product.html">
-                                                                  <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
-                                                                  <div class="product-thumbnail">
-                                                                      <img data-echo="assets/images/products/3.jpg" src="assets/images/blank.gif" alt="">
-                                                                  </div>
-                                                              </a>
-
-                                                              <div class="price-add-to-cart">
-                                                                  <span class="price">
-                                                                      <span class="electro-price">
-                                                                          <ins><span class="amount">&#036;1,999.00</span></ins>
-                                                                          <del><span class="amount">&#036;2,299.00</span></del>
-                                                                      </span>
-                                                                  </span>
-                                                                  <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                                                              </div><!-- /.price-add-to-cart -->
-
-                                                              <div class="hover-area">
-                                                                  <div class="action-buttons">
-                                                                      <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
-                                                                      <a href="#" class="add-to-compare-link">Compare</a>
-                                                                  </div>
-                                                              </div>
-                                                          </div><!-- /.product-inner -->
-                                                      </div><!-- /.product-outer -->
-                                                  </li>
-                                                  <li class="product last">
-                                                      <div class="product-outer">
-                                                          <div class="product-inner">
-                                                              <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                                              <a href="single-product.html">
-                                                                  <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
-                                                                  <div class="product-thumbnail">
-                                                                      <img data-echo="assets/images/products/5.jpg" src="assets/images/blank.gif" alt="">
-                                                                  </div>
-                                                              </a>
-
-                                                              <div class="price-add-to-cart">
-                                                                  <span class="price">
-                                                                      <span class="electro-price">
-                                                                          <ins><span class="amount">&#036;1,999.00</span></ins>
-                                                                          <del><span class="amount">&#036;2,299.00</span></del>
-                                                                      </span>
-                                                                  </span>
-                                                                  <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                                                              </div><!-- /.price-add-to-cart -->
-
-                                                              <div class="hover-area">
-                                                                  <div class="action-buttons">
-                                                                      <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
-                                                                      <a href="#" class="add-to-compare-link">Compare</a>
-                                                                  </div>
-                                                              </div>
-                                                          </div><!-- /.product-inner -->
-                                                      </div><!-- /.product-outer -->
-                                                  </li>
-
-                                              </ul><!-- /.products -->
-
-                                              <div class="check-products">
-                                                  <div class="checkbox accessory-checkbox">
-                                                      <label>
-                                                          <input checked disabled type="checkbox" class="product-check">
-                                                          <span class="product-title">
-                                                              <strong>This product: </strong>Ultra Wireless S50 Headphones S50 with Bluetooth
-                                                          </span>
-                                                          -
-                                                          <span class="accessory-price">
-                                                              <span class="amount">&#36;1,215.00</span>
-                                                          </span>
-                                                      </label>
-                                                  </div>
-
-                                                  <div class="checkbox accessory-checkbox">
-                                                      <label>
-                                                          <input checked type="checkbox" class="product-check">
-                                                          <span class="product-title">Universal Headphones Case in Black</span>
-                                                          -
-                                                          <span class="accessory-price">
-                                                              <span class="amount">&#36;159.00</span>
-                                                          </span>
-                                                      </label>
-                                                  </div>
-
-                                                  <div class="checkbox accessory-checkbox">
-                                                      <label>
-                                                          <input checked type="checkbox" class="product-check">
-                                                          <span class="product-title">Headphones USB Wires</span>
-                                                          -
-                                                          <span class="accessory-price">
-                                                              <span class="amount">&#36;50.00</span>
-                                                          </span>
-                                                      </label>
-                                                  </div>
-                                              </div><!-- /.check-products -->
-
-                                          </div><!-- /.col -->
-
-                                          <div class="col-xs-12 col-sm-3 col-right">
-                                              <div class="total-price">
-                                                  <span class="total-price-html">
-                                                      <span class="amount">&#036;1,424.00</span>
-                                                  </span>
-                                                  for <span class="total-products">3</span>
-                                                  items
-                                              </div><!-- /.total-price -->
-
-                                              <div class="accessories-add-all-to-cart">
-                                                  <button type="button" class="button btn btn-primary add-all-to-cart">Add all to cart</button>
-                                              </div><!-- /.accessories-add-all-to-cart -->
-                                          </div><!-- /.col -->
-                                      </div><!-- /.row -->
-
-                                  </div><!-- /.accessories -->
-                              </div>
 
                               <div class="tab-pane active in panel entry-content wc-tab" id="tab-description">
                                   <div class="electro-description">
-                                    {{ response?.attributes.description }}
+                                    <div [innerHtml]="response?.attributes.description">
+
+                                    </div>
                                   </div><!-- /.electro-description -->
 
                                   <div class="product_meta">
@@ -333,78 +206,15 @@
                                   <h3>Technical Specifications</h3>
                                   <table class="table">
                                       <tbody>
-                                          <tr>
-                                              <td>Brand</td>
-                                              <td>Apple</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Item Height</td>
-                                              <td>18 Millimeters</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Item Width</td>
-                                              <td>31.4 Centimeters</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Screen Size</td>
-                                              <td>13 Inches</td>
-                                          </tr>
-                                          <tr class="size-weight">
-                                              <td>Item Weight</td>
-                                              <td>1.6 Kg</td>
-                                          </tr>
-                                          <tr class="size-weight">
-                                              <td>Product Dimensions</td>
-                                              <td>21.9 x 31.4 x 1.8 cm</td>
-                                          </tr>
-                                          <tr class="item-model-number">
-                                              <td>Item model number</td>
-                                              <td>MF841HN/A</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Processor Brand</td>
-                                              <td>Intel</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Processor Type</td>
-                                              <td>Core i5</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Processor Speed</td>
-                                              <td>2.9 GHz</td>
-                                          </tr>
-                                          <tr>
-                                              <td>RAM Size</td>
-                                              <td>8 GB</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Hard Drive Size</td>
-                                              <td>512 GB</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Hard Disk Technology</td>
-                                              <td>Solid State Drive</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Graphics Coprocessor</td>
-                                              <td>Intel Integrated Graphics</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Graphics Card Description</td>
-                                              <td>Integrated Graphics Card</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Hardware Platform</td>
-                                              <td>Mac</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Operating System</td>
-                                              <td>Mac OS</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Average Battery Life (in hours)</td>
-                                              <td>9</td>
-                                          </tr>
+                                          <ng-container *ngIf="!response?.relationships.details.data.length;else details">
+                                            <span class="text-danger">No details found!</span>
+                                          </ng-container>
+                                          <ng-template #details>
+                                            <tr *ngFor="let detail of response?.relationships.details.data">
+                                              <td>{{ detail?.attributes.name }}</td>
+                                              <td>{{ detail?.attributes.description }}</td>
+                                            </tr>
+                                        </ng-template>
                                       </tbody>
                                   </table>
                               </div><!-- /.panel -->
@@ -627,23 +437,22 @@
                           <h2>Related Products</h2>
 
                           <ul class="products columns-5">
-
-
-                              <li class="product">
+                            <ng-container *ngFor="let product of products;let i = index">
+                              <li class="product" *ngIf="i<5">
                                   <div class="product-outer">
                                       <div class="product-inner">
-                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                          <a href="single-product.html">
-                                              <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
+                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">{{ product?.type | titlecase}}</a></span>
+                                          <a href="shop-item/{{ product?.attributes.slug }}">
+                                              <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
-                                                  <img data-echo="assets/images/products/1.jpg" src="assets/images/blank.gif" alt="">
+                                                  <img attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="">
                                               </div>
                                           </a>
 
                                           <div class="price-add-to-cart">
                                               <span class="price">
                                                   <span class="electro-price">
-                                                      <ins><span class="amount">&#036;1,999.00</span></ins>
+                                                      <ins><span class="amount">&#036;{{ product?.attributes.srp }}</span></ins>
                                                   </span>
                                               </span>
                                               <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
@@ -658,96 +467,7 @@
                                       </div><!-- /.product-inner -->
                                   </div><!-- /.product-outer -->
                               </li>
-
-                              <li class="product">
-                                  <div class="product-outer">
-                                      <div class="product-inner">
-                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                          <a href="single-product.html">
-                                              <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
-                                              <div class="product-thumbnail">
-                                                  <img data-echo="assets/images/products/2.jpg" src="assets/images/blank.gif" alt="">
-                                              </div>
-                                          </a>
-
-                                          <div class="price-add-to-cart">
-                                              <span class="price">
-                                                  <span class="electro-price">
-                                                      <ins><span class="amount">&#036;1,999.00</span></ins>
-                                                  </span>
-                                              </span>
-                                              <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                                          </div><!-- /.price-add-to-cart -->
-
-                                          <div class="hover-area">
-                                              <div class="action-buttons">
-                                                  <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-                                                  <a href="#" class="add-to-compare-link">Compare</a>
-                                              </div>
-                                          </div>
-                                      </div><!-- /.product-inner -->
-                                  </div><!-- /.product-outer -->
-                              </li>
-
-                              <li class="product">
-                                  <div class="product-outer">
-                                      <div class="product-inner">
-                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                          <a href="single-product.html">
-                                              <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
-                                              <div class="product-thumbnail">
-                                                  <img data-echo="assets/images/products/3.jpg" src="assets/images/blank.gif" alt="">
-                                              </div>
-                                          </a>
-
-                                          <div class="price-add-to-cart">
-                                              <span class="price">
-                                                  <span class="electro-price">
-                                                      <ins><span class="amount">&#036;1,999.00</span></ins>
-                                                  </span>
-                                              </span>
-                                              <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                                          </div><!-- /.price-add-to-cart -->
-
-                                          <div class="hover-area">
-                                              <div class="action-buttons">
-                                                  <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-                                                  <a href="#" class="add-to-compare-link">Compare</a>
-                                              </div>
-                                          </div>
-                                      </div><!-- /.product-inner -->
-                                  </div><!-- /.product-outer -->
-                              </li>
-
-                              <li class="product">
-                                  <div class="product-outer">
-                                      <div class="product-inner">
-                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                          <a href="single-product.html">
-                                              <h3>Notebook Black Spire V Nitro  VN7-591G</h3>
-                                              <div class="product-thumbnail">
-                                                  <img data-echo="assets/images/products/4.jpg" src="assets/images/blank.gif" alt="">
-                                              </div>
-                                          </a>
-
-                                          <div class="price-add-to-cart">
-                                              <span class="price">
-                                                  <span class="electro-price">
-                                                      <ins><span class="amount">&#036;1,999.00</span></ins>
-                                                  </span>
-                                              </span>
-                                              <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                                          </div><!-- /.price-add-to-cart -->
-
-                                          <div class="hover-area">
-                                              <div class="action-buttons">
-                                                  <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-                                                  <a href="#" class="add-to-compare-link">Compare</a>
-                                              </div>
-                                          </div>
-                                      </div><!-- /.product-inner -->
-                                  </div><!-- /.product-outer -->
-                              </li>
+                            </ng-container>
                           </ul><!-- /.products -->
                       </div><!-- /.related -->
                   </div><!-- /.product -->
