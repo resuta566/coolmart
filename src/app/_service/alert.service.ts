@@ -13,7 +13,7 @@ export class AlertService {
             if (event instanceof NavigationStart) {
                 if (this.keepAfterRouteChange) {
                     // only keep for a single route change
-                    this.keepAfterRouteChange = false;
+                    // this.keepAfterRouteChange = false;
                 } else {
                     // clear alert message
                     this.clear();
@@ -31,7 +31,7 @@ export class AlertService {
         this.subject.next({ type: 'success', text: message });
     }
 
-    error(message: string, keepAfterRouteChange = false) {
+    error(message: string, keepAfterRouteChange = true) {
         this.keepAfterRouteChange = keepAfterRouteChange;
         this.subject.next({ type: 'error', text: message });
     }

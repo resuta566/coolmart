@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { AlertService } from '@app/_service';
+import { CartService } from '@app/_service/cart-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  r: any;
 
   products = [
     {
@@ -27,9 +29,17 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private alertService: AlertService,
+    private cd: ChangeDetectorRef,
+    private cartService: CartService
+    ) { }
 
   ngOnInit() {
+    // this.cartService.addToDataBaseCart("architectoiynyf", 8, 1);
+    // localStorage.setItem('cart', JSON.stringify(this.products));
+    // this.r = JSON.parse(localStorage.getItem('cart'));
   }
+
 
 }

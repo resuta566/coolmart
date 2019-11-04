@@ -11,6 +11,7 @@ export class User {
   access_token?: string;
   token_type: string;
   role_id: number;
+  auth_id: number;
     // id: number;
     // username: string;
     // password: string;

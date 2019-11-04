@@ -4,11 +4,16 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
+import { Cart } from '@app/_models/cart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  cart: Array<any>;
+
+  addOne = false;
+  addQty = false;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
@@ -30,17 +35,18 @@ export class CartService {
     }
   }
 
-  addQty(slug: string){
-    console.log(`${slug} Service slug`);
-    return this.http.get(`${environment.apiUrl}/cart/${slug}`).subscribe(r=>{
-      sessionStorage.setItem('cart', JSON.stringify(r));
-      console.log(sessionStorage.getItem('cart'));
-      return r;
+  addToDataBaseCart(cart: Cart){
+    return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
+      map((data: any) => {
+        alert(data.success);
+      }),
+      catchError(this.handleError('getCart', []))
+    ).subscribe(serverdata=>{
+      console.log(serverdata)
     });
   }
-
-  cart(){
-    return this.http.get(`${environment.apiUrl}/cart`).pipe(
+  carts(){
+    return this.http.get(`${environment.apiUrl}/api/cart`).pipe(
       tap(_ => console.log('fetched cart')),
       catchError(this.handleError('getCart', []))
       );

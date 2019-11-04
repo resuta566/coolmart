@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart-service.service';
-import { tap, catchError, map } from "rxjs/operators";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthenticationService } from '@app/_service';
 
 @Component({
   selector: 'app-addtocart',
@@ -9,24 +9,31 @@ import { tap, catchError, map } from "rxjs/operators";
   styleUrls: ['./addtocart.component.scss']
 })
 export class AddtocartComponent implements OnInit {
-  @Input() slug: string;
-  @Input() label: string;
-  @Input() btnclass: string;
+  @Input('itemId') itemId: number;
+  @Input('qty') qty: number;
+  @Input('label') label: string;
+  @Input('btnclass') btnclass: string;
 
-  cart = `${environment.apiUrl}/cart`;
+  cartForm: FormGroup;
 
   constructor(
-    private cartService: CartService
+    private formBuilder: FormBuilder,
+    private cartService: CartService,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
-    // console.log(this.cart);
   }
 
   addtocart(){
-    console.log(this.slug);
-    alert('Added to Cart!');
-    return this.cartService.addQty(this.slug);
+    let currentUser = this.authenticationService.currentUserValue;
+    this.cartForm = this.formBuilder.group({
+      //this.itemId is a string so + would make it an integer
+      itemId: [+this.itemId, Validators.required],
+      authId: [currentUser.auth_id, Validators.required],
+      qty: [this.qty, Validators.required]
+    });
+    this.cartService.addToDataBaseCart(this.cartForm.value);
   }
 
 }

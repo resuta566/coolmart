@@ -9,13 +9,13 @@
 
     </div>
   </div> -->
-
+  <alert></alert>
   <div class="col2-set11" id="dashboard">
 
       <div class="col-1">
 
           <div class="card">
-              <div class="card-header">
+              <div class="card-header" (click)="loggin()">
                   Hello, User.
                 </div>
             <div id="account" class="card" style="margin: 15px; ">
@@ -90,7 +90,7 @@
                 </thead>
                 <tbody>
 
-                    <tr class="cart_item" *ngFor="let product of products">
+                    <tr class="cart_item" *ngFor="let product of r">
 
                         <td class="product-thumbnail">
                             <a href="single-product.html"><img width="180" height="180" src="{{ product.img }}" alt=""></a>

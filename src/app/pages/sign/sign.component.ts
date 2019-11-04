@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AlertService } from '@app/_service';
+import { CartService } from '@app/_service/cart-service.service';
+import { BrandService } from '@app/_service/brand.service';
 @Component({
   selector: 'app-sign',
   templateUrl: './sign.component.html',
@@ -11,5 +13,6 @@ export class SignComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }

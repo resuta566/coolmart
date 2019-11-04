@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AlertComponent } from '@app/_components';
 import { AboutUsComponent } from '../pages/about-us/about-us.component';
 import { ContactUsComponent } from '../pages/contact-us/contact-us.component';
 import { ErrorpagesComponent } from '../pages/errorpages/errorpages.component';
@@ -11,6 +10,7 @@ import { SignComponent } from '../pages/sign/sign.component';
 import { UpComponent } from '../pages/sign/up/up.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AlertModule } from './alert.module';
 
   const Pages = [
     FaqComponent,
@@ -20,8 +20,7 @@ import { CommonModule } from '@angular/common';
     SignComponent,
     InComponent,
     UpComponent,
-    TermsConditionsComponent,
-    AlertComponent
+    TermsConditionsComponent
   ]
 
 @NgModule({
@@ -31,7 +30,8 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
-    CommonModule
+    CommonModule,
+    AlertModule
   ]
 })
 export class PagesModule {}

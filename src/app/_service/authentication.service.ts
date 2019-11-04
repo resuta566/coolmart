@@ -40,10 +40,10 @@ export class AuthenticationService {
     }
 
     logout() {
-
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
+      localStorage.removeItem('cart');
       this.currentUserSubject.next(null);
-      return this.http.post(`${environment.apiUrl}/api/logout`,null);
+      return this.http.post(`${environment.apiUrl}/api/logout`, null);
     }
 }

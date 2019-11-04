@@ -8,60 +8,61 @@ import { CartService } from '@app/_service/cart-service.service';
 })
 export class CartComponent implements OnInit {
 
+  carts: any;
   sum = 0;
   cart = `${environment.apiUrl}/cart`;
-  products = [
-    {
+  new ={
       id: 1,
-      img: 'assets/images/products/2.jpg',
-      name: 'Wireless Audio System Multiroom 360',
+      img: "assets/images/products/2.jpg",
+      name: "Wireless Audio System Multiroom 360",
       price: 1999,
-      qty: 2,
-      stockQty: 10
-    },
-    {
-      id:2,
-      img: 'assets/images/products/2.jpg',
-      name: 'Tablet White EliteBook  Revolve 810 G2',
-      price: 1300,
       qty: 3,
       stockQty: 10
-    }
-  ];
+    };
   constructor(
     private cartService: CartService
   ) { }
 
   ngOnInit() {
-    // this.cartService.addQty('accusantiumbqh2z').subscribe(r=>{
-    //   console.log(r);
-    // });
-    this.cartService.cart().subscribe(r=> {
-      console.log(r);
-      console.log(sessionStorage.getItem('cart'));
-    });
+
+    this.getLocalStorageCart();
+  }
+
+  getLocalStorageCart(){
+    this.carts = JSON.parse(localStorage.getItem('cart'));
+    console.log(this.carts);
     this.subTotal();
   }
 
-  removeItem(item) {
-    const index = this.products.indexOf(item);
-    this.products.splice(index, 1);
+  updateLocalStorageCart(carts: Object){
+    localStorage.setItem('cart', JSON.stringify(carts));
+    console.log(carts);
   }
 
-  addQty(item) {
-    const i = this.products.indexOf(item);
-    if(this.products[i].stockQty !== this.products[i].qty){
-    this.products[i].qty += 1;
+  removeItem(index: number) {
+    this.carts.splice(index, 1);
+    this.updateLocalStorageCart(this.carts);
+  }
+
+  addQty(index: number) {
+    const i = index;
+    this.carts.push(this.new);
+    if(this.carts[i].stockQty !== this.carts[i].qty){
+    this.carts[i].qty += 1;
+    this.updateLocalStorageCart(this.carts);
+
     this.subTotal();
     }else {
       alert('Stock Limit');
     }
   }
 
-  decreaseQty(item) {
-    const i = this.products.indexOf(item);
-    if(this.products[i].qty !== 1){
-    this.products[i].qty -= 1;
+  decreaseQty(index: number) {
+    const i = index;
+    if(this.carts[i].qty !== 1){
+    this.carts[i].qty -= 1;
+    this.updateLocalStorageCart(this.carts);
+
     this.subTotal();
     }else {
       alert('Minimum.');
@@ -70,8 +71,8 @@ export class CartComponent implements OnInit {
 
   subTotal(){
     this.sum = 0;
-    for( let product of this.products  ){
-      this.sum += product.price * product.qty;
+    for( let oneCart of this.carts ){
+      this.sum += oneCart.price * oneCart.qty;
    }
    return this.sum;
   }

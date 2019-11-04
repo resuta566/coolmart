@@ -54,10 +54,13 @@ export class InComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-                this.router.navigate([this.returnUrl]);
+                this.alertService.success('Logged In! YAY!', true);
+                if(data){
+                  this.router.navigate([this.returnUrl]);
+                }
             },
             error => {
-              console.log(error);
+              // console.log(error);
               this.alertService.error(error);
             });
 }

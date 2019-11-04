@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "newgencool": {
+    "coolmart": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/newgencool",
+            "outputPath": "dist/coolmart",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "newgencool:build"
+            "browserTarget": "coolmart:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "newgencool:build:production"
+              "browserTarget": "coolmart:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "newgencool:build"
+            "browserTarget": "coolmart:build"
           }
         },
         "test": {
@@ -119,15 +119,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "newgencool:serve"
+            "devServerTarget": "coolmart:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "newgencool:serve:production"
+              "devServerTarget": "coolmart:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "newgencool"
+  "defaultProject": "coolmart"
 }

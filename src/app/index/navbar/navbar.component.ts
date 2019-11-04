@@ -9,7 +9,7 @@ import { User } from '@app/_models';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
+  loggedOut = false;
   currentUser: User;
   isLogged = false;
   constructor(
@@ -28,7 +28,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/sign_in'])
-}
+    if(!this.authenticationService.logout()){
+      alert('Server Error Please wait.');
+    }
+    this.router.navigate(['/sign_in']);
+  }
 }

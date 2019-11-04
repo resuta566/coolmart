@@ -22,10 +22,10 @@
                             </thead>
                             <tbody>
 
-                                <tr class="cart_item" *ngFor="let product of products">
+                                <tr class="cart_item" *ngFor="let product of carts;let prodIndex = index">
 
                                     <td class="product-remove">
-                                        <a class="remove" (click)="removeItem(product)">×</a>
+                                        <a class="remove" (click)="removeItem(prodIndex)">×</a>
                                     </td>
 
                                     <td class="product-thumbnail">
@@ -42,10 +42,10 @@
 
                                     <td data-title="Quantity" class="product-quantity">
                                         <div class="quantity buttons_added">
-                                            <input type="button" class="minus" value="-" (click)="decreaseQty(product)">
+                                            <input type="button" class="minus" value="-" (click)="decreaseQty(prodIndex)">
                                             <label>Quantity:</label>
                                             <input type="number" size="4" class="input-text qty text" title="Qty" value="{{ product.qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                            <input type="button" class="plus" value="+" (click)="addQty(product)">
+                                            <input type="button" class="plus" value="+" (click)="addQty(prodIndex)">
                                         </div>
                                     </td>
 

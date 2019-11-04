@@ -3,10 +3,12 @@
         <div class="ad col-xs-12 col-sm-6">
             <div class="media">
                 <div class="media-left media-middle">
-                    <img class="deals-img" src="{{ img }}" attr.data-echo="{{ img }}" >
-                    <!-- <div class="deals-img">
-                      <img src="{{ img }}">
-                    </div> -->
+                    <ng-container *ngIf="img; else noImage">
+                        <img class="deals-img" src="{{ img }}" attr.data-echo="{{ img }}">
+                      </ng-container>
+                      <ng-template #noImage>
+                          <img class="deals-img" src="/assets/images/noimage.jpg" data-echo="/assets/images/noimage.jpg">
+                      </ng-template>
                 </div>
                 <div class="media-body media-middle">
                     <div class="ad-text">
@@ -22,7 +24,13 @@
         <div class="ad col-xs-12 col-sm-6">
             <div class="media">
                 <div class="media-left media-middle">
-                    <img class="deals-img" src="{{ img }}" attr.data-echo="{{ img }}">
+                    <ng-container *ngIf="img; else noImage">
+                      <img class="deals-img" src="{{ img }}" attr.data-echo="{{ img }}">
+                    </ng-container>
+                    <ng-template #noImage>
+                        <img class="deals-img" src="/assets/images/noimage.jpg" data-echo="/assets/images/noimage.jpg">
+                    </ng-template>
+
                 </div>
                 <div class="media-body media-middle">
                     <div class="ad-text">

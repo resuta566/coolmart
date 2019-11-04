@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { AlertModule } from '@app/_modules/alert.module';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -54,7 +55,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     HomeModule,
     HttpClientModule,
     OwlModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    AlertModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
