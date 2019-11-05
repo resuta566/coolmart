@@ -19,6 +19,8 @@ export class ShopItemComponent implements OnInit {
   slug: string;
   response: any;
   products: Object;
+  btnclass = 'button add_to_cart_button';
+  label = 'Add To cart';
   constructor(
     private route: ActivatedRoute,
     private service: ProductService
@@ -108,7 +110,7 @@ export class ShopItemComponent implements OnInit {
   }
 
 
-  // addQty(item) {
+  addQty(item) {
   //   const i = this.products.indexOf(item);
   //   if(this.products[i].stockQty !== this.products[i].qty){
   //   this.products[i].qty += 1;
@@ -116,9 +118,9 @@ export class ShopItemComponent implements OnInit {
   //   }else {
   //     alert('Stock Limit');
   //   }
-  // }
+  }
 
-  // decreaseQty(item) {
+  decreaseQty(item) {
   //   const i = this.products.indexOf(item);
   //   if(this.products[i].qty !== 1){
   //   this.products[i].qty -= 1;
@@ -126,5 +128,5 @@ export class ShopItemComponent implements OnInit {
   //   }else {
   //     alert('Minimum.');
   //   }
-  // }
+  }
 }

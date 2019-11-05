@@ -142,11 +142,16 @@
 
                                             <div class="product-short-description">
                                                 <ul>
-                                                    <li><span class="a-list-item">Intel Core i5 processors (13-inch model)</span></li>
-                                                    <li><span class="a-list-item">Intel Iris Graphics 6100 (13-inch model)</span></li>
-                                                    <li><span class="a-list-item">Flash storage</span></li>
-                                                    <li><span class="a-list-item">Up to 10 hours of battery life2 (13-inch model)</span></li>
-                                                    <li><span class="a-list-item">Force Touch trackpad (13-inch model)</span></li>
+                                                  <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                                      <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                                        <li *ngIf="i<4">
+                                                            <span class="a-list-item">{{ detail?.attributes.name }} - {{ detail?.attributes.description }} </span>
+                                                        </li>
+                                                        </ng-container>
+                                                  </ng-container>
+                                                  <ng-template #noDetails>
+                                                      <span class="text-danger">No details found!</span>
+                                                  </ng-template>
                                                 </ul>
                                             </div>
 
@@ -159,8 +164,8 @@
                                                     <del><span class="amount">₱2,299.00</span></del>
                                                 </span>
                                             </span>
-                                            <a rel="nofollow" (click)="addToCart" class="button add_to_cart_button addToCartBtn">Add to cart</a>
-                                        </div><!-- /.price-add-to-cart -->
+                                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
+                                          </div><!-- /.price-add-to-cart -->
                                         <div class="hover-area">
                                             <div class="action-buttons">
                                                 <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>

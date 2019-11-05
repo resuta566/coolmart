@@ -17,7 +17,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 location.reload(true);
             }
 
-            this.error = err.error.error || err.error.errors.email[0];
+            this.error = err.error.error || err.statusText || err.error.errors.email[0];
             // console.log(err);
             return throwError(this.error);
         }))

@@ -143,12 +143,13 @@
                                       <div class="woocommerce-variation single_variation"></div>
                                       <div class="woocommerce-variation-add-to-cart variations_button">
                                           <div class="quantity buttons_added">
-                                            <input type="button" class="minus" value="-" (click)="decreaseQty(product)">
+                                            <input type="button" class="minus" value="-" (click)="decreaseQty(response)">
                                             <label>Quantity:</label>
-                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                            <input type="button" class="plus" value="+" (click)="addQty(product)">
+                                            <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="1" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
+                                            <input type="button" class="plus" value="+" (click)="addQty(response)">
                                           </div>
                                           <button type="submit" class="single_add_to_cart_button button">Add to cart</button>
+                                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="1"></app-addtocart>
                                           <input type="hidden" name="add-to-cart" value="2452" />
                                           <input type="hidden" name="product_id" value="2452" />
                                           <input type="hidden" name="variation_id" class="variation_id" value="10" />

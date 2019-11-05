@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class ShopComponent implements OnInit {
 
+  btnclass="button add_to_cart_button addToCartBtn";
+  label = "Add to cart";
   products: Object;
   imgThumb: string;
   img: string;
@@ -26,7 +28,7 @@ export class ShopComponent implements OnInit {
   getProducts() {
     this.productService.getProducts().subscribe((datas: any) => {
       this.products = datas.data;
-      // console.log(datas.data)
+      console.log(this.products)
       },
         error => {
         console.log(error);

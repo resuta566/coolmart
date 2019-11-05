@@ -124,43 +124,24 @@
                 <li class="nav-item dropdown">
                   <a href="cart.html" class="nav-link" data-toggle="dropdown">
                     <i class="fa fa-shopping-cart"></i>
-                    <span class="cart-items-count count">4</span>
+                    <span class="cart-items-count count">{{ count }}</span>
                     <span class="cart-name">Cart</span>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-mini-cart">
-                    <li>
+                    <li *ngIf="carts?.length; else noItem">
                       <div class="widget_shopping_cart_content">
 
                         <ul class="cart_list product_list_widget ">
 
 
-                          <li class="mini_cart_item">
-                            <a title="Remove this item" class="remove" href="#">×</a>
-                            <a href="single-product.html">
-                              <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="assets/images/products/mini-cart1.jpg" alt="">White lumia 9001&nbsp;
+                          <li class="mini_cart_item" *ngFor="let cart of carts">
+                            <a title="Remove this item" class="remove" (click)="removeItem(cart?.id)">×</a>
+                            <a [routerLink]="['shop-item/', cart?.attributes.item_slug]">
+                              <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="">
+                              {{ cart?.attributes.item_name }}&nbsp;
                             </a>
 
-                            <span class="quantity">2 × <span class="amount">£150.00</span></span>
-                          </li>
-
-
-                          <li class="mini_cart_item">
-                            <a title="Remove this item" class="remove" href="#">×</a>
-                            <a href="single-product.html">
-                              <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="assets/images/products/mini-cart2.jpg" alt="">PlayStation 4&nbsp;
-                            </a>
-
-                            <span class="quantity">1 × <span class="amount">£399.99</span></span>
-                          </li>
-
-                          <li class="mini_cart_item">
-                            <a data-product_sku="" data-product_id="34" title="Remove this item" class="remove" href="#">×</a>
-                            <a href="single-product.html">
-                            <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="assets/images/products/mini-cart3.jpg" alt="">POV Action Cam HDR-AS100V&nbsp;
-
-                            </a>
-
-                            <span class="quantity">1 × <span class="amount">£269.99</span></span>
+                            <span class="quantity">{{ cart?.attributes.cart_qty }} × <span class="amount">{{ cart?.attributes.item_srp }}</span></span>
                           </li>
 
 
@@ -178,6 +159,11 @@
 
                       </div>
                     </li>
+                    <ng-template #noItem>
+                      <p>You have no Items inside the Cart!</p><br>
+                      <a class="button checkout wc-forward" [routerLink]="['/shop']" >SHOP NOW</a>
+                    </ng-template>
+
                   </ul>
                 </li>
               </ul>

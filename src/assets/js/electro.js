@@ -1,7 +1,6 @@
 (function($, window){
     "use strict";
     var arrowWidth = 16;
-
     $.fn.resizeselect = function(settings) {
 
         return this.each( function() {

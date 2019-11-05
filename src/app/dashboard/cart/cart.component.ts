@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart-service.service';
+import { first } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -9,64 +11,44 @@ import { CartService } from '@app/_service/cart-service.service';
 export class CartComponent implements OnInit {
 
   carts: any;
+  subtotal = 0;
   sum = 0;
-  cart = `${environment.apiUrl}/cart`;
-  new ={
-      id: 1,
-      img: "assets/images/products/2.jpg",
-      name: "Wireless Audio System Multiroom 360",
-      price: 1999,
-      qty: 3,
-      stockQty: 10
-    };
+  apiUrl = `${environment.apiUrl}`;
   constructor(
+    private router: Router,
     private cartService: CartService
   ) { }
 
   ngOnInit() {
-
-    this.getLocalStorageCart();
+    this.getCart();
   }
 
-  getLocalStorageCart(){
-    this.carts = JSON.parse(localStorage.getItem('cart'));
-    console.log(this.carts);
-    this.subTotal();
+  getCart(){
+    this.cartService.carts().pipe(first()).subscribe((data: any)=>{
+      this.carts = data.data;
+      //Compute the subtotal of all the items
+      this.carts.forEach( item =>{
+        this.subtotal += parseFloat(item.attributes.subtotal_per_item);
+      })
+    });
   }
 
-  updateLocalStorageCart(carts: Object){
-    localStorage.setItem('cart', JSON.stringify(carts));
-    console.log(carts);
-  }
 
-  removeItem(index: number) {
-    this.carts.splice(index, 1);
-    this.updateLocalStorageCart(this.carts);
-  }
-
-  addQty(index: number) {
-    const i = index;
-    this.carts.push(this.new);
-    if(this.carts[i].stockQty !== this.carts[i].qty){
-    this.carts[i].qty += 1;
-    this.updateLocalStorageCart(this.carts);
-
-    this.subTotal();
-    }else {
-      alert('Stock Limit');
+  removeItem(id: number) {
+    if(confirm("Are you sure to delete this item?")){
+      this.cartService.removeItemCartQty(id).pipe(first()).subscribe(data=> null);
     }
+
   }
 
-  decreaseQty(index: number) {
-    const i = index;
-    if(this.carts[i].qty !== 1){
-    this.carts[i].qty -= 1;
-    this.updateLocalStorageCart(this.carts);
+  addQty(cartId: number) {
+    this.cartService.updateItemCartQty(cartId, "addQty").pipe(first()).subscribe(data=> {   });
 
-    this.subTotal();
-    }else {
-      alert('Minimum.');
-    }
+  }
+
+  decreaseQty(cartId: number) {
+    this.cartService.updateItemCartQty(cartId, "deductQty").pipe(first()).subscribe( data=> {
+     });
   }
 
   subTotal(){

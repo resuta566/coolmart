@@ -5,6 +5,9 @@ import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
 import { Cart } from '@app/_models/cart';
+import { AuthenticationService } from '.';
+import { Router } from '@angular/router';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +15,19 @@ import { Cart } from '@app/_models/cart';
 export class CartService {
   cart: Array<any>;
 
-  addOne = false;
-  addQty = false;
+  addOne = true;
+  addQty = true;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private alertService: AlertService,
+    private authenticationService: AuthenticationService
+    ) { }
 
   private handleError<T> (operation = 'operation' , result?: T) {
     return (error: any): Observable<T> => {
@@ -41,14 +49,45 @@ export class CartService {
         alert(data.success);
       }),
       catchError(this.handleError('getCart', []))
-    ).subscribe(serverdata=>{
-      console.log(serverdata)
-    });
+    ).subscribe(serverdata=>{});
   }
+
   carts(){
-    return this.http.get(`${environment.apiUrl}/api/cart`).pipe(
-      tap(_ => console.log('fetched cart')),
-      catchError(this.handleError('getCart', []))
+    let currentUser = this.authenticationService.currentUserValue;
+    let authId = currentUser.auth_id.toString();
+    return this.http.get(`${environment.apiUrl}/api/cart` , { params: { authId: authId, } } )
+      .pipe(
+        // tap(_ => console.log('fetched cart')),
+        catchError(this.handleError('getCart', []))
       );
+  }
+
+  updateItemCartQty(cartId: number, btn: string){
+    return this.http.patch(`${environment.apiUrl}/api/cart/${+cartId}`, { action: btn } ).pipe(
+      map(data=>{
+        this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/cart']);
+        });
+      }),
+      tap(_ => {
+      }),
+      catchError(this.handleError('updateCart', []))
+    );
+
+
+  }
+
+  removeItemCartQty(id: number){
+    return this.http.delete(`${environment.apiUrl}/api/cart/${id}`).pipe(
+      map(data=>{
+        this.alertService.error('Item Deleted!', true);
+        this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/cart']);
+        });
+      }),
+      tap(_ => {
+      }),
+      catchError(this.handleError('updateCart', []))
+    );
   }
 }
