@@ -27,22 +27,26 @@ export class NavbarComponent implements OnInit {
     }
 
   ngOnInit() {
+    if(this.currentUser){
       this.cartService.carts().pipe(first()).subscribe((data: any)=>{
         this.carts = data.data;
         this.count = data.with.count;
         // console.log(this.carts)
       });
+    }
     this.isLoggedIn();
   }
 
   ngAfterViewInit(): void {
-    setInterval(()=>{
+    if(this.currentUser){
+      setInterval(()=>{
         this.cartService.carts().pipe(first()).subscribe((data: any)=>{
           this.carts = data.data;
           this.count = data.with.count;
           // console.log(this.carts)
         });
-    }, 5000);
+      }, 5000);
+    }
   }
 
   removeItem(id: number) {

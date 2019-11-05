@@ -54,12 +54,15 @@ export class CartService {
 
   carts(){
     let currentUser = this.authenticationService.currentUserValue;
-    let authId = currentUser.auth_id.toString();
-    return this.http.get(`${environment.apiUrl}/api/cart` , { params: { authId: authId, } } )
-      .pipe(
-        // tap(_ => console.log('fetched cart')),
-        catchError(this.handleError('getCart', []))
+    if(currentUser){
+      let authId = currentUser.auth_id.toString();
+      return this.http.get(`${environment.apiUrl}/api/cart` , { params: { authId: authId, } } )
+        .pipe(
+          // tap(_ => console.log('fetched cart')),
+          catchError(this.handleError('getCart', []))
       );
+    }
+    
   }
 
   updateItemCartQty(cartId: number, btn: string){
