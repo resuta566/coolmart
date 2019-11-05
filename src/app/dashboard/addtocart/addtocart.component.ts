@@ -13,6 +13,7 @@ export class AddtocartComponent implements OnInit {
   @Input('qty') qty: number;
   @Input('label') label: string;
   @Input('btnclass') btnclass: string;
+  @Input('option') option?: false;
 
   cartForm: FormGroup;
 

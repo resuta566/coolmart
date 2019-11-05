@@ -62,7 +62,7 @@
                               </div><!-- .brand -->
 
                               <div class="availability in-stock">Availablity:
-                                <ng-container *ngIf="response?.attributes.qty >= 0; else noStock">
+                                <ng-container *ngIf="response?.attributes.qty > 0; else noStock">
                                 <span>In stock</span>
                                 </ng-container>
                                 <ng-template #noStock>
@@ -101,7 +101,14 @@
 
                               <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-                                  <p class="price"><span class="electro-price"><ins><span class="amount">₱{{ response?.attributes.srp }}</span></ins> <del><span class="amount">₱2,299.00</span></del></span></p>
+                                  <p class="price">
+                                    <span class="electro-price">
+                                        <ins><span class="amount itemprice">₱{{ response?.attributes.discountedSrp }} </span></ins>
+                                        <ng-container *ngIf="response?.attributes.discountType">
+                                          <del><span class="amount">₱{{ response?.attributes.srp }}</span></del>
+                                          <span class="discount"> {{ response?.attributes.discountType }}</span>
+                                        </ng-container>
+                                    </span></p>
 
                                   <meta itemprop="price" content="1215" />
                                   <meta itemprop="priceCurrency" content="USD" />
@@ -143,13 +150,12 @@
                                       <div class="woocommerce-variation single_variation"></div>
                                       <div class="woocommerce-variation-add-to-cart variations_button">
                                           <div class="quantity buttons_added">
-                                            <input type="button" class="minus" value="-" (click)="decreaseQty(response)">
+                                            <input [disabled]="btndisabled" type="button" class="minus" value="-" (click)="decreaseQty(response)">
                                             <label>Quantity:</label>
-                                            <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="1" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                            <input type="button" class="plus" value="+" (click)="addQty(response)">
+                                            <input [disabled]="btndisabled" readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ response?.attributes.qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
+                                            <input [disabled]="btndisabled" type="button" class="plus" value="+" (click)="addQty(response)">
                                           </div>
-                                          <button type="submit" class="single_add_to_cart_button button">Add to cart</button>
-                                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="1"></app-addtocart>
+                                          <app-addtocart [option]="btndisabled" [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="1"></app-addtocart>
                                           <input type="hidden" name="add-to-cart" value="2452" />
                                           <input type="hidden" name="product_id" value="2452" />
                                           <input type="hidden" name="variation_id" class="variation_id" value="10" />

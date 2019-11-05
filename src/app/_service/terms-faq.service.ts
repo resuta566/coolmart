@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { tap, catchError, map } from "rxjs/operators";
+import { tap, catchError } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
-import { Products } from '@app/_models/products';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class TermsFaqService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
@@ -31,22 +30,17 @@ export class ProductService {
     }
   }
 
-  getProducts(keyword?) {
-    return this.http.get<Products[]>(`${environment.apiUrl}/api/items`,keyword).pipe(
-      tap(_ => console.log('fetched products')),
-      catchError(this.handleError<Products[]>('getProducts', []))
+  getTerms() {
+    return this.http.get(`${environment.apiUrl}/api/terms`).pipe(
+      tap(_ => console.log('fetched terms')),
+      catchError(this.handleError('getTerms', []))
       );
   }
 
-  getProduct(slug: string): Observable<Products> {
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
-      tap(_ => console.log('fetched product'))
-      );
-  }
-
-  addToCart(slug: string): Observable<Products>{
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
-      tap(_ => console.log('fetched product'))
+  getFaqs() {
+    return this.http.get(`${environment.apiUrl}/api/faqs`).pipe(
+      tap(_ => console.log('fetched faqs')),
+      catchError(this.handleError('getFaqs', []))
       );
   }
 }

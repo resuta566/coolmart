@@ -4,12 +4,12 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
-import { Products } from '@app/_models/products';
+import { Categories } from '@app/_models/categories';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class CategoriesService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
@@ -31,22 +31,10 @@ export class ProductService {
     }
   }
 
-  getProducts(keyword?) {
-    return this.http.get<Products[]>(`${environment.apiUrl}/api/items`,keyword).pipe(
-      tap(_ => console.log('fetched products')),
-      catchError(this.handleError<Products[]>('getProducts', []))
-      );
-  }
-
-  getProduct(slug: string): Observable<Products> {
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
-      tap(_ => console.log('fetched product'))
-      );
-  }
-
-  addToCart(slug: string): Observable<Products>{
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
-      tap(_ => console.log('fetched product'))
+  getCategories(){
+    return this.http.get<Categories[]>(`${environment.apiUrl}/api/categories`).pipe(
+      tap(_ => console.log('fetched categories')),
+      catchError(this.handleError<Categories[]>('getCategories', []))
       );
   }
 }

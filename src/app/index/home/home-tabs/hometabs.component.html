@@ -29,16 +29,18 @@
                                           <a href="shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
-                                                  <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" class="img-responsive" alt="">
+                                                  <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" class="img-responsive" alt="product-image">
                                               </div>
                                           </a>
 
                                           <div class="price-add-to-cart">
                                               <span class="price">
                                                   <span class="electro-price">
-                                                      <ins><span class="amount"> ₱{{ product?.attributes.srp }}</span></ins>
-                                                      <del><span class="amount">₱7,299.00</span></del>
-                                                      <span class="amount"> </span>
+                                                      <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                      <ng-container *ngIf="product?.attributes.discountType">
+                                                        <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                                        <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                                      </ng-container>
                                                   </span>
                                               </span>
                                               <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
@@ -76,16 +78,18 @@
                                           <a href="shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
-                                                  <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.images[0] }}" class="img-responsive" alt="">
+                                                  <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.images[0] }}" class="img-responsive" alt="product-image">
                                               </div>
                                           </a>
 
                                           <div class="price-add-to-cart">
                                               <span class="price">
                                                   <span class="electro-price">
-                                                      <ins><span class="amount"> ${{ product?.attributes.srp }}</span></ins>
-                                                      <del><span class="amount">$7,299.00</span></del>
-                                                      <span class="amount"> </span>
+                                                    <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                    <ng-container *ngIf="product?.attributes.discountType">
+                                                      <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                                      <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                                    </ng-container>
                                                   </span>
                                               </span>
                                               <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
@@ -124,16 +128,18 @@
                                           <a href="shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
-                                                  <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.images[0] }}" class="img-responsive" alt="">
+                                                  <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.images[0] }}" class="img-responsive" alt="product-image">
                                               </div>
                                           </a>
 
                                           <div class="price-add-to-cart">
                                               <span class="price">
                                                   <span class="electro-price">
-                                                      <ins><span class="amount"> ${{ product?.attributes.srp }}</span></ins>
-                                                      <del><span class="amount">$7,299.00</span></del>
-                                                      <span class="amount"> </span>
+                                                    <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                    <ng-container *ngIf="product?.attributes.discountType">
+                                                      <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                                      <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                                    </ng-container>
                                                   </span>
                                               </span>
                                               <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>

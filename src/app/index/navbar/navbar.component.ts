@@ -12,7 +12,6 @@ import { environment } from '@environments/environment';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  loggedOut = false;
   currentUser: User;
   isLogged = false;
   carts: any;
@@ -65,5 +64,9 @@ export class NavbarComponent implements OnInit {
       alert('Server Error Please wait.');
     }
     this.router.navigate(['/sign_in']);
+  }
+
+  search() {
+    
   }
 }

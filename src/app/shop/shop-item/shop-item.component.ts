@@ -19,7 +19,8 @@ export class ShopItemComponent implements OnInit {
   slug: string;
   response: any;
   products: Object;
-  btnclass = 'button add_to_cart_button';
+  btndisabled = false;
+  btnclass = 'single_add_to_cart_button button';
   label = 'Add To cart';
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +34,7 @@ export class ShopItemComponent implements OnInit {
     // console.log(this.route);
     this.getProduct(this.slug);
     this.getRelatedProducts();
+
   }
 
   getRelatedProducts() {
@@ -51,6 +53,7 @@ export class ShopItemComponent implements OnInit {
       this.response = r;
       this.imgArray = this.response.attributes.images;
       // console.log(this.response.relationships);
+      if(+this.response.attributes.qty === 0) return this.btndisabled = true;
       if(this.imgArray !== null){
         this.gallery();
       }
@@ -58,56 +61,54 @@ export class ShopItemComponent implements OnInit {
 
   }
 
+
   gallery(){
-    this.galleryOptions = [
-      {
-          width: '470px',
-          height: '590px',
-          thumbnailsColumns: 3,
-          imageAnimation: NgxGalleryAnimation.Fade,
-          // thumbnailsRemainingCount: true,
-          imageArrowsAutoHide: true,
-          thumbnailsArrowsAutoHide: true,
-          previewCloseOnClick: true,
-          previewCloseOnEsc: true,
-          previewZoom: true,
-          previewRotate: true
-      },
-      // max-width 800
-      {
-          breakpoint: 800,
-          width: '100%',
-          height: '300px',
-          imagePercent: 80,
-          thumbnailsPercent: 10,
-          thumbnailsMargin: 20,
-          thumbnailMargin: 20,
-          thumbnailsColumns: 3
-      },
-      // max-width 400
-      {
-          breakpoint: 300,
-          preview: false ,
-          width: "100%",
-          height: "200px",
-          thumbnailsColumns: 2
+      this.galleryOptions = [
+        {
+            width: '470px',
+            height: '590px',
+            thumbnailsColumns: 3,
+            imageAnimation: NgxGalleryAnimation.Fade,
+            // thumbnailsRemainingCount: true,
+            imageArrowsAutoHide: true,
+            thumbnailsArrowsAutoHide: true,
+            previewCloseOnClick: true,
+            previewCloseOnEsc: true,
+            previewZoom: true,
+            previewRotate: true
+        },
+        // max-width 800
+        {
+            breakpoint: 800,
+            width: '100%',
+            height: '300px',
+            imagePercent: 80,
+            thumbnailsPercent: 10,
+            thumbnailsMargin: 20,
+            thumbnailMargin: 20,
+            thumbnailsColumns: 3
+        },
+        // max-width 400
+        {
+            breakpoint: 300,
+            preview: false ,
+            width: "100%",
+            height: "200px",
+            thumbnailsColumns: 2
+        }
+    ];
+
+    this.galleryImages = [];
+    for(const imgUrl of this.imgArray) {
+      const image = {
+        small: this.apiUrl+'/'+imgUrl,
+        medium: this.apiUrl+'/'+imgUrl,
+        big: this.apiUrl+'/'+imgUrl
       }
-  ];
-
-  this.galleryImages = [];
-  for(const imgUrl of this.imgArray) {
-    const image = {
-      small: this.apiUrl+'/'+imgUrl,
-      medium: this.apiUrl+'/'+imgUrl,
-      big: this.apiUrl+'/'+imgUrl
+      this.galleryImages.push(image)
     }
-    this.galleryImages.push(image)
-  }
   }
 
-  addtoCart(){
-
-  }
 
 
   addQty(item) {

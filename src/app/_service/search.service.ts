@@ -4,12 +4,12 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
-import { Products } from '@app/_models/products';
+import { Search } from '@app/_models/search';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class SearchService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
@@ -31,22 +31,10 @@ export class ProductService {
     }
   }
 
-  getProducts(keyword?) {
-    return this.http.get<Products[]>(`${environment.apiUrl}/api/items`,keyword).pipe(
-      tap(_ => console.log('fetched products')),
-      catchError(this.handleError<Products[]>('getProducts', []))
-      );
-  }
-
-  getProduct(slug: string): Observable<Products> {
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
-      tap(_ => console.log('fetched product'))
-      );
-  }
-
-  addToCart(slug: string): Observable<Products>{
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
-      tap(_ => console.log('fetched product'))
+  search(){
+    return this.http.get<Search>(`${environment.apiUrl}/api/items`).pipe(
+      tap(_ => console.log('fetched types')),
+      catchError(this.handleError<Search>('getTypes', ))
       );
   }
 }
