@@ -33,11 +33,13 @@
                                         </td>
 
                                         <td class="product-thumbnail">
-                                            <a [routerLink]="['/shop-item/', cart?.attributes.item_slug]"><img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt=""></a>
+                                            <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">
+                                              <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="product-thumbnail">
+                                            </a>
                                         </td>
 
                                         <td data-title="Product" class="product-name">
-                                            <a [routerLink]="['/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
+                                            <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
                                         </td>
 
                                         <td data-title="Price" class="product-price">

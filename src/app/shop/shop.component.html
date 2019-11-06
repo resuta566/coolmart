@@ -7,7 +7,15 @@
             <main id="main" class="site-main">
 
                 <header class="page-header">
-                    <h1 class="page-title">Aircons</h1>
+                    <h1 class="page-title">
+                      <ng-container *ngIf="keyword; else shop">
+                        {{ keyword }}
+                      </ng-container>
+                      <ng-template #shop>
+                        Buy at Cool Mart
+                      </ng-template>
+
+                    </h1>
                     <p class="woocommerce-result-count">Showing 1&ndash;15 of 20 results</p>
                 </header>
 
@@ -51,10 +59,10 @@
                                 <div class="product-outer">
                                     <div class="product-inner">
                                         <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                        <a href="/shop-item/{{ product.attributes.slug }}">
+                                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
                                             <h3>{{ product.attributes.name }}</h3>
                                             <div class="product-thumbnail">
-                                                <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="">
+                                                <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
                                             </div>
 
                                             <div class="product-rating">
@@ -107,7 +115,7 @@
                             <li class="product list-view" *ngFor="let product of products">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a href="/shop-item/{{ product.attributes.slug }}">
+                                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
                                             <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
                                         </a>
                                     </div>
@@ -115,7 +123,7 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <span class="loop-product-categories"><a rel="tag" href="#">Tablets</a></span>
-                                                <a href="/shop-item/{{ product.attributes.slug }}">
+                                                <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
                                                   <h3>{{ product.attributes.name }}</h3>
                                                     <div class="product-rating">
                                                         <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong class="rating">4</strong> out of 5</span></div> (3)
@@ -192,7 +200,7 @@
                             <li class="product list-view list-view-small" *ngFor="let product of products">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a href="/shop-item/{{ product.attributes.slug }}">
+                                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
                                             <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
                                         </a>
                                     </div>
@@ -200,7 +208,7 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <span class="loop-product-categories">
-                                                    <a href="/shop-item/{{ product.attributes.slug }}">Smartphones</a></span><a href="product-category.html">
+                                                    <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">Smartphones</a></span><a href="product-category.html">
                                                   <h3>{{ product.attributes.name }}</h3>
                                                     <div class="product-short-description">
                                                         <ul style="padding-left: 18px;">
@@ -251,9 +259,6 @@
                     </div>
                 </div>
                 <div class="shop-control-bar-bottom">
-                    <form class="form-electro-wc-ppp">
-                        <select class="electro-wc-wppp-select c-select" onchange="this.form.submit()" name="ppp"><option selected="selected" value="15">Show 15</option><option value="-1">Show All</option></select>
-                    </form>
                     <p class="woocommerce-result-count">Showing 1&ndash;15 of 20 results</p>
                     <nav class="woocommerce-pagination">
                         <ul class="page-numbers">

@@ -4,7 +4,9 @@
       <div class="container">
 
           <nav class="woocommerce-breadcrumb">
-              <a href="home.html">Home</a>
+              <a href="/">Home</a>
+              <span class="delimiter"><i class="fa fa-angle-right"></i></span>
+              <a [routerLink]="['/shop']">Shop</a>
               <span class="delimiter"><i class="fa fa-angle-right"></i></span>
               <a href="product-category.html">{{ response?.type | titlecase }}</a>
               <span class="delimiter"><i class="fa fa-angle-right"></i>
@@ -57,7 +59,7 @@
 
                               <div class="brand">
                                   <a href="product-category.html">
-                                      <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}" alt="Gionee" />
+                                      <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}" alt="brand-logo" />
                                   </a>
                               </div><!-- .brand -->
 
@@ -449,7 +451,7 @@
                                   <div class="product-outer">
                                       <div class="product-inner">
                                           <span class="loop-product-categories"><a href="product-category.html" rel="tag">{{ product?.type | titlecase}}</a></span>
-                                          <a href="shop-item/{{ product?.attributes.slug }}">
+                                          <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
                                                   <img attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="">
@@ -459,7 +461,7 @@
                                           <div class="price-add-to-cart">
                                               <span class="price">
                                                   <span class="electro-price">
-                                                      <ins><span class="amount">&#036;{{ product?.attributes.srp }}</span></ins>
+                                                      <ins><span class="amount">₱{{ product?.attributes.srp }}</span></ins>
                                                   </span>
                                               </span>
                                               <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>

@@ -13,7 +13,7 @@ export class HometabsComponent implements OnInit{
   label = 'Add To cart';
   apiUrl = `${environment.apiUrl}`
   constructor(private productService: ProductService) { }
-
+  keyword = '';
   ngOnInit() {
     this.getProducts();
   }

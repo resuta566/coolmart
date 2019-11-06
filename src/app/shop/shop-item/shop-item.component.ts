@@ -3,6 +3,7 @@ import { ProductService } from '@app/_service/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environments/environment';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-shop-item',
@@ -24,10 +25,12 @@ export class ShopItemComponent implements OnInit {
   label = 'Add To cart';
   constructor(
     private route: ActivatedRoute,
-    private service: ProductService
+    private service: ProductService,
+    private titleService: Title
     ) { }
 
   ngOnInit() {
+
     this.route.paramMap.subscribe(rt => {
       this.slug = rt.get('slug');
     });
@@ -52,6 +55,7 @@ export class ShopItemComponent implements OnInit {
 
       this.response = r;
       this.imgArray = this.response.attributes.images;
+      this.titleService.setTitle(  `${this.response.attributes.name} : Buy Aircons online with cheap price | Cool Mart` );
       // console.log(this.response.relationships);
       if(+this.response.attributes.qty === 0) return this.btndisabled = true;
       if(this.imgArray !== null){

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/_service';
 import { User } from '@app/_models';
 import { CartService } from '@app/_service/cart-service.service';
@@ -17,10 +17,12 @@ export class NavbarComponent implements OnInit {
   carts: any;
   apiUrl = `${environment.apiUrl}`;
   count = 0;
+  value: string;
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private cartService: CartService
+    private cartService: CartService,
+    private route: ActivatedRoute
     ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
@@ -66,7 +68,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/sign_in']);
   }
 
-  search() {
-    
+  search(keyword: string) {
+    this.value = keyword;
+    this.router.navigate([`/shop/${this.value}`]);
   }
 }

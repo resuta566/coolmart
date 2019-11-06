@@ -13,7 +13,6 @@ export class HomeProductsCardComponent implements OnInit {
   apiUrl = `${environment.apiUrl}`;
   imgArray = [];
   constructor(private productService: ProductService) { }
-
   ngOnInit() {
     this.getProducts();
   }
