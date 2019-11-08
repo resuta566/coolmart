@@ -1,7 +1,7 @@
 <div id="content" class="site-content" tabindex="-1">
     <div class="container">
 
-        <nav class="woocommerce-breadcrumb" ><a href="home.html">Home</a><span class="delimiter"><i class="fa fa-angle-right"></i></span>Smart Phones &amp; Tablets</nav>
+        <nav class="woocommerce-breadcrumb" ><a href="/">Home</a><span class="delimiter"><i class="fa fa-angle-right"></i></span>Smart Phones &amp; Tablets</nav>
 
         <div id="primary" class="content-area">
             <main id="main" class="site-main">
@@ -16,7 +16,7 @@
                       </ng-template>
 
                     </h1>
-                    <p class="woocommerce-result-count">Showing 1&ndash;15 of 20 results</p>
+                    <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }} results</p>
                 </header>
 
                 <div class="shop-control-bar">
@@ -35,7 +35,7 @@
                         </select>
                     </form> -->
                    <nav class="electro-advanced-pagination">
-                        <form method="post" class="form-adv-pagination"><input id="goto-page" size="2" min="1" max="2" step="1" type="number" class="form-control" value="1" /></form> of 2<a class="next page-numbers" href="#">&rarr;</a>			<script>
+                        <form method="post" class="form-adv-pagination"><input readonly id="goto-page" size="2" min="1" max="2" step="1" type="number" class="form-control" value="1" /></form> of 2<a class="next page-numbers" href="#">&rarr;</a>			<script>
                         jQuery(document).ready(function($){
                             $( '.form-adv-pagination' ).on( 'submit', function() {
                                 var link 		= '#',
@@ -55,148 +55,162 @@
                     <div role="tabpanel" class="tab-pane active" id="grid" aria-expanded="true">
 
                         <ul class="products columns-3">
-                            <li class="product " *ngFor="let product of products ">
-                                <div class="product-outer">
-                                    <div class="product-inner">
-                                        <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
-                                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
-                                            <h3>{{ product.attributes.name }}</h3>
-                                            <div class="product-thumbnail">
-                                                <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
-                                            </div>
+                            <ng-container *ngIf="products?.length !== 0; else noProduct">
+                                <li class="product " *ngFor="let product of products ">
+                                    <div class="product-outer">
+                                        <div class="product-inner">
+                                            <span class="loop-product-categories"><a href="product-category.html" rel="tag">Smartphones</a></span>
+                                            <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                                                <h3>{{ product.attributes.name }}</h3>
+                                                <div class="product-thumbnail">
+                                                    <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
+                                                </div>
 
-                                            <div class="product-rating">
-                                                <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong class="rating">4</strong> out of 5</span></div> (3)
-                                            </div>
+                                                <div class="product-rating">
+                                                    <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong class="rating">4</strong> out of 5</span></div> (3)
+                                                </div>
 
-                                            <div class="product-short-description">
-                                                <ul>
-                                                  <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
-                                                      <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
-                                                        <li *ngIf="i<4">
-                                                            <span class="a-list-item">{{ detail?.attributes.name }} - {{ detail?.attributes.description }} </span>
-                                                        </li>
-                                                        </ng-container>
-                                                  </ng-container>
-                                                  <ng-template #noDetails>
-                                                      <span class="text-danger">No details found!</span>
-                                                  </ng-template>
-                                                </ul>
-                                            </div>
+                                                <div class="product-short-description">
+                                                    <ul>
+                                                      <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                                          <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                                            <li *ngIf="i<4">
+                                                                <span class="a-list-item">{{ detail?.attributes.name }} - {{ detail?.attributes.description }} </span>
+                                                            </li>
+                                                            </ng-container>
+                                                      </ng-container>
+                                                      <ng-template #noDetails>
+                                                          <span class="text-danger">No details found!</span>
+                                                      </ng-template>
+                                                    </ul>
+                                                </div>
 
-                                            <div class="product-sku">SKU: 5487FB8/15</div>
-                                        </a>
-                                        <div class="price-add-to-cart">
-                                            <span class="price">
-                                                <span class="electro-price">
-                                                  <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
-                                                  <ng-container *ngIf="product?.attributes.discountType">
-                                                    <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
-                                                    <span class="discount"> {{ product?.attributes.discountType }}</span>
-                                                  </ng-container>
+                                                <div class="product-sku">SKU: 5487FB8/15</div>
+                                            </a>
+                                            <div class="price-add-to-cart">
+                                                <span class="price">
+                                                    <span class="electro-price">
+                                                      <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                      <ng-container *ngIf="product?.attributes.discountType">
+                                                        <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                                        <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                                      </ng-container>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
-                                          </div><!-- /.price-add-to-cart -->
-                                        <div class="hover-area">
-                                            <div class="action-buttons">
-                                                <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
-                                                <a href="#" class="add-to-compare-link">Compare</a>
+                                                <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
+                                              </div><!-- /.price-add-to-cart -->
+                                            <div class="hover-area">
+                                                <div class="action-buttons">
+                                                    <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
+                                                    <a href="#" class="add-to-compare-link">Compare</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div><!-- /.product-inner -->
-                                </div><!-- /.product-outer -->
-                            </li>
+                                        </div><!-- /.product-inner -->
+                                    </div><!-- /.product-outer -->
+                                </li>
+                            </ng-container>
+                            <ng-template #noProduct>
+                              <br>
+                              <h2>THERE'S NO PRODUCT FOUND</h2>
+                            </ng-template>
+
                         </ul>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="list-view" aria-expanded="true">
                         <ul class="products columns-3">
-                            <li class="product list-view" *ngFor="let product of products">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
-                                            <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
-                                        </a>
-                                    </div>
-                                    <div class="media-body media-middle">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <span class="loop-product-categories"><a rel="tag" href="#">Tablets</a></span>
-                                                <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
-                                                  <h3>{{ product.attributes.name }}</h3>
-                                                    <div class="product-rating">
-                                                        <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong class="rating">4</strong> out of 5</span></div> (3)
-                                                    </div>
-                                                    <div class="product-short-description">
-                                                        <ul style="padding-left: 18px;">
-                                                            <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
-                                                                <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
-                                                                  <li *ngIf="i<4">
-                                                                      <span class="a-list-item">{{ detail?.attributes.name }} - {{ detail?.attributes.description }} </span>
-                                                                  </li>
-                                                                  </ng-container>
-                                                            </ng-container>
-                                                            <ng-template #noDetails>
-                                                                <span class="text-danger">No details found!</span>
-                                                            </ng-template>
-                                                        </ul>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="col-xs-12">
+                            <ng-container *ngIf="products?.length !== 0; else noProduct">
+                              <li class="product list-view" *ngFor="let product of products">
+                                  <div class="media">
+                                      <div class="media-left">
+                                          <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                                              <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
+                                          </a>
+                                      </div>
+                                      <div class="media-body media-middle">
+                                          <div class="row">
+                                              <div class="col-xs-12">
+                                                  <span class="loop-product-categories"><a rel="tag" href="#">Tablets</a></span>
+                                                  <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                                                    <h3>{{ product.attributes.name }}</h3>
+                                                      <div class="product-rating">
+                                                          <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong class="rating">4</strong> out of 5</span></div> (3)
+                                                      </div>
+                                                      <div class="product-short-description">
+                                                          <ul style="padding-left: 18px;">
+                                                              <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                                                  <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                                                    <li *ngIf="i<4">
+                                                                        <span class="a-list-item">{{ detail?.attributes.name }} - {{ detail?.attributes.description }} </span>
+                                                                    </li>
+                                                                    </ng-container>
+                                                              </ng-container>
+                                                              <ng-template #noDetails>
+                                                                  <span class="text-danger">No details found!</span>
+                                                              </ng-template>
+                                                          </ul>
+                                                      </div>
+                                                  </a>
+                                              </div>
+                                              <div class="col-xs-12">
 
-                                                <div class="availability in-stock">Availablity:
-                                                      <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
-                                                      <span>In stock</span>
-                                                      </ng-container>
-                                                      <ng-template #noStock>
-                                                      <span class="text-danger">Out Of stock</span>
-                                                      </ng-template>
-                                                </div>
+                                                  <div class="availability in-stock">Availablity:
+                                                        <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
+                                                        <span>In stock</span>
+                                                        </ng-container>
+                                                        <ng-template #noStock>
+                                                        <span class="text-danger">Out Of stock</span>
+                                                        </ng-template>
+                                                  </div>
 
-                                                <span class="price">
-                                                  <span class="electro-price">
-                                                      <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
-                                                      <ng-container *ngIf="product?.attributes.discountType">
-                                                        <del><span class="amount">₱{{ product?.attributes.srp }}</span></del><br>
-                                                        <span class="discount"> {{ product?.attributes.discountType }}</span>
-                                                      </ng-container>
-                                                  </span></span>
-                                                <a class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_sku="5487FB8/35" data-product_id="2706" data-quantity="1" href="single-product.html" rel="nofollow">Add to cart</a>
-                                                <div class="hover-area">
-                                                    <div class="action-buttons">
-                                                        <div class="yith-wcwl-add-to-wishlist add-to-wishlist-2706">
-                                                            <a class="add_to_wishlist" data-product-type="simple" data-product-id="2706" rel="nofollow" href="#">Wishlist</a>
+                                                  <span class="price">
+                                                    <span class="electro-price">
+                                                        <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                        <ng-container *ngIf="product?.attributes.discountType">
+                                                          <del><span class="amount">₱{{ product?.attributes.srp }}</span></del><br>
+                                                          <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                                        </ng-container>
+                                                    </span></span>
+                                                  <a class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_sku="5487FB8/35" data-product_id="2706" data-quantity="1" href="single-product.html" rel="nofollow">Add to cart</a>
+                                                  <div class="hover-area">
+                                                      <div class="action-buttons">
+                                                          <div class="yith-wcwl-add-to-wishlist add-to-wishlist-2706">
+                                                              <a class="add_to_wishlist" data-product-type="simple" data-product-id="2706" rel="nofollow" href="#">Wishlist</a>
 
-                                                            <div style="display:none;" class="yith-wcwl-wishlistaddedbrowse hide">
-                                                                <span class="feedback">Product added!</span>
-                                                                <a rel="nofollow" href="#">Wishlist</a>
-                                                            </div>
+                                                              <div style="display:none;" class="yith-wcwl-wishlistaddedbrowse hide">
+                                                                  <span class="feedback">Product added!</span>
+                                                                  <a rel="nofollow" href="#">Wishlist</a>
+                                                              </div>
 
-                                                            <div style="display:none" class="yith-wcwl-wishlistexistsbrowse hide">
-                                                                <span class="feedback">The product is already in the wishlist!</span>
-                                                                <a rel="nofollow" href="#">Wishlist</a>
-                                                            </div>
+                                                              <div style="display:none" class="yith-wcwl-wishlistexistsbrowse hide">
+                                                                  <span class="feedback">The product is already in the wishlist!</span>
+                                                                  <a rel="nofollow" href="#">Wishlist</a>
+                                                              </div>
 
-                                                            <div style="clear:both"></div>
-                                                            <div class="yith-wcwl-wishlistaddresponse"></div>
+                                                              <div style="clear:both"></div>
+                                                              <div class="yith-wcwl-wishlistaddresponse"></div>
 
-                                                        </div>
-                                                        <div class="clear"></div>
-                                                        <a data-product_id="2706" class="add-to-compare-link" href="#">Compare</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                                          </div>
+                                                          <div class="clear"></div>
+                                                          <a data-product_id="2706" class="add-to-compare-link" href="#">Compare</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ng-container>
+                          <ng-template #noProduct>
+                            <br>
+                            <h2>THERE'S NO PRODUCT FOUND</h2>
+                          </ng-template>
                         </ul>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="list-view-small" aria-expanded="true">
 
                         <ul class="products columns-3">
+                          <ng-container *ngIf="products?.length !== 0; else noProduct">
                             <li class="product list-view list-view-small" *ngFor="let product of products">
                                 <div class="media">
                                     <div class="media-left">
@@ -255,11 +269,16 @@
                                     </div>
                                 </div>
                             </li>
+                          </ng-container>
+                          <ng-template #noProduct>
+                            <br>
+                            <h2>THERE'S NO PRODUCT FOUND</h2>
+                          </ng-template>
                         </ul>
                     </div>
                 </div>
                 <div class="shop-control-bar-bottom">
-                    <p class="woocommerce-result-count">Showing 1&ndash;15 of 20 results</p>
+                    <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }} results</p>
                     <nav class="woocommerce-pagination">
                         <ul class="page-numbers">
                             <li><span class="page-numbers current">1</span></li>
@@ -314,13 +333,16 @@
                 </ul>
             </aside> -->
             <aside class="widget widget_electro_products_filter">
-                <h3 class="widget-title">Filters</h3>
+                <h3 class="widget-title">Filters &nbsp; <a class="brandreset" (click)="reset('all')">Clear All</a></h3>
                 <aside class="widget woocommerce widget_layered_nav">
-                    <h3 class="widget-title">Brands</h3>
+                    <h3 class="widget-title">Brands &nbsp; <a class="brandreset" (click)="reset('brands')">Clear</a></h3>
                     <ul>
-                        <li *ngFor="let brand of brands | slice: 0 : limit">
-                            <a href="#">{{ brand?.attributes.name }}</a>
-                            <span class="count">(2)</span>
+                        <li *ngFor="let brand of brands | slice: 0 : limit;let i = index" style="margin: 10px">
+                          <label for="brand_{{ brand?.attributes.name }}" class="filter">
+                            <input #brandscbox id="brand_{{ brand?.attributes.name }}" [value]="brand?.id" type="checkbox" name="brand_{{ i }}" (click)="getBrandId(brand?.id, $event.target.checked)">
+                              &nbsp;{{ brand?.attributes.name }}
+                              <!-- <span class="count">(2)</span> -->
+                          </label>
                           </li>
                     </ul>
                     <p class="maxlist-more" *ngIf="limit < brands?.length">
@@ -331,11 +353,14 @@
                     </p>
                 </aside>
                 <aside class="widget woocommerce widget_layered_nav">
-                    <h3 class="widget-title">Category</h3>
+                    <h3 class="widget-title">Category &nbsp; <a class="brandreset" (click)="reset('categories')">Clear</a> </h3>
                     <ul>
-                        <li *ngFor="let category of categories | slice: 0 : limitCat">
-                          <a href="#">{{ category?.attributes.name }}</a>
-                           <span class="count">(4)</span>
+                        <li *ngFor="let category of categories | slice: 0 : limitCat;let i = index" style="margin: 10px;">
+                            <label for="cat_{{ category?.attributes.name }}" class="filter">
+                                <input #categorycbox id="cat_{{ category?.attributes.name }}" [value]="category?.id" type="checkbox" name="category_{{ i }}" (click)="getCategoryId(category?.id, $event.target.checked)">
+                                  &nbsp;{{ category?.attributes.name }}
+                                  <!-- <span class="count">(2)</span> -->
+                              </label>
                           </li>
                     </ul>
                     <p class="maxlist-more" *ngIf="limitCat < categories?.length">
@@ -346,11 +371,14 @@
                       </p>
                 </aside>
                 <aside class="widget woocommerce widget_layered_nav">
-                    <h3 class="widget-title">Type</h3>
+                    <h3 class="widget-title">Type &nbsp; <a class="brandreset" (click)="reset('types')">Clear</a> </h3>
                     <ul>
-                        <li *ngFor="let type of types">
-                          <a href="#">{{ type?.attributes.name }}</a>
-                          <span class="count">(4)</span>
+                        <li *ngFor="let type of types | slice : 0 : limitType;let i = index" style="margin: 10px;">
+                            <label for="type_{{ type?.attributes.name }}" class="filter">
+                                <input #typecbox id="type_{{ type?.attributes.name }}" [value]="type?.id" type="checkbox" name="type_{{ i }}" (click)="getTypeId(type?.id, $event.target.checked)">
+                                  &nbsp;{{ type?.attributes.name }}
+                                  <!-- <span class="count">(2)</span> -->
+                              </label>
                         </li>
                     </ul>
                     <p class="maxlist-more" *ngIf="limitType < types?.length">
@@ -361,18 +389,23 @@
                       </p>
                 </aside>
                 <aside class="widget woocommerce widget_price_filter">
-                    <h3 class="widget-title">Price</h3>
+                    <h3 class="widget-title">Price &nbsp; <a class="brandreset" (click)="priceClear()">Clear</a></h3>
                     <form action="#">
                         <div class="price_slider_wrapper">
-                            <div style="" class="price_slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                                <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0%; width: 100%;"></div>
-                                <span tabindex="0" class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;"></span>
-                                <span tabindex="0" class="ui-slider-handle ui-state-default ui-corner-all" style="left: 100%;"></span>
+                            <div class="container">
+                              <div class="row">
+                                <div class="col">
+                                    <input [(ngModel)]="mini" style="width: 60%" type="number" name="mini" id="mini" min="0" placeholder="Min">
+                                  </div>
+                                  <br>
+                                <div class="col">
+                                    <input [(ngModel)]="maxi" style="width: 60%" type="number" name="maxi" id="maxi" min="0" placeholder="Max"></div>
+                              </div>
                             </div>
                             <div class="price_slider_amount">
-                                <a href="#" class="button">Filter</a>
-                                <div style="" class="price_label">Price: <span class="from">$428</span> &mdash; <span class="to">$3485</span></div>
-                                <div class="clear"></div>
+                                <a (click)="pricerange()" class="button ">Filter</a>
+                                <!-- <div style="" class="price_label">Price: <span class="from">{{ mini.value | currency: '₱' }}</span> &mdash; <span class="to">{{ maxi.value | currency: '₱' }}</span></div> -->
+                                <!-- <div class="clear"></div> -->
                             </div>
                         </div>
                     </form>
