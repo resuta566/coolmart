@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 
 import { AuthenticationService, AlertService } from '@app/_service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'sign-in',
   templateUrl: './in.component.html',
   styleUrls: ['./in.component.scss']
 })
-export class InComponent implements OnInit {
+export class InComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +39,13 @@ export class InComponent implements OnInit {
   this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
@@ -51,7 +60,7 @@ export class InComponent implements OnInit {
     }
 
     this.authenticationService.login(this.f.email.value, this.f.password.value)
-        .pipe(first())
+        .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
                 this.alertService.success('Logged In! YAY!', true);

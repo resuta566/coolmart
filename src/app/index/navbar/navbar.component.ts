@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/_service';
 import { User } from '@app/_models';
 import { CartService } from '@app/_service/cart/cart-service.service';
@@ -21,8 +21,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private cartService: CartService,
-    private route: ActivatedRoute
+    private cartService: CartService
     ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
@@ -32,7 +31,6 @@ export class NavbarComponent implements OnInit {
       this.cartService.carts().pipe(first()).subscribe((data: any)=>{
         this.carts = data.data;
         this.count = data.with.count;
-        // console.log(this.carts)
       });
     }
     this.isLoggedIn();
@@ -44,7 +42,6 @@ export class NavbarComponent implements OnInit {
         this.cartService.carts().pipe(first()).subscribe((data: any)=>{
           this.carts = data.data;
           this.count = data.with.count;
-          // console.log(this.carts)
         });
       }, 5000);
     }

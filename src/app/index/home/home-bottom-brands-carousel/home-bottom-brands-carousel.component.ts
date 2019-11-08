@@ -1,31 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@environments/environment';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { BrandService } from '@app/_service/brand/brand.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'home-bottom-brands-carousel',
   templateUrl: './home-bottom-brands-carousel.component.html',
   styleUrls: ['./home-bottom-brands-carousel.component.scss']
 })
-export class HomeBottomBrandsCarouselComponent implements OnInit {
+export class HomeBottomBrandsCarouselComponent implements OnInit, OnDestroy {
 
   apiUrl = `${environment.apiUrl}`;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   brands: any;
   imgUrl = '';
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
     private brandService: BrandService
   ) { }
 
   ngOnInit() {
-    this.brandService.getBrands().subscribe((data: any) => {
+    this.brandService.getBrands().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.brands = data.data;
       if(this.brands !== null){
         this.gallery();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   gallery(){
@@ -66,9 +74,7 @@ export class HomeBottomBrandsCarouselComponent implements OnInit {
       }
   ];
 
-  this.galleryImages = [
-
-  ];
+  this.galleryImages = [];
 
   for(const brand of this.brands) {
     this.imgUrl = brand.attributes.logo;

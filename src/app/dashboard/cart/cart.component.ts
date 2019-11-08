@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart/cart-service.service';
-import { first } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -12,10 +13,10 @@ export class CartComponent implements OnInit {
 
   carts: any;
   subtotal = 0;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   sum = 0;
   apiUrl = `${environment.apiUrl}`;
   constructor(
-    private router: Router,
     private cartService: CartService
   ) { }
 
@@ -23,8 +24,13 @@ export class CartComponent implements OnInit {
     this.getCart();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
+  }
+
   getCart(){
-    this.cartService.carts().pipe(first()).subscribe((data: any)=>{
+    this.cartService.carts().pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.carts = data.data;
       //Compute the subtotal of all the items
       this.carts.forEach( item =>{
@@ -36,19 +42,18 @@ export class CartComponent implements OnInit {
 
   removeItem(id: number) {
     if(confirm("Are you sure to delete this item?")){
-      this.cartService.removeItemCartQty(id).pipe(first()).subscribe(data=> null);
+      this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
     }
 
   }
 
   addQty(cartId: number) {
-    this.cartService.updateItemCartQty(cartId, "addQty").pipe(first()).subscribe(data=> {   });
+    this.cartService.updateItemCartQty(cartId, "addQty").pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
 
   }
 
   decreaseQty(cartId: number) {
-    this.cartService.updateItemCartQty(cartId, "deductQty").pipe(first()).subscribe( data=> {
-     });
+    this.cartService.updateItemCartQty(cartId, "deductQty").pipe(first(), takeUntil(this.destroy$)).subscribe( data=> {});
   }
 
   subTotal(){

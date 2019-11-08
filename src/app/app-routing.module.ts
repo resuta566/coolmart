@@ -19,28 +19,29 @@ import { SignComponent } from './pages/sign/sign.component';
 import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
-  {path: '' , component: HomeComponent},
-  {
-    path: 'cart' , component: CartComponent, canActivate: [AuthGuard]
-  },
-  {path: 'compare' , component: CompareComponent},
-  {path: 'wishlist' , component: WishlistComponent, canActivate: [AuthGuard]},
-  {path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard]},
-  {path: 'track' , component: TrackComponent},
-  {path: 'shop/:search' , component: ShopComponent},
-  {path: 'shop' , component: ShopComponent},
-  {path: 'shop/shop-item/:slug' , component: ShopItemComponent},
-  {path: 'sign_in' , component: SignComponent},
-  {path: 'terms-and-conditions' , component: TermsConditionsComponent},
-  {path: 'contact-us' , component: ContactUsComponent},
-  {path: 'about-us' , component: AboutUsComponent},
-  {path: 'frequently-ask-questions' , component: FaqComponent},
-  {path: 'store-location' , component: StoreLocationComponent},
-  {path: 'dashboard' , component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: '' , component: HomeComponent },
+  { path: 'cart' , component: CartComponent, canActivate: [AuthGuard] },
+  { path: 'compare' , component: CompareComponent },
+  { path: 'wishlist' , component: WishlistComponent, canActivate: [AuthGuard] },
+  { path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard] },
+  { path: 'shop' , component: ShopComponent },
+  { path: 'shop/:search' , component: ShopComponent },
+  { path: 'shop/shop-item/:slug' , component: ShopItemComponent },
+  { path: 'sign_in' , component: SignComponent },
+  { path: 'dashboard' , component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'pages',
+      children: [
+        { path: 'terms-and-conditions' , component: TermsConditionsComponent },
+        { path: 'contact-us' , component: ContactUsComponent },
+        { path: 'about-us' , component: AboutUsComponent },
+        { path: 'frequently-ask-questions' , component: FaqComponent },
+        { path: 'store-location' , component: StoreLocationComponent },
+        { path: 'track' , component: TrackComponent },
+        { path: 'not-found', component: ErrorpagesComponent },
+      ]
+},
 
-
-  { path: 'not-found', component: ErrorpagesComponent},
-  { path: '**', redirectTo: 'not-found' }
+  { path: '**', redirectTo: 'pages/not-found' }
 ];
 
 @NgModule({

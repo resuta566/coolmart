@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { MustMatch } from '@app/_helpers';
 
 import { AuthenticationService, AlertService } from '@app/_service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'sign-up',
   templateUrl: './up.component.html',
   styleUrls: ['./up.component.scss']
 })
-export class UpComponent implements OnInit {
+export class UpComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
   messages: string;
-
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,6 +42,12 @@ export class UpComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
@@ -58,7 +65,7 @@ export class UpComponent implements OnInit {
     this.loading = true;
     // console.log(this.registerForm.value.email)
     this.authenticationService.register(this.registerForm.value)
-        .pipe(first())
+        .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
                 this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)

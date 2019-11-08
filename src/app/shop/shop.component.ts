@@ -65,14 +65,15 @@ export class ShopComponent implements OnInit, OnDestroy {
       this.titleService.setTitle(  `${this.keyword} - Buy ${this.keyword} at Best Pirce | Cool Mart` );
       }
     });
-    this.document.body.classList.remove('page-template-default');
-    this.document.body.classList.add('left-sidebar');
+    this.document.body.classList.remove('page-template-default'); //For the style of this component
+    this.document.body.classList.add('left-sidebar'); //important for the style of the shop
     this.getBrands();
     this.getCategories();
     this.getTypes();
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true);
+    this.document.body.classList.add('page-template-default'); //For the styles of other component
+    this.destroy$.next(true); //For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 

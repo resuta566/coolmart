@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '@app/_service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-addtocart',
   templateUrl: './addtocart.component.html',
   styleUrls: ['./addtocart.component.scss']
 })
-export class AddtocartComponent implements OnInit {
+export class AddtocartComponent implements OnInit, OnDestroy {
   @Input('itemId') itemId: number;
   @Input('qty') qty: number;
   @Input('label') label: string;
@@ -24,6 +25,12 @@ export class AddtocartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+
   }
 
   addtocart(){
