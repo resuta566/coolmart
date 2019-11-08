@@ -4,12 +4,12 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
-import { Types } from '@app/_models/types';
+import { Categories } from '@app/_models/categories/categories';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TypesService {
+export class CategoriesService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
@@ -31,10 +31,10 @@ export class TypesService {
     }
   }
 
-  getTypes(){
-    return this.http.get<Types[]>(`${environment.apiUrl}/api/types`).pipe(
-      tap(_ => console.log('fetched types')),
-      catchError(this.handleError<Types[]>('getTypes', []))
+  getCategories(){
+    return this.http.get<Categories[]>(`${environment.apiUrl}/api/categories`).pipe(
+      tap(_ => console.log('fetched categories')),
+      catchError(this.handleError<Categories[]>('getCategories', []))
       );
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '@app/_service/product.service';
+import { ProductService } from '@app/_service/product/product.service';
 import { environment } from '@environments/environment';
+import { AlertService } from '@app/_service';
 
 @Component({
   selector: 'home-tabs',
@@ -12,8 +13,10 @@ export class HometabsComponent implements OnInit{
   btnclass = 'button add_to_cart_button';
   label = 'Add To cart';
   apiUrl = `${environment.apiUrl}`
-  constructor(private productService: ProductService) { }
-  keyword = '';
+  constructor(
+    private productService: ProductService,
+    private alertService: AlertService
+    ) { }
   ngOnInit() {
     this.getProducts();
   }
@@ -21,12 +24,10 @@ export class HometabsComponent implements OnInit{
   getProducts() {
     this.productService.getProducts().subscribe((datas: any) => {
       this.products = datas.data;
-      console.log(datas);
       },
         error => {
-        console.log(error);
+        this.alertService.error(error, true);
     });
   }
-
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@environments/environment';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
-import { BrandService } from '@app/_service/brand.service';
+import { BrandService } from '@app/_service/brand/brand.service';
 
 @Component({
   selector: 'home-bottom-brands-carousel',

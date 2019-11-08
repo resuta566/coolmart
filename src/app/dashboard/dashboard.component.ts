@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AlertService } from '@app/_service';
-import { CartService } from '@app/_service/cart-service.service';
+import { CartService } from '@app/_service/cart/cart-service.service';
 
 @Component({
   selector: 'app-dashboard',

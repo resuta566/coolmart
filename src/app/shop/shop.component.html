@@ -1,7 +1,7 @@
 <div id="content" class="site-content" tabindex="-1">
     <div class="container">
 
-        <nav class="woocommerce-breadcrumb" ><a href="/">Home</a><span class="delimiter"><i class="fa fa-angle-right"></i></span>Smart Phones &amp; Tablets</nav>
+        <nav class="woocommerce-breadcrumb" ><a href="/">Home</a><span class="delimiter"><i class="fa fa-angle-right"></i></span>Shop</nav>
 
         <div id="primary" class="content-area">
             <main id="main" class="site-main">
@@ -18,7 +18,7 @@
                     </h1>
                     <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }} results</p>
                 </header>
-
+                <alert></alert>
                 <div class="shop-control-bar">
                     <ul class="shop-view-switcher nav nav-tabs" role="tablist">
                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" title="Grid View" href="#grid"><i class="fa fa-th"></i></a></li>
@@ -34,19 +34,17 @@
                             <option value="price" >Sort by price: low to high</option>
                         </select>
                     </form> -->
-                   <nav class="electro-advanced-pagination">
-                        <form method="post" class="form-adv-pagination"><input readonly id="goto-page" size="2" min="1" max="2" step="1" type="number" class="form-control" value="1" /></form> of 2<a class="next page-numbers" href="#">&rarr;</a>			<script>
-                        jQuery(document).ready(function($){
-                            $( '.form-adv-pagination' ).on( 'submit', function() {
-                                var link 		= '#',
-                                goto_page 	= $( '#goto-page' ).val(),
-                                new_link 	= link.replace( '%#%', goto_page );
-
-                                window.location.href = new_link;
-                                return false;
-                            });
-                        });
-                        </script>
+                    <nav class="woocommerce-pagination" style="float: right;">
+                      <ul class="page-numbers">
+                          <ng-container *ngIf="page?.current_page == 1;else go">
+                              <li><a class="page-numbers disabled"><i class="fa fa-arrow-left"></i></a></li>
+                          </ng-container>
+                          <ng-template #go>
+                            <li><a  class="page-numbers"><i class="fa fa-arrow-left"></i></a></li>
+                          </ng-template>
+                          <li><span class="page-numbers current">{{ page?.current_page }}</span></li>
+                          <li><a class="page-numbers"><i class="fa fa-arrow-right"></i></a></li>
+                      </ul>
                     </nav>
                 </div>
 
@@ -281,9 +279,14 @@
                     <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }} results</p>
                     <nav class="woocommerce-pagination">
                         <ul class="page-numbers">
-                            <li><span class="page-numbers current">1</span></li>
-                            <li><a href="#" class="page-numbers">2</a></li>
-                            <li><a href="#" class="next page-numbers">→</a></li>
+                            <ng-container *ngIf="page?.current_page == 1;else go">
+                                <li><a class="page-numbers disabled"><i class="fa fa-arrow-left"></i></a></li>
+                            </ng-container>
+                            <ng-template #go>
+                              <li><a  class="page-numbers"><i class="fa fa-arrow-left"></i></a></li>
+                            </ng-template>
+                            <li><span class="page-numbers current">{{ page?.current_page }}</span></li>
+                            <li><a class="page-numbers"><i class="fa fa-arrow-right"></i></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -337,7 +340,7 @@
                 <aside class="widget woocommerce widget_layered_nav">
                     <h3 class="widget-title">Brands &nbsp; <a class="brandreset" (click)="reset('brands')">Clear</a></h3>
                     <ul>
-                        <li *ngFor="let brand of brands | slice: 0 : limit;let i = index" style="margin: 10px">
+                        <li *ngFor="let brand of brands | slice: 0 : limit;let i = index" >
                           <label for="brand_{{ brand?.attributes.name }}" class="filter">
                             <input #brandscbox id="brand_{{ brand?.attributes.name }}" [value]="brand?.id" type="checkbox" name="brand_{{ i }}" (click)="getBrandId(brand?.id, $event.target.checked)">
                               &nbsp;{{ brand?.attributes.name }}
@@ -355,7 +358,7 @@
                 <aside class="widget woocommerce widget_layered_nav">
                     <h3 class="widget-title">Category &nbsp; <a class="brandreset" (click)="reset('categories')">Clear</a> </h3>
                     <ul>
-                        <li *ngFor="let category of categories | slice: 0 : limitCat;let i = index" style="margin: 10px;">
+                        <li *ngFor="let category of categories | slice: 0 : limitCat;let i = index" >
                             <label for="cat_{{ category?.attributes.name }}" class="filter">
                                 <input #categorycbox id="cat_{{ category?.attributes.name }}" [value]="category?.id" type="checkbox" name="category_{{ i }}" (click)="getCategoryId(category?.id, $event.target.checked)">
                                   &nbsp;{{ category?.attributes.name }}
@@ -373,7 +376,7 @@
                 <aside class="widget woocommerce widget_layered_nav">
                     <h3 class="widget-title">Type &nbsp; <a class="brandreset" (click)="reset('types')">Clear</a> </h3>
                     <ul>
-                        <li *ngFor="let type of types | slice : 0 : limitType;let i = index" style="margin: 10px;">
+                        <li *ngFor="let type of types | slice : 0 : limitType;let i = index" >
                             <label for="type_{{ type?.attributes.name }}" class="filter">
                                 <input #typecbox id="type_{{ type?.attributes.name }}" [value]="type?.id" type="checkbox" name="type_{{ i }}" (click)="getTypeId(type?.id, $event.target.checked)">
                                   &nbsp;{{ type?.attributes.name }}

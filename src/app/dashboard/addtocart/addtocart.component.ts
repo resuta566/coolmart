@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CartService } from '@app/_service/cart-service.service';
+import { CartService } from '@app/_service/cart/cart-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '@app/_service';
 

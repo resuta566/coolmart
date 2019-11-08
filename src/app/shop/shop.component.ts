@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { ProductService } from '@app/_service/product.service';
+import { ProductService } from '@app/_service/product/product.service';
 import { environment } from '@environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { BrandService } from '@app/_service/brand.service';
+import { BrandService } from '@app/_service/brand/brand.service';
 import { DOCUMENT } from '@angular/common';
-import { CategoriesService } from '@app/_service/categories.service';
-import { TypesService } from '@app/_service/types.service';
+import { CategoriesService } from '@app/_service/category/categories.service';
+import { TypesService } from '@app/_service/type/types.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+import { AlertService } from '@app/_service';
 
 @Component({
   selector: 'app-shop',
@@ -23,7 +24,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   btnclass="button add_to_cart_button addToCartBtn";
   label = "Add to cart";
-  products: Object;
+  products: Object[];
   page: any;
   imgThumb: string;
   img: string;
@@ -50,7 +51,8 @@ export class ShopComponent implements OnInit, OnDestroy {
     private categoriesService: CategoriesService,
     private typeService: TypesService,
     private titleService: Title,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertService: AlertService
     ) { }
 
   ngOnInit() {
@@ -83,7 +85,7 @@ export class ShopComponent implements OnInit, OnDestroy {
                 this.page = datas.meta;
                 },
                   error => {
-                  console.log(error);
+                  this.alertService.error(error, true);
               });
   }
 
@@ -93,43 +95,53 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   getBrands() {
+    //Get the Brands
     this.brandService.getBrands().pipe(takeUntil(this.destroy$)).subscribe((brands: any)=>{
       this.brands = brands.data;
     });
   }
 
   getCategories() {
+    //Get the Categories
     this.categoriesService.getCategories().pipe(takeUntil(this.destroy$)).subscribe((categories: any)=>{
       this.categories = categories.data;
     });
   }
 
   getTypes() {
+    //Get the Types
     this.typeService.getTypes().pipe(takeUntil(this.destroy$)).subscribe((types: any)=>{
       this.types = types.data;
     });
   }
 
   showMore(limit: number){
+    //Show more list of brands
     this.limit = limit;
   }
   showLess(){
+    //Show less list of brands
     this.limit = 4;
   }
   showMoreCat(limit: number){
+    //Show more list of categories
     this.limitCat = limit;
   }
   showLessCat(){
+    //Show less list of categories
     this.limitCat = 4;
   }
   showMoreType(limit: number){
+    //Show more list of types
     this.limitType = limit;
   }
   showLessType(){
+    //Show less list of types
     this.limitType = 4;
   }
 
   getBrandId(id: any, isChecked: boolean){
+    //Add the Brand ID to the array to send to the API else remove ID from the array
     if(isChecked){
       this.brandArray.push(id);
       this.filter();
@@ -140,6 +152,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     }
   }
   getCategoryId(id: number, isChecked: boolean){
+    //Add the Category ID to the array to send to the API else remove ID from the array
     if(isChecked){
       this.categoryArray.push(id);
       this.filter();
@@ -151,6 +164,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   getTypeId(id: number, isChecked: boolean){
+    //Add the Type ID to the array to send to the API else remove ID from the array
     if(isChecked){
       this.typeArray.push(id);
       this.filter();
@@ -163,6 +177,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   reset(option: string){
     if(option == 'all'){
+      //Reset All Filter
       if(this.keyword == null){
         window.location.reload();
       }else{
@@ -170,18 +185,21 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.getProducts(this.keyword);
       }
     }else if(option == 'brands'){
+      //Reset Brand Filter Only
       this.brandscbox.forEach((element) => {
         element.nativeElement.checked = false;
       });
       this.brandArray.splice(0,this.brandArray.length);
       this.filter();
     }else if(option == 'categories'){
+      //Reset Category Filter Only
       this.categorycbox.forEach((element) => {
         element.nativeElement.checked = false;
       });
       this.categoryArray.splice(0,this.categoryArray.length);
       this.filter();
     }else if(option == 'types'){
+      //Reset Type Filter Only
       this.typecbox.forEach((element) => {
         element.nativeElement.checked = false;
       });
@@ -191,10 +209,12 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   pricerange(){
+    //Submit the Price Range
     this.filter();
   }
 
   priceClear(){
+    //Clear the Price Range
     this.mini = 0;
     this.maxi = 0;
     this.pricerange();

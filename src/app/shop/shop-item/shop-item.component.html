@@ -12,7 +12,7 @@
               <span class="delimiter"><i class="fa fa-angle-right"></i>
               </span>{{ response?.attributes.name }}
           </nav><!-- /.woocommerce-breadcrumb -->
-
+          <alert></alert>
           <div id="primary" class="content-area">
               <main id="main" class="site-main">
 
@@ -130,7 +130,6 @@
                                                       <option value="black-with-red" >Black with Red</option>
                                                       <option value="white-with-gold">White with Gold</option>
                                                   </select>
-                                                  <a class="reset_variations" href="#">Clear</a>
                                               </td>
                                           </tr>
                                           <tr>
@@ -141,7 +140,6 @@
                                                       <option value="black-with-red" >Black with Red</option>
                                                       <option value="white-with-gold">White with Gold</option>
                                                   </select>
-                                                  <a class="reset_variations" href="#">Clear</a>
                                               </td>
                                           </tr>
                                       </tbody>
@@ -152,12 +150,12 @@
                                       <div class="woocommerce-variation single_variation"></div>
                                       <div class="woocommerce-variation-add-to-cart variations_button">
                                           <div class="quantity buttons_added">
-                                            <input [disabled]="btndisabled" type="button" class="minus" value="-" (click)="decreaseQty(response)">
+                                            <input [disabled]="btndisabledminus" type="button" class="minus" value="-" (click)="decreaseQty()">
                                             <label>Quantity:</label>
-                                            <input [disabled]="btndisabled" readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ response?.attributes.qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                            <input [disabled]="btndisabled" type="button" class="plus" value="+" (click)="addQty(response)">
+                                            <input [disabled]="btndisabled" readonly type="number" size="4" class="input-text qty text" title="Qty" [value]="itemQty" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="response?.attributes.qty" min="0" step="1">
+                                            <input [disabled]="btndisabled" type="button" class="plus" value="+" (click)="addQty()">
                                           </div>
-                                          <app-addtocart [option]="btndisabled" [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="1"></app-addtocart>
+                                          <app-addtocart [option]="btndisabledminus" [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="itemQty"></app-addtocart>
                                           <input type="hidden" name="add-to-cart" value="2452" />
                                           <input type="hidden" name="product_id" value="2452" />
                                           <input type="hidden" name="variation_id" class="variation_id" value="10" />
@@ -454,7 +452,7 @@
                                           <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
-                                                  <img attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="">
+                                                  <img attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
                                               </div>
                                           </a>
 
@@ -464,7 +462,7 @@
                                                       <ins><span class="amount">₱{{ product?.attributes.srp }}</span></ins>
                                                   </span>
                                               </span>
-                                              <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
+                                              <app-addtocart [btnclass]="relatedProductsbtnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
                                           </div><!-- /.price-add-to-cart -->
 
                                           <div class="hover-area">

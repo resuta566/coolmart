@@ -4,10 +4,10 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
-import { Cart } from '@app/_models/cart';
-import { AuthenticationService } from '.';
+import { Cart } from '@app/_models/cart/cart';
+import { AuthenticationService } from '..';
 import { Router } from '@angular/router';
-import { AlertService } from './alert.service';
+import { AlertService } from '../core/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +62,7 @@ export class CartService {
           catchError(this.handleError('getCart', []))
       );
     }
-    
+
   }
 
   updateItemCartQty(cartId: number, btn: string){

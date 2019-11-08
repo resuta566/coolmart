@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '@app/_service/product.service';
+import { ProductService } from '@app/_service/product/product.service';
 import { environment } from '@environments/environment';
+import { AlertService } from '@app/_service/core/alert.service';
 
 @Component({
   selector: 'home-products-card',
@@ -12,7 +13,10 @@ export class HomeProductsCardComponent implements OnInit {
   products: Object;
   apiUrl = `${environment.apiUrl}`;
   imgArray = [];
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private alertService: AlertService
+    ) { }
   ngOnInit() {
     this.getProducts();
   }
@@ -22,7 +26,7 @@ export class HomeProductsCardComponent implements OnInit {
       this.products = datas.data;
       },
         error => {
-        console.log(error);
+        this.alertService.error(error);
     });
   }
 }

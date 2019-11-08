@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '@app/_service/product.service';
+import { ProductService } from '@app/_service/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environments/environment';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { Title } from '@angular/platform-browser';
+import { AlertService } from '@app/_service';
 
 @Component({
   selector: 'app-shop-item',
@@ -21,44 +22,53 @@ export class ShopItemComponent implements OnInit {
   response: any;
   products: Object;
   btndisabled = false;
+  btndisabledminus = false;
   btnclass = 'single_add_to_cart_button button';
-  label = 'Add To cart';
+  relatedProductsbtnclass = 'button add_to_cart_button';
+  label = 'Add To Cart';
+  itemQty = 1;
   constructor(
     private route: ActivatedRoute,
     private service: ProductService,
-    private titleService: Title
+    private titleService: Title,
+    private alertService: AlertService
     ) { }
 
   ngOnInit() {
-
+    //Get the item slug
     this.route.paramMap.subscribe(rt => {
       this.slug = rt.get('slug');
     });
     // console.log(this.route);
     this.getProduct(this.slug);
     this.getRelatedProducts();
+    this.decreaseQty();
+  }
 
+  ngAfterViewInit(): void {
+    //After Load Initialize itemQty = 2 and decreaseQty funtion then the itemQty is decrease by 1
+    this.itemQty = 2;
+    this.decreaseQty();
   }
 
   getRelatedProducts() {
     this.service.getProducts().subscribe((datas: any) => {
       this.products = datas.data;
-      console.log(this.products);
       },
         error => {
-        console.log(error);
+          this.alertService.error(error, true);
     });
   }
 
   getProduct(slug){
+    //Get Single Product from API
     this.service.getProduct(slug).subscribe(r =>{
-
       this.response = r;
       this.imgArray = this.response.attributes.images;
       this.titleService.setTitle(  `${this.response.attributes.name} : Buy Aircons online with cheap price | Cool Mart` );
-      // console.log(this.response.relationships);
-      if(+this.response.attributes.qty === 0) return this.btndisabled = true;
+      if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
       if(this.imgArray !== null){
+        //Check if Images are there
         this.gallery();
       }
     });
@@ -67,6 +77,7 @@ export class ShopItemComponent implements OnInit {
 
 
   gallery(){
+    //NGX-Gallery
       this.galleryOptions = [
         {
             width: '470px',
@@ -94,7 +105,7 @@ export class ShopItemComponent implements OnInit {
         },
         // max-width 400
         {
-            breakpoint: 300,
+            breakpoint: 400,
             preview: false ,
             width: "100%",
             height: "200px",
@@ -115,23 +126,28 @@ export class ShopItemComponent implements OnInit {
 
 
 
-  addQty(item) {
-  //   const i = this.products.indexOf(item);
-  //   if(this.products[i].stockQty !== this.products[i].qty){
-  //   this.products[i].qty += 1;
-  //   this.subTotal();
-  //   }else {
-  //     alert('Stock Limit');
-  //   }
+  addQty() {
+    if(this.itemQty == this.response.attributes.qty){
+      this.btndisabled = true;
+    }else{
+    this.itemQty += 1;
+    this.btndisabled = false;
+    this.btndisabledminus = false;
+    }
   }
 
-  decreaseQty(item) {
-  //   const i = this.products.indexOf(item);
-  //   if(this.products[i].qty !== 1){
-  //   this.products[i].qty -= 1;
-  //   this.subTotal();
-  //   }else {
-  //     alert('Minimum.');
-  //   }
+  decreaseQty() {
+    if(this.itemQty == 0){ //Disabled the minus btn and Enable the plus btn else minus 1 & enable minus btn & plus btn
+      this.btndisabled = false;
+      this.btndisabledminus = true;
+    }else{
+      this.itemQty -= 1;
+      this.btndisabled = false;
+      this.btndisabledminus = false;
+      if(this.itemQty == 0){//Disabled the minus btn and Enable the plus btn
+        this.btndisabled = false;
+        this.btndisabledminus = true;
+      }
+    }
   }
 }

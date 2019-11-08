@@ -4,7 +4,7 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
-import { Products } from '@app/_models/products';
+import { Products } from '@app/_models/products/products';
 
 @Injectable({
   providedIn: 'root'
@@ -27,17 +27,16 @@ export class ProductService {
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
-
     }
   }
 
   getProducts(keyword?, brand?, category?, type?, min?, max?) {
-    let actualKeyword = keyword ? keyword : '';
-    let actualbrand = brand ? brand : this.null;
-    let actualCategory = category ? category : this.null;
-    let actualType = type ? type : this.null;
-    let actualMin = min ? min : '';
-    let actualMax = max ? max : '';
+    let actualKeyword = keyword ? keyword : ''; // The Search Keyword
+    let actualbrand = brand ? brand : this.null; // Brand Array
+    let actualCategory = category ? category : this.null;// Category Array
+    let actualType = type ? type : this.null;// Type Array
+    let actualMin = min ? min : ''; //Minimum Value
+    let actualMax = max ? max : ''; //Maximum Value
     //The HttpParams
     let prodparams = new HttpParams().set('name', actualKeyword).set('min',actualMin).set('max', actualMax);
     if(actualbrand){

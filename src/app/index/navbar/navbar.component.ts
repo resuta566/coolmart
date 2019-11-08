@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/_service';
 import { User } from '@app/_models';
-import { CartService } from '@app/_service/cart-service.service';
+import { CartService } from '@app/_service/cart/cart-service.service';
 import { first } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 
