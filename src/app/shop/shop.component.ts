@@ -26,24 +26,24 @@ export class ShopComponent implements OnInit, OnDestroy {
   label = "Add to cart";
   products: Object[];
   page: any;
-  imgThumb: string;
-  img: string;
-  apiImgUrl = `${environment.apiUrl}`;
   brands: any;
   categories: any;
   types: any;
-  limit = 4;
-  limitCat = 4;
-  limitType = 4;
+  limit = 4;//Brand Filter limit
+  limitCat = 4;//Category Filter limit
+  limitType = 4;//Type Filter limit
   keyword: string;
-  optKeyword = "";
-  min = 0;
-  max = 0;
   mini: number;
   maxi: number;
-  brandArray: Array<any> = [];
-  categoryArray: Array<any> = [];
-  typeArray: Array<any> = [];
+  brandArray: Array<any> = [];//Brand Filter Array
+  categoryArray: Array<any> = [];//Category Filter Array
+  typeArray: Array<any> = []; //Type Filter Array
+  sortby: string;// The value to throw to the service
+  sortOptions =[
+    {id: 1,name: 'Price low to high', value: 'asc'},
+    {id: 2, name: 'Price high to low', value: 'desc'}
+  ]; //Dropdown Values
+  sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private productService: ProductService,
@@ -78,9 +78,9 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
 
-  getProducts(keyword?, brand?, category?, type?, min?, max?) {
+  getProducts(keyword?, brand?, category?, type?, min?, max?, sortBy?) {
     //Calling the getProducts service from the api
-    this.productService.getProducts(keyword, brand, category, type, min, max)
+    this.productService.getProducts(keyword, brand, category, type, min, max, sortBy)
           .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
                 this.products = datas.data;
                 this.page = datas.meta;
@@ -92,7 +92,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   filter(){
     //this will filter what the user check
-    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi);
+    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi, this.sortby);
   }
 
   getBrands() {
@@ -174,6 +174,12 @@ export class ShopComponent implements OnInit, OnDestroy {
       this.typeArray.splice(index, 1);
       this.filter();
     }
+  }
+
+  sort(){
+    //sortSelect throws value either asc or desc
+    this.sortby = this.sortSelect;
+    this.filter();
   }
 
   reset(option: string){

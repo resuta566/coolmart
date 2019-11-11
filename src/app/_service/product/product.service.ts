@@ -30,15 +30,21 @@ export class ProductService {
     }
   }
 
-  getProducts(keyword?, brand?, category?, type?, min?, max?) {
+  getProducts(keyword?, brand?, category?, type?, min?, max?, sort?) {
     let actualKeyword = keyword ? keyword : ''; // The Search Keyword
     let actualbrand = brand ? brand : this.null; // Brand Array
     let actualCategory = category ? category : this.null;// Category Array
     let actualType = type ? type : this.null;// Type Array
     let actualMin = min ? min : ''; //Minimum Value
     let actualMax = max ? max : ''; //Maximum Value
+    let actualSort = sort ? sort : 'asc'; //Sort by
     //The HttpParams
-    let prodparams = new HttpParams().set('name', actualKeyword).set('min',actualMin).set('max', actualMax);
+    let prodparams = new HttpParams()
+    .set('name', actualKeyword)
+    .set('min',actualMin)
+    .set('max', actualMax)
+    .set('sort', actualSort);
+
     if(actualbrand){
       if(actualbrand.length !== 0){
         //If actualBrandArray is not 0 loop else delete
@@ -87,13 +93,14 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
+
+    console.log(prodparams.toString());
     return this.http.get<Products[]>(`${environment.apiUrl}/api/items`,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }
-
   getProduct(slug: string): Observable<Products> {
     //Get Single Product
     return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(

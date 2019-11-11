@@ -18,8 +18,7 @@ export class FaqComponent implements OnInit {
   ngOnInit() {
     this.faqService.getFaqs().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.faqs = data.data;
-      console.log(this.faqs);
-    })
+    });
   }
 
   ngOnDestroy(): void {

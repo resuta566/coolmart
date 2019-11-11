@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { OwlModule } from 'ngx-owl-carousel';
+
 import { NgxGalleryModule } from 'ngx-gallery';
 import { HomeComponent } from '../index/home/home.component';
 import { HomecarouselComponent } from '../index/home/home-carousel/homecarousel.component';
@@ -35,7 +35,6 @@ import { AlertModule } from './alert.module';
   imports:[
     BrowserModule,
     CommonModule,
-    OwlModule,
     NgxGalleryModule,
     AlertModule
   ],

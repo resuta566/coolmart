@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AlertService } from '@app/_service';
 import { CartService } from '@app/_service/cart/cart-service.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,16 +9,10 @@ import { CartService } from '@app/_service/cart/cart-service.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  r: any;
 
-  constructor(
-    private alertService: AlertService,
-    private cd: ChangeDetectorRef,
-    private cartService: CartService
-    ) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 
 }

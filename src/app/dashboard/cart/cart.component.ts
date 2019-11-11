@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { first, takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-cart',

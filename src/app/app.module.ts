@@ -1,10 +1,13 @@
 import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { PagesModule } from './_modules/pages.module';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PagesModule } from './_modules/pages.module';
 import { NavbarComponent } from './index/navbar/navbar.component';
 import { FooterComponent } from './index/footer/footer.component';
 import { CartComponent } from './dashboard/cart/cart.component';
@@ -16,13 +19,10 @@ import { ShopComponent } from './shop/shop.component';
 import { ShopItemComponent } from './shop/shop-item/shop-item.component';
 import { HomeModule } from './_modules/home.module';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
-import { OwlModule } from 'ngx-owl-carousel';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { AlertModule } from '@app/_modules/alert.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -55,7 +55,6 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     PagesModule,
     HomeModule,
     HttpClientModule,
-    OwlModule,
     NgxGalleryModule,
     AlertModule,
     BrowserAnimationsModule
