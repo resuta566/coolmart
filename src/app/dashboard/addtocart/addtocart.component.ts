@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-addtocart',
-  templateUrl: './addtocart.component.html',
+  template: `<button [disabled]="option" (click)="addtocart()" class="{{ btnclass }}">{{ label }}</button>`,
   styleUrls: ['./addtocart.component.scss']
 })
 export class AddtocartComponent implements OnInit, OnDestroy {

@@ -36,14 +36,10 @@
                     </div>
                     <nav class="woocommerce-pagination" style="float: right;">
                       <ul class="page-numbers">
-                          <ng-container *ngIf="page?.current_page == 1;else go">
-                              <li><a class="page-numbers disabled"><i class="fa fa-arrow-left"></i></a></li>
-                          </ng-container>
-                          <ng-template #go>
-                            <li><a  class="page-numbers"><i class="fa fa-arrow-left"></i></a></li>
-                          </ng-template>
+                          <li [ngClass]="{hidden: link?.prev !== null}"><a class="page-numbers" [ngClass]="{disabled: link?.prev == null}"><i class="fa fa-arrow-left"></i></a></li>
+                          <li [ngClass]="{hidden: link?.prev == null}"><a class="page-numbers"  (click)="changePage(link?.prev)"><i class="fa fa-arrow-left"></i></a></li>
                           <li><span class="page-numbers current">{{ page?.current_page }}</span></li>
-                          <li><a class="page-numbers"><i class="fa fa-arrow-right"></i></a></li>
+                          <li><a class="page-numbers" (click)="changePage(link?.next)"><i class="fa fa-arrow-right"></i></a></li>
                       </ul>
                     </nav>
                 </div>
@@ -93,11 +89,15 @@
                                             <div class="price-add-to-cart">
                                                 <span class="price">
                                                     <span class="electro-price">
-                                                      <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
-                                                      <ng-container *ngIf="product?.attributes.discountType">
-                                                        <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                                      <ng-container *ngIf="product?.attributes.discountType; else nodiscount">
+                                                        <del><span class="amount slashed">₱{{ product?.attributes.srp }}</span></del>
+                                                        <ins><span class="amount notslashed">₱{{ product?.attributes.discountedSrp }} </span></ins>
                                                         <span class="discount"> {{ product?.attributes.discountType }}</span>
                                                       </ng-container>
+                                                      <ng-template #nodiscount>
+                                                        <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                      </ng-template>
+
                                                     </span>
                                                 </span>
                                                 <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
@@ -294,15 +294,11 @@
                     <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }} results</p>
                     <nav class="woocommerce-pagination">
                         <ul class="page-numbers">
-                            <ng-container *ngIf="page?.current_page == 1;else go">
-                                <li><a class="page-numbers disabled"><i class="fa fa-arrow-left"></i></a></li>
-                            </ng-container>
-                            <ng-template #go>
-                              <li><a  class="page-numbers"><i class="fa fa-arrow-left"></i></a></li>
-                            </ng-template>
+                            <li [ngClass]="{hidden: link?.prev !== null}"><a class="page-numbers" [ngClass]="{disabled: link?.prev == null}"><i class="fa fa-arrow-left"></i></a></li>
+                            <li [ngClass]="{hidden: link?.prev == null}"><a class="page-numbers"  (click)="changePage(link?.prev)"><i class="fa fa-arrow-left"></i></a></li>
                             <li><span class="page-numbers current">{{ page?.current_page }}</span></li>
-                            <li><a class="page-numbers"><i class="fa fa-arrow-right"></i></a></li>
-                        </ul>
+                            <li><a class="page-numbers" (click)="changePage(link?.next)"><i class="fa fa-arrow-right"></i></a></li>
+                          </ul>
                     </nav>
                 </div>
 

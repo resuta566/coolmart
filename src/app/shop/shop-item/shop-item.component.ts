@@ -65,7 +65,7 @@ export class ShopItemComponent implements OnInit {
     this.service.getProduct(slug).subscribe(r =>{
       this.response = r;
       this.imgArray = this.response.attributes.images;
-      this.titleService.setTitle(  `${this.response.attributes.name} : Buy Aircons online with cheap price | Cool Mart` );
+      this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );
       if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
       if(this.imgArray !== null){
         //Check if Images are there

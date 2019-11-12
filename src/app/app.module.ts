@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
 import { AppComponent } from './app.component';
 import { PagesModule } from './_modules/pages.module';
 import { NavbarComponent } from './index/navbar/navbar.component';
@@ -23,6 +26,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { AlertModule } from '@app/_modules/alert.module';
+import { ConfirmationDialogComponent } from './_components/confirmation-dialog/confirmation-dialog.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -44,7 +48,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ShopComponent,
     ShopItemComponent,
     StoreLocationComponent,
-    DashboardComponent
+    DashboardComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -57,7 +62,12 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     HttpClientModule,
     NgxGalleryModule,
     AlertModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

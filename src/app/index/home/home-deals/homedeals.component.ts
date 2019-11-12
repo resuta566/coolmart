@@ -12,5 +12,5 @@ export class HomedealsComponent implements OnInit {
   ngOnInit() {
   }
 
-  img = "http://192.168.254.101/newgencool-backend/public/uploads/brand/logo/mitsubishi_1571814709.jpg";
+  img = "http://192.168.254.101/newgencool-backend/public/uploads/brand/logo/haier_1573454238.jpg";
 }

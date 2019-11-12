@@ -24,8 +24,10 @@ export class ShopComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   btnclass="button add_to_cart_button addToCartBtn";
   label = "Add to cart";
+  apiImgUrl = `${environment.apiUrl}`;
   products: Object[];
   page: any;
+  link: string;
   brands: any;
   categories: any;
   types: any;
@@ -44,6 +46,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     {id: 2, name: 'Price high to low', value: 'desc'}
   ]; //Dropdown Values
   sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
+  currentPage: string;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private productService: ProductService,
@@ -78,12 +81,13 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
 
-  getProducts(keyword?, brand?, category?, type?, min?, max?, sortBy?) {
+  getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>, type?: Array<any>, min?:number, max?:number, sortBy?: string, page?: string) {
     //Calling the getProducts service from the api
-    this.productService.getProducts(keyword, brand, category, type, min, max, sortBy)
+    this.productService.getProducts(keyword, brand, category, type, min, max, sortBy, page)
           .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
                 this.products = datas.data;
                 this.page = datas.meta;
+                this.link = datas.links;
                 },
                   error => {
                   this.alertService.error(error, true);
@@ -91,8 +95,8 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   filter(){
-    //this will filter what the user check
-    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi, this.sortby);
+    //this will filter what are the options
+    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi, this.sortby, this.currentPage);
   }
 
   getBrands() {
@@ -145,10 +149,12 @@ export class ShopComponent implements OnInit, OnDestroy {
     //Add the Brand ID to the array to send to the API else remove ID from the array
     if(isChecked){
       this.brandArray.push(id);
+      this.currentPage = null;
       this.filter();
     }else {
       let index = this.brandArray.indexOf(id);
       this.brandArray.splice(index,1);
+      this.currentPage = null;
       this.filter();
     }
   }
@@ -156,10 +162,12 @@ export class ShopComponent implements OnInit, OnDestroy {
     //Add the Category ID to the array to send to the API else remove ID from the array
     if(isChecked){
       this.categoryArray.push(id);
+      this.currentPage = null;
       this.filter();
     }else{
       let index = this.categoryArray.indexOf(id);
       this.categoryArray.splice(index,1);
+      this.currentPage = null;
       this.filter();
     }
   }
@@ -168,10 +176,12 @@ export class ShopComponent implements OnInit, OnDestroy {
     //Add the Type ID to the array to send to the API else remove ID from the array
     if(isChecked){
       this.typeArray.push(id);
+      this.currentPage = null;
       this.filter();
     }else{
       let index = this.typeArray.indexOf(id);
       this.typeArray.splice(index, 1);
+      this.currentPage = null;
       this.filter();
     }
   }
@@ -179,6 +189,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   sort(){
     //sortSelect throws value either asc or desc
     this.sortby = this.sortSelect;
+    this.currentPage = null;
     this.filter();
   }
 
@@ -197,6 +208,7 @@ export class ShopComponent implements OnInit, OnDestroy {
         element.nativeElement.checked = false;
       });
       this.brandArray.splice(0,this.brandArray.length);
+      this.currentPage = null;
       this.filter();
     }else if(option == 'categories'){
       //Reset Category Filter Only
@@ -204,6 +216,7 @@ export class ShopComponent implements OnInit, OnDestroy {
         element.nativeElement.checked = false;
       });
       this.categoryArray.splice(0,this.categoryArray.length);
+      this.currentPage = null;
       this.filter();
     }else if(option == 'types'){
       //Reset Type Filter Only
@@ -211,19 +224,27 @@ export class ShopComponent implements OnInit, OnDestroy {
         element.nativeElement.checked = false;
       });
       this.typeArray.splice(0,this.typeArray.length);
+      this.currentPage = null;
       this.filter();
     }
   }
 
   pricerange(){
     //Submit the Price Range
+    this.currentPage = null;
     this.filter();
   }
 
   priceClear(){
     //Clear the Price Range
+    this.currentPage = null;
     this.mini = 0;
     this.maxi = 0;
     this.pricerange();
+  }
+
+  changePage(pageUrl: string){
+    this.currentPage = pageUrl;
+    this.filter();
   }
 }

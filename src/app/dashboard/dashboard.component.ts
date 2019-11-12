@@ -9,7 +9,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  r: any;
   constructor() { }
 
   ngOnInit() {}
