@@ -27,55 +27,54 @@
                                 <tbody>
 
                                     <tr class="cart_item" *ngFor="let cart of carts">
-
                                         <td class="product-remove">
-                                            <a class="remove" (click)="removeItem(cart?.id)">×</a>
-                                        </td>
+                                          <a class="remove" (click)="removeItem(cart?.id)">×</a>
+                                      </td>
 
-                                        <td class="product-thumbnail">
-                                            <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">
-                                              <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="product-thumbnail">
-                                            </a>
-                                        </td>
+                                      <td class="product-thumbnail">
+                                          <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">
+                                            <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="product-thumbnail">
+                                          </a>
+                                      </td>
 
-                                        <td data-title="Product" class="product-name">
-                                            <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
-                                        </td>
+                                      <td data-title="Product" class="product-name">
+                                          <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
+                                      </td>
 
-                                        <td data-title="Price" class="product-price">
-                                            <span class="amount">₱
-                                              {{ cart?.attributes.item_discountedSrp }}
-                                            </span>
-                                        </td>
+                                      <td data-title="Price" class="product-price">
+                                          <span class="amount">₱
+                                            {{ cart?.attributes.item_discountedSrp }}
+                                          </span>
+                                      </td>
 
-                                        <td data-title="Quantity" class="product-quantity">
-                                            <div class="quantity buttons_added">
-                                                <label>Quantity:</label>
-                                                <ng-container *ngIf="cart?.attributes.cart_qty > 1; else minus ">
-                                                  <input type="button" class="minus" value="-" (click)="decreaseQty(cart?.id)">
-                                                </ng-container>
-                                                <ng-template #minus>
-                                                  <input disabled type="button" class="minus" value="-" (click)="decreaseQty(cart?.id)">
-                                                </ng-template>
-                                                <ng-container *ngIf="cart?.attributes.cart_qty > cart.attributes.validQty;else normal">
-                                                  <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ cart?.attributes.validQty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                                </ng-container>
-                                                <ng-template #normal>
-                                                    <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ cart?.attributes.cart_qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
-                                                </ng-template>
-                                                <ng-container *ngIf="cart?.attributes.cart_qty >= cart?.attributes.item_qty;else add">
-                                                  <input data-toggle="tooltip" data-placement="top" title="Max Quantity" disabled type="button" class="plus" value="+" (click)="addQty(cart?.id)">
-                                                </ng-container>
-                                                <ng-template #add>
-                                                  <input type="button" class="plus" value="+" (click)="addQty(cart?.id)">
-                                                </ng-template>
+                                      <td data-title="Quantity" class="product-quantity">
+                                          <div class="quantity buttons_added">
+                                              <label>Quantity:</label>
+                                              <ng-container *ngIf="cart?.attributes.cart_qty > 1; else minus ">
+                                                <input type="button" class="minus" value="-" (click)="decreaseQty(cart?.id)">
+                                              </ng-container>
+                                              <ng-template #minus>
+                                                <input disabled type="button" class="minus" value="-" (click)="decreaseQty(cart?.id)">
+                                              </ng-template>
+                                              <ng-container *ngIf="cart?.attributes.cart_qty > cart.attributes.validQty;else normal">
+                                                <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ cart?.attributes.validQty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
+                                              </ng-container>
+                                              <ng-template #normal>
+                                                  <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ cart?.attributes.cart_qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
+                                              </ng-template>
+                                              <ng-container *ngIf="cart?.attributes.cart_qty >= cart?.attributes.item_qty;else add">
+                                                <input data-toggle="tooltip" data-placement="top" title="Max Quantity" disabled type="button" class="plus" value="+" (click)="addQty(cart?.id)">
+                                              </ng-container>
+                                              <ng-template #add>
+                                                <input type="button" class="plus" value="+" (click)="addQty(cart?.id)">
+                                              </ng-template>
 
-                                            </div>
-                                        </td>
+                                          </div>
+                                      </td>
 
-                                        <td data-title="Total" class="product-subtotal">
-                                            <span class="amount">{{ cart?.attributes.subtotal_per_item | currency:'₱'}}</span>
-                                        </td>
+                                      <td data-title="Total" class="product-subtotal">
+                                          <span class="amount">{{ cart?.attributes.subtotal_per_item | currency:'₱'}}</span>
+                                      </td>
                                     </tr>
                                     <tr>
                                         <td class="actions" colspan="6">

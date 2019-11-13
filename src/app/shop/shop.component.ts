@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { AlertService } from '@app/_service';
+import { Filter } from '@app/_models/filter/filter';
 
 @Component({
   selector: 'app-shop',
@@ -47,6 +48,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   ]; //Dropdown Values
   sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
   currentPage: string;
+  prodFilter = new Filter;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private productService: ProductService,
@@ -83,7 +85,19 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>, type?: Array<any>, min?:number, max?:number, sortBy?: string, page?: string) {
     //Calling the getProducts service from the api
-    this.productService.getProducts(keyword, brand, category, type, min, max, sortBy, page)
+    let filterArray = {
+      name: keyword,
+      brandArray: brand,
+      categoryArray: category,
+      typeArray: type,
+      min: min,
+      max: max,
+      sort: sortBy,
+      page:page
+    };
+
+    this.prodFilter = filterArray;
+    this.productService.getProducts(this.prodFilter)
           .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
                 this.products = datas.data;
                 this.page = datas.meta;
@@ -91,7 +105,8 @@ export class ShopComponent implements OnInit, OnDestroy {
                 },
                   error => {
                   this.alertService.error(error, true);
-              });
+              })
+              ;
   }
 
   filter(){

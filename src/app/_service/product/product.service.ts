@@ -5,12 +5,14 @@ import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
 import { Products } from '@app/_models/products/products';
+import { Filter } from '@app/_models/filter/filter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   null = null;
+  filter = new Filter;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
   };
@@ -30,22 +32,21 @@ export class ProductService {
     }
   }
 
-  getProducts(keyword?, brand?, category?, type?, min?, max?, sort?, page?) {
-    let actualKeyword = keyword ? keyword : ''; // The Search Keyword
-    let actualbrand = brand ? brand : this.null; // Brand Array
-    let actualCategory = category ? category : this.null;// Category Array
-    let actualType = type ? type : this.null;// Type Array
-    let actualMin = min ? min : ''; //Minimum Value
-    let actualMax = max ? max : ''; //Maximum Value
-    let actualSort = sort ? sort : 'asc'; //Sort by
-    let actualPage = page? page: `${environment.apiUrl}/api/items`;
-    //The HttpParams
+  getProducts(filterArray: Filter) {
+    let actualKeyword = filterArray.name || ''; // The Search Keyword
+    let actualbrand = filterArray.brandArray || this.null; // Brand Array
+    let actualCategory = filterArray.categoryArray || this.null;// Category Array
+    let actualType = filterArray.typeArray || this.null;// Type Array
+    let actualMin = filterArray.min || ''; //Minimum Value
+    let actualMax = filterArray.max || ''; //Maximum Value
+    let actualSort = filterArray.sort || 'asc'; //Sort by
+    let actualPage = filterArray.page || `${environment.apiUrl}/api/items`;
+    // //The HttpParams
     let prodparams = new HttpParams()
-    .set('name', actualKeyword)
-    .set('min',actualMin)
-    .set('max', actualMax)
-    .set('sort', actualSort);
-
+      .set('name', actualKeyword)
+      .set('min',actualMin)
+      .set('max', actualMax)
+      .set('sort', actualSort);
     if(actualbrand){
       if(actualbrand.length !== 0){
         //If actualBrandArray is not 0 loop else delete
@@ -94,7 +95,7 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
-
+    console.log(prodparams.toString());
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),
