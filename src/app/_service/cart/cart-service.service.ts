@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
@@ -7,7 +7,9 @@ import { environment } from '@environments/environment';
 import { Cart } from '@app/_models/cart/cart';
 import { AuthenticationService } from '..';
 import { Router } from '@angular/router';
-import { AlertService } from '../core/alert.service';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +25,9 @@ export class CartService {
   };
 
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private router: Router,
     private http: HttpClient,
-    private alertService: AlertService,
     private authenticationService: AuthenticationService
     ) { }
 
@@ -46,7 +48,8 @@ export class CartService {
   addToDataBaseCart(cart: Cart){
     return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
       map((data: any) => {
-        alert(data.success);
+        // alert(data.success);
+        this.notyf.success(data.success);
       }),
       catchError(this.handleError('getCart', []))
     ).subscribe(serverdata=>{});
@@ -83,9 +86,9 @@ export class CartService {
   removeItemCartQty(id: number){
     return this.http.delete(`${environment.apiUrl}/api/cart/${id}`).pipe(
       map(data=>{
-        this.alertService.error('Item Deleted!', true);
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/cart']);
+          this.notyf.error('Item(s) remove from cart!');
         });
       }),
       tap(_ => {

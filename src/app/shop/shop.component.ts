@@ -27,7 +27,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   apiImgUrl = `${environment.apiUrl}`;
   products: Object[];
   page: any;
-  link: string;
+  link: any;
   brands: any;
   categories: any;
   types: any;

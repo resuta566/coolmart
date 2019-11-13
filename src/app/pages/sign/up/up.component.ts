@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, takeUntil } from 'rxjs/operators';
@@ -6,6 +6,9 @@ import { MustMatch } from '@app/_helpers';
 
 import { AuthenticationService, AlertService } from '@app/_service';
 import { Subject } from 'rxjs';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'sign-up',
@@ -20,6 +23,7 @@ export class UpComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
@@ -72,16 +76,17 @@ export class UpComponent implements OnInit, OnDestroy {
                 .pipe(first())
                 .subscribe(data => {
                       this.router.navigate(['/dashboard']);
+                      this.notyf.success('Successfully Registered!');
                     },
                     error => {
                         this.alertService.error(error);
-                        this.loading = false;
+                        this.notyf.error(error);
                     });;
             },
             error => {
                 this.alertService.error(error);
+                this.notyf.error(error);
                 // console.log(error);
-                this.loading = false;
             });
     }
 

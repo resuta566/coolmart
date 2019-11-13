@@ -9,24 +9,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AppComponent } from './app.component';
+import { NgxGalleryModule } from 'ngx-gallery';
+
+import { ConfirmationDialogComponent } from './_components/confirmation-dialog/confirmation-dialog.component';
+import { NOTYF, notyfFactory } from '@app/_helpers/notyf.token';
+import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
+
 import { PagesModule } from './_modules/pages.module';
+import { HomeModule } from './_modules/home.module';
+import { AlertModule } from '@app/_modules/alert.module';
+
+import { AppComponent } from './app.component';
 import { NavbarComponent } from './index/navbar/navbar.component';
 import { FooterComponent } from './index/footer/footer.component';
 import { CartComponent } from './dashboard/cart/cart.component';
-import { CompareComponent } from './pages/compare/compare.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { TrackComponent } from './dashboard/track/track.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShopItemComponent } from './shop/shop-item/shop-item.component';
-import { HomeModule } from './_modules/home.module';
+import { CompareComponent } from './pages/compare/compare.component';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
-import { NgxGalleryModule } from 'ngx-gallery';
-import { AlertModule } from '@app/_modules/alert.module';
-import { ConfirmationDialogComponent } from './_components/confirmation-dialog/confirmation-dialog.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -72,7 +76,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
+    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+    { provide: NOTYF, useFactory: notyfFactory }
   ],
   bootstrap: [AppComponent]
 })
