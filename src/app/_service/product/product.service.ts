@@ -12,7 +12,6 @@ import { Filter } from '@app/_models/filter/filter';
 })
 export class ProductService {
   null = null;
-  filter = new Filter;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
   };
@@ -32,7 +31,7 @@ export class ProductService {
     }
   }
 
-  getProducts(filterArray: Filter) {
+  getProducts(filterArray?: Filter) {
     let actualKeyword = filterArray.name || ''; // The Search Keyword
     let actualbrand = filterArray.brandArray || this.null; // Brand Array
     let actualCategory = filterArray.categoryArray || this.null;// Category Array
@@ -95,7 +94,6 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
-    console.log(prodparams.toString());
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),

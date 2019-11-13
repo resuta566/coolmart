@@ -12,6 +12,8 @@ import { Title } from '@angular/platform-browser';
 import { AlertService } from '@app/_service';
 import { Filter } from '@app/_models/filter/filter';
 
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -48,16 +50,15 @@ export class ShopComponent implements OnInit, OnDestroy {
   ]; //Dropdown Values
   sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
   currentPage: string;
-  prodFilter = new Filter;
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     @Inject(DOCUMENT) private document: Document,
     private productService: ProductService,
     private brandService: BrandService,
     private categoriesService: CategoriesService,
     private typeService: TypesService,
     private titleService: Title,
-    private route: ActivatedRoute,
-    private alertService: AlertService
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
@@ -85,7 +86,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>, type?: Array<any>, min?:number, max?:number, sortBy?: string, page?: string) {
     //Calling the getProducts service from the api
-    let filterArray = {
+    let filterArray: Filter = {
       name: keyword,
       brandArray: brand,
       categoryArray: category,
@@ -94,17 +95,16 @@ export class ShopComponent implements OnInit, OnDestroy {
       max: max,
       sort: sortBy,
       page:page
-    };
+    }; //Filter Options
 
-    this.prodFilter = filterArray;
-    this.productService.getProducts(this.prodFilter)
+    this.productService.getProducts(filterArray)
           .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
                 this.products = datas.data;
                 this.page = datas.meta;
                 this.link = datas.links;
                 },
                   error => {
-                  this.alertService.error(error, true);
+                    this.notyf.success(error);
               })
               ;
   }
