@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, takeUntil } from 'rxjs/operators';
 import { MustMatch } from '@app/_helpers';
@@ -20,11 +20,13 @@ export class UpComponent implements OnInit, OnDestroy {
   loading = false;
   submitted = false;
   messages: string;
+  returnUrl: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService
@@ -44,6 +46,8 @@ export class UpComponent implements OnInit, OnDestroy {
       }, {
         validator: MustMatch('password', 'cpassword')
       });
+
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
   }
 
   ngOnDestroy(): void {
@@ -75,8 +79,10 @@ export class UpComponent implements OnInit, OnDestroy {
                 this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
                 .pipe(first())
                 .subscribe(data => {
-                      this.router.navigate(['/dashboard']);
-                      this.notyf.success('Successfully Registered!');
+                      if(data){
+                        this.router.navigate([this.returnUrl]);
+                        this.notyf.success('Successfully Registered!');
+                      }
                     },
                     error => {
                         this.alertService.error(error);

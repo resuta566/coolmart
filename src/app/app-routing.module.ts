@@ -31,6 +31,7 @@ const routes: Routes = [
   { path: 'dashboard' , component: DashboardComponent, canActivate: [AuthGuard], data: {title: 'Dashboard' + htmlTitle} },
   { path: 'pages',
       children: [
+        { path: '',pathMatch: 'full', redirectTo: 'not-found' },
         { path: 'terms-and-conditions' , component: TermsConditionsComponent, data: {title: 'Terms and Conditions' + htmlTitle} },
         { path: 'contact-us' , component: ContactUsComponent, data: {title: 'Contact Us' + htmlTitle} },
         { path: 'about-us' , component: AboutUsComponent, data: {title: 'About Us' + htmlTitle} },

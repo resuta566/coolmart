@@ -1,8 +1,11 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '@app/_service';
-import { takeUntil } from 'rxjs/operators';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-addtocart',
@@ -19,8 +22,10 @@ export class AddtocartComponent implements OnInit, OnDestroy {
   cartForm: FormGroup;
 
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
     private cartService: CartService,
+    private router: Router,
     private authenticationService: AuthenticationService
   ) { }
 
@@ -35,13 +40,18 @@ export class AddtocartComponent implements OnInit, OnDestroy {
 
   addtocart(){
     let currentUser = this.authenticationService.currentUserValue;
-    this.cartForm = this.formBuilder.group({
-      //this.itemId is a string so + would make it an integer
-      itemId: [+this.itemId, Validators.required],
-      authId: [currentUser.auth_id, Validators.required],
-      qty: [this.qty, Validators.required]
-    });
-    this.cartService.addToDataBaseCart(this.cartForm.value);
+    if(currentUser){
+      this.cartForm = this.formBuilder.group({
+        //this.itemId is a string so + would make it an integer
+        itemId: [+this.itemId, Validators.required],
+        authId: [currentUser.auth_id, Validators.required],
+        qty: [this.qty, Validators.required]
+      });
+      this.cartService.addToDataBaseCart(this.cartForm.value);
+    }else{
+      this.router.navigate(['/sign_in']);
+      this.notyf.error('Please Log In to Add this Item to Cart!');
+    }
   }
 
 }

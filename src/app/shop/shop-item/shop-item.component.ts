@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ProductService } from '@app/_service/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environments/environment';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { Title } from '@angular/platform-browser';
-import { AlertService } from '@app/_service';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'app-shop-item',
@@ -28,10 +30,10 @@ export class ShopItemComponent implements OnInit {
   label = 'Add To Cart';
   itemQty = 1;
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
     private service: ProductService,
-    private titleService: Title,
-    private alertService: AlertService
+    private titleService: Title
     ) { }
 
   ngOnInit() {
@@ -56,7 +58,7 @@ export class ShopItemComponent implements OnInit {
       this.products = datas.data;
       },
         error => {
-          this.alertService.error(error, true);
+          this.notyf.error(error);
     });
   }
 
@@ -72,9 +74,7 @@ export class ShopItemComponent implements OnInit {
         this.gallery();
       }
     });
-
   }
-
 
   gallery(){
     //NGX-Gallery
