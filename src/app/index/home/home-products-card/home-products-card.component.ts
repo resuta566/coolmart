@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { AlertService } from '@app/_service/core/alert.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Filter } from '@app/_models/filter/filter';
 
 @Component({
   selector: 'home-products-card',
@@ -12,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class HomeProductsCardComponent implements OnInit, OnDestroy {
 
-
+  filter: Filter;
   products: Object;
   apiUrl = `${environment.apiUrl}`;
   imgArray = [];

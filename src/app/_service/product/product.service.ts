@@ -32,14 +32,25 @@ export class ProductService {
   }
 
   getProducts(filterArray?: Filter) {
-    let actualKeyword = filterArray.name || ''; // The Search Keyword
-    let actualbrand = filterArray.brandArray || this.null; // Brand Array
-    let actualCategory = filterArray.categoryArray || this.null;// Category Array
-    let actualType = filterArray.typeArray || this.null;// Type Array
-    let actualMin = filterArray.min || ''; //Minimum Value
-    let actualMax = filterArray.max || ''; //Maximum Value
-    let actualSort = filterArray.sort || 'asc'; //Sort by
-    let actualPage = filterArray.page || `${environment.apiUrl}/api/items`;
+    let name; let brand; let category; let type; let min; let max; let sort ; let page;
+    if(filterArray){
+      name = filterArray.name;
+      brand = filterArray.brandArray;
+      category = filterArray.categoryArray;
+      type = filterArray.typeArray;
+      min = filterArray.min;
+      max = filterArray.max;
+      sort = filterArray.sort;
+      page  = filterArray.page;
+    }
+    let actualKeyword = name || ''; // The Search Keyword
+    let actualbrand = brand || this.null; // Brand Array
+    let actualCategory = category || this.null;// Category Array
+    let actualType = type || this.null;// Type Array
+    let actualMin = min || ''; //Minimum Value
+    let actualMax = max || ''; //Maximum Value
+    let actualSort= sort || 'asc'; //Sort by
+    let actualPage = page || `${environment.apiUrl}/api/items`;
     // //The HttpParams
     let prodparams = new HttpParams()
       .set('name', actualKeyword)

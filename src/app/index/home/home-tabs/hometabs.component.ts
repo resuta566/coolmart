@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { AlertService } from '@app/_service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Filter } from '@app/_models/filter/filter';
 
 @Component({
   selector: 'home-tabs',
@@ -15,6 +16,7 @@ export class HometabsComponent implements OnInit, OnDestroy{
   btnclass = 'button add_to_cart_button';
   label = 'Add To cart';
   apiUrl = `${environment.apiUrl}`;
+  filter: Filter;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
     private productService: ProductService,
