@@ -25,6 +25,7 @@ export class ShopItemComponent implements OnInit {
   products: Object;
   btndisabled = false;
   btndisabledminus = false;
+  btnaddtocart = false;
   btnclass = 'single_add_to_cart_button button';
   relatedProductsbtnclass = 'button add_to_cart_button';
   label = 'Add To Cart';
@@ -43,17 +44,14 @@ export class ShopItemComponent implements OnInit {
     });
     // console.log(this.route);
     this.getProduct(this.slug);
-    this.getRelatedProducts();
-    this.decreaseQty();
   }
 
   ngAfterViewInit(): void {
-    //After Load Initialize itemQty = 2 and decreaseQty funtion then the itemQty is decrease by 1
-    this.itemQty = 2;
-    this.decreaseQty();
+    this.getRelatedProducts();
   }
 
   getRelatedProducts() {
+
     this.service.getProducts().subscribe((datas: any) => {
       this.products = datas.data;
       },
@@ -62,12 +60,17 @@ export class ShopItemComponent implements OnInit {
     });
   }
 
-  getProduct(slug){
+  getProduct(slug: string){
     //Get Single Product from API
     this.service.getProduct(slug).subscribe(r =>{
       this.response = r;
-      this.imgArray = this.response.attributes.images;
-      this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );
+      if(this.response.attributes.qty == 1 || this.response.attributes.qty == 0 )
+        this.btndisabled = true; //Disables the buttons
+      if(this.response.attributes.qty == 0)
+        this.itemQty = 0, this.btnaddtocart = true; // Set the Shown QTY to 0 if qty is 0
+
+      this.imgArray = this.response.attributes.images; //Image Array
+      this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );// Title
       if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
       if(this.imgArray !== null){
         //Check if Images are there
@@ -127,26 +130,30 @@ export class ShopItemComponent implements OnInit {
 
 
   addQty() {
-    if(this.itemQty == this.response.attributes.qty){
+    if(this.response.attributes.qty == this.itemQty){
       this.btndisabled = true;
     }else{
-    this.itemQty += 1;
-    this.btndisabled = false;
-    this.btndisabledminus = false;
+      this.itemQty +=1;
+      this.btndisabledminus = false;
+      this.btnaddtocart = false;
+      if(this.response.attributes.qty == this.itemQty){
+        this.btndisabled = true;
+      }
     }
   }
 
   decreaseQty() {
-    if(this.itemQty == 0){ //Disabled the minus btn and Enable the plus btn else minus 1 & enable minus btn & plus btn
-      this.btndisabled = false;
+    if(this.itemQty == 0){
       this.btndisabledminus = true;
+      this.btnaddtocart = true;
+      this.btndisabled = true;
     }else{
       this.itemQty -= 1;
       this.btndisabled = false;
-      this.btndisabledminus = false;
-      if(this.itemQty == 0){//Disabled the minus btn and Enable the plus btn
-        this.btndisabled = false;
+      if(this.itemQty == 0){
         this.btndisabledminus = true;
+        this.btnaddtocart = true;
+        this.btndisabled = false;
       }
     }
   }

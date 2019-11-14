@@ -1,6 +1,6 @@
 export class Filter {
 
-  name?: '';
+  name?: string;
   brandArray?: Array<any>;
   categoryArray?: Array<any>;
   typeArray?: Array<any>;
