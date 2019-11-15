@@ -15,6 +15,7 @@ import { Notyf } from 'notyf';
 })
 export class ShopItemComponent implements OnInit {
 
+  loading= false;
   apiUrl = `${environment.apiUrl}`;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];

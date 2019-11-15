@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgxGalleryModule } from 'ngx-gallery';
 
@@ -68,7 +69,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     AlertModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
     ConfirmationDialogComponent

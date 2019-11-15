@@ -21,10 +21,18 @@ import { Notyf } from 'notyf';
 })
 export class ShopComponent implements OnInit, OnDestroy {
 
+
   @ViewChildren("brandscbox") brandscbox: QueryList<ElementRef>;
   @ViewChildren("categorycbox") categorycbox: QueryList<ElementRef>;
   @ViewChildren("typecbox") typecbox: QueryList<ElementRef>;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  loadingProduct = false;
+  loadingBrand = false;
+  loadingCat = false;
+  loadingType = false;
+  color = 'warn';
+  mode = 'indeterminate';
+  value = 20;
   btnclass="button add_to_cart_button addToCartBtn";
   label = "Add to cart";
   apiImgUrl = `${environment.apiUrl}`;
@@ -64,6 +72,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
       this.keyword = rt.get('search');
+      this.loadingProduct = true;
       this.getProducts(this.keyword);
       if(this.keyword == null){
         this.titleService.setTitle(  `Buy at Best Price | Cool Mart` );
@@ -96,12 +105,13 @@ export class ShopComponent implements OnInit, OnDestroy {
       sort: sortBy,
       page:page
     }; //Filter Options
-
+    this.loadingProduct = true;
     this.productService.getProducts(filterArray)
           .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
                 this.products = datas.data;
                 this.page = datas.meta;
                 this.link = datas.links;
+                this.loadingProduct = false;
                 },
                   error => {
                     this.notyf.success(error);
@@ -116,22 +126,28 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   getBrands() {
     //Get the Brands
+    this.loadingBrand = true;
     this.brandService.getBrands().pipe(takeUntil(this.destroy$)).subscribe((brands: any)=>{
       this.brands = brands.data;
+      this.loadingBrand = false;
     });
   }
 
   getCategories() {
     //Get the Categories
+    this.loadingCat = true;
     this.categoriesService.getCategories().pipe(takeUntil(this.destroy$)).subscribe((categories: any)=>{
       this.categories = categories.data;
+      this.loadingCat = false;
     });
   }
 
   getTypes() {
     //Get the Types
+      this.loadingType = true;
     this.typeService.getTypes().pipe(takeUntil(this.destroy$)).subscribe((types: any)=>{
       this.types = types.data;
+      this.loadingType = false;
     });
   }
 
