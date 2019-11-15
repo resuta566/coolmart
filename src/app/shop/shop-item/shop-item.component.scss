@@ -1,5 +1,5 @@
 .onsale{
-  z-index: 998 !important;
+  z-index: 1002 !important;
 }
 .itemprice{
   color: #ee0000;
@@ -9,8 +9,4 @@ div.quantity.buttons_added .plus{
 }
 div.quantity.buttons_added .minus{
   bottom: 0.836em !important;
-}
-ngx-gallery {
-  position: relative;
-  z-index: 998;
 }

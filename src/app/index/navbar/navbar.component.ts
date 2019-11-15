@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/_service';
 import { User } from '@app/_models';
 import { CartService } from '@app/_service/cart/cart-service.service';
@@ -21,13 +21,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   apiUrl = `${environment.apiUrl}`;
   count = 0;
   value: string;
+  slug: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private cartService: CartService,
-    private confirmDialog: MatDialog
+    private confirmDialog: MatDialog,
+    private route: ActivatedRoute
     ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
