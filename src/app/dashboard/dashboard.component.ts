@@ -10,9 +10,18 @@ import { Title } from '@angular/platform-browser';
 })
 export class DashboardComponent implements OnInit {
   r: any;
+  color = 'warn';
+  mode = 'indeterminate';
+  value = 20;
+  loading = false;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loading = true;
+    setTimeout(()=>{
+      this.loading = false;
+    }, 1000);
+  }
 
 
 }

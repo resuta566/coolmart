@@ -451,14 +451,44 @@
                                           <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
-                                                  <img attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
+                                                  <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                                                      <img class="wp-post-image" attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" src="assets/images/blank.gif" alt="product-thumbnail">
+                                                  </ng-container>
+                                                  <ng-template #noImage>
+                                                      <img class="wp-post-image" data-echo="assets/images/noimage.jpg" src="assets/images/blank.gif" alt="product-thumbnail">
+                                                  </ng-template>
+                                              </div>
+                                              <div class="product-rating">
+                                                  <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong class="rating">4</strong> out of 5</span></div> (3)
+                                              </div>
+
+                                              <div class="product-short-description">
+                                                  <ul>
+                                                    <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                                        <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                                          <li *ngIf="i<4">
+                                                              <span class="a-list-item">{{ detail?.attributes.name }} - {{ detail?.attributes.description }} </span>
+                                                          </li>
+                                                          </ng-container>
+                                                    </ng-container>
+                                                    <ng-template #noDetails>
+                                                        <span class="text-danger">No details found!</span>
+                                                    </ng-template>
+                                                  </ul>
                                               </div>
                                           </a>
 
                                           <div class="price-add-to-cart">
                                               <span class="price">
                                                   <span class="electro-price">
-                                                      <ins><span class="amount">₱{{ product?.attributes.srp }}</span></ins>
+                                                      <ng-container *ngIf="product?.attributes.discountType; else nodiscount">
+                                                          <del><span class="amount slashed">₱{{ product?.attributes.srp }}</span></del>
+                                                          <ins><span class="amount notslashed">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                          <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                                        </ng-container>
+                                                        <ng-template #nodiscount>
+                                                          <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                                        </ng-template>
                                                   </span>
                                               </span>
                                               <app-addtocart [btnclass]="relatedProductsbtnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>

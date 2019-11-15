@@ -114,7 +114,7 @@ export class ShopComponent implements OnInit, OnDestroy {
                 this.loadingProduct = false;
                 },
                   error => {
-                    this.notyf.success(error);
+                    this.notyf.error(error);
               })
               ;
   }

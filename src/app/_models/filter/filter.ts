@@ -4,9 +4,9 @@ export class Filter {
   brandArray?: Array<any>;
   categoryArray?: Array<any>;
   typeArray?: Array<any>;
-  min: any;
-  max: any;
-  sort: any;
-  page: any;
+  min?: any;
+  max?: any;
+  sort?: any;
+  page?: any;
 
 }

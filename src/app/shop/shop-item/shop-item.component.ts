@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
-
+import { Filter } from '@app/_models/filter/filter';
 @Component({
   selector: 'app-shop-item',
   templateUrl: './shop-item.component.html',
@@ -31,6 +31,10 @@ export class ShopItemComponent implements OnInit {
   relatedProductsbtnclass = 'button add_to_cart_button';
   label = 'Add To Cart';
   itemQty = 1;
+  relatedFilter: Filter;
+  relatedBrandArray: Array<any>;
+  relatedCategoryArray: Array<any>;
+  relatedTypeArray: Array<any>;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
@@ -47,14 +51,20 @@ export class ShopItemComponent implements OnInit {
     this.getProduct(this.slug);
   }
 
-  ngAfterViewInit(): void {
-    this.getRelatedProducts();
-  }
-
   getRelatedProducts() {
-
-    this.service.getProducts().subscribe((datas: any) => {
-      this.products = datas.data;
+    if(this.relatedBrandArray){
+      if(this.relatedBrandArray.length !== 0){
+        this.relatedFilter = {
+          brandArray: this.relatedBrandArray,
+          categoryArray: this.relatedCategoryArray,
+          typeArray: this.relatedTypeArray,
+          sort: 'asc'
+        };
+      }
+    }
+    this.service.getProducts(this.relatedFilter).subscribe((datas: any) => {
+        let filtered = datas.data.filter(products => products.id !== this.response.id); //Filter again so that the current product shown doesn't show on the list
+        this.products = filtered; //The data
       },
         error => {
           this.notyf.error(error);
@@ -65,6 +75,10 @@ export class ShopItemComponent implements OnInit {
     //Get Single Product from API
     this.service.getProduct(slug).subscribe(r =>{
       this.response = r;
+      this.relatedBrandArray = [ this.response.attributes.brand_id ];
+      this.relatedCategoryArray = [ this.response.attributes.category_id ];
+      this.relatedTypeArray = [ this.response.attributes.type_id ];
+      this.getRelatedProducts();
       if(this.response.attributes.qty == 1 || this.response.attributes.qty == 0 )
         this.btndisabled = true; //Disables the buttons
       if(this.response.attributes.qty == 0)

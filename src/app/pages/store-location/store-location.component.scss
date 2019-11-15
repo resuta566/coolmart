@@ -11,3 +11,6 @@
     width:100%;
     position:absolute;
 }
+.mat-spinner-color::ng-deep circle{
+  stroke: #f78c00 !important;
+}

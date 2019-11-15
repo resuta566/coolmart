@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrackComponent implements OnInit {
 
+  color = 'warn';
+  mode = 'indeterminate';
+  value = 20;
+  loading = false;
   constructor(
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loading = true;
+    setTimeout(()=>{
+      this.loading = false;
+    }, 1000);
+  }
 
 }
