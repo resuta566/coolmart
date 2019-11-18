@@ -70,7 +70,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   entryComponents: [
     ConfirmationDialogComponent

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -6,10 +6,14 @@ import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from '@app/_service';
 import { Router } from '@angular/router';
 
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(
+      @Inject(NOTYF) private notyf: Notyf,
       private authenticationService: AuthenticationService,
       private router: Router,
       ) { }
@@ -27,6 +31,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             if(err.status == 404){
               // this.router.navigate(['/pages/not-found']);
               console.log(err.status);
+            }
+
+            if(err.status == 500){
+              this.notyf.success('Internal Server Error!');
             }
 
             this.error = err.error.error || err.statusText || err.error.errors.email[0];

@@ -85,9 +85,10 @@ export class ShopItemComponent implements OnInit {
         this.itemQty = 0, this.btnaddtocart = true; // Set the Shown QTY to 0 if qty is 0
 
       this.imgArray = this.response.attributes.images; //Image Array
+
       this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );// Title
       if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
-      if(this.imgArray !== null){
+      if(this.imgArray.length !== 0){
         //Check if Images are there
         this.gallery();
       }
@@ -138,8 +139,10 @@ export class ShopItemComponent implements OnInit {
         medium: this.apiUrl+'/'+imgUrl,
         big: this.apiUrl+'/'+imgUrl
       }
+
       this.galleryImages.push(image)
     }
+
   }
 
 

@@ -17,15 +17,14 @@
     <div class="tab-content">
         <div class="tab-pane active" id="tab-products-1" role="tabpanel">
             <section class="section-products-carousel" >
-                <div class="home-v3-owl-carousel-tabs">
-                    <div class="woocommerce columns-4">
+                    <div class="woocommerce">
 
-                        <ul class="products columns-4">
-                            <ng-container *ngFor="let product of products;let i = index">
-                              <li class="product" *ngIf="i<4">
+                        <div class="products columns-4">
+                            <!-- <ng-container *ngFor="let product of products;let i = index">
+                              <li class="product " *ngIf="i<4">
                                   <div class="product-outer">
                                       <div class="product-inner">
-                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
+                                          <span class="loop-product-categories"><a href="product-category.html" rel="tag">Air Conditioner</a></span>
                                           <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
                                               <div class="product-thumbnail">
@@ -49,7 +48,7 @@
                                                   </span>
                                               </span>
                                               <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
-                                          </div><!-- /.price-add-to-cart -->
+                                          </div>
 
                                           <div class="hover-area">
                                               <div class="action-buttons">
@@ -59,13 +58,13 @@
                                                   <a href="compare.html" class="add-to-compare-link"> Compare</a>
                                               </div>
                                           </div>
-                                      </div><!-- /.product-inner -->
-                                  </div><!-- /.product-outer -->
-                                </li><!-- /.product -->
-                              </ng-container>
-                          </ul><!-- /.products -->
+                                      </div>
+                                  </div>
+                                </li>
+                              </ng-container> -->
+                          </div>
+                          <!-- /.products -->
                     </div>
-                </div>
             </section>
         </div><!-- /.tab-pane -->
 

@@ -13,8 +13,9 @@ import { HomeTopThisMonthComponent } from '@app/index/home/home-top-this-month/h
 import { HomeBottomProductsComponent } from '@app/index/home/home-bottom-products/home-bottom-products.component';
 import { HomeBottomBrandsCarouselComponent } from '@app/index/home/home-bottom-brands-carousel/home-bottom-brands-carousel.component';
 import { HomeProductsCardComponent } from '@app/index/home/home-products-card/home-products-card.component';
-import { AddtocartComponent } from '@app/dashboard/addtocart/addtocart.component';
+import { AddtocartComponent } from '@app/_components/addtocart/addtocart.component';
 import { AlertModule } from './alert.module';
+
 
   const Home = [
     HomeComponent,
