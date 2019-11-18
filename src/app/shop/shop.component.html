@@ -397,10 +397,10 @@
                                 </li>
                           </ul>
                           <p class="maxlist-more" *ngIf="limit < brands?.length">
-                            <a (click)="showMore(brands.length)">+ Show more</a>
+                            <a class="filter" (click)="showMore(brands.length)">+ Show more</a>
                           </p>
                           <p class="maxlist-more" *ngIf="limit > 4">
-                            <a (click)="showLess()">- Show less</a>
+                            <a class="filter" (click)="showLess()">- Show less</a>
                           </p>
                       </aside>
                       <aside class="widget woocommerce widget_layered_nav">
@@ -422,10 +422,10 @@
                                 </li>
                           </ul>
                           <p class="maxlist-more" *ngIf="limitCat < categories?.length">
-                              <a (click)="showMoreCat(categories.length)">+ Show more</a>
+                              <a class="filter" (click)="showMoreCat(categories.length)">+ Show more</a>
                             </p>
                             <p class="maxlist-more" *ngIf="limitCat > 4">
-                              <a (click)="showLessCat()">- Show less</a>
+                              <a class="filter" (click)="showLessCat()">- Show less</a>
                             </p>
                       </aside>
                       <aside class="widget woocommerce widget_layered_nav">
@@ -447,10 +447,10 @@
                               </li>
                           </ul>
                           <p class="maxlist-more" *ngIf="limitType < types?.length">
-                              <a (click)="showMoreType(types.length)">+ Show more</a>
+                              <a class="filter" (click)="showMoreType(types.length)">+ Show more</a>
                             </p>
                             <p class="maxlist-more" *ngIf="limitType > 4">
-                              <a (click)="showLessType()">- Show less</a>
+                              <a class="filter" (click)="showLessType()">- Show less</a>
                             </p>
                       </aside>
                       <aside class="widget woocommerce widget_price_filter">

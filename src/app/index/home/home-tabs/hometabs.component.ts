@@ -12,14 +12,7 @@ import { Filter } from '@app/_models/filter/filter';
   styleUrls: ['./hometabs.component.scss']
 })
 export class HometabsComponent implements OnInit, OnDestroy{
-  slides = [
-    {img: "http://placehold.it/350x150/000000"},
-    {img: "http://placehold.it/350x150/111111"},
-    {img: "http://placehold.it/350x150/333333"},
-    {img: "http://placehold.it/350x150/666666"}
-  ];
-  slideConfig = {"slidesToShow": 4, "slidesToScroll": 4};
-
+  limit = 4;
   products: any;
   btnclass = 'button add_to_cart_button';
   label = 'Add To cart';
@@ -58,5 +51,9 @@ export class HometabsComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  show(limit: number){
+    this.limit = limit;
   }
 }
