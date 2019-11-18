@@ -2,15 +2,15 @@
     <h2 class="sr-only">Product Carousel Tabs</h2>
     <ul class="nav nav-inline text-xs-left">
         <li class="nav-item">
-            <a class="nav-link active" href="#tab-products-1" data-toggle="tab">Featured</a>
+            <a class="nav-link active" href="#tab-products-1" (click)="getProducts('featured')" data-toggle="tab">Featured</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#tab-products-2" data-toggle="tab">On Sale</a>
+            <a class="nav-link" href="#tab-products-2" (click)="getProducts('discounted')" data-toggle="tab">On Sale</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#tab-products-3" data-toggle="tab">Top Rated</a>
+            <a class="nav-link" href="#tab-products-3" (click)="getProducts('toprated')" data-toggle="tab">Top Rated</a>
         </li>
     </ul><!-- /.nav -->
     <alert></alert>

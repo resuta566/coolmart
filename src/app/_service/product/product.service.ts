@@ -111,6 +111,14 @@ export class ProductService {
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }
+
+  getProductOption(option: string){
+    return this.http.get<Products[]>(`${environment.apiUrl}/api/items/${option}`).pipe(
+          tap(_ => console.log('fetched products Options')),
+          catchError(this.handleError<Products[]>('getProducts', []))
+        );
+  }
+
   getProduct(slug: string): Observable<Products> {
     //Get Single Product
     return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(

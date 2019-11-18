@@ -51,7 +51,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           this.carts = data.data;
           this.count = data.with.count;
         });
-      }, 5000);
+      }, 60000);
     }
   }
 

@@ -23,11 +23,11 @@ export class HometabsComponent implements OnInit, OnDestroy{
     private alertService: AlertService
     ) { }
   ngOnInit() {
-    this.getProducts();
+    this.getProducts('featured');
   }
 
-  getProducts() {
-    this.productService.getProducts().pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
+  getProducts(option: string) {
+    this.productService.getProductOption(option).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;
       },
         error => {
