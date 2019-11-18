@@ -1,8 +1,5 @@
-
-.cdk-overlay-container{
-    z-index: 1001 !important;
-}
-.cdk-global-overlay-wrapper
-{
-  z-index: 1002 !important;
+::ng-deep .cdk-overlay-container {
+  /* Do you changes here */
+  position: fixed;
+  z-index: 9999999;
 }
