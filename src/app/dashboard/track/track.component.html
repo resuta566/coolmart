@@ -1,15 +1,5 @@
 <div id="content" class="site-content" tabindex="-1">
     <div class="container">
-        <ng-container *ngIf="loading; else loaded">
-            <mat-progress-spinner
-            style="margin:200px auto !important;"
-            class="mat-spinner-color"
-            [mode]="mode"
-            [diameter]="200"
-            [value]="value">
-          </mat-progress-spinner>
-        </ng-container>
-        <ng-template #loaded>
             <nav class="woocommerce-breadcrumb" >
                 <a href="home.html">Home</a>
                 <span class="delimiter"><i class="fa fa-angle-right"></i></span>Track your Order
@@ -53,7 +43,6 @@
 
                 </main><!-- #main -->
             </div><!-- #primary -->
-        </ng-template>
 
     </div><!-- .col-full -->
 </div><!-- #content -->

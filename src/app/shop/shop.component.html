@@ -56,14 +56,6 @@
                           <div role="tabpanel" class="tab-pane active" id="grid" aria-expanded="true">
 
                               <ul class="products columns-3">
-                                <mat-progress-spinner
-                                  *ngIf="loadingProduct"
-                                  style="margin:0 auto;"
-                                  class="mat-spinner-color"
-                                  [mode]="mode"
-                                  [diameter]="200"
-                                  [value]="value">
-                                </mat-progress-spinner>
                                   <ng-container *ngIf="products?.length !== 0; else noProduct">
                                       <li class="product " *ngFor="let product of products ">
                                           <div class="product-outer">
@@ -137,14 +129,6 @@
 
                           <div role="tabpanel" class="tab-pane" id="list-view" aria-expanded="true">
                               <ul class="products columns-3">
-                                  <mat-progress-spinner
-                                    *ngIf="loadingProduct"
-                                    style="margin:0 auto;"
-                                    class="mat-spinner-color"
-                                    [mode]="mode"
-                                    [diameter]="200"
-                                    [value]="value">
-                                  </mat-progress-spinner>
                                   <ng-container *ngIf="products?.length !== 0; else noProduct">
                                     <li class="product list-view" *ngFor="let product of products">
                                         <div class="media">
@@ -240,14 +224,6 @@
                           </div>
                           <div role="tabpanel" class="tab-pane" id="list-view-small" aria-expanded="true">
                               <ul class="products columns-3">
-                                <mat-progress-spinner
-                                  *ngIf="loadingProduct"
-                                  style="margin:0 auto;"
-                                  class="mat-spinner-color"
-                                  [mode]="mode"
-                                  [diameter]="200"
-                                  [value]="value">
-                                </mat-progress-spinner>
                                 <ng-container *ngIf="products?.length !== 0; else noProduct">
                                   <li class="product list-view list-view-small" *ngFor="let product of products">
                                       <div class="media">

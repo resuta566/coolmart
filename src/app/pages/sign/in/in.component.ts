@@ -40,7 +40,9 @@ export class InComponent implements OnInit, OnDestroy {
   });
 
   // get return url from route parameters or default to '/'
-  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
+  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+  console.log(this.returnUrl);
+
   }
 
   ngOnDestroy(): void {
@@ -68,7 +70,7 @@ export class InComponent implements OnInit, OnDestroy {
         .subscribe(
             data => {
                 if(data){
-                  this.router.navigate([this.returnUrl]);
+                  this.router.navigateByUrl(this.returnUrl);
                   this.notyf.success('Successfully Loggedin!');
                 }
             },

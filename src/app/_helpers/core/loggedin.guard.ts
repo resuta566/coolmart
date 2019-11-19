@@ -7,7 +7,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class LoggedInGuard implements CanActivate {
     constructor(
         @Inject(NOTYF) private notyf: Notyf,
         private router: Router,
@@ -17,12 +17,12 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authenticationService.currentUserValue;
         if (currentUser) {
-            // logged in so return true
-            return true;
-        }
-          // not logged in so redirect to login page with the return url
-          this.router.navigate(['sign_in'], { queryParams: { returnUrl: state.url } });
-          this.notyf.error('Please Log In!');
+          //logged in so redirect to login page with the return url
+          this.router.navigate(['dashboard'], { queryParams: { returnUrl: state.url } });
+          this.notyf.error(`You're already Logged In!`);
           return false;
+        }
+        //not logged in so return true
+        return true;
     }
 }

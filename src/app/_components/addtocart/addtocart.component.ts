@@ -29,8 +29,7 @@ export class AddtocartComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
@@ -49,7 +48,7 @@ export class AddtocartComponent implements OnInit, OnDestroy {
       });
       this.cartService.addToDataBaseCart(this.cartForm.value);
     }else{
-      this.router.navigate(['/sign_in']);
+      this.router.navigate(['dashboard']);
       this.notyf.error('Please Log In to Add this Item to Cart!');
     }
   }

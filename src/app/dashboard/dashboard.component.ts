@@ -9,19 +9,11 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  r: any;
-  color = 'warn';
-  mode = 'indeterminate';
-  value = 20;
-  loading = false;
-  constructor() { }
 
-  ngOnInit() {
-    this.loading = true;
-    setTimeout(()=>{
-      this.loading = false;
-    }, 1000);
-  }
+  r: any;
+  constructor() {}
+
+  ngOnInit() { }
 
 
 }

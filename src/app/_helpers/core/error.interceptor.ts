@@ -34,7 +34,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
 
             if(err.status == 500){
-              this.notyf.success('Internal Server Error!');
+              this.notyf.error('Internal Server Error!');
             }
 
             this.error = err.error.error || err.statusText || err.error.errors.email[0];

@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { NgxGalleryModule } from 'ngx-gallery';
 
@@ -32,6 +34,13 @@ import { ShopComponent } from './shop/shop.component';
 import { ShopItemComponent } from './shop/shop-item/shop-item.component';
 import { CompareComponent } from './pages/compare/compare.component';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
+import { AccountComponent } from './dashboard/account/account.component';
+import { ProfileComponent } from './dashboard/account/profile/profile.component';
+import { AddressBookComponent } from './dashboard/account/address-book/address-book.component';
+import { PaymentOptionsComponent } from './dashboard/account/payment-options/payment-options.component';
+import { OrderComponent } from './dashboard/order/order.component';
+import { ReturnsComponent } from './dashboard/order/returns/returns.component';
+import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -54,7 +63,14 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ShopItemComponent,
     StoreLocationComponent,
     DashboardComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AccountComponent,
+    ProfileComponent,
+    AddressBookComponent,
+    PaymentOptionsComponent,
+    OrderComponent,
+    ReturnsComponent,
+    CancellationsComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -71,6 +87,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     MatDialogModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    MatTabsModule
   ],
   entryComponents: [
     ConfirmationDialogComponent

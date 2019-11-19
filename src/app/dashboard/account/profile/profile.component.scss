@@ -1,0 +1,11 @@
+
+.info-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(306px, 1fr));
+  padding: 5px;
+  align-items: flex-start;
+}
+.info{
+  padding: 5px;
+  text-align: center;
+}
