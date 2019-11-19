@@ -91,6 +91,10 @@ THE SOFTWARE.
 
 @angular/material/progress-spinner
 
+@angular/material/table
+
+@angular/material/tabs
+
 @angular/platform-browser
 MIT
 
