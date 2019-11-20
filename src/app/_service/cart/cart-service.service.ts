@@ -58,7 +58,7 @@ export class CartService {
   carts(){
     let currentUser = this.authenticationService.currentUserValue;
     if(currentUser){
-      let authId = currentUser.auth_id.toString();
+      let authId = currentUser.user.id.toString();
       return this.http.get(`${environment.apiUrl}/api/cart` , { params: { authId: authId, } } )
         .pipe(
           // tap(_ => console.log('fetched cart')),

@@ -27,9 +27,11 @@ import { ProfileComponent } from './dashboard/account/profile/profile.component'
 import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
+import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
+  { path: '' , component: HomeComponent },
   { path: '' , component: HomeComponent },
   { path: 'cart' , component: CartComponent, canActivate: [AuthGuard], data: {title: `Cart${htmlTitle}`} },
   { path: 'compare' , component: CompareComponent, data: {title: 'Compare' + htmlTitle} },
@@ -39,7 +41,7 @@ const routes: Routes = [
   { path: 'shop/:search' , component: ShopComponent },
   { path: 'shop/shop-item/:slug' , component: ShopItemComponent },
   { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {title: 'Register / Sign In' + htmlTitle} },
-  { path: 'dashboard' , component: DashboardComponent, data: {title: 'Dashboard' + htmlTitle},
+  { path: 'dashboard' , component: DashboardComponent, canActivate: [AuthGuard], data: {title: 'Dashboard' + htmlTitle},
       children:[
         {path: '', pathMatch: 'full', redirectTo: 'account'},
         {path: 'account', component: AccountComponent, data: { title: 'Manage My Account'} },
@@ -48,7 +50,7 @@ const routes: Routes = [
         {path: 'account/payment-options', component: PaymentOptionsComponent },
         {path: 'order', component: OrderComponent },
         {path: 'order/returns', component: ReturnsComponent },
-        {path: 'order/cancellations', component: CancellationsComponent },
+        {path: 'order/cancellations', component: CancellationsComponent }
       ] },
   { path: 'pages',
       children: [
@@ -59,7 +61,8 @@ const routes: Routes = [
         { path: 'frequently-ask-questions' , component: FaqComponent, data: {title: 'Frequently Ask Questions' + htmlTitle} },
         { path: 'store-location' , component: StoreLocationComponent, data: {title: 'Store Location' + htmlTitle} },
         { path: 'track' , component: TrackComponent, data: {title: 'Track your Order' + htmlTitle} },
-        { path: 'not-found', component: ErrorpagesComponent, data: {title: 'Page Not Found' + htmlTitle} },
+        { path: 'email-verification', component: EmailVerificationComponent, data: {title: 'Verify Email'} },
+        { path: 'not-found', component: ErrorpagesComponent, data: {title: 'Page Not Found' + htmlTitle} }
       ]
 },
 

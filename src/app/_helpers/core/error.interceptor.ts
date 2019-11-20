@@ -22,22 +22,32 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(catchError(err => {
 
           console.log(err);
-            if (err.status === 401) {
+            if (err.status == 401) {
                 // auto logout if 401 response returned from api
+                this.notyf.error(err.error.message);
                 this.authenticationService.logout();
                 location.reload(true);
             }
 
+            if(err.status == 403){
+              this.notyf.error(err.error.message || err.error.error);
+              this.router.navigate(['/pages/email-verification']);
+            }
+
             if(err.status == 404){
-              // this.router.navigate(['/pages/not-found']);
-              console.log(err.status);
+              this.router.navigate(['/pages/not-found']);
+            }
+
+            if(err.status == 422){
+              this.error = err.error.error || err.error.errors.email[0] || err.statusText;
+              // this.notyf.error(err.error.errors.email[0]);
             }
 
             if(err.status == 500){
               this.notyf.error('Internal Server Error!');
             }
 
-            this.error = err.error.error || err.statusText || err.error.errors.email[0];
+            this.error = err.error.error || err.error.errors.email[0] || err.error.message|| err.statusText ;
             // console.log(err);
             return throwError(this.error);
         }))

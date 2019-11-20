@@ -6,16 +6,14 @@ export class User {
     email: string;
     access_token?: string;
   }
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at: string;
+  }
   name: string;
   role_name: string;
-  access_token?: string;
+  accessToken?: string;
   token_type: string;
-  role_id: number;
-  auth_id: number;
-    // id: number;
-    // username: string;
-    // password: string;
-    // firstName: string;
-    // lastName: string;
-    // access_token?: string;
 }

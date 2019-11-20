@@ -41,6 +41,7 @@ import { PaymentOptionsComponent } from './dashboard/account/payment-options/pay
 import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
+import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -70,7 +71,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     PaymentOptionsComponent,
     OrderComponent,
     ReturnsComponent,
-    CancellationsComponent
+    CancellationsComponent,
+    EmailVerificationComponent
   ],
   imports: [
     ReactiveFormsModule,

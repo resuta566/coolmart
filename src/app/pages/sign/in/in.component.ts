@@ -41,7 +41,6 @@ export class InComponent implements OnInit, OnDestroy {
 
   // get return url from route parameters or default to '/'
   this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-  console.log(this.returnUrl);
 
   }
 
@@ -69,6 +68,8 @@ export class InComponent implements OnInit, OnDestroy {
         .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
+              console.log(data);
+
                 if(data){
                   this.router.navigateByUrl(this.returnUrl);
                   this.notyf.success('Successfully Loggedin!');

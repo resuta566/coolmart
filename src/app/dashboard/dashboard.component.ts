@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { AlertService } from '@app/_service';
+import { AlertService, AuthenticationService } from '@app/_service';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { Title } from '@angular/platform-browser';
 
@@ -9,11 +9,15 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  
+  currentUser: string;
   r: any;
-  constructor() {}
+  constructor(
+    private authenticationService: AuthenticationService
+  ) {}
 
-  ngOnInit() { }
-
+  ngOnInit() {
+    this.currentUser = this.authenticationService.currentUserValue.user.name;
+  }
 
 }
