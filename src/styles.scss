@@ -93,6 +93,7 @@
   0 3px 14px 2px rgba(0,0,0,.12) !important;
 }
 .order{
+  min-height: 230px;
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
   0 8px 10px 1px rgba(0,0,0,.14),
   0 3px 14px 2px rgba(0,0,0,.12) !important;
@@ -100,7 +101,7 @@
 .order > .order-detail{
   width: 100%;
   padding: 8px 12px;
-  min-height: 50px;
+  min-height: 80px;
   border-bottom: 1px solid #dadada;
   display: flex;
 }
@@ -123,4 +124,39 @@
 }
 .order > .order-item{
   min-height: 80px;
+  margin: 24px 12px 24px 36px !important;
+  padding-right: 12px !important;
+}
+.order-item > .item-pic {
+  float: left !important;
+}
+.order-item > .item-pic img{
+  height: 80px;
+  width: 80px;
+}
+
+.order-item > .item-main {
+  width: 280px;
+  float: left;
+  margin-left: 12px;
+  margin-right: 24px;
+}
+
+.item-main > .item-name{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.order-item > .item-quantity{
+  font-size: 14px;
+  float: left;
+  width: 64px;
+  min-height: 80px;
+  text-align: left;
+}
+.order-item > .item-status{
+
 }
