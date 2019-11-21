@@ -23,7 +23,7 @@ export class AppComponent implements OnInit{
 
   constructor(
     private titleService: Title,
-    private router: Router,
+    public router: Router,
     private activatedRoute: ActivatedRoute
     ) {
       // Subscribe to the router events observable

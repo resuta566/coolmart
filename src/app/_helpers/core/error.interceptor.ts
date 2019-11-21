@@ -47,7 +47,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.notyf.error('Internal Server Error!');
             }
 
-            this.error = err.error.error || err.error.errors.email[0] || err.error.message|| err.statusText ;
+            this.error = err.error.error || err.error.message || err.error.errors.email[0] || err.statusText ;
             // console.log(err);
             return throwError(this.error);
         }))

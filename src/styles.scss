@@ -130,27 +130,28 @@
 .order-item > .item-pic {
   float: left !important;
 }
-.order-item > .item-pic img{
+.order-item > .item-pic img, .order-item > td > .item-pic img{
   height: 80px;
   width: 80px;
+  max-width: none !important;
 }
 
-.order-item > .item-main {
-  width: 280px;
+.order-item > .item-main, .order-item > td > .item-main {
+  width: auto;
+  height: 100%;
   float: left;
   margin-left: 12px;
   margin-right: 24px;
 }
 
 .item-main > .item-name{
-  overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
-.order-item > .item-quantity{
+.order-item > .item-quantity,.order-item> td > .item-quantity{
   font-size: 14px;
   float: left;
   width: 64px;

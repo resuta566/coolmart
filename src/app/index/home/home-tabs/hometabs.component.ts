@@ -40,6 +40,7 @@ export class HometabsComponent implements OnInit, OnDestroy{
   }
 
   getProducts(option: string) {
+    console.log(option);
     this.productService.getProductOption(option).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;
       },

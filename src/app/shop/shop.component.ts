@@ -105,7 +105,7 @@ export class ShopComponent implements OnInit, OnDestroy {
       sort: sortBy,
       page:page
     }; //Filter Options
-    this.loadingProduct = true;
+
     this.productService.getProducts(filterArray)
           .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
                 this.products = datas.data;

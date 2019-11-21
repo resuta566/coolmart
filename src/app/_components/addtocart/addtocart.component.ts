@@ -40,6 +40,7 @@ export class AddtocartComponent implements OnInit, OnDestroy {
   addtocart(){
     let currentUser = this.authenticationService.currentUserValue;
     if(currentUser){
+     if(currentUser.user.email_verified_at){
       this.cartForm = this.formBuilder.group({
         //this.itemId is a string so + would make it an integer
         itemId: [+this.itemId, Validators.required],
@@ -47,6 +48,12 @@ export class AddtocartComponent implements OnInit, OnDestroy {
         qty: [this.qty, Validators.required]
       });
       this.cartService.addToDataBaseCart(this.cartForm.value);
+    }else{
+
+      this.router.navigate(['/pages/email-verification']);
+      this.notyf.error('Please Verify your email!');
+    }
+
     }else{
       this.router.navigate(['dashboard']);
       this.notyf.error('Please Log In to Add this Item to Cart!');
