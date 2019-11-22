@@ -76,25 +76,20 @@ export class UpComponent implements OnInit, OnDestroy {
         .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
-                this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
-                .pipe(first())
-                .subscribe(data => {
-                      if(data){
-                        this.router.navigate([this.returnUrl]);
-                        this.notyf.success('Successfully Registered!');
-                      }
-                    },
-                    error => {
-                        // this.alertService.error(error);
-                        console.log(error);
-
-                    });
-            },
+              this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
+              .pipe(first())
+              .subscribe(data => {
+                  if(data){
+                    this.router.navigate([this.returnUrl]);
+                    this.notyf.success('Successfully Registered!');
+                  }
+            }),
             error => {
                 this.alertService.error(error);
                 this.notyf.error(error);
                 // console.log(error);
-            });
+            }
+          });
     }
 
 }

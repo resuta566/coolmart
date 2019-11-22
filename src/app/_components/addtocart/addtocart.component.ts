@@ -49,7 +49,6 @@ export class AddtocartComponent implements OnInit, OnDestroy {
       });
       this.cartService.addToDataBaseCart(this.cartForm.value);
     }else{
-
       this.router.navigate(['/pages/email-verification']);
       this.notyf.error('Please Verify your email!');
     }

@@ -8,5 +8,5 @@ export class Filter {
   max?: any;
   sort?: any;
   page?: any;
-
+  cap?: Array<any>; //Aircon Capacity
 }

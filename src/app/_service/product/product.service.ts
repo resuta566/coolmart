@@ -32,7 +32,7 @@ export class ProductService {
   }
 
   getProducts(filterArray?: Filter) {
-    let name; let brand; let category; let type; let min; let max; let sort ; let page;
+    let name; let brand; let category; let type; let min; let max; let sort ; let page; let cap;
     if(filterArray){
       name = filterArray.name;
       brand = filterArray.brandArray;
@@ -42,6 +42,7 @@ export class ProductService {
       max = filterArray.max;
       sort = filterArray.sort;
       page  = filterArray.page;
+      cap = filterArray.cap;
     }
     let actualKeyword = name || ''; // The Search Keyword
     let actualbrand = brand || this.null; // Brand Array
@@ -50,13 +51,15 @@ export class ProductService {
     let actualMin = min || ''; //Minimum Value
     let actualMax = max || ''; //Maximum Value
     let actualSort= sort || 'asc'; //Sort by
+    let actualCap = cap || ''; //Capacity / HorsePAWAAA
     let actualPage = page || `${environment.apiUrl}/api/items`;
     // //The HttpParams
     let prodparams = new HttpParams()
       .set('name', actualKeyword)
       .set('min',actualMin)
       .set('max', actualMax)
-      .set('sort', actualSort);
+      .set('sort', actualSort)
+      .set('cap',actualCap.toString());
     if(actualbrand){
       if(actualbrand.length !== 0){
         //If actualBrandArray is not 0 loop else delete
@@ -105,6 +108,8 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
+    console.log(prodparams.toString());
+
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),

@@ -25,6 +25,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   @ViewChildren("brandscbox") brandscbox: QueryList<ElementRef>;
   @ViewChildren("categorycbox") categorycbox: QueryList<ElementRef>;
   @ViewChildren("typecbox") typecbox: QueryList<ElementRef>;
+  @ViewChildren("hpcaps") hpcaps: QueryList<ElementRef>;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   loadingProduct = false;
   loadingBrand = false;
@@ -42,9 +43,10 @@ export class ShopComponent implements OnInit, OnDestroy {
   brands: any;
   categories: any;
   types: any;
-  limit = 4;//Brand Filter limit
-  limitCat = 4;//Category Filter limit
-  limitType = 4;//Type Filter limit
+  limit = 4;//Brand Array Filter limit
+  limitCap = 4;//Capacity / HP Array Filter limit
+  limitCat = 4;//Category Array Filter limit
+  limitType = 4;//Type Array Filter limit
   keyword: string;
   mini: number;
   maxi: number;
@@ -56,6 +58,15 @@ export class ShopComponent implements OnInit, OnDestroy {
     {id: 1,name: 'Price low to high', value: 'asc'},
     {id: 2, name: 'Price high to low', value: 'desc'}
   ]; //Dropdown Values
+  airconphp = [
+    {hp: 0.5},
+    {hp: 1.0},
+    {hp: 1.5},
+    {hp: 2.0},
+    {hp: 2.5},
+    {hp: 3.0}
+  ]; //Aircon HorsePower
+  airconhpselectedArray: Array<any> = []; //The Selected Aircon HP
   sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
   currentPage: string;
   constructor(
@@ -70,6 +81,8 @@ export class ShopComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
+    console.log(this.airconphp.length);
+
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
       this.keyword = rt.get('search');
       this.loadingProduct = true;
@@ -93,7 +106,10 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
 
-  getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>, type?: Array<any>, min?:number, max?:number, sortBy?: string, page?: string) {
+  getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>,
+              type?: Array<any>, min?:number, max?:number, sortBy?: string,
+              page?: string, cap?: Array<any>
+              ) {
     //Calling the getProducts service from the api
     let filterArray: Filter = {
       name: keyword,
@@ -103,7 +119,8 @@ export class ShopComponent implements OnInit, OnDestroy {
       min: min,
       max: max,
       sort: sortBy,
-      page:page
+      page: page,
+      cap: cap
     }; //Filter Options
 
     this.productService.getProducts(filterArray)
@@ -121,7 +138,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   filter(){
     //this will filter what are the options
-    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi, this.sortby, this.currentPage);
+    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi, this.sortby, this.currentPage, this.airconhpselectedArray);
   }
 
   getBrands() {
@@ -152,28 +169,20 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   showMore(limit: number){
-    //Show more list of brands
+    //Show more/less list of brands
     this.limit = limit;
-  }
-  showLess(){
-    //Show less list of brands
-    this.limit = 4;
   }
   showMoreCat(limit: number){
     //Show more list of categories
     this.limitCat = limit;
   }
-  showLessCat(){
-    //Show less list of categories
-    this.limitCat = 4;
+  showCap(limit: number){
+    //Show more list of capacity
+    this.limitCap = limit;
   }
   showMoreType(limit: number){
     //Show more list of types
     this.limitType = limit;
-  }
-  showLessType(){
-    //Show less list of types
-    this.limitType = 4;
   }
 
   getBrandId(id: any, isChecked: boolean){
@@ -185,6 +194,19 @@ export class ShopComponent implements OnInit, OnDestroy {
     }else {
       let index = this.brandArray.indexOf(id);
       this.brandArray.splice(index,1);
+      this.currentPage = null;
+      this.filter();
+    }
+  }
+  getHpCap(hp: any, isChecked: boolean){
+    //Add the Brand ID to the array to send to the API else remove ID from the array
+    if(isChecked){
+      this.airconhpselectedArray.push(hp);
+      this.currentPage = null;
+      this.filter();
+    }else {
+      let index = this.airconhpselectedArray.indexOf(hp);
+      this.airconhpselectedArray.splice(index,1);
       this.currentPage = null;
       this.filter();
     }
@@ -255,6 +277,14 @@ export class ShopComponent implements OnInit, OnDestroy {
         element.nativeElement.checked = false;
       });
       this.typeArray.splice(0,this.typeArray.length);
+      this.currentPage = null;
+      this.filter();
+    }else if(option == 'cap'){
+      //Reset Type Filter Only
+      this.hpcaps.forEach((element) => {
+        element.nativeElement.checked = false;
+      });
+      this.airconhpselectedArray.splice(0,this.airconhpselectedArray.length);
       this.currentPage = null;
       this.filter();
     }
