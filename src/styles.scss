@@ -163,3 +163,25 @@
 // }
 
 
+// Scroll Bar
+
+
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+  border-radius: 5px;
+  width: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+  background: #f78c00;
+  border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+  background: #f78c00;
+  }

@@ -42,6 +42,7 @@ import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
+
 import { ShopItemResolverService } from './_service/resolver/shop-item-resolver.service';
 
 export class CustomHammerConfig extends HammerGestureConfig  {

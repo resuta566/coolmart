@@ -48,7 +48,9 @@
             </div><!-- .col-1 -->
 
             <div class="col-2">
-                <router-outlet></router-outlet>
+              <div class="content" [@routerAnimation]="getRouteAnimation(router)">
+                <router-outlet #router="outlet"></router-outlet>
+              </div>
             </div><!-- .col-2 -->
 
         </div><!-- .col2-set -->

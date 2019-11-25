@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
-import { fadeAnimation } from './_animations/fade.animation';
+import { routerAnimation } from './_animations/coolmart.animation';
 
 import {
     Router, NavigationEnd, ActivatedRoute, NavigationStart,
-    NavigationCancel, NavigationError, Event
+    NavigationCancel, NavigationError, Event, RouterOutlet
   } from '@angular/router';
 
 import {
 } from '@angular/router';
 @Component({
-  selector: 'app-root',
+  selector: 'coolmart-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [fadeAnimation]
+  animations: [routerAnimation()]
 })
 export class AppComponent implements OnInit{
   title = 'coolmart';
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit{
         routerEvent instanceof NavigationCancel) {
           setTimeout(()=>{
             this.showLoadingIndicator = false;
-          },1500)
+          },1000)
       }
 
     });
@@ -65,6 +65,15 @@ export class AppComponent implements OnInit{
       ).subscribe((ttl: string) => {
         this.titleService.setTitle(ttl);
       });
+  }
+
+  getRouteAnimation(outlet: RouterOutlet) {
+    const res =
+      outlet.activatedRouteData.num === undefined
+        ? -1
+        : outlet.activatedRouteData.num;
+
+    return res;
   }
 
 }

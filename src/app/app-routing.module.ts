@@ -33,28 +33,27 @@ import { ShopItemResolverService } from './_service/resolver/shop-item-resolver.
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
-  { path: '' , component: HomeComponent },
-  { path: '' , component: HomeComponent },
+  { path: '' , component: HomeComponent, data:{ num: 1} },
   { path: 'cart' , component: CartComponent, canActivate: [AuthGuard], data: {title: `Cart${htmlTitle}`} },
   { path: 'compare' , component: CompareComponent, data: {title: 'Compare' + htmlTitle} },
   { path: 'wishlist' , component: WishlistComponent, canActivate: [AuthGuard], data: {title: 'Wishlist' + htmlTitle} },
   { path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard], data: {title: 'Checkout' + htmlTitle} },
-  { path: 'shop' , component: ShopComponent },
-  { path: 'shop/:search' , component: ShopComponent },
-  { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService } },
-  { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {title: 'Register / Sign In' + htmlTitle} },
+  { path: 'shop' , component: ShopComponent, data:{ num: 2} },
+  { path: 'shop/:search' , component: ShopComponent, data:{ num: 3} },
+  { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
+  { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {num: 4,title: 'Register / Sign In' + htmlTitle} },
   { path: 'dashboard' , component: DashboardComponent,
   // canActivate: [AuthGuard],
-  data: {title: 'Dashboard' + htmlTitle},
+  data: { num: 5, title: 'Dashboard' + htmlTitle},
       children:[
         {path: '', pathMatch: 'full', redirectTo: 'account'},
-        {path: 'account', component: AccountComponent, data: { title: 'Manage My Account'} },
-        {path: 'account/profile', component: ProfileComponent, data: { title: 'My Profile'}  },
-        {path: 'account/address-book', component: AddressBookComponent, data: { title: 'My Address Book'}  },
-        {path: 'account/payment-options', component: PaymentOptionsComponent },
-        {path: 'order', component: OrderComponent },
-        {path: 'order/returns', component: ReturnsComponent },
-        {path: 'order/cancellations', component: CancellationsComponent }
+        {path: 'account', component: AccountComponent, data: { num: 6, title: 'Manage My Account'} },
+        {path: 'account/profile', component: ProfileComponent, data: { num: 7, title: 'My Profile'}  },
+        {path: 'account/address-book', component: AddressBookComponent, data: { num: 8, title: 'My Address Book'}  },
+        {path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9} },
+        {path: 'order', component: OrderComponent, data:{ num: 10} },
+        {path: 'order/returns', component: ReturnsComponent,data:{ num: 11} },
+        {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12} }
       ] },
   { path: 'pages',
       children: [
@@ -63,10 +62,10 @@ const routes: Routes = [
         { path: 'contact-us' , component: ContactUsComponent, data: {title: 'Contact Us' + htmlTitle} },
         { path: 'about-us' , component: AboutUsComponent, data: {title: 'About Us' + htmlTitle} },
         { path: 'frequently-ask-questions' , component: FaqComponent, data: {title: 'Frequently Ask Questions' + htmlTitle} },
-        { path: 'store-location' , component: StoreLocationComponent, data: {title: 'Store Location' + htmlTitle} },
+        { path: 'store-location' , component: StoreLocationComponent, data: {num: 4, title: 'Store Location' + htmlTitle} },
         { path: 'track' , component: TrackComponent, data: {title: 'Track your Order' + htmlTitle} },
         { path: 'email-verification', component: EmailVerificationComponent, data: {title: 'Verify Email'} },
-        { path: 'not-found', component: ErrorpagesComponent, data: {title: 'Page Not Found' + htmlTitle} }
+        { path: 'not-found', component: ErrorpagesComponent, data: { num: 3, title: 'Page Not Found' + htmlTitle} }
       ]
 },
 
