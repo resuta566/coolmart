@@ -41,7 +41,7 @@ export class AppComponent implements OnInit{
         routerEvent instanceof NavigationCancel) {
           setTimeout(()=>{
             this.showLoadingIndicator = false;
-          },2000)
+          },1500)
       }
 
     });

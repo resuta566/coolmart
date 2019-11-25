@@ -42,6 +42,7 @@ import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
+import { ShopItemResolverService } from './_service/resolver/shop-item-resolver.service';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -99,7 +100,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
-    { provide: NOTYF, useFactory: notyfFactory }
+    { provide: NOTYF, useFactory: notyfFactory },
+    ShopItemResolverService
   ],
   bootstrap: [AppComponent]
 })

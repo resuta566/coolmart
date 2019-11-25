@@ -8,6 +8,8 @@ import { Title } from '@angular/platform-browser';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Filter } from '@app/_models/filter/filter';
+
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-shop-item',
   templateUrl: './shop-item.component.html',
@@ -38,17 +40,18 @@ export class ShopItemComponent implements OnInit {
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
-    private service: ProductService,
+    private productService: ProductService,
     private titleService: Title
-    ) { }
+    ) {
+      this.response = this.route.snapshot.data['data'];
+      this.relatedBrandArray = [ this.response.attributes.brand_id ];
+      this.relatedCategoryArray = [ this.response.attributes.category_id ];
+      this.relatedTypeArray = [ this.response.attributes.type_id ];
+
+    }
 
   ngOnInit() {
-    //Get the item slug
-    this.route.paramMap.subscribe(rt => {
-      this.slug = rt.get('slug');
-    });
-    // console.log(this.route);
-    this.getProduct(this.slug);
+    this.getProductDetails();
   }
 
   getRelatedProducts() {
@@ -58,11 +61,12 @@ export class ShopItemComponent implements OnInit {
           brandArray: this.relatedBrandArray,
           categoryArray: this.relatedCategoryArray,
           typeArray: this.relatedTypeArray,
-          sort: 'asc'
+          sort: 'asc',
+          cap: [1]
         };
       }
     }
-    this.service.getProducts(this.relatedFilter).subscribe((datas: any) => {
+    this.productService.getProducts(this.relatedFilter).subscribe((datas: any) => {
         let filtered = datas.data.filter(products => products.id !== this.response.id); //Filter again so that the current product shown doesn't show on the list
         this.products = filtered; //The data
       },
@@ -71,28 +75,21 @@ export class ShopItemComponent implements OnInit {
     });
   }
 
-  getProduct(slug: string){
-    //Get Single Product from API
-    this.service.getProduct(slug).subscribe(r =>{
-      this.response = r;
-      this.relatedBrandArray = [ this.response.attributes.brand_id ];
-      this.relatedCategoryArray = [ this.response.attributes.category_id ];
-      this.relatedTypeArray = [ this.response.attributes.type_id ];
-      this.getRelatedProducts();
-      if(this.response.attributes.qty == 1 || this.response.attributes.qty == 0 )
-        this.btndisabled = true; //Disables the buttons
-      if(this.response.attributes.qty == 0)
-        this.itemQty = 0, this.btnaddtocart = true; // Set the Shown QTY to 0 if qty is 0
+  getProductDetails(){
+    this.getRelatedProducts();
+    if(this.response.attributes.qty == 1 || this.response.attributes.qty == 0 )
+      this.btndisabled = true; //Disables the buttons
+    if(this.response.attributes.qty == 0)
+      this.itemQty = 0, this.btnaddtocart = true; // Set the Shown QTY to 0 if qty is 0
 
-      this.imgArray = this.response.attributes.images; //Image Array
+    this.imgArray = this.response.attributes.images; //Image Array
 
-      this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );// Title
-      if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
-      if(this.imgArray.length !== 0){
-        //Check if Images are there
-        this.gallery();
-      }
-    });
+    this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );// Title
+    if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
+    if(this.imgArray.length !== 0){
+      //Check if Images are there
+      this.gallery();
+    }
   }
 
   gallery(){

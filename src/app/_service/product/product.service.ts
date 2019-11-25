@@ -109,7 +109,6 @@ export class ProductService {
 
     }
     console.log(prodparams.toString());
-
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),

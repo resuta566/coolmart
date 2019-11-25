@@ -83,18 +83,20 @@
               <form class="navbar-search" method="get" action="/">
                 <label class="sr-only screen-reader-text" for="search">Search for:</label>
                 <div class="input-group">
-                  <input #searchinput (keyup.enter)="search(searchinput.value)" type="text" id="search" class="form-control search-field" dir="ltr" name="s" placeholder="Search" />
+                  <input #searchInput (keyup.enter)="search(searchInput.value)" type="text" id="search" class="form-control search-field" dir="ltr" name="s" placeholder="Where To Deliver Your Items?" />
                   <div class="input-group-addon search-categories">
                     <select name='product_cat' id='product_cat' class='postform resizeselect' >
-                      <option value='0' selected='selected'>All Categories</option>
-                      <option class="level-0" value="window-type">Window Type</option>
-                      <option class="level-0" value="split-type">Split Type</option>
-                      <option class="level-0" value="portable">Portable</option>
+                      <option value='0' selected='selected'>Select Region</option>
+                      <option  *ngFor="let region of regions" class="level-0" value="{{ region.name }}">{{ region.name }}</option>
+                      <!-- <option class="level-0" value="split-type">Split Type</option>
+                      <option class="level-0" value="portable">Portable</option> -->
                     </select>
                   </div>
                   <div class="input-group-btn">
                     <input type="hidden" id="search-param" name="post_type" value="product" />
-                    <button (click)="search(searchinput.value)" type="submit" class="btn btn-secondary"><i class="ec ec-search"></i></button>
+                    <button (click)="search(searchInput.value)" type="submit" class="btn btn-secondary">
+                      <i class="ec ec-search"></i>
+                    </button>
                   </div>
                 </div>
               </form>

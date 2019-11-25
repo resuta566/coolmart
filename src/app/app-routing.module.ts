@@ -29,6 +29,8 @@ import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
+import { ShopItemResolverService } from './_service/resolver/shop-item-resolver.service';
+
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
   { path: '' , component: HomeComponent },
@@ -39,9 +41,11 @@ const routes: Routes = [
   { path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard], data: {title: 'Checkout' + htmlTitle} },
   { path: 'shop' , component: ShopComponent },
   { path: 'shop/:search' , component: ShopComponent },
-  { path: 'shop/shop-item/:slug' , component: ShopItemComponent },
+  { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService } },
   { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {title: 'Register / Sign In' + htmlTitle} },
-  { path: 'dashboard' , component: DashboardComponent, canActivate: [AuthGuard], data: {title: 'Dashboard' + htmlTitle},
+  { path: 'dashboard' , component: DashboardComponent,
+  // canActivate: [AuthGuard],
+  data: {title: 'Dashboard' + htmlTitle},
       children:[
         {path: '', pathMatch: 'full', redirectTo: 'account'},
         {path: 'account', component: AccountComponent, data: { title: 'Manage My Account'} },

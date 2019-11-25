@@ -37,3 +37,10 @@
 .mat-spinner-color ::ng-deep circle{
   stroke: #f78c00 !important;
 }
+.product-search-bar{
+  text-align: center;
+  margin: 20px 12px;
+}
+.product-search-bar input[type=text]{
+  width: 55%;
+}

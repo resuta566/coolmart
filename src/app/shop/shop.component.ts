@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ProductService } from '@app/_service/product/product.service';
 import { environment } from '@environments/environment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BrandService } from '@app/_service/brand/brand.service';
 import { DOCUMENT } from '@angular/common';
 import { CategoriesService } from '@app/_service/category/categories.service';
@@ -9,7 +9,6 @@ import { TypesService } from '@app/_service/type/types.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
-import { AlertService } from '@app/_service';
 import { Filter } from '@app/_models/filter/filter';
 
 import { NOTYF } from '@app/_helpers/notyf.token';
@@ -77,11 +76,11 @@ export class ShopComponent implements OnInit, OnDestroy {
     private categoriesService: CategoriesService,
     private typeService: TypesService,
     private titleService: Title,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
     ) { }
 
   ngOnInit() {
-    console.log(this.airconphp.length);
 
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
       this.keyword = rt.get('search');
@@ -134,6 +133,11 @@ export class ShopComponent implements OnInit, OnDestroy {
                     this.notyf.error(error);
               })
               ;
+  }
+
+  search(keyword: string) {
+    let value = keyword;
+    this.router.navigate([`/shop/${value}`]);
   }
 
   filter(){
@@ -199,7 +203,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     }
   }
   getHpCap(hp: any, isChecked: boolean){
-    //Add the Brand ID to the array to send to the API else remove ID from the array
+    //Add the HP to the array to send to the API else remove HP from the array
     if(isChecked){
       this.airconhpselectedArray.push(hp);
       this.currentPage = null;

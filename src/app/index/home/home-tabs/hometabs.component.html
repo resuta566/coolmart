@@ -22,7 +22,7 @@
                         <ng-container *ngFor="let product of products | slice: 0 : limit ;let i = index">
                           <li class="product">
                               <div class="product-outer">
-                                  <div class="product-inner">
+                                  <div class="product-inner" [ngClass]="{'myhover': limit <= 4}">
                                       <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
                                       <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                           <h3>{{ product?.attributes.name }}</h3>
