@@ -78,10 +78,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private route: ActivatedRoute,
     private router: Router
-    ) { }
-
-  ngOnInit() {
-
+    ) {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
       this.keyword = rt.get('search');
       this.loadingProduct = true;
@@ -92,6 +89,9 @@ export class ShopComponent implements OnInit, OnDestroy {
       this.titleService.setTitle(  `${this.keyword} - Buy ${this.keyword} at Best Pirce | Cool Mart` );
       }
     });
+    }
+
+  ngOnInit() {
     this.document.body.classList.remove('page-template-default'); //For the style of this component
     this.document.body.classList.add('left-sidebar'); //important for the style of the shop
     this.getBrands();

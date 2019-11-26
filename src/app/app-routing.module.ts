@@ -29,7 +29,8 @@ import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
-import { ShopItemResolverService } from './_service/resolver/shop-item-resolver.service';
+import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
@@ -41,9 +42,10 @@ const routes: Routes = [
   { path: 'shop' , component: ShopComponent, data:{ num: 2} },
   { path: 'shop/:search' , component: ShopComponent, data:{ num: 3} },
   { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
-  { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {num: 4,title: 'Register / Sign In' + htmlTitle} },
+  { path: 'shop/shop-item/:brandname/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
+  { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {num: 14,title: 'Register / Sign In' + htmlTitle} },
   { path: 'dashboard' , component: DashboardComponent,
-  // canActivate: [AuthGuard],
+  canActivate: [AuthGuard],
   data: { num: 5, title: 'Dashboard' + htmlTitle},
       children:[
         {path: '', pathMatch: 'full', redirectTo: 'account'},
@@ -53,7 +55,8 @@ const routes: Routes = [
         {path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9} },
         {path: 'order', component: OrderComponent, data:{ num: 10} },
         {path: 'order/returns', component: ReturnsComponent,data:{ num: 11} },
-        {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12} }
+        {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12} },
+        {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13} }
       ] },
   { path: 'pages',
       children: [

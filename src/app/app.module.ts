@@ -43,7 +43,8 @@ import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
-import { ShopItemResolverService } from './_service/resolver/shop-item-resolver.service';
+import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -74,7 +75,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     OrderComponent,
     ReturnsComponent,
     CancellationsComponent,
-    EmailVerificationComponent
+    EmailVerificationComponent,
+    ReviewsComponent
   ],
   imports: [
     ReactiveFormsModule,

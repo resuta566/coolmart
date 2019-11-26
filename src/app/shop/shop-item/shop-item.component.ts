@@ -47,11 +47,13 @@ export class ShopItemComponent implements OnInit {
       this.relatedBrandArray = [ this.response.attributes.brand_id ];
       this.relatedCategoryArray = [ this.response.attributes.category_id ];
       this.relatedTypeArray = [ this.response.attributes.type_id ];
+      this.getProductDetails();
 
     }
 
   ngOnInit() {
-    this.getProductDetails();
+    console.log(this.response);
+
   }
 
   getRelatedProducts() {
@@ -112,9 +114,9 @@ export class ShopItemComponent implements OnInit {
         {
             breakpoint: 800,
             width: '100%',
-            height: '300px',
+            height: '500px',
             imagePercent: 80,
-            thumbnailsPercent: 10,
+            thumbnailsPercent: 40,
             thumbnailsMargin: 20,
             thumbnailMargin: 20,
             thumbnailsColumns: 3
@@ -124,7 +126,7 @@ export class ShopItemComponent implements OnInit {
             breakpoint: 400,
             preview: false ,
             width: "100%",
-            height: "200px",
+            height: "300px",
             thumbnailsColumns: 2
         }
     ];

@@ -15,6 +15,7 @@ import { HomeBottomBrandsCarouselComponent } from '@app/index/home/home-bottom-b
 import { HomeProductsCardComponent } from '@app/index/home/home-products-card/home-products-card.component';
 import { AddtocartComponent } from '@app/_components/addtocart/addtocart.component';
 import { AlertModule } from './alert.module';
+import { RouterModule } from '@angular/router';
 
 
   const Home = [
@@ -34,6 +35,7 @@ import { AlertModule } from './alert.module';
 @NgModule({
   declarations: [Home],
   imports:[
+    RouterModule,
     BrowserModule,
     CommonModule,
     NgxGalleryModule,

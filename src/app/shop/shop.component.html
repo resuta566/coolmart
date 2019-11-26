@@ -1,18 +1,18 @@
 <div id="content" class="site-content" tabindex="-1">
   <div class="container">
-    <!-- <mat-progress-spinner
+    <nav class="woocommerce-breadcrumb">
+      <a href="/">Home</a><span class="delimiter">
+        <i class="fa fa-angle-right"></i></span>Shop
+    </nav>
+    <mat-progress-spinner
               *ngIf="loadingProduct"
               style="margin:200px auto !important;"
               class="mat-spinner-color"
               [mode]="mode"
               [diameter]="200"
               [value]="value">
-            </mat-progress-spinner> -->
-    <nav class="woocommerce-breadcrumb">
-      <a href="/">Home</a><span class="delimiter">
-        <i class="fa fa-angle-right"></i></span>Shop
-    </nav>
-
+            </mat-progress-spinner>
+    <div *ngIf="!loadingProduct">
     <div id="primary" class="content-area">
       <main id="main" class="site-main">
 
@@ -74,7 +74,7 @@
                     <div class="product-inner">
                       <span class="loop-product-categories"><a href="product-category.html" rel="tag">Air
                           Conditioner</a></span>
-                      <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                      <a [routerLink]="['/shop/shop-item/',product?.relationships.brand.name,product?.attributes.slug]">
                         <h3>{{ product.attributes.name }}</h3>
                         <div class="product-thumbnail">
                           <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
@@ -552,6 +552,7 @@
           </li>
         </ul>
       </aside>
+    </div>
     </div>
 
   </div><!-- .container -->

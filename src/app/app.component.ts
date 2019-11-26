@@ -23,11 +23,11 @@ export class AppComponent implements OnInit{
 
   constructor(
     private titleService: Title,
-    public router: Router,
+    public routerNav: Router,
     private activatedRoute: ActivatedRoute
     ) {
       // Subscribe to the router events observable
-    this.router.events.subscribe((routerEvent: Event) => {
+    this.routerNav.events.subscribe((routerEvent: Event) => {
 
       // On NavigationStart, set showLoadingIndicator to ture
       if (routerEvent instanceof NavigationStart) {
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     const appTitle = this.titleService.getTitle();
-    this.router
+    this.routerNav
       .events.pipe(
         filter(event => event instanceof NavigationEnd),
         map(() => {

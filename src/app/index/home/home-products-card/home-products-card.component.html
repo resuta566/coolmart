@@ -12,7 +12,7 @@
                 <div class="product-outer">
                     <div class="product-inner">
                         <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
-                        <a href="shop-item/{{ product?.attributes.slug }}">
+                        <a [routerLink]="['/shop/shop-item/', product?.relationships.brand.name , product?.attributes.slug ]">
                             <h3>{{ product?.attributes.name }}</h3>
                             <div class="product-thumbnail">
                                 <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
@@ -34,7 +34,7 @@
                                   </ng-container>
                                 </span>
                             </span>
-                            <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
                         </div><!-- /.price-add-to-cart -->
 
                         <div class="hover-area">

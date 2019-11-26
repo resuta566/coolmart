@@ -44,9 +44,6 @@ export class CartComponent implements OnInit {
 
 
   removeItem(id: number) {
-    // if(confirm("Are you sure to delete this item?")){
-    //   this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
-    // }
     const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
       width: '300px',
       height: '180px'
