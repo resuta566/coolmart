@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { AlertService } from '@app/_service/core/alert.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Filter } from '@app/_models/filter/filter';
 
 @Component({
   selector: 'home-products-card',
@@ -12,7 +13,9 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class HomeProductsCardComponent implements OnInit, OnDestroy {
 
-
+  btnclass = 'button add_to_cart_button';
+  label = 'Add To cart';
+  filter: Filter;
   products: Object;
   apiUrl = `${environment.apiUrl}`;
   imgArray = [];
@@ -26,7 +29,10 @@ export class HomeProductsCardComponent implements OnInit, OnDestroy {
   }
 
   getProducts() {
-    this.productService.getProducts().pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
+    let filter: Filter = {
+      typeArray: [1,2]
+    };
+    this.productService.getProducts(filter).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;
       },
         error => {

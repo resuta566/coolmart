@@ -1,28 +1,50 @@
 import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { PagesModule } from './_modules/pages.module';
 import { AppRoutingModule } from './app-routing.module';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { NgxGalleryModule } from 'ngx-gallery';
+
+import { ConfirmationDialogComponent } from './_components/confirmation-dialog/confirmation-dialog.component';
+import { NOTYF, notyfFactory } from '@app/_helpers/notyf.token';
+import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
+
+import { PagesModule } from './_modules/pages.module';
+import { HomeModule } from './_modules/home.module';
+import { AlertModule } from '@app/_modules/alert.module';
+
 import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavbarComponent } from './index/navbar/navbar.component';
 import { FooterComponent } from './index/footer/footer.component';
 import { CartComponent } from './dashboard/cart/cart.component';
-import { CompareComponent } from './pages/compare/compare.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { TrackComponent } from './dashboard/track/track.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShopItemComponent } from './shop/shop-item/shop-item.component';
-import { HomeModule } from './_modules/home.module';
+import { CompareComponent } from './pages/compare/compare.component';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
-import { OwlModule } from 'ngx-owl-carousel';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
-import { NgxGalleryModule } from 'ngx-gallery';
-import { AlertModule } from '@app/_modules/alert.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccountComponent } from './dashboard/account/account.component';
+import { ProfileComponent } from './dashboard/account/profile/profile.component';
+import { AddressBookComponent } from './dashboard/account/address-book/address-book.component';
+import { PaymentOptionsComponent } from './dashboard/account/payment-options/payment-options.component';
+import { OrderComponent } from './dashboard/order/order.component';
+import { ReturnsComponent } from './dashboard/order/returns/returns.component';
+import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
+import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
+
+import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -44,26 +66,45 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ShopComponent,
     ShopItemComponent,
     StoreLocationComponent,
-    DashboardComponent
+    DashboardComponent,
+    ConfirmationDialogComponent,
+    AccountComponent,
+    ProfileComponent,
+    AddressBookComponent,
+    PaymentOptionsComponent,
+    OrderComponent,
+    ReturnsComponent,
+    CancellationsComponent,
+    EmailVerificationComponent,
+    ReviewsComponent
   ],
   imports: [
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     CommonModule,
-    AppRoutingModule,
     PagesModule,
     HomeModule,
     HttpClientModule,
-    OwlModule,
     NgxGalleryModule,
     AlertModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatTabsModule,
+    AppRoutingModule
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
+    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+    { provide: NOTYF, useFactory: notyfFactory },
+    ShopItemResolverService
   ],
   bootstrap: [AppComponent]
 })

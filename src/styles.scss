@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // @import './assets/css/style.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 .logosvg{
   font-size: 35px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -10,7 +11,6 @@
   position: -webkit-sticky;
   position: sticky;
   top:0;
-  z-index: 9999;
 }
 
 .discount{
@@ -18,3 +18,166 @@
   line-height: 1.5em;
 }
 
+.pointer-cursor{
+  cursor: pointer;
+}
+
+
+//Over lay and Spinner animation
+
+
+.lds-ring {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  z-index: 999;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #f78c00;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #f78c00 transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.329); /* Black background with opacity */
+  z-index: 2000; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+//END Over lay and Spinner animation
+
+.header-bg{
+  color: #fff !important;
+  background-color: #f78c00 !important;
+}
+
+
+//Dashboard Order styles
+.order-list{
+  padding: 8px 12px;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
+  0 8px 10px 1px rgba(0,0,0,.14),
+  0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+.order{
+  min-height: 230px;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
+  0 8px 10px 1px rgba(0,0,0,.14),
+  0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+.order > .order-detail{
+  width: 100%;
+  padding: 8px 12px;
+  min-height: 80px;
+  border-bottom: 1px solid #dadada;
+  display: flex;
+}
+.order-detail > .order-link{
+  margin-bottom: 4px;
+}
+.order-left > .order-info-date{
+  font-size: 12px;
+  color: #757575 !important;
+}
+.order-detail > .order-right , .order-detail > .order-left{
+  margin: auto !important;
+  flex-direction: column;
+}
+.order-detail > .center-pull{
+  -webkit-box-flex: 1;
+  flex: 1;
+  margin: 0 30px;
+  text-align: right;
+}
+.order > .order-item{
+  min-height: 80px;
+  margin: 24px 12px 24px 36px !important;
+  padding-right: 12px !important;
+}
+.order-item > .item-pic {
+  float: left !important;
+}
+.order-item > .item-pic img, .order-item > td > .item-pic img{
+  height: 80px;
+  width: 80px;
+  max-width: none !important;
+}
+
+.order-item > .item-main, .order-item > td > .item-main {
+  width: auto;
+  height: 100%;
+  float: left;
+  margin-left: 12px;
+  margin-right: 24px;
+}
+
+.item-main > .item-name{
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.order-item > .item-quantity,.order-item> td > .item-quantity{
+  font-size: 14px;
+  float: left;
+  width: 64px;
+  min-height: 80px;
+  text-align: left;
+}
+// .order-item > .item-status{
+
+// }
+
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+  border-radius: 5px;
+  width: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+  background: #f78c00;
+  border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+  background: #f78c00;
+  }

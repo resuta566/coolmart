@@ -12,11 +12,16 @@
                 <div class="product-outer">
                     <div class="product-inner">
                         <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
-                        <a href="shop-item/{{ product?.attributes.slug }}">
+                        <a [routerLink]="['/shop/shop-item/', product?.relationships.brand.name , product?.attributes.slug ]">
                             <h3>{{ product?.attributes.name }}</h3>
                             <div class="product-thumbnail">
-                                <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.images[0] }}" class="img-responsive" alt="">
-                            </div>
+                                <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                                    <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}" class="img-responsive" alt="product-image">
+                                </ng-container>
+                                <ng-template #noImage>
+                                    <img class="wp-post-image" data-echo="assets/images/noimage.jpg" src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                                </ng-template>
+                              </div>
                         </a>
 
                         <div class="price-add-to-cart">
@@ -29,7 +34,7 @@
                                   </ng-container>
                                 </span>
                             </span>
-                            <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
                         </div><!-- /.price-add-to-cart -->
 
                         <div class="hover-area">

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { tap, catchError, map } from "rxjs/operators";
+import { tap, catchError, map, filter } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
 import { Products } from '@app/_models/products/products';
+import { Filter } from '@app/_models/filter/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -30,15 +31,35 @@ export class ProductService {
     }
   }
 
-  getProducts(keyword?, brand?, category?, type?, min?, max?) {
-    let actualKeyword = keyword ? keyword : ''; // The Search Keyword
-    let actualbrand = brand ? brand : this.null; // Brand Array
-    let actualCategory = category ? category : this.null;// Category Array
-    let actualType = type ? type : this.null;// Type Array
-    let actualMin = min ? min : ''; //Minimum Value
-    let actualMax = max ? max : ''; //Maximum Value
-    //The HttpParams
-    let prodparams = new HttpParams().set('name', actualKeyword).set('min',actualMin).set('max', actualMax);
+  getProducts(filterArray?: Filter) {
+    let name; let brand; let category; let type; let min; let max; let sort ; let page; let cap;
+    if(filterArray){
+      name = filterArray.name;
+      brand = filterArray.brandArray;
+      category = filterArray.categoryArray;
+      type = filterArray.typeArray;
+      min = filterArray.min;
+      max = filterArray.max;
+      sort = filterArray.sort;
+      page  = filterArray.page;
+      cap = filterArray.cap;
+    }
+    let actualKeyword = name || ''; // The Search Keyword
+    let actualbrand = brand || this.null; // Brand Array
+    let actualCategory = category || this.null;// Category Array
+    let actualType = type || this.null;// Type Array
+    let actualMin = min || ''; //Minimum Value
+    let actualMax = max || ''; //Maximum Value
+    let actualSort= sort || 'asc'; //Sort by
+    let actualCap = cap || ''; //Capacity / HorsePAWAAA
+    let actualPage = page || `${environment.apiUrl}/api/items`;
+    // //The HttpParams
+    let prodparams = new HttpParams()
+      .set('name', actualKeyword)
+      .set('min',actualMin)
+      .set('max', actualMax)
+      .set('sort', actualSort)
+      .set('cap',actualCap.toString());
     if(actualbrand){
       if(actualbrand.length !== 0){
         //If actualBrandArray is not 0 loop else delete
@@ -87,9 +108,17 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
-    return this.http.get<Products[]>(`${environment.apiUrl}/api/items`,
+    console.log(prodparams.toString());
+    return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),
+          catchError(this.handleError<Products[]>('getProducts', []))
+        );
+  }
+
+  getProductOption(option?: string){
+    return this.http.get<Products[]>(`${environment.apiUrl}/api/items/${option}`).pipe(
+          tap(_ => console.log('fetched products Options')),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }

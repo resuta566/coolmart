@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { OwlModule } from 'ngx-owl-carousel';
+
 import { NgxGalleryModule } from 'ngx-gallery';
 import { HomeComponent } from '../index/home/home.component';
 import { HomecarouselComponent } from '../index/home/home-carousel/homecarousel.component';
@@ -13,8 +13,10 @@ import { HomeTopThisMonthComponent } from '@app/index/home/home-top-this-month/h
 import { HomeBottomProductsComponent } from '@app/index/home/home-bottom-products/home-bottom-products.component';
 import { HomeBottomBrandsCarouselComponent } from '@app/index/home/home-bottom-brands-carousel/home-bottom-brands-carousel.component';
 import { HomeProductsCardComponent } from '@app/index/home/home-products-card/home-products-card.component';
-import { AddtocartComponent } from '@app/dashboard/addtocart/addtocart.component';
+import { AddtocartComponent } from '@app/_components/addtocart/addtocart.component';
 import { AlertModule } from './alert.module';
+import { RouterModule } from '@angular/router';
+
 
   const Home = [
     HomeComponent,
@@ -33,9 +35,9 @@ import { AlertModule } from './alert.module';
 @NgModule({
   declarations: [Home],
   imports:[
+    RouterModule,
     BrowserModule,
     CommonModule,
-    OwlModule,
     NgxGalleryModule,
     AlertModule
   ],

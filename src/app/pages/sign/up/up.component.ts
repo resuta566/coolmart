@@ -1,11 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, takeUntil } from 'rxjs/operators';
 import { MustMatch } from '@app/_helpers';
 
 import { AuthenticationService, AlertService } from '@app/_service';
 import { Subject } from 'rxjs';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'sign-up',
@@ -17,10 +20,13 @@ export class UpComponent implements OnInit, OnDestroy {
   loading = false;
   submitted = false;
   messages: string;
+  returnUrl: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService
@@ -40,6 +46,8 @@ export class UpComponent implements OnInit, OnDestroy {
       }, {
         validator: MustMatch('password', 'cpassword')
       });
+
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
   }
 
   ngOnDestroy(): void {
@@ -68,21 +76,20 @@ export class UpComponent implements OnInit, OnDestroy {
         .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
-                this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
-                .pipe(first())
-                .subscribe(data => {
-                      this.router.navigate(['/dashboard']);
-                    },
-                    error => {
-                        this.alertService.error(error);
-                        this.loading = false;
-                    });;
-            },
+              this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
+              .pipe(first())
+              .subscribe(data => {
+                  if(data){
+                    this.router.navigate([this.returnUrl]);
+                    this.notyf.success('Successfully Registered!');
+                  }
+            }),
             error => {
                 this.alertService.error(error);
+                this.notyf.error(error);
                 // console.log(error);
-                this.loading = false;
-            });
+            }
+          });
     }
 
 }

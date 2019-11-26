@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from '@app/_service';
-import { CartService } from '@app/_service/cart/cart-service.service';
-import { BrandService } from '@app/_service/brand/brand.service';
+import { AuthenticationService } from '@app/_service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sign',
   templateUrl: './sign.component.html',
@@ -9,10 +8,24 @@ import { BrandService } from '@app/_service/brand/brand.service';
 })
 export class SignComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+    ) { }
 
   ngOnInit() {
+    let currentUser = this.authenticationService.currentUserValue;
+    if(currentUser){
+      this.router.navigateByUrl('/dashboard');
+    }
   }
 
-
+  ngAfterViewInit() {
+    let currentUser = this.authenticationService.currentUserValue;
+    setTimeout(()=>{
+      if(currentUser){
+        this.router.navigateByUrl('/dashboard');
+      }
+    }, 500);
+  }
 }

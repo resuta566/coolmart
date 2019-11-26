@@ -1,0 +1,46 @@
+<div>
+  <div class="card">
+    <div class="card-header header-bg">Address(es)</div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Full Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="postcode">
+              <th mat-header-cell *matHeaderCellDef> Post Code</th>
+              <td mat-cell *matCellDef="let element"> {{element.postcode}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef> Mobile</th>
+                <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="info">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element"> {{element.info}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="edit">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let element"> {{element.edit}} </td>
+                </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+        <button>Add New Address</button>
+</div>
+</div>
+

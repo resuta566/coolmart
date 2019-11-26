@@ -30,7 +30,7 @@
 
 
                               <li class="mini_cart_item">
-                                  <a href="#">
+                                  <a [routerLink]="['/dashboard/order']">
                                       My Orders
                                     </a>
                               </li>
@@ -46,7 +46,7 @@
                                     </a>
                               </li>
                               <li class="mini_cart_item">
-                                  <a href="#">
+                                  <a [routerLink]="['/dashboard/order/returns']">
                                       My Return &#038; Cancellations
                                     </a>
                               </li>
@@ -66,7 +66,7 @@
       </div>
   </div><!-- /.top-bar -->
 
-  <header id="masthead" class="site-header header-v3 stickynavbar">
+  <header id="masthead" class="header-v3 stickynavbar site-header">
       <div class="container">
           <div class="row">
 
@@ -83,18 +83,20 @@
               <form class="navbar-search" method="get" action="/">
                 <label class="sr-only screen-reader-text" for="search">Search for:</label>
                 <div class="input-group">
-                  <input #searchinput (keyup.enter)="search(searchinput.value)" type="text" id="search" class="form-control search-field" dir="ltr" name="s" placeholder="Search" />
+                  <input #searchInput (keyup.enter)="search(searchInput.value)" type="text" id="search" class="form-control search-field" dir="ltr" name="s" placeholder="Where To Deliver Your Items?" />
                   <div class="input-group-addon search-categories">
                     <select name='product_cat' id='product_cat' class='postform resizeselect' >
-                      <option value='0' selected='selected'>All Categories</option>
-                      <option class="level-0" value="window-type">Window Type</option>
-                      <option class="level-0" value="split-type">Split Type</option>
-                      <option class="level-0" value="portable">Portable</option>
+                      <option value='0' selected='selected'>Select Region</option>
+                      <option  *ngFor="let region of regions" class="level-0" value="{{ region.name }}">{{ region.name }}</option>
+                      <!-- <option class="level-0" value="split-type">Split Type</option>
+                      <option class="level-0" value="portable">Portable</option> -->
                     </select>
                   </div>
                   <div class="input-group-btn">
                     <input type="hidden" id="search-param" name="post_type" value="product" />
-                    <button (click)="search(searchinput.value)" type="submit" class="btn btn-secondary"><i class="ec ec-search"></i></button>
+                    <button (click)="search(searchInput.value)" type="submit" class="btn btn-secondary">
+                      <i class="ec ec-search"></i>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -112,14 +114,15 @@
                         <ul class="cart_list product_list_widget ">
 
 
-                          <li class="mini_cart_item" *ngFor="let cart of carts">
-                            <a title="Remove this item" class="remove" (click)="removeItem(cart?.id)">×</a>
-                            <a [routerLink]="['shop-item/', cart?.attributes.item_slug]">
-                              <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="">
-                              {{ cart?.attributes.item_name }}&nbsp;
-                            </a>
+                          <li class="mini_cart_item" *ngFor="let cart of carts | slice: 0 : 4">
+                                <a title="Remove this item" class="remove" (click)="removeItem(cart?.id)">×</a>
+                                <a [routerLink]="['shop-item/', cart?.attributes.item_slug]">
+                                  <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="">
+                                  {{ cart?.attributes.item_name }}&nbsp;
+                                </a>
 
-                            <span class="quantity">{{ cart?.attributes.cart_qty }} × <span class="amount">{{ cart?.attributes.item_srp }}</span></span>
+                                <span class="quantity">{{ cart?.attributes.cart_qty }} × <span class="amount">{{ cart?.attributes.item_srp }}</span></span>
+
                           </li>
 
 

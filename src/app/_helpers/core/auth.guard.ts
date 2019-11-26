@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { AuthenticationService, AlertService } from '@app/_service';
+import { AuthenticationService } from '@app/_service';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(
+        @Inject(NOTYF) private notyf: Notyf,
         private router: Router,
-        private authenticationService: AuthenticationService,
-        private alertService: AlertService
+        private authenticationService: AuthenticationService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -16,11 +19,10 @@ export class AuthGuard implements CanActivate {
         if (currentUser) {
             // logged in so return true
             return true;
-        }else{
-          alert('Please Log In');
-          // not logged in so redirect to login page with the return url
-          this.router.navigate(['/sign_in'], { queryParams: { returnUrl: state.url } });
-          return false;
         }
+          // not logged in so redirect to login page with the return url
+          this.router.navigate(['sign_in'], { queryParams: { returnUrl: state.url } });
+          this.notyf.error('Please Log In!');
+          return false;
     }
 }

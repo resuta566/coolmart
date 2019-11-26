@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, takeUntil } from 'rxjs/operators';
 
 import { AuthenticationService, AlertService } from '@app/_service';
 import { Subject } from 'rxjs';
+
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'sign-in',
@@ -18,6 +21,7 @@ export class InComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -36,7 +40,8 @@ export class InComponent implements OnInit, OnDestroy {
   });
 
   // get return url from route parameters or default to '/'
-  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
+  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+
   }
 
   ngOnDestroy(): void {
@@ -63,14 +68,15 @@ export class InComponent implements OnInit, OnDestroy {
         .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
-                this.alertService.success('Logged In! YAY!', true);
                 if(data){
-                  this.router.navigate([this.returnUrl]);
+                  this.router.navigateByUrl(this.returnUrl);
+                  this.notyf.success('Successfully Loggedin!');
                 }
             },
             error => {
               // console.log(error);
               this.alertService.error(error);
+              this.notyf.error(error);
             });
 }
 }

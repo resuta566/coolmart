@@ -15,3 +15,32 @@
 .disabled{
   cursor: not-allowed;
 }
+
+.price{
+  font-size: 1.2em !important;
+}
+
+.slashed{
+  position: relative;
+  float: left;
+  margin-top: -6px;
+  margin-left: 20px;
+}
+.notslashed{
+  margin-left: -35px;
+}
+
+.hidden{
+  display: none;
+}
+
+.mat-spinner-color ::ng-deep circle{
+  stroke: #f78c00 !important;
+}
+.product-search-bar{
+  text-align: center;
+  margin: 20px 12px;
+}
+.product-search-bar input[type=text]{
+  width: 55%;
+}

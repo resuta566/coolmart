@@ -1655,7 +1655,7 @@ li.product .product-short-description, .section-onsale-product .onsale-product .
   font-size: 0.857em;
   line-height: 1.75em;
   margin-bottom: 3em;
-  height: 7em;
+  height: 5em;
   overflow: hidden; }
   li.product .product-short-description::after, .section-onsale-product .onsale-product .product-short-description::after, .section-onsale-product-carousel .onsale-product-carousel .onsale-product .onsale-product-content .product-short-description::after, .products-carousel .owl-item .product .product-short-description::after {
     content: "";
@@ -4744,6 +4744,7 @@ ul.products {
       top: 50%;
       right: 0;
       height: 80%;
+      z-index: 998;
       -webkit-transform: translateY(-50%);
       -moz-transform: translateY(-50%);
       -ms-transform: translateY(-50%);

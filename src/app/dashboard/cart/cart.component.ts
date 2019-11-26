@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { first, takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -17,7 +19,8 @@ export class CartComponent implements OnInit {
   sum = 0;
   apiUrl = `${environment.apiUrl}`;
   constructor(
-    private cartService: CartService
+    private cartService: CartService,
+    private confirmDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -41,9 +44,18 @@ export class CartComponent implements OnInit {
 
 
   removeItem(id: number) {
-    if(confirm("Are you sure to delete this item?")){
-      this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
-    }
+    const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      height: '180px'
+    });
+    dialogRef.componentInstance.message = 'Are you sure to delete this item(s)?';
+    dialogRef.componentInstance.title = 'Remove from cart?';
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
+      }
+    });
 
   }
 

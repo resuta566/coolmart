@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
@@ -24,15 +24,29 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+    private handleError<T> (operation = 'operation' , result?: T) {
+      return (error: any): Observable<T> => {
+        // TODO: send the error to remote logging infrastructure
+        console.error(error); // log to console instead
+
+        // TODO: better job of transforming error for user consumption
+        console.log(`${operation} failed: ${error.messages}`);
+
+        // Let the app keep running by returning an empty result.
+        return of(result as T);
+      }
+    }
+
     login(email: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/api/login`, { email, password }, this.httpOptions)
-            .pipe(map(user => {
-                console.log(user);
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+            .pipe(
+              map(user => {
+                  // store user details and jwt token in local storage to keep user logged in between page refreshes
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+                  this.currentUserSubject.next(user);
+                  return user;
+                })
+            );
     }
 
     register(user: User) {
