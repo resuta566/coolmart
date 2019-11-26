@@ -15,10 +15,6 @@ import { Notyf } from 'notyf';
   providedIn: 'root'
 })
 export class CartService {
-  cart: Array<any>;
-
-  addOne = true;
-  addQty = true;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})

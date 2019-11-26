@@ -5,7 +5,10 @@
           class="fa fa-angle-right"></i></span>Checkout</nav>
 
     <div id="primary" class="content-area">
-      <main id="main" class="site-main">
+        <h2 style="text-align: center;" *ngIf="!thereIsItem;">
+          Cart Is Empty Please Shop We Need Money!
+        </h2>
+      <main id="main" class="site-main" *ngIf="thereIsItem;">
         <article class="page type-page status-publish hentry">
           <header class="entry-header">
             <h1 itemprop="name" class="entry-title">Checkout</h1>

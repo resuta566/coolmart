@@ -16,6 +16,7 @@ export class CheckoutComponent implements OnInit {
   carts: any;
   subtotal = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  thereIsItem = true;
 
   constructor(
     private cartService: CartService,
@@ -35,6 +36,8 @@ export class CheckoutComponent implements OnInit {
     this.cartService.carts().pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.carts = data.data;
       console.log(this.carts);
+      if(this.carts.length <= 0) this.thereIsItem = false;
+      console.log(this.thereIsItem);
 
       //Compute the subtotal of all the items
       this.carts.forEach( item =>{

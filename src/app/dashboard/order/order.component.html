@@ -4,14 +4,15 @@
     <mat-tab label="All(1)">
       <ng-template matTabContent>
         <div class="order-list">
-          <div class="order">
+          <p style="text-align: center;" *ngIf="orders.length <= 0"> No Orders Yet</p>
+          <div class="order" *ngFor="let order of orders">
             <div class="order-detail">
               <div class="order-left">
                 <div class="order-link">
-                  Order <a href="#">#263195583976552</a>
+                  Order <a href="#">#{{ order?.attributes.transaction_id }}</a>
                 </div>
                 <div class="order-info-date">
-                  Placed on 19 Nov 2019 15:26:08
+                  Placed on {{ order?.attributes.date_placed }}
                 </div>
               </div>
               <div class="center-pull"></div>
@@ -21,7 +22,7 @@
             </div>
             <div style="overflow-x:auto;">
               <table>
-                <tr>
+                <tr *ngFor="let items of order?.relationships.carts.data">
                   <div class="order-item">
                     <td>
                       <div class="item-pic">
@@ -32,47 +33,13 @@
                     <td>
                       <div class="item-main">
                         <div class="item-name">
-                          Sandisk Ultra Micro SDXC 64GB Class 10 UHS-I SDSQUNS-064G Memory Card - NEW MODEL (Speed up to
-                          80MB/s)
+                          {{ items?.attributes.item_name }}
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="item-quantity">
-                        Qty: 1
-                      </div>
-                    </td>
-                    <td>
-                      <div class="item-status">
-                        Delivered
-                      </div>
-                    </td>
-                    <td>
-                      <div class="item-info">
-                        Delivered on 20 Nov 2019
-                      </div>
-                    </td>
-                  </div>
-                </tr>
-                <tr>
-                  <div class="order-item">
-                    <td>
-                      <div class="item-pic">
-                        <img src="http://ph-live.slatic.net/original/ae0e0b0b54e1f18b625542082fd22120.jpg"
-                          alt="product-thumbnail">
-                      </div>
-                    </td>
-                    <td>
-                      <div class="item-main">
-                        <div class="item-name">
-                          Sandisk Ultra Micro SDXC 64GB Class 10 UHS-I SDSQUNS-064G Memory Card - NEW MODEL (Speed up to
-                          80MB/s)
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="item-quantity">
-                        Qty: 1
+                        Qty: {{ items?.attributes.cart_qty }}
                       </div>
                     </td>
                     <td>
@@ -93,7 +60,7 @@
         </div>
       </ng-template>
     </mat-tab>
-    <mat-tab label="To Pay">
+    <!-- <mat-tab label="To Pay">
       <ng-template matTabContent>
         <div class="order-list">
           <div class="order">
@@ -167,7 +134,7 @@
           </div>
         </div>
       </ng-template>
-    </mat-tab>
+    </mat-tab> -->
   </mat-tab-group>
 
 </div>
