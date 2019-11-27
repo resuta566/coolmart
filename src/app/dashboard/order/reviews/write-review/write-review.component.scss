@@ -1,7 +1,3 @@
-
-::ng-deep .mat-ink-bar{
-  background: #f78c00 !important;
-}
 table{
   margin-bottom: 0.01rem;
 }
@@ -27,4 +23,8 @@ table{
   color: white;
   background: #000000;
   background-color: #000000;
+}
+
+.text-area{
+  margin: 8px 8px;
 }

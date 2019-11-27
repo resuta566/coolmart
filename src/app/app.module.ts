@@ -6,15 +6,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MaterialModule } from './_modules/material.module';
 
 import { NgxGalleryModule } from 'ngx-gallery';
 
 import { ConfirmationDialogComponent } from './_components/confirmation-dialog/confirmation-dialog.component';
+import { StarRatingComponent } from './_components/star-rating/star-rating.component';
 import { NOTYF, notyfFactory } from '@app/_helpers/notyf.token';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 
@@ -25,15 +22,12 @@ import { AlertModule } from '@app/_modules/alert.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './index/navbar/navbar.component';
 import { FooterComponent } from './index/footer/footer.component';
+
 import { CartComponent } from './dashboard/cart/cart.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { TrackComponent } from './dashboard/track/track.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ShopComponent } from './shop/shop.component';
-import { ShopItemComponent } from './shop/shop-item/shop-item.component';
-import { CompareComponent } from './pages/compare/compare.component';
-import { StoreLocationComponent } from './pages/store-location/store-location.component';
 import { AccountComponent } from './dashboard/account/account.component';
 import { ProfileComponent } from './dashboard/account/profile/profile.component';
 import { AddressBookComponent } from './dashboard/account/address-book/address-book.component';
@@ -41,10 +35,17 @@ import { PaymentOptionsComponent } from './dashboard/account/payment-options/pay
 import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
+import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
+import { WriteReviewComponent } from './dashboard/order/reviews/write-review/write-review.component';
+
+import { ShopComponent } from './shop/shop.component';
+import { ShopItemComponent } from './shop/shop-item/shop-item.component';
+
+import { CompareComponent } from './pages/compare/compare.component';
+import { StoreLocationComponent } from './pages/store-location/store-location.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
-import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -76,7 +77,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ReturnsComponent,
     CancellationsComponent,
     EmailVerificationComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    WriteReviewComponent,
+    StarRatingComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -89,11 +92,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     NgxGalleryModule,
     AlertModule,
     BrowserAnimationsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatTabsModule,
+    MaterialModule,
     AppRoutingModule
   ],
   entryComponents: [

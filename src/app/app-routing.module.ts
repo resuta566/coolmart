@@ -31,6 +31,7 @@ import { EmailVerificationComponent } from './pages/email-verification/email-ver
 
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
 import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
+import { WriteReviewComponent } from './dashboard/order/reviews/write-review/write-review.component';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
@@ -56,7 +57,8 @@ const routes: Routes = [
         {path: 'order', component: OrderComponent, data:{ num: 10} },
         {path: 'order/returns', component: ReturnsComponent,data:{ num: 11} },
         {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12} },
-        {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13} }
+        {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13} },
+        {path: 'order/reviews/write-review/:id', component: WriteReviewComponent, data:{ num: 15} }
       ] },
   { path: 'pages',
       children: [

@@ -27,7 +27,6 @@ export class OrderComponent implements OnInit, OnDestroy {
   getOrder(){
     this.orderService.orders().pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.orders = data.data;
-      console.log(this.orders);
     });
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '@app/_service/cart/cart-service.service';
+import { environment } from '@environments/environment';
 import { first, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material';
@@ -17,6 +18,7 @@ export class CheckoutComponent implements OnInit {
   subtotal = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   thereIsItem = true;
+  apiUrl = `${environment.apiUrl}`;
 
   constructor(
     private cartService: CartService,

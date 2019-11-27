@@ -45,6 +45,7 @@ export class CartService {
     return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
       map((data: any) => {
         // alert(data.success);
+        console.log(data);
         this.notyf.success(data.success);
       }),
       catchError(this.handleError('getCart', []))
