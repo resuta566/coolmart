@@ -12,6 +12,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 
 import { ConfirmationDialogComponent } from './_components/confirmation-dialog/confirmation-dialog.component';
 import { StarRatingComponent } from './_components/star-rating/star-rating.component';
+import { StarRatingReviewComponent } from './_components/star-rating-reviews/star-rating-reviews.component';
 import { NOTYF, notyfFactory } from '@app/_helpers/notyf.token';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 
@@ -79,7 +80,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     EmailVerificationComponent,
     ReviewsComponent,
     WriteReviewComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    StarRatingReviewComponent
   ],
   imports: [
     ReactiveFormsModule,

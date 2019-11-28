@@ -5,6 +5,7 @@ import { tap, catchError, map, filter } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
 import { Products } from '@app/_models/products/products';
+import { Reviews } from '@app/_models/products/reviews/reviews';
 import { Filter } from '@app/_models/filter/filter';
 
 @Injectable({
@@ -128,5 +129,12 @@ export class ProductService {
     return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
       tap(_ => console.log('fetched product'))
       );
+  }
+
+  getProductReviews(slug: string, page?: string):Observable<Reviews>{
+    let actualPage = page || `${environment.apiUrl}/api/items/reviews/${slug}`;
+    return this.http.get<Reviews>(actualPage).pipe(
+      tap(_ => console.log('fetched reviews', _))
+    );
   }
 }

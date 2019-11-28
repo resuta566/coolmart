@@ -9,7 +9,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Filter } from '@app/_models/filter/filter';
 
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-shop-item',
   templateUrl: './shop-item.component.html',
@@ -26,6 +26,10 @@ export class ShopItemComponent implements OnInit {
   slug: string;
   response: any;
   products: Object;
+  reviews: any;
+  reviewPage = '';
+  reviewMeta: any;
+  reviewLinks: any;
   btndisabled = false;
   btndisabledminus = false;
   btnaddtocart = false;
@@ -47,13 +51,11 @@ export class ShopItemComponent implements OnInit {
       this.relatedBrandArray = [ this.response.attributes.brand_id ];
       this.relatedCategoryArray = [ this.response.attributes.category_id ];
       this.relatedTypeArray = [ this.response.attributes.type_id ];
-      this.getProductDetails();
-
     }
 
   ngOnInit() {
     console.log(this.response);
-
+    this.getProductDetails();
   }
 
   getRelatedProducts() {
@@ -173,5 +175,18 @@ export class ShopItemComponent implements OnInit {
         this.btndisabled = false;
       }
     }
+  }
+
+  getReviews(){
+    this.productService.getProductReviews(this.response.attributes.slug,this.reviewPage).subscribe((data:any)=>{
+      this.reviews = data.data;
+      this.reviewMeta = data.meta;
+      this.reviewLinks = data.links;
+    })
+  }
+  changePageReview(page: string){
+    console.log(page);
+    this.reviewPage = page;
+    this.getReviews();
   }
 }

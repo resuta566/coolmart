@@ -40,7 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             if(err.status == 422){
               this.error = err.error.error || err.error.errors.email[0] || err.statusText;
-              // this.notyf.error(err.error.errors.email[0]);
+              this.notyf.error(err.error.errors.email[0]);
             }
 
             if(err.status == 500){

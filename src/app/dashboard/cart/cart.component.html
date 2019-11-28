@@ -50,11 +50,12 @@
                                       <td data-title="Quantity" class="product-quantity">
                                           <div class="quantity buttons_added">
                                               <label>Quantity:</label>
-                                              <ng-container *ngIf="cart?.attributes.cart_qty > 1; else minus ">
-                                                <input type="button" class="minus" value="-" (click)="decreaseQty(cart?.id)">
+                                              <!-- CSS ISSUE and UX Issue class minus is shown as add and works as add -->
+                                              <ng-container *ngIf="cart?.attributes.cart_qty >= cart?.attributes.item_qty;else add">
+                                                <input disabled data-toggle="tooltip" data-placement="top" type="button" class="minus" title="Max Quantity" value="+" (click)="addQty(cart?.id)">
                                               </ng-container>
-                                              <ng-template #minus>
-                                                <input disabled type="button" class="minus" value="-" (click)="decreaseQty(cart?.id)">
+                                              <ng-template #add>
+                                                <input type="button" class="minus" value="+" (click)="addQty(cart?.id)">
                                               </ng-template>
                                               <ng-container *ngIf="cart?.attributes.cart_qty > cart.attributes.validQty;else normal">
                                                 <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ cart?.attributes.validQty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
@@ -62,11 +63,11 @@
                                               <ng-template #normal>
                                                   <input readonly type="number" size="4" class="input-text qty text" title="Qty" value="{{ cart?.attributes.cart_qty }}" name="cart[92f54963fc39a9d87c2253186808ea61][qty]" max="29" min="0" step="1">
                                               </ng-template>
-                                              <ng-container *ngIf="cart?.attributes.cart_qty >= cart?.attributes.item_qty;else add">
-                                                <input data-toggle="tooltip" data-placement="top" title="Max Quantity" disabled type="button" class="plus" value="+" (click)="addQty(cart?.id)">
+                                              <ng-container *ngIf="cart?.attributes.cart_qty > 1; else minus ">
+                                                <input data-toggle="tooltip" data-placement="top" type="button" class="plus" value="-" (click)="decreaseQty(cart?.id)">
                                               </ng-container>
-                                              <ng-template #add>
-                                                <input type="button" class="plus" value="+" (click)="addQty(cart?.id)">
+                                              <ng-template #minus>
+                                                <input disabled type="button" class="plus" value="-" (click)="decreaseQty(cart?.id)">
                                               </ng-template>
 
                                           </div>

@@ -4,6 +4,15 @@
     <mat-tab label="All(1)">
       <ng-template matTabContent>
         <div class="order-list">
+            <mat-progress-spinner
+            *ngIf="loadingOrder; else loaded"
+            style="margin:60px auto !important;"
+            class="mat-spinner-color"
+            [mode]="mode"
+            [diameter]="90"
+            [value]="value">
+          </mat-progress-spinner>
+          <ng-template #loaded>
           <p style="text-align: center;" *ngIf="orders.length <= 0"> No Orders Yet</p>
           <div class="order" *ngFor="let order of orders">
             <div class="order-detail">
@@ -26,8 +35,14 @@
                   <div class="order-item">
                     <td>
                       <div class="item-pic">
-                        <img src="http://ph-live.slatic.net/original/ae0e0b0b54e1f18b625542082fd22120.jpg"
-                          alt="product-thumbnail">
+                          <ng-container *ngIf="items?.attributes.item_images.length <= 0;else thereIsImage">
+                              <img style="max-width: 100% !important;" src="assets/images/noimage2.jpg"
+                                alt="product-thumbnail0">
+                          </ng-container>
+                          <ng-template #thereIsImage>
+                            <img style="max-width: 100%;" src="{{ apiUrl }}/{{ items?.attributes.item_images[0] }}"
+                              alt="product-thumbnail1">
+                          </ng-template>
                       </div>
                     </td>
                     <td>
@@ -57,6 +72,34 @@
               </table>
             </div>
           </div>
+          </ng-template>
+          <div id="order-pagination" style="padding: 1.5em">
+              <nav class="woocommerce-pagination">
+                <ul class="page-numbers">
+                  <li [ngClass]="{hidden: orderPage?.prev !== null}">
+                    <a class="page-numbers" [ngClass]="{disabled: orderPage?.prev == null}">
+                      <i class="fa fa-arrow-left"></i>
+                    </a>
+                  </li>
+                  <li [ngClass]="{hidden: orderPage?.prev == null}">
+                    <a class="page-numbers" (click)="changePageOrder(orderPage?.prev)">
+                      <i class="fa fa-arrow-left"></i>
+                    </a>
+                  </li>
+                  <li><span class="page-numbers current">{{ orderMeta?.current_page }}</span></li>
+                  <li [ngClass]="{hidden: orderPage?.next !== null}">
+                    <a [ngClass]="{disabled: orderPage?.next == null}" class="page-numbers">
+                      <i class="fa fa-arrow-right"></i>
+                    </a>
+                 </li>
+                 <li [ngClass]="{hidden: orderPage?.next == null}">
+                    <a class="page-numbers" (click)="changePageOrder(orderPage?.next)">
+                      <i class="fa fa-arrow-right"></i>
+                    </a>
+                 </li>
+                </ul>
+              </nav>
+            </div>
         </div>
       </ng-template>
     </mat-tab>

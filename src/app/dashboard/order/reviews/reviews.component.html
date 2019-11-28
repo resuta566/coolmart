@@ -1,12 +1,12 @@
 <div class="card">
   <div class="card-header header-bg">My Reviews</div>
-  <mat-tab-group dynamicHeight>
+  <mat-tab-group dynamicHeight (selectedTabChange)="tabClicked($event)">
     <mat-tab label="To Be Reviewed">
       <ng-template matTabContent>
         <div class="order-list">
           <div class="order">
             <div style="overflow-x:auto;">
-              <table>
+              <table *ngIf="reviewListCount > 0;else nothing">
                 <tr *ngFor="let review of reviews">
                   <div class="order-item">
                     <td>
@@ -24,7 +24,10 @@
                     <td id="review-name">
                       <div class="item-main">
                         <div class="item-name">
-                          {{ review.attributes.item_name }} <br>
+                          <a style="color: black" [routerLink]="['/shop/shop-item/', review.attributes.item_slug]"
+                             [queryParams]="{ isFrom: myReview }" >
+                            {{ review.attributes.item_name }} <br>
+                          </a>
                           <div style="color: #757575;">
                             {{ review.attributes.date_placed }}
                           </div>
@@ -52,57 +55,137 @@
                   <div style="width:auto;height: 10px !important; background-color: #f78c00 !important;"></div>
                 </tr>
               </table>
+              <ng-template #nothing>
+                <p style="text-align: center;">No Orders Yet / To Be Reviewed</p>
+              </ng-template>
+
             </div>
           </div>
+          <div id="order-pagination" style="padding: 1.5em">
+              <nav class="woocommerce-pagination">
+                <ul class="page-numbers">
+                  <li [ngClass]="{hidden: reviewsPage?.prev !== null}">
+                    <a class="page-numbers" [ngClass]="{disabled: reviewsPage?.prev == null}">
+                      <i class="fa fa-arrow-left"></i>
+                    </a>
+                  </li>
+                  <li [ngClass]="{hidden: reviewsPage?.prev == null}">
+                    <a class="page-numbers" (click)="changePageReviews(reviewsPage?.prev)">
+                      <i class="fa fa-arrow-left"></i>
+                    </a>
+                  </li>
+                  <li><span class="page-numbers current">{{ reviewsMeta?.current_page }}</span></li>
+                  <li [ngClass]="{hidden: reviewsPage?.next !== null}">
+                    <a [ngClass]="{disabled: reviewsPage?.next == null}" class="page-numbers">
+                      <i class="fa fa-arrow-right"></i>
+                    </a>
+                 </li>
+                 <li [ngClass]="{hidden: reviewsPage?.next == null}">
+                    <a class="page-numbers" (click)="changePageReviews(reviewsPage?.next)">
+                      <i class="fa fa-arrow-right"></i>
+                    </a>
+                 </li>
+                </ul>
+              </nav>
+            </div>
         </div>
       </ng-template>
     </mat-tab>
     <mat-tab label="History">
       <ng-template matTabContent>
-        <div class="order-list">
-          <div class="order">
-            <div style="overflow-x:auto;">
-              <table>
-                <tr>
-                  <div class="order-item" style="height: 100%;">
-                    <td>
-                      <div class="item-pic">
-                        <img src="http://ph-live.slatic.net/original/ae0e0b0b54e1f18b625542082fd22120.jpg"
-                          alt="product-thumbnail">
-                      </div>
-                    </td>
-                    <td id="review-name">
-                      <div class="item-main">
-                        <div class="item-name">
-                          Sandisk Ultra Micro SDXC 64GB Class 10 UHS-I SDSQUNS-064G Memory Card - NEW MODEL (Speed up to
-                          80MB/s)
+        <mat-progress-spinner
+          *ngIf="loadingHistory"
+          style="margin:60px auto !important;"
+          class="mat-spinner-color"
+          [mode]="mode"
+          [diameter]="90"
+          [value]="value">
+        </mat-progress-spinner>
+        <div class="order-list" *ngIf="!loadingHistory">
+          <ng-container *ngIf="reviewedList?.data.length > 0;else nothing">
+              <div class="order">
+                  <div style="overflow-x:auto;">
+                    <table>
+                      <tr *ngFor="let reviewed of reviewedList?.data">
+                        <div class="order-item" style="height: 100%;">
+                          <td>
+                            <div class="item-pic">
+                                <ng-container *ngIf="reviewed?.image.length <= 0;else thereIsImage">
+                                    <img style="max-width: 100% !important; min-width: 80px !important;" src="{{ imageUrl }}"
+                                      alt="product-thumbnail">
+                                </ng-container>
+                                <ng-template #thereIsImage>
+                                  <img style="max-width: 100%;" src="{{ apiUrl }}/{{ reviewed?.image[0] }}"
+                                    alt="product-thumbnail">
+                                </ng-template>
+                            </div>
+                          </td>
+                          <td id="review-name" style="height: 140px;">
+                            <div class="item-main">
+                              <div class="item-name">
+                                <a [routerLink]="['/shop/shop-item/', reviewed?.slug]" >
+                                  {{ reviewed.name }}
+                                </a>
+                                <br>
+                                <a [routerLink]="['/dashboard/order/reviews/write-review', reviewed?.slug]" [queryParams]="{ slug:reviewed.slug, isReviewed:true }">
+                                  <review-star-rating
+                                    [rating]="reviewed.star"
+                                    [starCount]="starCount"
+                                    [color]="starColor"
+                                    (ratingUpdated)="onRatingChanged($event)">
+                                  </review-star-rating>
+                                  <div *ngIf="reviewed.comment !== null" class="review-area">
+                                      {{ reviewed.comment }} <br>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="item-quantity">
+                              <button class="reviewbtn" [routerLink]="['/dashboard/order/reviews/write-review', reviewed?.slug]" [queryParams]="{ slug:reviewed.slug, isReviewed:true }">Edit</button>
+                            </div>
+                          </td>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="item-quantity">
-                        <button class="reviewbtn" [routerLink]="['/dashboard/order/reviews/write-review']" >Review</button>
-                      </div>
-                    </td>
-                    <!-- <td>
-                      <div class="item-status">
-                        Delivered
-                      </div>
-                    </td>
-                    <td>
-                      <div class="item-info">
-                        Delivered on 20 Nov 2019
-                      </div>
-                    </td> -->
+                        <div style="width:auto;height: 10px !important; background-color: #f78c00 !important;"></div>
+                      </tr>
+                    </table>
                   </div>
-                  <div style="width:auto;height: 10px !important; background-color: #f78c00 !important;"></div>
-                </tr>
-              </table>
-            </div>
-          </div>
+                </div>
+                <div id="order-pagination" style="padding: 1.5em">
+                    <nav class="woocommerce-pagination">
+                      <ul class="page-numbers">
+                        <li [ngClass]="{hidden: reviewedList?.prev_page_url !== null}">
+                          <a class="page-numbers" [ngClass]="{disabled: reviewedList?.prev_page_url == null}">
+                            <i class="fa fa-arrow-left"></i>
+                          </a>
+                        </li>
+                        <li [ngClass]="{hidden: reviewedList?.prev_page_url == null}">
+                          <a class="page-numbers" (click)="changePageReviewed(reviewedList?.prev_page_url)">
+                            <i class="fa fa-arrow-left"></i>
+                          </a>
+                        </li>
+                        <li><span class="page-numbers current">{{ reviewedList?.current_page }}</span></li>
+                        <li [ngClass]="{hidden: reviewedList?.next_page_url !== null}">
+                          <a [ngClass]="{disabled: reviewedList?.next_page_url == null}" class="page-numbers">
+                            <i class="fa fa-arrow-right"></i>
+                          </a>
+                       </li>
+                       <li [ngClass]="{hidden: reviewedList?.next_page_url == null}">
+                          <a class="page-numbers" (click)="changePageReviewed(reviewedList?.next_page_url)">
+                            <i class="fa fa-arrow-right"></i>
+                          </a>
+                       </li>
+                      </ul>
+                    </nav>
+                  </div>
+          </ng-container>
+          <ng-template #nothing>
+            <p style="text-align: center;">No Orders yet.</p>
+          </ng-template>
+
         </div>
       </ng-template>
     </mat-tab>
   </mat-tab-group>
-
 </div>

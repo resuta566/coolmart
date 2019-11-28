@@ -32,8 +32,11 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      console.log(params);
+
       this.paramsData = params;
       this.getItem(this.paramsData.slug);
+
     });
   }
 
@@ -51,6 +54,8 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
   getItem(slug: string){
     this.reviewService.writeReview(slug).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.product = data;
+      console.log(this.product);
+
     })
   }
 

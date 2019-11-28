@@ -9,7 +9,8 @@ table{
   min-height: 100px !important;
 }
 #review-name{
-  width: 650px !important;
+  min-width: 650px !important;
+  height: 100%;
 }
 
 @media(max-width: 768px){
@@ -27,4 +28,23 @@ table{
   color: white;
   background: #000000;
   background-color: #000000;
+}
+.mat-spinner-color ::ng-deep circle{
+  stroke: #f78c00 !important;
+}
+.review-area{
+  padding: 5px;
+  overflow-y:scroll;
+  height: 70px;
+  border:1px solid #d5d5d5;
+  background: #eff0f5;
+  color: #212121;
+  width: 100% !important;
+  border-radius: 10px;
+}
+.item-main{
+  min-width: 540px !important;
+}
+a{
+  color: black;
 }

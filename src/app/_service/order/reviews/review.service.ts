@@ -40,11 +40,27 @@ export class ReviewService {
       }
     }
 
-    reviews(){
+    reviews(page?: string){
+      let actualPage = page || `${environment.apiUrl}/api/items/reviewable`;
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
         let authId = currentUser.user.id.toString();
-        return this.http.get(`${environment.apiUrl}/api/items/reviewable` , { params: { authId: authId, } } )
+        return this.http.get(actualPage , { params: { authId: authId, } } )
+          .pipe(
+            // tap(_ => console.log('fetched cart')),
+            catchError(this.handleError('getReviewable', []))
+        );
+      }
+    }
+
+    reviewed(page?: string){
+      let actualPage = page || `${environment.apiUrl}/api/items/reviewed`;
+      console.log(actualPage);
+
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
+        let authId = currentUser.user.id.toString();
+        return this.http.get(actualPage, { params: { authId: authId, } } )
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getReviewable', []))

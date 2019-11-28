@@ -2,3 +2,12 @@
 ::ng-deep .mat-ink-bar{
   background: #f78c00 !important;
 }
+.hidden{
+  display: none;
+}
+.disabled{
+  cursor: not-allowed;
+}
+.mat-spinner-color ::ng-deep circle{
+  stroke: #f78c00 !important;
+}
