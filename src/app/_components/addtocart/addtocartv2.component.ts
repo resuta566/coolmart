@@ -6,18 +6,17 @@ import { AuthenticationService } from '@app/_service';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Router } from '@angular/router';
-import { Subject, pipe } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-addtocart',
+  selector: 'app-addtocart-v2',
   template:
     `
-      <button [disabled]="option" (click)="addtocart()" class="{{ btnclass }}">{{ label }}</button>
+     <a (click)="addtocart()" class="{{ btnclass }}">{{ label }}</a>
     `,
-  styles: [``]
+  styles: [`a{cursor:pointer!important}`]
 })
-export class AddtocartComponent implements OnInit, OnDestroy {
+export class AddtocartV2Component implements OnInit, OnDestroy {
   @Input('itemId') itemId: number;
   @Input('qty') qty: number;
   @Input('label') label: string;

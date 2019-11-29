@@ -14,6 +14,7 @@ import { HomeBottomProductsComponent } from '@app/index/home/home-bottom-product
 import { HomeBottomBrandsCarouselComponent } from '@app/index/home/home-bottom-brands-carousel/home-bottom-brands-carousel.component';
 import { HomeProductsCardComponent } from '@app/index/home/home-products-card/home-products-card.component';
 import { AddtocartComponent } from '@app/_components/addtocart/addtocart.component';
+import { AddtocartV2Component } from '@app/_components/addtocart/addtocartv2.component';
 import { AlertModule } from './alert.module';
 import { RouterModule } from '@angular/router';
 
@@ -29,7 +30,8 @@ import { RouterModule } from '@angular/router';
     HomeBottomProductsComponent,
     HomeBottomBrandsCarouselComponent,
     HomeProductsCardComponent,
-    AddtocartComponent
+    AddtocartComponent,
+    AddtocartV2Component
   ]
 
 @NgModule({

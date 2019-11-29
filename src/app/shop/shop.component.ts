@@ -20,35 +20,41 @@ import { Notyf } from 'notyf';
 })
 export class ShopComponent implements OnInit, OnDestroy {
 
-
+  aTag = 'false';
   @ViewChildren("brandscbox") brandscbox: QueryList<ElementRef>;
   @ViewChildren("categorycbox") categorycbox: QueryList<ElementRef>;
   @ViewChildren("typecbox") typecbox: QueryList<ElementRef>;
   @ViewChildren("hpcaps") hpcaps: QueryList<ElementRef>;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  //These Are for the Checkbox list
+  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
+
   loadingProduct = false;
   loadingBrand = false;
   loadingCat = false;
   loadingType = false;
+  //Loading animation
   color = 'warn';
   mode = 'indeterminate';
   value = 20;
+  //MatSpinner Values
   btnclass="button add_to_cart_button addToCartBtn";
   label = "Add to cart";
+  //Add To Cart Component class and Label
   apiImgUrl = `${environment.apiUrl}`;
   products: Object[];
-  page: any;
-  link: any;
+  page: any; //Meta Link
+  link: any; //Pagination
   brands: any;
   categories: any;
   types: any;
+  //Lists
   limit = 4;//Brand Array Filter limit
   limitCap = 4;//Capacity / HP Array Filter limit
   limitCat = 4;//Category Array Filter limit
   limitType = 4;//Type Array Filter limit
-  keyword: string;
-  mini: number;
-  maxi: number;
+  keyword: string; //Search Query
+  mini: number; //The Minimum Filter
+  maxi: number; //Maximum Filter
   brandArray: Array<any> = [];//Brand Filter Array
   categoryArray: Array<any> = [];//Category Filter Array
   typeArray: Array<any> = []; //Type Filter Array
@@ -92,6 +98,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit() {
+    this.aTag = 'false';
     this.document.body.classList.remove('page-template-default'); //For the style of this component
     this.document.body.classList.add('left-sidebar'); //important for the style of the shop
     this.getBrands();

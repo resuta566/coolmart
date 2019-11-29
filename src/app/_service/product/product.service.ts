@@ -109,17 +109,16 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
-    console.log(prodparams.toString());
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
-          tap(_ => console.log('fetched products')),
+          tap(_ => console.log('fetched products', _)),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }
 
   getProductOption(option?: string){
     return this.http.get<Products[]>(`${environment.apiUrl}/api/items/${option}`).pipe(
-          tap(_ => console.log('fetched products Options')),
+          tap(_ => console.log('fetched products Options', _)),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }

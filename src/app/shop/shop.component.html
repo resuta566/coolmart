@@ -90,7 +90,7 @@
 
                         <div class="product-rating">
                           <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong
-                                class="rating">4</strong> out of 5</span></div> (3)
+                                class="rating">4</strong> out of 5</span></div> ({{ product.attributes.total_reviewer }})
                         </div>
 
                         <div class="product-short-description">
@@ -126,8 +126,14 @@
 
                           </span>
                         </span>
-                        <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
-                        </app-addtocart>
+                        <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                          </app-addtocart>
+                        </ng-container>
+                        <ng-template #instock>
+                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                          </app-addtocart>
+                        </ng-template>
                       </div><!-- /.price-add-to-cart -->
                       <div class="hover-area">
                         <div class="action-buttons">
@@ -212,9 +218,22 @@
                                 <span class="discount"> {{ product?.attributes.discountType }}</span>
                               </ng-container>
                             </span></span>
-                          <a class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+                          <!-- <a class="button product_type_simple add_to_cart_button ajax_add_to_cart"
                             data-product_sku="5487FB8/35" data-product_id="2706" data-quantity="1"
-                            href="single-product.html" rel="nofollow">Add to cart</a>
+                            href="single-product.html" rel="nofollow">Add to cart</a> -->
+
+                        <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                          <app-addtocart-v2
+                            [btnclass]="'button product_type_simple add_to_cart_button ajax_add_to_cart'"
+                            [label]="label" [itemId]="product?.id" [qty]="0">
+                          </app-addtocart-v2>
+                        </ng-container>
+                        <ng-template #instock>
+                          <app-addtocart-v2
+                          [btnclass]="'button product_type_simple add_to_cart_button ajax_add_to_cart'"
+                          [label]="label" [itemId]="product?.id" [qty]="1">
+                          </app-addtocart-v2>
+                        </ng-template>
                           <div class="hover-area">
                             <div class="action-buttons">
                               <div class="yith-wcwl-add-to-wishlist add-to-wishlist-2706">
@@ -309,7 +328,14 @@
                                 </ng-container>
                               </span>
                             </span>
-                            <a class="button add_to_cart_button" href="cart.html" rel="nofollow">Add to cart</a>
+                            <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                              </app-addtocart>
+                            </ng-container>
+                            <ng-template #instock>
+                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                              </app-addtocart>
+                            </ng-template>
                           </div><!-- /.price-add-to-cart -->
 
                           <div class="hover-area">

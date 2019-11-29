@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/_service';
+import { User } from '@app/_models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'dashboard-account',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
-  constructor() { }
+  currentUser: any;
+  constructor(
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+    this.currentUser = this.authenticationService.currentUserValue.user;
   }
 
 }

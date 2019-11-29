@@ -4,11 +4,9 @@
         <li class="nav-item">
             <a class="nav-link active" href="#tab-products-1" (click)="getProducts('featured')" data-toggle="tab">Featured</a>
         </li>
-
         <li class="nav-item">
             <a class="nav-link" href="#tab-products-2" (click)="getProducts('discounted')" data-toggle="tab">On Sale</a>
         </li>
-
         <li class="nav-item">
             <a class="nav-link" href="#tab-products-3" (click)="getProducts('toprated')" data-toggle="tab">Top Rated</a>
         </li>
@@ -46,7 +44,14 @@
                                                 </ng-container>
                                               </span>
                                           </span>
-                                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
+                                          <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                                            </app-addtocart>
+                                          </ng-container>
+                                          <ng-template #instock>
+                                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                                            </app-addtocart>
+                                          </ng-template>
                                       </div><!-- /.price-add-to-cart -->
 
                                       <div class="hover-area">
@@ -78,10 +83,10 @@
                     <div class="woocommerce columns-4">
 
                         <ul class="products columns-4">
-                            <ng-container *ngFor="let product of products;let i = index">
+                            <ng-container *ngFor="let product of products | slice: 0 : limit;let i = index">
                               <li class="product" *ngIf="i<4">
                                   <div class="product-outer">
-                                      <div class="product-inner">
+                                      <div class="product-inner" [ngClass]="{'myhover': limit <= 4}">
                                           <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
                                           <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
@@ -105,7 +110,14 @@
                                                     </ng-container>
                                                   </span>
                                               </span>
-                                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
+                                              <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                                                <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                                                </app-addtocart>
+                                              </ng-container>
+                                              <ng-template #instock>
+                                                <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                                                </app-addtocart>
+                                              </ng-template>
                                           </div><!-- /.price-add-to-cart -->
 
                                           <div class="hover-area">
@@ -137,10 +149,10 @@
                 <div class="home-v3-owl-carousel-tabs">
                     <div class="woocommerce columns-4">
                         <ul class="products columns-4">
-                            <ng-container *ngFor="let product of products;let i = index">
+                            <ng-container *ngFor="let product of products | slice: 0 : limit ;let i = index">
                               <li class="product" *ngIf="i<4">
                                   <div class="product-outer">
-                                      <div class="product-inner">
+                                      <div class="product-inner" [ngClass]="{'myhover': limit <= 4}">
                                           <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
                                           <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                                               <h3>{{ product?.attributes.name }}</h3>
@@ -164,7 +176,14 @@
                                                     </ng-container>
                                                   </span>
                                               </span>
-                                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
+                                              <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                                                <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                                                </app-addtocart>
+                                              </ng-container>
+                                              <ng-template #instock>
+                                                <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                                                </app-addtocart>
+                                              </ng-template>
                                           </div><!-- /.price-add-to-cart -->
 
                                           <div class="hover-area">
