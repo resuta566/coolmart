@@ -131,8 +131,7 @@
                                   <review-star-rating
                                     [rating]="reviewed.star"
                                     [starCount]="starCount"
-                                    [color]="starColor"
-                                    (ratingUpdated)="onRatingChanged($event)">
+                                    [color]="starColor">
                                   </review-star-rating>
                                   <div *ngIf="reviewed.comment !== null" class="review-area">
                                       {{ reviewed.comment }} <br>

@@ -17,7 +17,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   rating:number = 5;
   starCount:number = 5;
   starColor:StarRatingColor = StarRatingColor.accent;
-  reviewsPage: string;
+  reviewsPage: any;
   reviewsChangePage = '';
   reviewsMeta: any;
   reviewListCount = 0;
