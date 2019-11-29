@@ -15,6 +15,7 @@ import { AuthenticationService } from '@app/_service';
 })
 export class ReviewService {
 
+  currentUser = this.authenticationService.currentUserValue;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private router: Router,
@@ -42,9 +43,8 @@ export class ReviewService {
 
     reviews(page?: string){
       let actualPage = page || `${environment.apiUrl}/api/items/reviewable`;
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        let authId = currentUser.user.id.toString();
+      if(this.currentUser){
+        let authId = this.currentUser.user.id.toString();
         return this.http.get(actualPage , { params: { authId: authId, } } )
           .pipe(
             // tap(_ => console.log('fetched cart')),
@@ -57,14 +57,25 @@ export class ReviewService {
       let actualPage = page || `${environment.apiUrl}/api/items/reviewed`;
       console.log(actualPage);
 
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        let authId = currentUser.user.id.toString();
+      if(this.currentUser){
+        let authId = this.currentUser.user.id.toString();
         return this.http.get(actualPage, { params: { authId: authId, } } )
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getReviewable', []))
         );
+      }
+    }
+
+    oneReviewed(slug: string){
+      if(this.currentUser){
+        let authId = this.currentUser.user.id.toString();
+
+        return this.http.get(`${environment.apiUrl}/api/items/review/${slug}`,{ params: {authId:authId} })
+              .pipe(
+                // tap(_ => console.log('fetched cart')),
+                catchError(this.handleError('Reviewed Item', []))
+            );
       }
     }
 
@@ -77,11 +88,9 @@ export class ReviewService {
     }
 
     sendReview(itemId: number,stars:number, comments: string){
-      let currentUser = this.authenticationService.currentUserValue;
 
-      if(currentUser){
-        let authId = currentUser.user.id.toString();
-
+      if(this.currentUser){
+        let authId = this.currentUser.user.id.toString();
         return this.http.post(`${environment.apiUrl}/api/items/reviews`, { authId: authId, itemId:itemId, stars:stars, comments:comments},this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),

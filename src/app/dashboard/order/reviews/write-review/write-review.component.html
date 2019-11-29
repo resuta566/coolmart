@@ -37,11 +37,15 @@
           [color]="starColor"
           (ratingUpdated)="onRatingChanged($event)">
         </mat-star-rating>
-            <div class="text-area">
-              <textarea #comment cols="30" rows="10" placeholder="What do you think of this product?"></textarea>
+            <div class="text-area" *ngIf="updateReview; else newReview">
+              <textarea [(ngModel)]="comment" cols="30" rows="10"></textarea>
             </div>
-            <button (click)="submit(comment.value)">Submit</button>
-
+            <ng-template #newReview>
+              <div class="text-area">
+                <textarea [(ngModel)]="comment" cols="30" rows="10" placeholder="What do you think of this product?"></textarea>
+              </div>
+            </ng-template>
+            <button (click)="submit()">Submit</button>
         </div>
       </div>
     </div>

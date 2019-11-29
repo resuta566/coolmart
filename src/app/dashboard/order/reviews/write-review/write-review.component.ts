@@ -16,7 +16,6 @@ import { Notyf } from 'notyf';
 export class WriteReviewComponent implements OnInit, OnDestroy {
 
   comment: string;
-  message: any;
   rating:number = 5;
   starCount:number = 5;
   starColor:StarRatingColor = StarRatingColor.accent;
@@ -25,6 +24,7 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
   product: any;
   prodId: number;
   apiUrl = `${environment.apiUrl}`;
+  updateReview = false;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
@@ -32,11 +32,16 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      console.log(params);
-
       this.paramsData = params;
-      this.getItem(this.paramsData.slug);
-
+      console.log(this.paramsData);
+      // The queryParam is Reviewed is string not boolean
+      if(this.paramsData.isReviewed == 'true'){ // If isReviewed is true call Update else create One
+        this.updateItem(this.paramsData.slug);
+        this.updateReview = true;
+      }else{
+        this.getItem(this.paramsData.slug);
+        this.updateReview = false;
+      }
     });
   }
 
@@ -54,20 +59,33 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
   getItem(slug: string){
     this.reviewService.writeReview(slug).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.product = data;
-      console.log(this.product);
-
+    },
+    error=>{
+      this.notyf.success(error);
     })
   }
 
-  submit(comment: string){
-    this.reviewService.sendReview(this.prodId, this.rating, comment).pipe(first()).subscribe((data:any)=> {
+  updateItem(slug: string){
+    this.reviewService.oneReviewed(slug).pipe(takeUntil(this.destroy$)).subscribe(data=>{
+      this.product = data;
+      this.prodId = +this.product.item_id;
+      this.rating = +this.product.review_stars;
+      this.comment = this.product.review_comment;
+    },
+    error=>{
+      this.notyf.success(error);
+    })
+  }
+
+  submit(){
+    this.reviewService.sendReview(this.prodId, this.rating, this.comment).pipe(first()).subscribe((data:any)=> {
       this.notyf.success(data);
       setTimeout(()=>{
         this.router.navigate(['/dashboard/order/reviews']);
       },1000);
     },
     error=>{
-      console.log(error);
+      this.notyf.success(error);
     });
     // this.reviewService.sendReview(this.prodId,)
   }

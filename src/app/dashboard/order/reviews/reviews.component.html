@@ -38,7 +38,7 @@
                       <div class="item-quantity">
                         <button class="reviewbtn"
                           [routerLink]="['/dashboard/order/reviews/write-review/',review.attributes.item_id]"
-                          [queryParams]="{ slug: review.attributes.item_slug, orderId: review.id }" >Review</button>
+                          [queryParams]="{ slug: review.attributes.item_slug, orderId: review.id, isReviewed:false }" >Review</button>
                       </div>
                     </td>
                     <!-- <td>
