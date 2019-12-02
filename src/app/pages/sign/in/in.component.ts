@@ -69,14 +69,15 @@ export class InComponent implements OnInit, OnDestroy {
         .subscribe(
             data => {
                 if(data){
-                  this.router.navigateByUrl(this.returnUrl);
-                  this.notyf.success('Successfully Loggedin!');
+                    this.router.navigateByUrl(this.returnUrl);
+                    this.notyf.success('Successfully Loggedin!');
                 }
             },
             error => {
               // console.log(error);
               this.alertService.error(error);
               this.notyf.error(error);
+              this.submitted = false;
             });
 }
 }

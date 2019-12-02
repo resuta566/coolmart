@@ -23,14 +23,14 @@
                             <ul class="cart_list product_list_widget ">
 
                               <li class="mini_cart_item">
-                                <a [routerLink]="['/dashboard']" >
+                                <a class="selection" [routerLink]="['/dashboard']" >
                                   Manage My Account
                                 </a>
                               </li>
 
 
                               <li class="mini_cart_item">
-                                  <a [routerLink]="['/dashboard/order']">
+                                  <a class="selection" [routerLink]="['/dashboard/order']">
                                       My Orders
                                     </a>
                               </li>
@@ -41,17 +41,17 @@
                                   </a>
                               </li> -->
                               <li class="mini_cart_item">
-                                <a [routerLink]="['/dashboard/order/reviews']">
+                                <a class="selection" [routerLink]="['/dashboard/order/reviews']">
                                       My Reviews
                                     </a>
                               </li>
                               <li class="mini_cart_item">
-                                  <a [routerLink]="['/dashboard/order/returns']">
+                                  <a class="selection" [routerLink]="['/dashboard/order/returns']">
                                       My Return &#038; Cancellations
                                     </a>
                               </li>
                               <li class="mini_cart_item">
-                                  <a class="logout" (click)="logout()">
+                                  <a class="logout" (click)="logout()" style="color: #4b4b4b;">
                                      Logout
                                     </a>
                               </li>

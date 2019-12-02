@@ -1,3 +1,7 @@
+<div id="overlay" *ngIf="submitted">
+  <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>
+
 <h2>Login</h2>
 
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login">

@@ -33,7 +33,6 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
   ) {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.paramsData = params;
-      console.log(this.paramsData);
       // The queryParam is Reviewed is string not boolean
       if(this.paramsData.isReviewed == 'true'){ // If isReviewed is true call Update else create One
         this.updateItem(this.paramsData.slug);

@@ -53,7 +53,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.reviewsPage = data.links;
       this.reviewsMeta = data.meta;
       this.reviewListCount = this.reviews.length;
-      console.log(data);
 
     })
   }
@@ -71,12 +70,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         this.reviewedListCount = data.data.length;
         this.loadingHistory = false;
       }, 400);
-      console.log(data);
-
     })
   }
   changePageReviewed(page: string){
-    console.log(page);
 
     this.reviewedChangePage = page;
     this.reviewed();

@@ -43,12 +43,10 @@ export class OrderComponent implements OnInit, OnDestroy {
       setTimeout(()=> {
         this.loadingOrder = false;
       }, 1000);
-      console.log(this.orders);
     });
   }
 
   changePageOrder(page: string){
-    console.log(page);
     this.orderChangePage = page;
     this.getOrder();
   }

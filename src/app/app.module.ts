@@ -47,6 +47,7 @@ import { StoreLocationComponent } from './pages/store-location/store-location.co
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -81,7 +82,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ReviewsComponent,
     WriteReviewComponent,
     StarRatingComponent,
-    StarRatingReviewComponent
+    StarRatingReviewComponent,
+    PaymentOptionsCheckoutComponent
   ],
   imports: [
     ReactiveFormsModule,

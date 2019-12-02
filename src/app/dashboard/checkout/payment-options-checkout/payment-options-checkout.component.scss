@@ -1,0 +1,98 @@
+.header{
+  padding-top: 40px;
+}
+h1{
+  color: #333e48;
+}
+h4{
+  margin-bottom: 0px !important;
+}
+.payment-methods{
+  padding-top: 10px;
+}
+.payment-details{
+  padding: 30px 40px;
+  font-size: 14px;
+}
+.payment{
+  padding: 20px 10px;
+  text-align: center;
+  width: 129px;
+  height: 135px;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
+  0 8px 10px 1px rgba(0,0,0,.14),
+  0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+.payment-img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  height: 30px;
+}
+.payment-title{
+  font-weight: 700;
+}
+.payment-sub-title{
+  font-size: 12px;
+}
+.card{
+   border-radius: 0rem;
+}
+
+.col2-set11 {
+  margin-left: -0.9375rem;
+  margin-right: -0.9375rem; }
+.col2-set11::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.col2-set11 .col-1,
+.col2-set11 .col-2 {
+  position: relative;
+  float: left;
+  min-height: 1px;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  margin-left: 0.9375rem;
+  margin-right: 0.9375rem;
+  width: 95%;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
+  0 8px 10px 1px rgba(0,0,0,.14),
+  0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+@media (min-width: 1200px) {
+  .col2-set11 .col-1{
+    width: 30%;
+  }
+  .col2-set11 .col-2 {
+    width: 60%;
+  }
+}
+
+.card{
+  height: 200px;
+  padding: 40px 12px;
+  border: 0px;
+}
+.subtitle{
+  padding-top: 8px;
+  font-size: 12px;
+}
+.total-price{
+  float: right;
+  color: #f78c00;
+}
+.subtitle-total-price{
+  float: right;
+}
+.total{
+  padding-top: 8px;
+}
+.total p {
+  font-size: 20px;
+}
+button{
+  width: 288px;
+}

@@ -14,6 +14,7 @@ import { ErrorpagesComponent } from './pages/errorpages/errorpages.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { FaqComponent } from './pages/faq/faq.component';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
+import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 import { AccountComponent } from './dashboard/account/account.component';
 import { CartComponent } from './dashboard/cart/cart.component';
@@ -27,11 +28,11 @@ import { ProfileComponent } from './dashboard/account/profile/profile.component'
 import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
-import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
-
-import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
 import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 import { WriteReviewComponent } from './dashboard/order/reviews/write-review/write-review.component';
+import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
+
+import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'compare' , component: CompareComponent, data: {title: 'Compare' + htmlTitle} },
   { path: 'wishlist' , component: WishlistComponent, canActivate: [AuthGuard], data: {title: 'Wishlist' + htmlTitle} },
   { path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard], data: {title: 'Checkout' + htmlTitle} },
+  { path: 'checkout/payment-options' , component: PaymentOptionsCheckoutComponent, canActivate: [AuthGuard], data: {num: 16} },
   { path: 'shop' , component: ShopComponent, data:{ num: 2} },
   { path: 'shop/:search' , component: ShopComponent, data:{ num: 3} },
   { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
@@ -54,11 +56,11 @@ const routes: Routes = [
         {path: 'account/profile', component: ProfileComponent, data: { num: 7, title: 'My Profile'}  },
         {path: 'account/address-book', component: AddressBookComponent, data: { num: 8, title: 'My Address Book'}  },
         {path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9} },
-        {path: 'order', component: OrderComponent, data:{ num: 10} },
-        {path: 'order/returns', component: ReturnsComponent,data:{ num: 11} },
-        {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12} },
-        {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13} },
-        {path: 'order/reviews/write-review/:id', component: WriteReviewComponent, data:{ num: 15} }
+        {path: 'order', component: OrderComponent, data:{ num: 10, title: 'My Orders'} },
+        {path: 'order/returns', component: ReturnsComponent,data:{ num: 11, title: 'My Returns'} },
+        {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12, title: 'My Cancellations'} },
+        {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13, title: 'My Reviews'} },
+        {path: 'order/reviews/write-review/:id', component: WriteReviewComponent, data:{ num: 15, title: 'Write Review'} }
       ] },
   { path: 'pages',
       children: [

@@ -16,6 +16,7 @@ export class CheckoutComponent implements OnInit {
 
   carts: any;
   subtotal = 0;
+  sum = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   thereIsItem = true;
   apiUrl = `${environment.apiUrl}`;
@@ -62,5 +63,13 @@ export class CheckoutComponent implements OnInit {
       }
     });
 
+  }
+
+  subTotal(){
+    this.sum = 0;
+    for( let oneCart of this.carts ){
+      this.sum += oneCart.price * oneCart.qty;
+   }
+   return this.sum;
   }
 }

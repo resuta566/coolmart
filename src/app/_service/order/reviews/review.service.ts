@@ -55,7 +55,6 @@ export class ReviewService {
 
     reviewed(page?: string){
       let actualPage = page || `${environment.apiUrl}/api/items/reviewed`;
-      console.log(actualPage);
 
       if(this.currentUser){
         let authId = this.currentUser.user.id.toString();
