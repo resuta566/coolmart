@@ -2,7 +2,11 @@
 
     <nav class="woocommerce-breadcrumb"><a href="home.html">Home</a><span class="delimiter"><i class="fa fa-angle-right"></i></span>Cart</nav>
   <ng-container *ngIf="carts?.length == 0;else thereIs">
-      <header class="entry-header"><h1 itemprop="name" class="entry-title">No Cart Items</h1></header>
+      <header class="entry-header"><h1 itemprop="name" class="entry-title">Cart Is Empty</h1></header>
+      <br>
+      <div class="centerbtn">
+        <a href="/" class="button checkout wc-forward ng-star-inserted">SHOP NOW</a>
+      </div>
   </ng-container>
   <ng-template #thereIs>
       <div id="primary" class="content-area">

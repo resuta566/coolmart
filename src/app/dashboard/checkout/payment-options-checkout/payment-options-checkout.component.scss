@@ -8,7 +8,56 @@ h4{
   margin-bottom: 0px !important;
 }
 .payment-methods{
-  padding-top: 10px;
+  width: 100%;
+  padding: 10px 30px;
+  display: inline-grid;
+  grid-template-columns: repeat(5, 113px);;
+  grid-gap: 1rem;
+}
+@media (min-width: 992px){
+  .payment-methods{
+    width: 100%;
+    padding: 10px 10px;
+    display: inline-grid;
+    grid-template-columns: repeat(5, 113px);
+    grid-gap: 1rem;
+  }
+}
+@media (min-width: 769px){
+  .payment-methods{
+    width: 100%;
+    padding: 10px 10px;
+    display: inline-grid;
+    grid-template-columns: repeat(5, 113px);
+    grid-gap: 1rem;
+  }
+}
+@media (max-width: 766px){
+  .payment-methods{
+    width: 100%;
+    padding: 10px 5px;
+    display: inline-grid;
+    grid-template-columns: repeat(4, 113px);
+    grid-gap: 1rem;
+  }
+}
+@media (max-width: 567px){
+  .payment-methods{
+    width: 100%;
+    padding: 10px 5px;
+    display: inline-grid;
+    grid-template-columns: repeat(3, 113px);
+    grid-gap: 1rem;
+  }
+}
+@media (max-width: 423px){
+  .payment-methods{
+    width: 100%;
+    padding: 10px 5px;
+    display: inline-grid;
+    grid-template-columns: repeat(2, 113px);
+    grid-gap: 1rem;
+  }
 }
 .payment-details{
   padding: 30px 40px;
@@ -17,8 +66,7 @@ h4{
 .payment{
   padding: 20px 10px;
   text-align: center;
-  width: 129px;
-  height: 135px;
+  width: 110px;
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
   0 8px 10px 1px rgba(0,0,0,.14),
   0 3px 14px 2px rgba(0,0,0,.12) !important;
@@ -70,6 +118,11 @@ h4{
     width: 60%;
   }
 }
+@media (max-width: 1199px) {
+  .col2-set11 .col-1{
+    margin: 20px 0.9375rem;
+  }
+}
 
 .card{
   height: 200px;
@@ -89,10 +142,22 @@ h4{
 }
 .total{
   padding-top: 8px;
+  font-size: 20px;
 }
 .total p {
   font-size: 20px;
 }
 button{
   width: 288px;
+}
+.paynow {
+  max-width: 70%;
+  background-color: #f78c00;
+  color: white;
+  transition: all 0.5s;
+}
+
+.paynow:hover {
+  box-shadow: 0 40px 12px rgba(46, 46, 46, 0.384) inset, 0 -40px 12px rgba(46, 46, 46, 0.384) inset;
+  color: rgb(255, 255, 255);
 }

@@ -5,9 +5,11 @@
           class="fa fa-angle-right"></i></span>Checkout</nav>
 
     <div id="primary" class="content-area">
-        <h2 style="text-align: center;" *ngIf="!thereIsItem;">
-          Cart Is Empty Please Shop We Need Money!
-        </h2>
+      <h2 style="text-align: center;" *ngIf="!thereIsItem;">
+        Cart Is Empty! <br>
+        <br>
+        <a href="/" class="button checkout wc-forward ng-star-inserted">SHOP NOW</a>
+      </h2>
       <main id="main" class="site-main" *ngIf="thereIsItem;">
         <article class="page type-page status-publish hentry">
           <header class="entry-header">
@@ -22,129 +24,137 @@
 
                   <h3>Shipping Details</h3>
                   <ng-container>
-                    <p id="billing_first_name_field" class="form-row form-row form-row-first validate-required"><label
-                      class="" for="billing_first_name">First Name <abbr title="required"
-                        class="required">*</abbr></label><input type="text" value="" placeholder=""
-                      id="billing_first_name" name="billing_first_name" class="input-text "></p>
+                    <p id="billing_full_name_field" class="form-row form-row form-row-first validate-required">
+                      <label class="" for="billing_full_name">
+                        Full Name
+                        <abbr title="required" class="required">*</abbr>
+                      </label>
+                      <input type="text" value="First & Last Name" placeholder="" id="billing_full_name" name="billing_full_name" class="input-text ">
+                    </p>
 
-                  <p id="billing_last_name_field" class="form-row form-row form-row-last validate-required"><label
-                      class="" for="billing_last_name">Last Name <abbr title="required"
-                        class="required">*</abbr></label><input type="text" value="" placeholder=""
-                      id="billing_last_name" name="billing_last_name" class="input-text "></p>
-                  <div class="clear"></div>
+                    <p id="billing_address_field" class="form-row form-row form-row-last validate-required">
+                      <label class="" for="billing_address">
+                          House Number, Building and Street Name<abbr title="required" class="required">*</abbr>
+                      </label>
+                      <input type="text" value="" placeholder="Please enter your house number, building and street name" id="billing_address" name="billing_address" class="input-text ">
+                    </p>
+                    <div class="clear"></div>
 
-                  <p id="billing_company_field" class="form-row form-row form-row-wide"><label class=""
-                      for="billing_company">Company Name</label><input type="text" value="" placeholder=""
-                      id="billing_company" name="billing_company" class="input-text "></p>
+                    <p id="billing_mobile_number_field" class="form-row form-row form-row-first validate-required">
+                      <label class="" for="billing_mobile_number">
+                        Mobile Number
+                      </label>
+                      <input type="text" value="" placeholder="Please Enter your mobile number" id="billing_mobile_number" name="billing_mobile_number" class="input-text ">
+                    </p>
 
-                  <p id="billing_email_field" class="form-row form-row form-row-first validate-required validate-email">
-                    <label class="" for="billing_email">Email Address <abbr title="required"
-                        class="required">*</abbr></label><input type="email" value="" placeholder="" id="billing_email"
-                      name="billing_email" class="input-text "></p>
+                    <p id="billing_province_field" class="form-row form-row form-row-last validate-required">
+                      <label class="" for="billing_province">
+                       Province<abbr title="required" class="required">*</abbr>
+                      </label>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Please choose your Province</mat-label>
+                        <mat-select>
+                          <mat-option *ngFor="let food of foods" [value]="food.value">
+                            {{food.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </p>
+                    <div class="clear"></div>
 
-                  <p id="billing_phone_field" class="form-row form-row form-row-last validate-required validate-phone">
-                    <label class="" for="billing_phone">Phone <abbr title="required"
-                        class="required">*</abbr></label><input type="tel" value="" placeholder="" id="billing_phone"
-                      name="billing_phone" class="input-text "></p>
-                  <div class="clear"></div>
+                    <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required">
+                      <label class="" for="billing_other_notes">
+                        Other Notes
+                      </label>
+                      <input type="text" value="" placeholder="Notes about your order, special notes for delivery." id="billing_other_notes" name="billing_other_notes" class="input-text ">
+                    </p>
 
-                  <p id="billing_country_field"
-                    class="form-row form-row form-row-wide validate-required validate-email"><label class=""
-                      for="billing_country">Country <abbr title="required" class="required">*</abbr></label><input
-                      type="text" value="" placeholder="" id="billing_country" name="billing_phone" class="input-text ">
-                  </p>
-                  <div class="clear"></div>
+                    <p id="billing_city_municipality_field" class="form-row form-row form-row-last validate-required">
+                      <label class="" for="billing_city_municipality">
+                       City/Municipality<abbr title="required" class="required">*</abbr>
+                      </label>
+                      <mat-form-field appearance="outline">
+                          <mat-label>Please choose your City/Municipality</mat-label>
+                          <mat-select>
+                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                              {{food.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </p>
+                    <div class="clear"></div>
 
-                  <p id="billing_address_1_field"
-                    class="form-row form-row form-row-wide address-field validate-required"><label class=""
-                      for="billing_address_1">Address <abbr title="required" class="required">*</abbr></label><input
-                      type="text" value="" placeholder="Street address" id="billing_address_1" name="billing_address_1"
-                      class="input-text "></p>
+                    <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required"  hidden>
+                        <label class="" for="billing_other_notes">
+                          Other Notes
+                        </label>
+                        <input type="text" value="" placeholder="Notes about your order, special notes for delivery." id="billing_other_notes" name="billing_other_notes" class="input-text ">
+                      </p>
 
-                  <p id="billing_address_2_field" class="form-row form-row form-row-wide address-field"><input
-                      type="text" value="" placeholder="Apartment, suite, unit etc. (optional)" id="billing_address_2"
-                      name="billing_address_2" class="input-text "></p>
-
-                  <p id="billing_city_field" class="form-row form-row form-row-wide address-field validate-required"
-                    data-o_class="form-row form-row form-row-wide address-field validate-required"><label class=""
-                      for="billing_city">Town / City <abbr title="required" class="required">*</abbr></label><input
-                      type="text" value="" placeholder="" id="billing_city" name="billing_city" class="input-text "></p>
-
-                  <p id="billing_state_field" class="form-row form-row form-row-first validate-required validate-email">
-                    <label class="" for="billing_state">State / County <abbr title="required"
-                        class="required">*</abbr></label><input type="text" value="" placeholder="" id="billing_state"
-                      name="billing_phone" class="input-text "></p>
-
-                  <p id="billing_postcode_field"
-                    class="form-row form-row form-row-last address-field validate-postcode validate-required"
-                    data-o_class="form-row form-row form-row-last address-field validate-required validate-postcode">
-                    <label class="" for="billing_postcode">Postcode / ZIP <abbr title="required"
-                        class="required">*</abbr></label><input type="text" value="" placeholder=""
-                      id="billing_postcode" name="billing_postcode" class="input-text "></p>
-
+                      <p style="float: right;" id="billing_barangay_field" class="form-row form-row form-row-last validate-required">
+                        <label class="" for="billing_barangay">
+                         Barangay<abbr title="required" class="required">*</abbr>
+                        </label>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Please choose your Barangay</mat-label>
+                            <mat-select>
+                              <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      </p>
+                      <div class="clear"></div>
                   </ng-container>
 
-
-                  <div class="woocommerce-shipping-fields">
-                    <h3 id="ship-to-different-address">
-                      <label class="checkbox" for="ship-to-different-address-checkbox">Ship to a different
-                        address?</label>
-                      <input type="checkbox" value="1" name="ship_to_different_address" class="input-checkbox"
-                        id="ship-to-different-address-checkbox">
-                    </h3>
-
-                    <p id="order_comments_field" class="form-row form-row notes"><label class=""
-                        for="order_comments">Order Notes</label><textarea cols="5" rows="2"
-                        placeholder="Notes about your order, e.g. special notes for delivery." id="order_comments"
-                        class="input-text " name="order_comments"></textarea></p>
-                  </div>
-                  <div class="clear"></div>
 
                   <div class="order-items woocommerce-checkout-review-order">
                     <h3 id="order_review_heading">Your order</h3>
                     <table class="shop_table shop_table_responsive cart">
-                        <thead>
-                            <tr>
-                                <th class="product-remove">&nbsp;</th>
-                                <th class="product-thumbnail">&nbsp;</th>
-                                <th class="product-name">Product</th>
-                                <th class="product-price">Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-subtotal">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                      <thead>
+                        <tr>
+                          <th class="product-remove">&nbsp;</th>
+                          <th class="product-thumbnail">&nbsp;</th>
+                          <th class="product-name">Product</th>
+                          <th class="product-price">Price</th>
+                          <th class="product-quantity">Quantity</th>
+                          <th class="product-subtotal">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
-                            <tr class="cart_item" *ngFor="let cart of carts">
-                                <td class="product-remove">
-                                  <a class="remove" (click)="removeItem(cart?.id)">×</a>
-                              </td>
+                        <tr class="cart_item" *ngFor="let cart of carts">
+                          <td class="product-remove">
+                            <a class="remove" (click)="removeItem(cart?.id)">×</a>
+                          </td>
 
-                              <td class="product-thumbnail">
-                                  <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">
-                                    <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="product-thumbnail">
-                                  </a>
-                              </td>
+                          <td class="product-thumbnail">
+                            <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">
+                              <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
+                                alt="product-thumbnail">
+                            </a>
+                          </td>
 
-                              <td data-title="Product" class="product-name">
-                                  <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
-                              </td>
+                          <td data-title="Product" class="product-name">
+                            <a
+                              [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
+                          </td>
 
-                              <td data-title="Price" class="product-price">
-                                  <span class="amount">₱
-                                    {{ cart?.attributes.item_discountedSrp }}
-                                  </span>
-                              </td>
+                          <td data-title="Price" class="product-price">
+                            <span class="amount">₱
+                              {{ cart?.attributes.item_discountedSrp }}
+                            </span>
+                          </td>
 
-                              <td data-title="Quantity" class="product-quantity">
-                                Qty: {{ cart?.attributes.cart_qty }}
-                              </td>
+                          <td data-title="Quantity" class="product-quantity">
+                            Qty: {{ cart?.attributes.cart_qty }}
+                          </td>
 
-                              <td data-title="Total" class="product-subtotal">
-                                  <span class="amount">{{ cart?.attributes.subtotal_per_item | currency:'₱'}}</span>
-                              </td>
-                            </tr>
-                        </tbody>
+                          <td data-title="Total" class="product-subtotal">
+                            <span class="amount">{{ cart?.attributes.subtotal_per_item | currency:'₱'}}</span>
+                          </td>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -203,17 +213,19 @@
                       </li>
                     </ul> -->
                     <div class="form-row place-order">
+                      <form [formGroup]="placeorderForm" (ngSubmit)="placeOrder()">
+                        <p class="form-row terms wc-terms-and-conditions">
+                          <input formControlName="accept" type="checkbox" id="terms" name="terms" class="input-checkbox"
+                            required>
+                          <label class="checkbox" for="terms">I’ve read and accept the <a target="_blank"
+                              href="/pages/terms-and-conditions">terms &amp; conditions</a> <span
+                              class="required">*</span></label>
+                          <input type="hidden" value="1" name="terms-field">
+                        </p>
 
-                      <p class="form-row terms wc-terms-and-conditions">
-                        <input type="checkbox" id="terms" name="terms" class="input-checkbox">
-                        <label class="checkbox" for="terms">I’ve read and accept the <a target="_blank"
-                            href="/pages/terms-and-conditions">terms &amp; conditions</a> <span
-                            class="required">*</span></label>
-                        <input type="hidden" value="1" name="terms-field">
-                      </p>
-
-                      <input [routerLink]="['/checkout/payment-options']" [queryParams]="{ orderId: '213423'}"
-                        type="submit" data-value="Place order" value="Place order" class="button alt">
+                        <input [disabled]="!placeorderForm.valid" type="submit" data-value="Place order"
+                          value="Place order" class="button alt">
+                      </form>
                     </div>
                   </div>
                 </div>

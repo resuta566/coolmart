@@ -5,6 +5,9 @@ import { first, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
@@ -14,6 +17,12 @@ import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialo
 })
 export class CheckoutComponent implements OnInit {
 
+  foods = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'}
+  ];
+  placeorderForm: FormGroup;
   carts: any;
   subtotal = 0;
   sum = 0;
@@ -22,11 +31,14 @@ export class CheckoutComponent implements OnInit {
   apiUrl = `${environment.apiUrl}`;
 
   constructor(
+    private router: Router,
     private cartService: CartService,
-    private confirmDialog: MatDialog
+    private confirmDialog: MatDialog,
+    private formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
+    this.acceptForm();
     this.getCart();
   }
 
@@ -35,12 +47,20 @@ export class CheckoutComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
+  acceptForm(){
+    this.placeorderForm = this.formBuilder.group({
+      accept:[false, Validators.required]
+    });
+  }
+  placeOrder(){
+    this.router.navigate(['/checkout/payment-options'], { queryParams:{ acceptedTermsCondition: this.placeorderForm.valid}});
+  }
+
   getCart(){
     this.cartService.carts().pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.carts = data.data;
       console.log(this.carts);
       if(this.carts.length <= 0) this.thereIsItem = false;
-      console.log(this.thereIsItem);
 
       //Compute the subtotal of all the items
       this.carts.forEach( item =>{

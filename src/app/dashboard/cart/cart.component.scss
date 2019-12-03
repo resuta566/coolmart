@@ -1,3 +1,16 @@
 .remove{
   cursor: pointer;
 }
+
+.centerbtn{
+  text-align: center;
+}
+.button,
+.button:focus{
+  background-color: #f78c00;
+  color: white;
+}
+.button:hover{
+  background-color: black;
+  color: white;
+}
