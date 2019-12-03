@@ -13,3 +13,26 @@
 .mat-form-field{
   display: block;
 }
+::ng-deep{
+  // input outline color
+  // .mat-form-field-appearance-outline .mat-form-field-outline {
+  //   color: #f78c00 !important;
+  // }
+
+  // mat-input focused color
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #f78c00 !important;
+  }
+  input.mat-input-element {
+    color: black;
+  }
+  .mat-form-field-empty.mat-form-field-label {
+    color: black;
+  }
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+    color: black;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label{
+    color: black;
+  }
+}
