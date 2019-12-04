@@ -49,6 +49,8 @@ import { EmailVerificationComponent } from './pages/email-verification/email-ver
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
 import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
 import { PaypalComponent } from './dashboard/checkout/payment-options-checkout/options/paypal/paypal.component';
+import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/payment-success.component';
+import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -85,7 +87,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     StarRatingComponent,
     StarRatingReviewComponent,
     PaymentOptionsCheckoutComponent,
-    PaypalComponent
+    PaypalComponent,
+    PaymentSuccessComponent,
+    ViewOrderComponent
   ],
   imports: [
     ReactiveFormsModule,

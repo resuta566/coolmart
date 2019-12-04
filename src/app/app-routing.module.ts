@@ -16,23 +16,25 @@ import { FaqComponent } from './pages/faq/faq.component';
 import { StoreLocationComponent } from './pages/store-location/store-location.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
-import { AccountComponent } from './dashboard/account/account.component';
-import { CartComponent } from './dashboard/cart/cart.component';
-import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
-import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TrackComponent } from './dashboard/track/track.component';
+import { AccountComponent } from './dashboard/account/account.component';
 import { AddressBookComponent } from './dashboard/account/address-book/address-book.component';
 import { PaymentOptionsComponent } from './dashboard/account/payment-options/payment-options.component';
 import { ProfileComponent } from './dashboard/account/profile/profile.component';
+import { CartComponent } from './dashboard/cart/cart.component';
+import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
+import { CheckoutComponent } from './dashboard/checkout/checkout.component';
+import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/payment-success.component';
+import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
+import { TrackComponent } from './dashboard/track/track.component';
 import { OrderComponent } from './dashboard/order/order.component';
 import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 import { WriteReviewComponent } from './dashboard/order/reviews/write-review/write-review.component';
-import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
 
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
@@ -42,6 +44,7 @@ const routes: Routes = [
   { path: 'wishlist' , component: WishlistComponent, canActivate: [AuthGuard], data: {title: 'Wishlist' + htmlTitle} },
   { path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard], data: {title: 'Checkout' + htmlTitle} },
   { path: 'checkout/payment-options' , component: PaymentOptionsCheckoutComponent, canActivate: [AuthGuard], data: {num: 16} },
+  { path: 'checkout/payment-success' , component: PaymentSuccessComponent, canActivate: [AuthGuard], data: {num: 17} },
   { path: 'shop' , component: ShopComponent, data:{ num: 2} },
   { path: 'shop/:search' , component: ShopComponent, data:{ num: 3} },
   { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
@@ -57,6 +60,7 @@ const routes: Routes = [
         {path: 'account/address-book', component: AddressBookComponent, data: { num: 8, title: 'My Address Book'}  },
         {path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9} },
         {path: 'order', component: OrderComponent, data:{ num: 10, title: 'My Orders'} },
+        {path: 'order/view-order', component: ViewOrderComponent, data:{ num: 18, title: 'My Orders'} },
         {path: 'order/returns', component: ReturnsComponent,data:{ num: 11, title: 'My Returns'} },
         {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12, title: 'My Cancellations'} },
         {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13, title: 'My Reviews'} },

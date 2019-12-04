@@ -118,7 +118,7 @@ export class ProductService {
 
   getProductOption(option?: string){
     return this.http.get<Products[]>(`${environment.apiUrl}/api/items/${option}`).pipe(
-          tap(_ => console.log('fetched products Options', _)),
+          tap(_ => console.log('fetched products Options')),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }

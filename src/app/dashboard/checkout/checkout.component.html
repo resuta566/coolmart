@@ -1,3 +1,7 @@
+<div id="overlay" *ngIf="selected">
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+  </div>
+
 <div id="content" class="site-content" tabindex="-1">
   <div class="container">
 
@@ -21,106 +25,131 @@
             <div id="customer_details" class="col2-set">
               <div class="col-1">
                 <div class="woocommerce-billing-fields">
+                  <div class="shadow-padding">
+                    <h3>Shipping Details</h3>
+                    <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+                        <ng-container>
+                          <p id="billing_full_name_field" class="form-row form-row form-row-first validate-required">
+                            <label class="" for="billing_full_name">
+                              Full Name
+                              <abbr title="required" class="required">*</abbr>
+                            </label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Full Name</mat-label>
+                                <input formControlName="fullname" matInput placeholder="" >
+                                <mat-error *ngIf="a.fullname.errors?.required">Full Name is required</mat-error>
+                            </mat-form-field>
+                          </p>
 
-                  <h3>Shipping Details</h3>
-                  <ng-container>
-                    <p id="billing_full_name_field" class="form-row form-row form-row-first validate-required">
-                      <label class="" for="billing_full_name">
-                        Full Name
-                        <abbr title="required" class="required">*</abbr>
-                      </label>
-                      <mat-form-field appearance="outline">
-                          <mat-label>Full Name</mat-label>
-                          <input matInput placeholder="" value="">
-                      </mat-form-field>
-                    </p>
+                          <p id="billing_address_field" class="form-row form-row form-row-last validate-required">
+                            <label class="" for="billing_address">
+                                House Number, Building and Street Name<abbr title="required" class="required">*</abbr>
+                            </label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>House Number, Building and Street Name</mat-label>
+                                <input formControlName="building" matInput placeholder="" >
+                                <mat-error *ngIf="a.building.errors?.required">House Number, Building and Street Name is required</mat-error>
+                            </mat-form-field>
+                          </p>
+                          <div class="clear"></div>
 
-                    <p id="billing_address_field" class="form-row form-row form-row-last validate-required">
-                      <label class="" for="billing_address">
-                          House Number, Building and Street Name<abbr title="required" class="required">*</abbr>
-                      </label>
-                      <mat-form-field appearance="outline">
-                          <mat-label>House Number, Building and Street Name</mat-label>
-                          <input matInput placeholder="" value="">
-                      </mat-form-field>
-                    </p>
-                    <div class="clear"></div>
+                          <p id="billing_mobile_number_field" class="form-row form-row form-row-first validate-required">
+                            <label class="" for="billing_mobile_number">
+                              Mobile Number
+                            </label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Mobile Number</mat-label>
+                                <input formControlName="mobilenumber" matInput placeholder="" >
+                                <mat-error *ngIf="a.mobilenumber.errors?.maxlength">Mobile Number Maximum is 15</mat-error>
+                                <mat-error *ngIf="a.mobilenumber.errors?.minlength">Mobile Number Minimum is 11</mat-error>
+                                <mat-error *ngIf="a.mobilenumber.errors?.required">Mobile Number is required</mat-error>
+                            </mat-form-field>
+                          </p>
 
-                    <p id="billing_mobile_number_field" class="form-row form-row form-row-first validate-required">
-                      <label class="" for="billing_mobile_number">
-                        Mobile Number
-                      </label>
-                      <mat-form-field appearance="outline">
-                          <mat-label>Mobile Number</mat-label>
-                          <input matInput placeholder="" value="">
-                      </mat-form-field>
-                    </p>
+                          <p id="billing_province_field" class="form-row form-row form-row-last validate-required">
+                            <label class="" for="billing_province">
+                            Province<abbr title="required" class="required">*</abbr>
+                            </label>
+                            <mat-form-field appearance="outline">
+                              <mat-label>Please choose your Province</mat-label>
+                              <mat-select formControlName="province">
+                                <mat-option *ngFor="let province of provinces"
+                                  (click)="getProvinceId(province.id)"
+                                  [value]="province.value">
+                                  {{ province.value }}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="a.province.errors?.required">Province is required</mat-error>
+                            </mat-form-field>
+                          </p>
+                          <div class="clear"></div>
 
-                    <p id="billing_province_field" class="form-row form-row form-row-last validate-required">
-                      <label class="" for="billing_province">
-                       Province<abbr title="required" class="required">*</abbr>
-                      </label>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Please choose your Province</mat-label>
-                        <mat-select>
-                          <mat-option *ngFor="let food of foods" [value]="food.value">
-                            {{food.viewValue}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </p>
-                    <div class="clear"></div>
+                          <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required">
+                            <label class="" for="billing_other_notes">
+                              Other Notes
+                            </label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Other Notes</mat-label>
+                                <input formControlName="other_notes" matInput placeholder="" >
+                            </mat-form-field>
+                          </p>
 
-                    <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required">
-                      <label class="" for="billing_other_notes">
-                        Other Notes
-                      </label>
-                      <mat-form-field appearance="outline">
-                          <mat-label>Other Notes</mat-label>
-                          <input matInput placeholder="" value="">
-                      </mat-form-field>
-                    </p>
+                          <p id="billing_city_municipality_field" class="form-row form-row form-row-last validate-required">
+                            <label class="" for="billing_city_municipality">
+                            City/Municipality<abbr title="required" class="required">*</abbr>
+                            </label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Please choose your City/Municipality</mat-label>
+                                <mat-select formControlName="city">
+                                  <mat-option *ngFor="let provinceCity of provinceCities"
+                                    (click)="getCityId(provinceCity.id)"
+                                    [value]="provinceCity.value">
+                                    {{ provinceCity.value}}
+                                  </mat-option>
+                                </mat-select>
+                              <mat-error *ngIf="a.city.errors?.required">City is required</mat-error>
+                              </mat-form-field>
+                          </p>
+                          <div class="clear"></div>
 
-                    <p id="billing_city_municipality_field" class="form-row form-row form-row-last validate-required">
-                      <label class="" for="billing_city_municipality">
-                       City/Municipality<abbr title="required" class="required">*</abbr>
-                      </label>
-                      <mat-form-field appearance="outline">
-                          <mat-label>Please choose your City/Municipality</mat-label>
-                          <mat-select>
-                            <mat-option *ngFor="let food of foods" [value]="food.value">
-                              {{food.viewValue}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                    </p>
-                    <div class="clear"></div>
+                          <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required" >
+                              <label class="" for="billing_other_notes">
+                                Address Type
+                              </label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Address Type</mat-label>
+                                <mat-select formControlName="type" [(value)]="type">
+                                  <mat-option [value]="1">
+                                    Home
+                                  </mat-option>
+                                  <mat-option [value]="2">
+                                      Office
+                                    </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </p>
 
-                    <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required"  hidden>
-                        <label class="" for="billing_other_notes">
-                          Other Notes
-                        </label>
-                        <input type="text" value="" placeholder="Notes about your order, special notes for delivery." id="billing_other_notes" name="billing_other_notes" class="input-text ">
-                      </p>
+                            <p style="float: right;" id="billing_barangay_field" class="form-row form-row form-row-last validate-required">
+                              <label class="" for="billing_barangay">
+                              Barangay<abbr title="required" class="required">*</abbr>
+                              </label>
+                              <mat-form-field appearance="outline">
+                                <mat-label>Please choose your Barangay</mat-label>
+                                <mat-select formControlName="brgy">
+                                  <mat-option *ngFor="let cityBarangay of cityBarangays" [value]="cityBarangay.value">
+                                    {{ cityBarangay.value}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="a.brgy.errors?.required">Barangay is required</mat-error>
+                              </mat-form-field>
+                            </p>
+                            <div class="clear"></div>
+                            <button type="submit" class="button alt">Save</button>
+                        </ng-container>
+                    </form>
+                  </div>
 
-                      <p style="float: right;" id="billing_barangay_field" class="form-row form-row form-row-last validate-required">
-                        <label class="" for="billing_barangay">
-                         Barangay<abbr title="required" class="required">*</abbr>
-                        </label>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Please choose your Barangay</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let food of foods" [value]="food.value">
-                                {{food.viewValue}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                      </p>
-                      <div class="clear"></div>
-                  </ng-container>
-
-
-                  <div class="order-items woocommerce-checkout-review-order">
+                  <div class="order-items woocommerce-checkout-review-order shadow-padding" style="margin-top: 20px">
                     <h3 id="order_review_heading">Your order</h3>
                     <table class="shop_table shop_table_responsive cart">
                       <thead>
@@ -137,7 +166,7 @@
 
                         <tr class="cart_item" *ngFor="let cart of carts">
                           <td class="product-remove">
-                            <a class="remove" (click)="removeItem(cart?.id)">×</a>
+                            <a class="remove" (click)="removeItem(cart?.id)"><i class="fa fa-trash-o"></i></a>
                           </td>
 
                           <td class="product-thumbnail">
@@ -172,10 +201,8 @@
                 </div>
               </div>
 
-              <div class="col-2">
+              <div class="col-2 shadow-padding">
                 <h3>Shipping &#038; Billing</h3>
-
-
                 <table>
                   <h3>Order Summary</h3>
                   <tbody>

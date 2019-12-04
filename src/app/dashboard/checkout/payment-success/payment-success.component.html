@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="success-header shadow">
+    <div class="title">
+      <i class="fa fa-ticket"></i>&nbsp; Thank you for your purchase!
+    </div>
+    <div class="sub-title">
+      Your order number is <span class="order-number">2342353454</span>
+    </div>
+  </div>
+  <div class="success-body shadow">
+    <div class="payment">
+      <div class="payment-title">
+        Amount to pay on delivery day.
+      </div>
+      <div class="payment-amount">
+        ₱155.00
+      </div>
+      <div class="the-content">
+        <div class="delivery-package">
+          <div class="delivery-title">
+            Delivery Dates
+          </div>
+          <div class="border shadow">
+            <div class="itemrow ">
+              <div class="item-img-content column">
+                <img src="http://ph-live.slatic.net/p/8350ba373ee1d42ab5ea35f605f86b7f.jpg" class="item-img"
+                  alt="product-image">
+              </div>
+              <div class="date column">Est.13 Dec-16 Dec</div>
+            </div>
+            <hr>
+            <div class="td-tip">
+              <div class="tip">
+                <div class="text-details">
+                  <div class="text-detail-line">
+                    <span>For more details, track your delivery status under </span>
+                    <span class="text-detail-strong-text">My Account > My Order</span>
+                  </div>
+                </div>
+                <button> View Order </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="payment-information border shadow">
+          <i class="fa fa-envelope-o"></i>&nbsp; We’ve sent a confirmation email to resuta5.66@gmail.com with the order
+          details.
+        </div>
+        <div (click)="show()" class="order-summary border shadow">
+        <!-- <div (click)="show()" class="order-summary border shadow"> -->
+          Order Summary
+          <div style="float: right; display: flex;">
+            <div class="order-amount" *ngIf="!showAll">₱155.00</div> &nbsp;
+            <i class="fa fa-chevron-down" *ngIf="!showAll"></i>
+            <i class="fa fa-chevron-up" *ngIf="showAll"></i>
+          </div>
+          <ng-container *ngIf="showAll">
+            <div class="margin"></div>
+            <div class="order-subtotal">
+              Subtotal(1 Items)
+              <div style="float: right; display: flex;">₱100.00</div>
+            </div>
+            <div class="order-shipping-fee">
+              Shipping Fee
+              <div style="float: right; display: flex;">₱55.00</div>
+            </div>
+            <hr>
+            <div class="order-total-amount">
+              Total
+              <div style="float: right; display: flex; color: #f78c00;">₱155.00</div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="margin"></div>
+        <a href="/">
+          <button class="button continue" style="width: 100%;">Continue Shopping</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

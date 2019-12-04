@@ -21,12 +21,11 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
 
-          console.log(err);
             if (err.status == 401) {
-                // auto logout if 401 response returned from api
-                this.notyf.error(err.error.message);
-                this.authenticationService.logout();
-                location.reload(true);
+              // auto logout if 401 response returned from api
+              this.notyf.error(err.error.message);
+              this.authenticationService.logout();
+              location.reload(true);
             }
 
             if(err.status == 403){
@@ -45,6 +44,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             if(err.status == 500){
               this.notyf.error('Internal Server Error!');
+            }
+            if(err.status == 0){
+              this.notyf.error('Server Responded as '+ err.statusText);
             }
 
             this.error = err.error.error || err.error.message || err.error.errors.email[0] || err.statusText ;
