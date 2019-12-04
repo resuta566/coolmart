@@ -8,10 +8,7 @@ import { Notyf } from 'notyf';
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '../core/authentication.service';
 
-// const _api = 'http://192.168.254.101/allcool/public';
-const _api = 'http://allcooldata.herokuapp.com';
-
-const ADDRESS_API = _api;
+const ADDRESS_API = environment.addressApiUrl;
 @Injectable({
   providedIn: 'root'
 })

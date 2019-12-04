@@ -7,6 +7,14 @@ export const environment = {
   _apiUrl: 'http://192.168.254.101/newgencool-backend/public',
   // _apiUrl: 'http://coolmart.herokuapp.com',
 
+  // _addressApi: 'http://192.168.254.101/allcool/public',
+  _addressApi: 'http://allcooldata.herokuapp.com',
+
+
+
+  get addressApiUrl() {
+    return this._addressApi;
+  },
   get apiUrl() {
     return this._apiUrl;
   }
