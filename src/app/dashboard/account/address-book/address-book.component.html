@@ -58,9 +58,15 @@
                 [routerLink]="['/dashboard/account/address-book/address/update/', useraddress.id]">
                 EDIT
               </a>
-              <mat-radio-button *ngIf="isSelectionShipping" (click)="getUserAddressId(useraddress.id)">
+              <mat-radio-button
+                [checked]="useraddress.is_shipping == 1"
+                *ngIf="isSelectionShipping"
+                (click)="getUserAddressId(useraddress.id)">
               </mat-radio-button>
-              <mat-radio-button *ngIf="isSelectionBilling" (click)="getUserAddressId(useraddress.id)">
+              <mat-radio-button
+              [checked]="useraddress.is_billing == 1"
+              *ngIf="isSelectionBilling"
+              (click)="getUserAddressId(useraddress.id)">
               </mat-radio-button>
             </td>
           </ng-container>
@@ -75,6 +81,7 @@
       </ng-template>
     </div>
     <br>
+    <button *ngIf="isSelectionShipping || isSelectionBilling" (click)="cancel()">Cancel</button>
     <button *ngIf="isSelectionShipping || isSelectionBilling" (click)="saveDefaults()">Save</button>
     <button *ngIf="!isSelectionShipping && !isSelectionBilling" [routerLink]="['/dashboard/account/address-book/address']">Add New Address</button>
   </div>

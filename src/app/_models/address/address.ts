@@ -10,4 +10,6 @@ export class Address{
   brgy: string;
   type: number;
   post_code?: string;
+  is_shipping?: number;
+  is_billing?: number;
 }

@@ -3,6 +3,7 @@ import { AddressesService } from '@app/_service/addresses/addresses.service';
 import { Address } from '@app/_models/address/address';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class AddressBookComponent implements OnInit {
   isSelectionShipping = false;
   isSelectionBilling = false;
   addresslist: Address[];
+  selectedAddress: Address[];
   addressId: number;
   displayedColumns: string[] = ['name', 'address','postcode', 'mobile', 'info', 'edit'];
   constructor(
@@ -29,6 +31,8 @@ export class AddressBookComponent implements OnInit {
   userAddress(){
     this.addressService.userAddress().pipe().subscribe(data=>{
       this.addresslist = data;
+      console.log(this.addresslist);
+
     })
   }
   getUserAddressId(addressid: number){
@@ -37,10 +41,23 @@ export class AddressBookComponent implements OnInit {
 
   }
   clickShipping(){
+    this.selectedAddress = this.addresslist.filter(address =>
+      address.is_shipping == 1
+    );
+    this.addressId = this.selectedAddress[0].id;
     this.isSelectionShipping = !this.isSelectionShipping;
   }
   clickBilling(){
+    this.selectedAddress = this.addresslist.filter(address =>
+      address.is_billing == 1
+    );
+    this.addressId = this.selectedAddress[0].id;
     this.isSelectionBilling = !this.isSelectionBilling;
+  }
+
+  cancel(){
+    this.isSelectionBilling = false;
+    this.isSelectionShipping = false;
   }
  saveDefaults(){
    if(this.isSelectionShipping){
