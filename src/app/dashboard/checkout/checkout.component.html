@@ -60,9 +60,8 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Mobile Number</mat-label>
                                 <input formControlName="mobilenumber" matInput placeholder="" >
-                                <mat-error *ngIf="a.mobilenumber.errors?.maxlength">Mobile Number Maximum is 15</mat-error>
-                                <mat-error *ngIf="a.mobilenumber.errors?.minlength">Mobile Number Minimum is 11</mat-error>
                                 <mat-error *ngIf="a.mobilenumber.errors?.required">Mobile Number is required</mat-error>
+                                <mat-error *ngIf="a.mobilenumber.errors?.pattern">Mobile Number must be valid</mat-error>
                             </mat-form-field>
                           </p>
 
@@ -74,7 +73,7 @@
                               <mat-label>Please choose your Province</mat-label>
                               <mat-select formControlName="province">
                                 <mat-option *ngFor="let province of provinces"
-                                  (click)="getProvinceId(province.id)"
+                                  (click)="getCities(province.id)"
                                   [value]="province.value">
                                   {{ province.value }}
                                 </mat-option>
@@ -102,7 +101,7 @@
                                 <mat-label>Please choose your City/Municipality</mat-label>
                                 <mat-select formControlName="city">
                                   <mat-option *ngFor="let provinceCity of provinceCities"
-                                    (click)="getCityId(provinceCity.id)"
+                                    (click)="getBrgys(provinceCity.id)"
                                     [value]="provinceCity.value">
                                     {{ provinceCity.value}}
                                   </mat-option>
@@ -136,7 +135,9 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Please choose your Barangay</mat-label>
                                 <mat-select formControlName="brgy">
-                                  <mat-option *ngFor="let cityBarangay of cityBarangays" [value]="cityBarangay.value">
+                                  <mat-option *ngFor="let cityBarangay of cityBarangays"
+                                      (click)="getBrgyId(cityBarangay.id)"
+                                      [value]="cityBarangay.value">
                                     {{ cityBarangay.value}}
                                   </mat-option>
                                 </mat-select>

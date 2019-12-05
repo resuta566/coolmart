@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { catchError } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 import { Address } from '@app/_models/address/address';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
@@ -24,6 +24,7 @@ export class AddressesService {
       headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
     };
 
+
     private handleError<T> (operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
@@ -35,6 +36,21 @@ export class AddressesService {
         // Let the app keep running by returning an empty result.
         return of(result as T);
 
+      }
+    }
+    oneUserAddress(addressId: number){
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
+        return this.http.get<Address>(`${environment.apiUrl}/api/user-address/${addressId}/edit`,this.httpOptions)
+                .pipe(catchError(this.handleError<Address>('getOneUserAddress')));
+      }
+    }
+    userAddress(){
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
+        let authId = currentUser.user.id.toString();
+        return this.http.get<Address[]>(`${environment.apiUrl}/api/user-address/${authId}`,this.httpOptions)
+                .pipe(catchError(this.handleError<Address[]>('getUserAddresses', [])));
       }
     }
 
@@ -54,6 +70,34 @@ export class AddressesService {
 
         return this.http.post(`${environment.apiUrl}/api/billing-address/${authId}`, this.httpOptions,
                   { params: addressparams  });
+      }
+    }
+    updateAddress(address: Address){
+
+      let headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
+        let authId = currentUser.user.id.toString();
+        console.log(address.id);
+
+        let addressparams = new HttpParams()
+                            .set('fullname', address.fullname)
+                            .set('contact', address.mobilenumber.toString())
+                            .set('other_notes', address.other_notes)
+                            .set('building', address.building)
+                            .set('province', address.province)
+                            .set('city', address.city)
+                            .set('brgy', address.brgy)
+                            .set('type', address.type.toString())
+                            .set('address_id', address.id.toString());
+
+        console.log(addressparams.toString());
+        return this.http.put(`${environment.apiUrl}/api/billing-address/${authId}`,null, { params:addressparams })
+                .pipe(tap( data => {
+                  console.log( data );
+                }));
       }
     }
 
@@ -89,4 +133,12 @@ export class AddressesService {
             );
     }
 
+    setDefaultShipping(addressId: number){
+      let params = new HttpParams().set('shipping', '1');
+      return this.http.put(`${environment.apiUrl}/api/default-address/${addressId}`,null,{params: params})
+    }
+    setDefaultBilling(addressId: number){
+      let params = new HttpParams().set('billing', '1');
+      return this.http.put(`${environment.apiUrl}/api/default-address/${addressId}`,null, {params: params})
+    }
 }

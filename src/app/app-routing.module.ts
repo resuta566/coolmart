@@ -21,6 +21,7 @@ import { AccountComponent } from './dashboard/account/account.component';
 import { AddressBookComponent } from './dashboard/account/address-book/address-book.component';
 import { PaymentOptionsComponent } from './dashboard/account/payment-options/payment-options.component';
 import { ProfileComponent } from './dashboard/account/profile/profile.component';
+import { AddressComponent } from './dashboard/account/address-book/address/address.component';
 import { CartComponent } from './dashboard/cart/cart.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
@@ -32,9 +33,9 @@ import { ReturnsComponent } from './dashboard/order/returns/returns.component';
 import { CancellationsComponent } from './dashboard/order/cancellations/cancellations.component';
 import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 import { WriteReviewComponent } from './dashboard/order/reviews/write-review/write-review.component';
+import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
 
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
-import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
@@ -54,17 +55,19 @@ const routes: Routes = [
   canActivate: [AuthGuard],
   data: { num: 5, title: 'Dashboard' + htmlTitle},
       children:[
-        {path: '', pathMatch: 'full', redirectTo: 'account'},
-        {path: 'account', component: AccountComponent, data: { num: 6, title: 'Manage My Account'} },
-        {path: 'account/profile', component: ProfileComponent, data: { num: 7, title: 'My Profile'}  },
-        {path: 'account/address-book', component: AddressBookComponent, data: { num: 8, title: 'My Address Book'}  },
-        {path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9} },
-        {path: 'order', component: OrderComponent, data:{ num: 10, title: 'My Orders'} },
-        {path: 'order/view-order', component: ViewOrderComponent, data:{ num: 18, title: 'My Orders'} },
-        {path: 'order/returns', component: ReturnsComponent,data:{ num: 11, title: 'My Returns'} },
-        {path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12, title: 'My Cancellations'} },
-        {path: 'order/reviews', component: ReviewsComponent, data:{ num: 13, title: 'My Reviews'} },
-        {path: 'order/reviews/write-review/:id', component: WriteReviewComponent, data:{ num: 15, title: 'Write Review'} }
+        { path: '', pathMatch: 'full', redirectTo: 'account'},
+        { path: 'account', component: AccountComponent, data: { num: 6, title: 'Manage My Account'} },
+        { path: 'account/profile', component: ProfileComponent, data: { num: 7, title: 'My Profile'}  },
+        { path: 'account/address-book', component: AddressBookComponent, data: { num: 8, title: 'My Address Book'}  },
+        { path: 'account/address-book/address', component: AddressComponent, data: { num: 19}  },
+        { path: 'account/address-book/address/update/:addressId', component: AddressComponent, data: { num: 19}  },
+        { path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9} },
+        { path: 'order', component: OrderComponent, data:{ num: 10, title: 'My Orders'} },
+        { path: 'order/view-order', component: ViewOrderComponent, data:{ num: 18, title: 'My Orders'} },
+        { path: 'order/returns', component: ReturnsComponent,data:{ num: 11, title: 'My Returns'} },
+        { path: 'order/cancellations', component: CancellationsComponent, data:{ num: 12, title: 'My Cancellations'} },
+        { path: 'order/reviews', component: ReviewsComponent, data:{ num: 13, title: 'My Reviews'} },
+        { path: 'order/reviews/write-review/:id', component: WriteReviewComponent, data:{ num: 15, title: 'Write Review'} }
       ] },
   { path: 'pages',
       children: [

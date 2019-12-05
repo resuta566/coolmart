@@ -21,8 +21,11 @@ export class CheckoutComponent implements OnInit {
 
   type = 1;
   provinces: any;
+  provinceId = 0;
   provinceCities: any;
+  provinceCityId = 0;
   cityBarangays: any;
+  cityBrgyId = 0;
   addressForm: FormGroup;
   selected = false;
   placeorderForm: FormGroup;
@@ -62,43 +65,52 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  getProvinceId(provinceid: number){
+  getCities(provinceid: number){
+    this.provinceId = provinceid;
     this.selected = true;
     this.addressesService.selected_province_cities(provinceid).subscribe((data: any)=>{
       this.provinceCities = data;
       if(this.provinceCities.length > 0){
+        this.provinceCityId = 0;
         this.addressForm.get('city').enable();
+        this.addressForm.controls['city'].reset();
         this.selected = false;
       }
     },err => {
       this.selected = false;
     })
+    this.cityBrgyId = 0;
     this.addressForm.get('brgy').disable();
     this.addressForm.controls['brgy'].reset();
   }
-  getCityId(cityId: number){
+  getBrgys(cityId: number){
+    this.provinceCityId = cityId;
     this.selected = true;
     this.addressesService.selected_city_barangays(cityId).subscribe((data: any)=> {
       this.cityBarangays = data;
       if(this.cityBarangays.length > 0 ){
+        this.cityBrgyId = 0;
         this.addressForm.get('brgy').enable();
+        this.addressForm.controls['brgy'].reset();
         this.selected = false;
       }
     },err => {
       this.selected = false;
     })
   }
+  getBrgyId(brgyid: number){
+    this.cityBrgyId = brgyid;
+  }
 
   saveAddress(){
-    // console.log(this.a);
     let newAddress: Address = {
       fullname: this.a.fullname.value,
       mobilenumber: this.a.mobilenumber.value,
       other_notes: this.a.other_notes.value,
       building: this.a.building.value,
-      province: this.a.province.value,
-      city: this.a.city.value,
-      brgy: this.a.brgy.value,
+      province: this.provinceId.toString()+ '--' + this.a.province.value,
+      city: this.provinceCityId.toString() + '--' +this.a.city.value,
+      brgy: this.cityBrgyId.toString() + '--' + this.a.brgy.value,
       type: this.a.type.value,
     }
     if (this.addressForm.invalid) {
@@ -117,7 +129,9 @@ export class CheckoutComponent implements OnInit {
   addressForms(){
     this.addressForm = this.formBuilderAddress.group({
       fullname: ['', Validators.required],
-      mobilenumber: ['', [Validators.required, Validators.minLength(11),Validators.maxLength(15)]],
+      mobilenumber: ['', [
+          Validators.required,
+          Validators.pattern(/^(09|\+639)\d{9}$/)]],
       other_notes: [''],
       building: ['', Validators.required],
       province: ['', Validators.required],

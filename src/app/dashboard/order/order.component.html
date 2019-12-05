@@ -73,7 +73,7 @@
             </div>
           </div>
           </ng-template>
-          <div id="order-pagination" style="padding: 1.5em">
+          <div *ngIf="orders.length > 0" id="order-pagination" style="padding: 1.5em">
               <nav class="woocommerce-pagination">
                 <ul class="page-numbers">
                   <li [ngClass]="{hidden: orderPage?.prev !== null}">

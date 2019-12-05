@@ -111,7 +111,7 @@ export class ProductService {
     }
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
-          tap(_ => console.log('fetched products', _)),
+          tap(_ => console.log('fetched products')),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }

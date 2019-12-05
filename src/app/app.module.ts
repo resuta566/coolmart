@@ -51,6 +51,8 @@ import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-op
 import { PaypalComponent } from './dashboard/checkout/payment-options-checkout/options/paypal/paypal.component';
 import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/payment-success.component';
 import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
+import { AddressComponent } from './dashboard/account/address-book/address/address.component';
+import { DigitOnlyDirective } from './_components/directives/digit-only.directive';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -89,7 +91,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     PaymentOptionsCheckoutComponent,
     PaypalComponent,
     PaymentSuccessComponent,
-    ViewOrderComponent
+    ViewOrderComponent,
+    AddressComponent,
+    DigitOnlyDirective
   ],
   imports: [
     ReactiveFormsModule,
@@ -107,6 +111,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
   ],
   entryComponents: [
     ConfirmationDialogComponent
+  ],
+  exports:[
+    DigitOnlyDirective
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

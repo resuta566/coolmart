@@ -1,24 +1,14 @@
-.remove{
-  cursor: pointer;
-}
-.button,
-.button:focus{
-  background-color: #f78c00;
-  color: white;
-}
-.button:hover{
-  background-color: black;
-  color: white;
-}
-.mat-form-field{
-  display: block;
+mat-form-field {
+  width: 100%;
+  }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 ::ng-deep{
-  // input outline color
-  // .mat-form-field-appearance-outline .mat-form-field-outline {
-  //   color: #f78c00 !important;
-  // }
-
   // mat-input focused color
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     color: #f78c00 !important;
@@ -44,11 +34,4 @@
   .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: black;
   }
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
 }
