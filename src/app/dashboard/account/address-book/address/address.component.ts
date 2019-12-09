@@ -7,6 +7,9 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Subject } from 'rxjs/internal/Subject';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
+
 
 @Component({
   selector: 'app-address',
@@ -25,6 +28,7 @@ export class AddressComponent implements OnInit {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   selected = false;
 
+  addressData: any;
   type = 1;
   isAddressUpdate = false;
   addressIdEdit: string;
@@ -33,7 +37,8 @@ export class AddressComponent implements OnInit {
       private formBuilderAddress: FormBuilder,
       private addressesService: AddressesService,
       private route: Router,
-      private router: ActivatedRoute
+      private router: ActivatedRoute,
+      private confirmDialog: MatDialog
     ) {
      }
 
@@ -53,8 +58,10 @@ export class AddressComponent implements OnInit {
   }
 
   getOneUserAddress(addressId: number){
-    this.addressesService.oneUserAddress(addressId).pipe(first()).subscribe(data => {
+    this.addressesService.oneUserAddress(addressId).pipe().subscribe(data => {
       this.isAddressUpdate = true;
+      this.addressData = data;
+      console.log(this.addressData);
       this.getCities(+data.province[0]);
       this.getBrgys(+data.city[0]);
       setTimeout(()=>{
@@ -185,6 +192,23 @@ export class AddressComponent implements OnInit {
             this.notyf.error('Error');
           })
     }
+
+  }
+
+  deleteAddress(){
+    const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      height: '199px'
+    });
+    dialogRef.componentInstance.message = 'Are you sure to delete this address?';
+    dialogRef.componentInstance.title = 'Remove from Address Book?';
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.addressesService.deleteAddress(+this.addressIdEdit).pipe().subscribe(response=>{});
+      }
+    });
+
 
   }
   // convenience getter for easy access to form fields

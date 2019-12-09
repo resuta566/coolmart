@@ -11,6 +11,7 @@ import { AddressesService } from '@app/_service/addresses/addresses.service';
 import { Address } from '@app/_models/address/address';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
+import { CheckOutService } from '@app/_service/checkout/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -35,6 +36,8 @@ export class CheckoutComponent implements OnInit {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   thereIsItem = true;
   apiUrl = `${environment.apiUrl}`;
+  checkOutAddress: Object | any[];
+  phoneEdit = false;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private router: Router,
@@ -42,10 +45,12 @@ export class CheckoutComponent implements OnInit {
     private confirmDialog: MatDialog,
     private formBuilder: FormBuilder,
     private formBuilderAddress: FormBuilder,
-    private addressesService: AddressesService
+    private addressesService: AddressesService,
+    private checkoutService: CheckOutService
     ) { }
 
   ngOnInit() {
+    this.checkOutAddressInfo();
     this.selected = true;
     this.addressForms();
     this.provinceList();
@@ -56,6 +61,14 @@ export class CheckoutComponent implements OnInit {
   ngOnDestroy(): void {
     this.destroy$.next(true); //For Memory Leaks same below
     this.destroy$.unsubscribe();
+  }
+
+  checkOutAddressInfo(){
+    this.checkoutService.checkoutAddress().pipe().subscribe(data=>{
+      this.checkOutAddress = data;
+      console.log(this.checkOutAddress);
+
+    });
   }
 
   provinceList(){
@@ -119,10 +132,41 @@ export class CheckoutComponent implements OnInit {
     this.addressesService.saveAddress(newAddress)
         .pipe(first(),takeUntil(this.destroy$))
         .subscribe(data=>{
-          this.notyf.success(data);
+          this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/checkout']);
+            this.notyf.success(data);
+          });
         })
   }
+  editPhone(){
+    this.phoneEdit = !this.phoneEdit;
+    console.log(this.phoneEdit);
 
+  }
+  editAddress(){
+    const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
+      width: '450px',
+      height: '180px'
+    });
+    dialogRef.componentInstance.title = 'You will be redirected to your Address Book';
+    dialogRef.componentInstance.message = 'Do you want to change the Shipping or Billing Address?';
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/dashboard/account/address-book']);
+        });
+      }
+    });
+  }
+  updateMobile(mobile: number, address_id: number){
+    this.addressesService.updateMobile(mobile,address_id).pipe().subscribe(data=>{
+      this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/checkout']);
+        this.notyf.success(data);
+      });
+    })
+  }
   // convenience getter for easy access to form fields
   get a() { return this.addressForm.controls; }
 

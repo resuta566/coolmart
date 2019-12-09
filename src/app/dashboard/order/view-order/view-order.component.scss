@@ -1,0 +1,84 @@
+.order-header-detail{
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+.order > .order-detail {
+  min-height: 55px !important;
+}
+.item-number{
+  font-size: 16px;
+}
+.content{
+  padding: 8px 12px;
+}
+.shipping-billing-total-details{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(306px, 1fr));
+  padding: 5px;
+  align-items: flex-start;
+}
+.the-item{
+  display: inline;
+}
+.package-item{
+  display: grid;
+  grid-template-columns: 80px 360px auto auto auto ;
+  padding: 5px;
+  align-items: flex-start;
+}
+
+.item-img{
+  width: 80px;
+  height: 80px;
+}
+
+
+
+.shipping-billing-total-details span{
+  line-height: 20px;
+}
+.delivery-details{
+  margin-left: -5px;
+  min-height: 200px;
+}
+.shipping-details{
+  margin-bottom: 10px;
+}
+@media (min-width: 768px){
+  .total-summary{
+    margin-right: -5px;
+    margin-left: 10px !important;
+    padding: 5px;
+  }
+}
+@media (max-width: 768px){
+  .total-summary{
+    margin-top: 10px;
+  }
+}
+.total-summary{
+  margin-left: -5px;
+  min-height: 200px;
+}
+.shipping-title,
+.billing-title{
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+.total-title{
+  font-size: 18px;
+  font-weight: 650;
+  margin-bottom: 9px;
+}
+.sub-total,
+.shipping-fee{
+  font-size: 14px;
+}
+
+
+.total-price{
+  float: right;
+  font-size: 18px;
+  font-weight: 600;
+}

@@ -105,8 +105,8 @@
               <div class="order">
                   <div style="overflow-x:auto;">
                     <table>
-                      <tr *ngFor="let reviewed of reviewedList?.data">
-                        <div class="order-item" style="height: 100%;">
+                      <tr class="" *ngFor="let reviewed of reviewedList?.data">
+                        <div class="shadow order-item" style="height: 100%;">
                           <td>
                             <div class="item-pic">
                                 <ng-container *ngIf="reviewed?.image.length <= 0;else thereIsImage">
@@ -119,7 +119,7 @@
                                 </ng-template>
                             </div>
                           </td>
-                          <td id="review-name" style="height: 140px;">
+                          <td id="review-name" style="height: 135px;">
                             <div class="item-main">
                               <div class="item-name">
                                 <a [routerLink]="['/shop/shop-item/', reviewed?.slug]" >
@@ -140,12 +140,12 @@
                             </div>
                           </td>
                           <td>
-                            <div class="item-quantity">
+                            <div class="item-edit">
                               <button class="reviewbtn" [routerLink]="['/dashboard/order/reviews/write-review', reviewed?.slug]" [queryParams]="{ slug:reviewed.slug, isReviewed:true }">Edit</button>
                             </div>
                           </td>
                         </div>
-                        <div style="width:auto;height: 10px !important; background-color: #f78c00 !important;"></div>
+                        <div style="width:auto;height: 10px !important; background-color: #ffffff00 !important;"></div>
                       </tr>
                     </table>
                   </div>

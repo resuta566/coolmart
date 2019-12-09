@@ -19,7 +19,7 @@
 
                       <div class="single-product-wrapper">
                           <div class="product-images-wrapper">
-                              <ng-container *ngIf="imgArray && imgArray.length">
+                              <ng-container *ngIf="imgArray && imgArray.length && response?.attributes.discountType">
                                 <span class="onsale">Sale!</span>
                               </ng-container>
                               <div class="images electro-gallery">

@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { catchError, tap } from "rxjs/operators";
+import { catchError, tap, map } from "rxjs/operators";
 import { Address } from '@app/_models/address/address';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '../core/authentication.service';
+import { Router } from '@angular/router';
 
 const ADDRESS_API = environment.addressApiUrl;
 @Injectable({
@@ -17,7 +18,8 @@ export class AddressesService {
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router
     ) { }
 
     httpOptions = {
@@ -48,8 +50,7 @@ export class AddressesService {
     userAddress(){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        let authId = currentUser.user.id.toString();
-        return this.http.get<Address[]>(`${environment.apiUrl}/api/user-address/${authId}`,this.httpOptions)
+        return this.http.get<Address[]>(`${environment.apiUrl}/api/user-address`,this.httpOptions)
                 .pipe(catchError(this.handleError<Address[]>('getUserAddresses', [])));
       }
     }
@@ -57,7 +58,6 @@ export class AddressesService {
     saveAddress(address: Address){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        let authId = currentUser.user.id.toString();
         let addressparams = new HttpParams()
                             .append('fullname', address.fullname)
                             .append('contact', address.mobilenumber.toString())
@@ -68,7 +68,7 @@ export class AddressesService {
                             .append('brgy', address.brgy)
                             .append('type', address.type.toString())
 
-        return this.http.post(`${environment.apiUrl}/api/billing-address/${authId}`, this.httpOptions,
+        return this.http.post(`${environment.apiUrl}/api/billing-address`, this.httpOptions,
                   { params: addressparams  });
       }
     }
@@ -79,9 +79,6 @@ export class AddressesService {
 
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        let authId = currentUser.user.id.toString();
-        console.log(address.id);
-
         let addressparams = new HttpParams()
                             .set('fullname', address.fullname)
                             .set('contact', address.mobilenumber.toString())
@@ -93,12 +90,40 @@ export class AddressesService {
                             .set('type', address.type.toString())
                             .set('address_id', address.id.toString());
 
-        console.log(addressparams.toString());
-        return this.http.put(`${environment.apiUrl}/api/billing-address/${authId}`,null, { params:addressparams })
+        return this.http.put(`${environment.apiUrl}/api/billing-address`,null, { params:addressparams })
                 .pipe(tap( data => {
                   console.log( data );
                 }));
       }
+    }
+
+    updateMobile(mobile: number, address_id: number){
+
+      let headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
+        let mobiles = new HttpParams()
+                            .set('address_id', address_id.toString())
+                            .set('contact', mobile.toString());
+        console.log(mobiles);
+
+        return this.http.put(`${environment.apiUrl}/api/billing-address`,null, { params : mobiles })
+                .pipe(tap( data => {
+                }));
+      }
+    }
+
+    deleteAddress(addressId: number){
+      return this.http.delete(`${environment.apiUrl}/api/user-address/${addressId}`).pipe(
+            map((response: Address) => {
+              this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['/dashboard/account/address-book']);
+                this.notyf.success(response.message);
+              });
+            })
+      );
     }
 
     province(){

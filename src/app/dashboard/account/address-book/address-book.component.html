@@ -1,14 +1,16 @@
 <div>
   <div class="card">
     <div class="card-header header-bg">Address(es)
-      <div style="float: right;" *ngIf="!isSelectionShipping && !isSelectionBilling">
-        <a (click)="clickBilling()" class="pointer-cursor" style="color: white;">
-          Make Default Billing Address
-        </a> |
-        <a (click)="clickShipping()" class="pointer-cursor" style="color: white;">
-          Make Default Shipping Address
-        </a>
-      </div>
+      <ng-container *ngIf="addresslist?.length > 0">
+        <div style="float: right;" *ngIf="!isSelectionShipping && !isSelectionBilling">
+          <a (click)="clickBilling()" class="pointer-cursor" style="color: white;">
+            Make Default Billing Address
+          </a> |
+          <a (click)="clickShipping()" class="pointer-cursor" style="color: white;">
+            Make Default Shipping Address
+          </a>
+        </div>
+      </ng-container>
     </div>
     <div style="overflow: auto;" class="example-container mat-elevation-z8">
       <ng-container *ngIf="addresslist?.length > 0; else nothing">
@@ -77,7 +79,7 @@
       </ng-container>
 
       <ng-template #nothing>
-        No Address Yet Add? <br>
+       <p style="text-align: center; margin-top: 30px;">No Address Yet Add? </p><br>
       </ng-template>
     </div>
     <br>

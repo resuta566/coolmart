@@ -9,7 +9,7 @@ table{
   min-height: 100px !important;
 }
 #review-name{
-  min-width: 650px !important;
+  max-width: 650px !important;
   height: 100%;
 }
 
@@ -20,6 +20,7 @@ table{
 }
 
 .reviewbtn{
+  max-width: 100%;
   color: white;
   background: #f78c00;
   background-color: #f78c00;
@@ -47,4 +48,7 @@ table{
 }
 a{
   color: black;
+}
+.order-item > td > .item-main {
+  max-width: 400px !important;
 }

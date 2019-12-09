@@ -16,6 +16,7 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
 
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  selected = false;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
@@ -46,7 +47,17 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
   }
 
   payOnPaypal(){
-    this.paymentMethods.paypalPaymentMethod();
+    this.selected = true;
+    this.paymentMethods.paypalPaymentMethod().pipe().subscribe((data: any)=> {
+      console.log(data);
+      if(data){
+        window.location.href = data.paypal_link;
+      }
+    },err=>{
+      console.log(err);
+      // this.notyf.error(err);
+      this.selected = false;
+    });
   }
 
 }

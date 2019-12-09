@@ -5,34 +5,53 @@
                 </div>
                 <div class="info-container">
                     <div class="info">
-                        <div class="card">
-                          <div class="content">
-                              Personal Profile | <a>EDIT</a> <br>
+                          <div class="content shadow">
+                              <span class="title">Personal Profile</span> | <a>EDIT</a> <br>
                               {{ currentUser.name }}<br>
                               {{ currentUser.email }}<br><br>
-                              Subscribe to our Newsletter
+                              <!-- Subscribe to our Newsletter -->
                           </div>
-                        </div>
+
                     </div>
                     <div class="info">
-                        <div class="card">
-                            <div class="content">
-                                Personal Profile | EDIT <br>
-                                James Lester Orfano<br>
-                                resut.a566@gmail.com<br><br>
-                                Subscribe to our Newsletter
+                            <div class="content shadow">
+                                <mat-progress-spinner
+                                *ngIf="loading"
+                                style="margin:20px auto !important;"
+                                class="mat-spinner-color"
+                                [mode]="'indeterminate'"
+                                [diameter]="80"
+                                [value]="'50'">
+                              </mat-progress-spinner>
+                              <ng-container *ngIf="!loading">
+                                <span class="title">Address Book</span> | <a [routerLink]="['/dashboard/account/address-book']" >EDIT</a>  <br>
+                                <span class="sub-sub-title"> Default Shipping Address </span> <br>
+                                <span class="name"> {{ addressInfo?.shipping_name }}</span><br>
+                                <span class="address"> {{ addressInfo?.s_post_code }}</span>  <br>
+                                <span class="contact"> (+63) {{ addressInfo?.contact }} </span><br><br>
+                              </ng-container>
+
                             </div>
-                        </div>
+
                     </div>
                     <div class="info">
-                        <div class="card" >
-                            <div class="content">
-                                Personal Profile | EDIT <br>
-                                James Lester Orfano<br>
-                                resut.a566@gmail.com<br><br>
-                                Subscribe to our Newsletter
+                            <div class="content shadow">
+                                <br>
+                                <mat-progress-spinner
+                                *ngIf="loading"
+                                style="margin:20px auto !important;"
+                                class="mat-spinner-color"
+                                [mode]="'indeterminate'"
+                                [diameter]="80"
+                                [value]="'50'">
+                              </mat-progress-spinner>
+                              <ng-container *ngIf="!loading">
+                                <span class="sub-sub-title"> Default Billing Address </span> <br>
+                                <span class="name">{{ addressInfo?.billing_name }}</span><br>
+                                <span class="address">{{ addressInfo?.b_post_code }}</span> <br>
+                                <span class="contact">(+63) {{ addressInfo?.b_contact }}</span><br><br>
+                              </ng-container>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

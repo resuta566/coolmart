@@ -23,7 +23,7 @@ export class PaymentService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
     private handleError<T> (operation = 'operation' , result?: T) {
@@ -40,11 +40,12 @@ export class PaymentService {
       }
     }
 
-    paypalPaymentMethod(): void{
+    paypalPaymentMethod(){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        let authId = currentUser.user.id.toString();
-        window.location.href = `${environment.apiUrl}/api/payment?user=${authId}`;
+        return this.http.get(`${environment.apiUrl}/api/payment`,this.httpOptions).pipe(
+          tap(_ => console.log('fetched cart', _))
+          );
       }
     }
 }

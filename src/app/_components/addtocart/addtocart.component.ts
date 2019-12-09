@@ -52,7 +52,6 @@ export class AddtocartComponent implements OnInit, OnDestroy {
           this.cartForm = this.formBuilder.group({
             //this.itemId is a string so + would make it an integer
             itemId: [+this.itemId, Validators.required],
-            authId: [currentUser.user.id, Validators.required],
             qty: [this.qty, Validators.required]
           });
           this.cartService.addToDataBaseCart(this.cartForm.value);

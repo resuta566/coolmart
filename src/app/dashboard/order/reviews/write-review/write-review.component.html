@@ -38,11 +38,13 @@
           (ratingUpdated)="onRatingChanged($event)">
         </mat-star-rating>
             <div class="text-area" *ngIf="updateReview; else newReview">
-              <textarea [(ngModel)]="comment" cols="30" rows="10"></textarea>
+              <textarea [(ngModel)]="comment" maxlength="250" cols="30" rows="10"></textarea>
+              <small>Up to 250 Characters only</small>
             </div>
             <ng-template #newReview>
               <div class="text-area">
-                <textarea [(ngModel)]="comment" cols="30" rows="10" placeholder="What do you think of this product?"></textarea>
+                <textarea [(ngModel)]="comment" maxlength="250" cols="30" rows="10" placeholder="What do you think of this product?"></textarea>
+                <small>Up to 250 Characters only</small>
               </div>
             </ng-template>
             <button (click)="submit()">Submit</button>

@@ -44,8 +44,7 @@ export class OrderService {
       let actualPage = page || `${environment.apiUrl}/api/transactions`;
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        let authId = currentUser.user.id.toString();
-        return this.http.get(actualPage, { params: { authId: authId, } } )
+        return this.http.get(actualPage)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getOrder', []))

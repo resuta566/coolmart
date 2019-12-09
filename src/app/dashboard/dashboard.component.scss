@@ -19,6 +19,7 @@
 }
 
 .col2-set11 {
+  margin-top: 20px;
   margin-left: -0.9375rem;
   margin-right: -0.9375rem; }
 .col2-set11::after {
@@ -61,4 +62,12 @@
 a{
   color: #4b4b4b;
 }
-
+.list-group-item{
+  cursor: pointer;
+}
+:focus {
+  outline: -webkit-focus-ring-color auto 0px !important;
+}
+.shadow{
+  font-weight: bold;
+}

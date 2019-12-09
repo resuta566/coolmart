@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { AddressesService } from '@app/_service/addresses/addresses.service';
 import { Address } from '@app/_models/address/address';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
 import { ThrowStmt } from '@angular/compiler';
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class AddressBookComponent implements OnInit {
   addressId: number;
   displayedColumns: string[] = ['name', 'address','postcode', 'mobile', 'info', 'edit'];
   constructor(
+    @Inject(NOTYF) private notyf: Notyf,
     private addressService: AddressesService,
     private router: Router
   ) {}
@@ -62,14 +65,14 @@ export class AddressBookComponent implements OnInit {
  saveDefaults(){
    if(this.isSelectionShipping){
     this.addressService.setDefaultShipping(this.addressId).pipe().subscribe(data=> {
-      alert('Success');
+      this.notyf.success('Set Default Shipping Success');
       this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/dashboard/account/address-book']);
       });
     });
    }else if(this.isSelectionBilling){
     this.addressService.setDefaultBilling(this.addressId).pipe().subscribe(data=> {
-      alert('Success');
+      this.notyf.success('Set Default Billing Success');
       this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/dashboard/account/address-book']);
       });

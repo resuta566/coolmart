@@ -12,4 +12,5 @@ export class Address{
   post_code?: string;
   is_shipping?: number;
   is_billing?: number;
+  message?: string
 }

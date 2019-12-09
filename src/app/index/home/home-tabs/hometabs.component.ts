@@ -30,14 +30,8 @@ export class HometabsComponent implements OnInit, OnDestroy{
 
   ngAfterViewInit() {
     this.getProducts('featured');
-    this.iniSlickJs();
   }
 
-  private iniSlickJs() {
-    const htmlScriptElement = document.createElement('script');
-    htmlScriptElement.src = 'https://unpkg.com/slick-carousel@1.8.1/slick/slick.js';
-    this.elementRef.nativeElement.appendChild(htmlScriptElement);
-  }
 
   getProducts(option: string) {
     console.log(option);

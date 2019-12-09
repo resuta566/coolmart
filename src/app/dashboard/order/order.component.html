@@ -18,7 +18,7 @@
             <div class="order-detail">
               <div class="order-left">
                 <div class="order-link">
-                  Order <a href="#">#{{ order?.attributes.transaction_id }}</a>
+                  Order <a [routerLink]="['/dashboard/order/view-order']">#{{ order?.attributes.transaction_id }}</a>
                 </div>
                 <div class="order-info-date">
                   Placed on {{ order?.attributes.date_placed }}

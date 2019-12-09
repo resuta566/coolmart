@@ -46,13 +46,13 @@
           <i class="fa fa-envelope-o"></i>&nbsp; We’ve sent a confirmation email to resuta5.66@gmail.com with the order
           details.
         </div>
-        <div (click)="show()" class="order-summary border shadow">
+        <div class="order-summary border shadow">
         <!-- <div (click)="show()" class="order-summary border shadow"> -->
           Order Summary
           <div style="float: right; display: flex;">
             <div class="order-amount" *ngIf="!showAll">₱155.00</div> &nbsp;
-            <i class="fa fa-chevron-down" *ngIf="!showAll"></i>
-            <i class="fa fa-chevron-up" *ngIf="showAll"></i>
+            <i (click)="show()" class="fa fa-chevron-down" *ngIf="!showAll"></i>
+            <i (click)="show()" class="fa fa-chevron-up" *ngIf="showAll"></i>
           </div>
           <ng-container *ngIf="showAll">
             <div class="margin"></div>

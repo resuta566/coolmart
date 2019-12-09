@@ -1,4 +1,7 @@
 
+<ng-container *ngIf="addressData?.shipping == 0 && addressData?.billing == 0">
+  <a class="pointer-cursor" style="float: right; font-size: 20px;" (click)="deleteAddress()">Delete</a>
+</ng-container>
 <form enctype="multipart/form-data" action="#"
 class="checkout woocommerce-checkout" method="post" name="checkout">
   <div id="customer_details" class="col2-set">
@@ -134,7 +137,8 @@ class="checkout woocommerce-checkout" method="post" name="checkout">
                   </mat-form-field>
                 </p>
                 <div class="clear"></div>
-                <button type="submit" class="button alt">Save</button>
+                <button [routerLink]="['/dashboard/account/address-book']" class="button alt">Cancel</button>
+                <button type="submit" class="savebtn">Save</button>
             </ng-container>
         </form>
       </div>

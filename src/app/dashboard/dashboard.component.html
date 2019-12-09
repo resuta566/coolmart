@@ -1,63 +1,60 @@
 <br>
 <div class="containerlist">
-        <header class="entry-header"><h1 itemprop="name" class="entry-title">DASHBOARD</h1></header>
-        <div class="col2-set11" id="dashboard">
+  <!-- <header class="entry-header"><h1 itemprop="name" class="entry-title">DASHBOARD</h1></header> -->
+  <div class="col2-set11" id="dashboard">
 
-            <div class="col-1">
+    <div class="col-1">
 
-                <div class="card">
-                    <div class="card-header header-bg">
-                        Hello, {{ currentUser }}.
-                      </div>
-                  <div id="account" class="card" style="margin: 15px; ">
-                    <div class="card-header header-bg pointer-cursor" [routerLink]="['/dashboard/account']">
-                      Manage My Account
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <a  [routerLink]="['/dashboard/account/profile']">
-                        <li class="list-group-item">
-                          My Profile</li>
-                      </a>
-                      <a  [routerLink]="['/dashboard/account/address-book']">
-                        <li class="list-group-item">
-                            Address Book</li>
-                      </a>
-                      <a  [routerLink]="['/dashboard/account/payment-options']">
-                        <li class="list-group-item">
-                            My Payment Options</li>
-                      </a>
-                    </ul>
-                  </div>
-                  <div id="orders" class="card" style="margin: 15px; ">
-                      <div class="card-header header-bg pointer-cursor" [routerLink]="['/dashboard/order']">
-                        My Orders
-                      </div>
-                      <ul class="list-group list-group-flush">
-                        <a  [routerLink]="['/dashboard/order/returns']">
-                          <li class="list-group-item">
-                              My Returns</li>
-                        </a>
-                        <a  [routerLink]="['/dashboard/order/cancellations']">
-                          <li class="list-group-item">
-                              My Cancellations</li>
-                        </a>
-                        <a  [routerLink]="['/dashboard/order/reviews']">
-                          <li class="list-group-item">
-                              My Reviews</li>
-                        </a>
-                      </ul>
-                    </div>
-                </div>
+      <div class="card">
+        <div class="card-header header-bg">
+          Hello, {{ currentUser }}.
+        </div>
+        <div id="account" class="card" style="margin: 15px; ">
+          <div class="card-header header-bg pointer-cursor" [routerLink]="['/dashboard/account']"
+            routerLinkActive="shadow">
+            Manage My Account
+          </div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item" [routerLink]="['/dashboard/account/profile']" routerLinkActive="shadow">
+                My Profile
+              </li>
+              <li class="list-group-item" [routerLink]="['/dashboard/account/address-book']" routerLinkActive="shadow">
+                Address Book
+              </li>
+              <li class="list-group-item" [routerLink]="['/dashboard/account/payment-options']"
+                routerLinkActive="shadow">
+                My Payment Options
+              </li>
+          </ul>
+        </div>
+        <div id="orders" class="card" style="margin: 15px; ">
+          <div class="card-header header-bg pointer-cursor" [routerLink]="['/dashboard/order']"
+            routerLinkActive="shadow">
+            My Orders
+          </div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item" [routerLink]="['/dashboard/order/returns']" routerLinkActive="shadow">
+                My Returns
+              </li>
+              <li class="list-group-item" [routerLink]="['/dashboard/order/cancellations']" routerLinkActive="shadow">
+                My Cancellations
+              </li>
+              <li class="list-group-item" [routerLink]="['/dashboard/order/reviews']" routerLinkActive="shadow">
+                My Reviews
+              </li>
+          </ul>
+        </div>
+      </div>
 
-            </div><!-- .col-1 -->
+    </div><!-- .col-1 -->
 
-            <div class="col-2">
-              <div class="content" [@routerAnimation]="getRouteAnimation(router)">
-                <router-outlet #router="outlet"></router-outlet>
-              </div>
-            </div><!-- .col-2 -->
+    <div class="col-2">
+      <div class="content" [@routerAnimation]="getRouteAnimation(router)">
+        <router-outlet #router="outlet"></router-outlet>
+      </div>
+    </div><!-- .col-2 -->
 
-        </div><!-- .col2-set -->
+  </div><!-- .col2-set -->
 
 
 </div>

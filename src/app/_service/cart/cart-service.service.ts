@@ -55,8 +55,7 @@ export class CartService {
   carts(){
     let currentUser = this.authenticationService.currentUserValue;
     if(currentUser){
-      let authId = currentUser.user.id.toString();
-      return this.http.get(`${environment.apiUrl}/api/cart` , { params: { authId: authId, } } )
+      return this.http.get(`${environment.apiUrl}/api/cart`)
         .pipe(
           // tap(_ => console.log('fetched cart')),
           catchError(this.handleError('getCart', []))
@@ -87,8 +86,6 @@ export class CartService {
           this.router.navigate(['/cart']);
           this.notyf.error('Item(s) remove from cart!');
         });
-      }),
-      tap(_ => {
       }),
       catchError(this.handleError('updateCart', []))
     );
