@@ -37,11 +37,11 @@
 .package-item{
   padding: 20px 30px;
   display: grid;
-  grid-template-columns: 80px 400px repeat(auto-fit, minmax(80px,1fr));
+  grid-template-columns: 80px 320px repeat(auto-fit, minmax(80px,1fr));
   align-items: flex-start;
   text-align: center;
 }
-@media (max-width: 571px){
+@media (max-width: 991px){
   .package-item{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px,1fr)) !important;
@@ -50,8 +50,8 @@
   }
 }
 .item-img{
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
 }
 .item-name{
   text-align: left;
@@ -67,6 +67,10 @@
 }
 .shipping-details{
   margin-bottom: 10px;
+}
+.content span{
+  display: inline-block;
+  margin-bottom: 5px;
 }
 @media (min-width: 768px){
   .total-summary{

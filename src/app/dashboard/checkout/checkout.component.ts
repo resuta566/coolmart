@@ -64,7 +64,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   checkOutAddressInfo(){
-    this.checkoutService.checkoutAddress().pipe().subscribe(data=>{
+    this.checkoutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.checkOutAddress = data;
       console.log(this.checkOutAddress);
 
@@ -72,7 +72,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   provinceList(){
-    this.addressesService.province().subscribe((data: any) => {
+    this.addressesService.province().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.provinces = data;
       this.selected = false;
     });
@@ -81,7 +81,7 @@ export class CheckoutComponent implements OnInit {
   getCities(provinceid: number){
     this.provinceId = provinceid;
     this.selected = true;
-    this.addressesService.selected_province_cities(provinceid).subscribe((data: any)=>{
+    this.addressesService.selected_province_cities(provinceid).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.provinceCities = data;
       if(this.provinceCities.length > 0){
         this.provinceCityId = 0;
@@ -99,7 +99,7 @@ export class CheckoutComponent implements OnInit {
   getBrgys(cityId: number){
     this.provinceCityId = cityId;
     this.selected = true;
-    this.addressesService.selected_city_barangays(cityId).subscribe((data: any)=> {
+    this.addressesService.selected_city_barangays(cityId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       this.cityBarangays = data;
       if(this.cityBarangays.length > 0 ){
         this.cityBrgyId = 0;
@@ -151,7 +151,7 @@ export class CheckoutComponent implements OnInit {
     dialogRef.componentInstance.title = 'You will be redirected to your Address Book';
     dialogRef.componentInstance.message = 'Do you want to change the Shipping or Billing Address?';
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if(result) {
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/dashboard/account/address-book']);
@@ -160,7 +160,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
   updateMobile(mobile: number, address_id: number){
-    this.addressesService.updateMobile(mobile,address_id).pipe().subscribe(data=>{
+    this.addressesService.updateMobile(mobile,address_id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/checkout']);
         this.notyf.success(data);
@@ -191,7 +191,8 @@ export class CheckoutComponent implements OnInit {
     });
   }
   placeOrder(){
-    this.checkoutService.checkout().pipe().subscribe((response:any)=>{
+    this.selected = true;
+    this.checkoutService.checkout().pipe(takeUntil(this.destroy$)).subscribe((response:any)=>{
       console.log(response);
       this.router.navigate(['/checkout/payment-options'], {
         queryParams:{
@@ -202,7 +203,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getCart(){
-    this.cartService.carts().pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
+    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.carts = data.data;
       if(this.carts.length <= 0) this.thereIsItem = false;
 
@@ -223,10 +224,9 @@ export class CheckoutComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
+        this.cartService.removeItemCartQty(id).pipe(takeUntil(this.destroy$)).subscribe(data=> {});
       }
     });
-
   }
 
   subTotal(){

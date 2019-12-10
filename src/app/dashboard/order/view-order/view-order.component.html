@@ -1,19 +1,19 @@
 <div class="order-details">
   <div class="shadow order-header-detail" style="width: 100%; min-height: 80px;">
     <div style="float: left;">
-      Order #263195583976552
+      Order #{{ orderData?.order_id }}
       <br>
       Placed on 19 Nov 2019 15:26:08
     </div>
     <div style="float: right;">
-      Total: ₱762.00
+      Total: ₱{{  orderData?.sub_total }}
     </div>
   </div>
-  <div class="order">
+  <div class="order" *ngFor="let item of orderData?.items;let i = index">
     <div class="order-detail">
       <div style="float: left;">
         <div class="item-number">
-          <span class="fa fa-gift"></span> Item 1 <br>
+          <span class="fa fa-gift"></span> Item {{ i+1 }} <br>
         </div>
       </div>
     </div>
@@ -33,16 +33,21 @@
     <div class="order-package-details">
         <div class="package-item">
             <div class="item-img">
-              <img src="http://ph-live.slatic.net/p/ff00465ecb41a9e2850be1436941088e.jpg" alt="product-image">
+              <ng-container *ngIf="item.images.length > 0; else noImage">
+                  <img src="item.images[0]" class="item-img" alt="product-image">
+                </ng-container>
+                <ng-template #noImage>
+                  <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+                </ng-template>
             </div>
             <div class="item-name">
-                Mystery pouch with a Chance to win Redmi note 7(1 in every 400 boxes) Global Version
+                {{ item.name }}
             </div>
             <div class="item-price">
-                ₱93.00
+                ₱{{ item.price }}
             </div>
             <div class="item-ordered-qty">
-                Qty: 1
+                Qty: {{ item.qty }}
             </div>
             <div class="status-option">
               RETURN
@@ -58,6 +63,9 @@
           <div class="shipping-title">
               Shipping Address
           </div>
+          <span class="shipping-name">
+            James Lester Orfano
+          </span> <br>
           <span class="shipping-address">
             Unit G, 2/F, TSP Bldg, National Hwy,
             Metro Manila~Muntinlupa, Muntinlupa City, Tunasan
@@ -73,6 +81,9 @@
           <div class="billing-title">
             Billing Address
           </div>
+          <span class="billing-name">
+            James Lester Orfano
+          </span> <br>
           <span class="billing-address">
             Unit G, 2/F, TSP Bldg, National Hwy,
             Metro Manila~Muntinlupa, Muntinlupa City, Tunasan
@@ -93,14 +104,14 @@
           <div style="float: left;">
             Subtotal
           </div>
-          <div style="float: right;">₱93.00</div>
+          <div style="float: right;">₱{{ orderData?.sub_total }}</div>
         </div>
         <br>
         <div class="shipping-fee">
           <div style="float: left;">
             Shipping Fee
           </div>
-          <div style="float: right;">₱50.00</div>
+          <div style="float: right;">₱0.00</div>
         </div>
         <br>
         <hr>
@@ -109,7 +120,7 @@
             Total(VAT Incl.)
           </div>
           <div class="total-price">
-              ₱143.00
+              ₱{{ orderData?.sub_total }}
           </div>
         </div>
         <br>
