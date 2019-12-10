@@ -68,7 +68,7 @@
   color: #4a4a4a !important;
   line-height: 17px !important;
   font-weight: bold !important;
-  padding-left: 40px !important;
+  padding-left: 10px !important;
 }
 .delivery-package .tip{
   display: -webkit-box;
@@ -109,9 +109,18 @@
   width: 50%;
 }
 
+.column-img{
+  float: left;
+  width: 30%;
+}
+
 @media (max-width: 767px){
   .column{
     margin: 10px 1px;
+    width: 100%;
+  }
+  .column-img{
+    float: left;
     width: 100%;
   }
 }

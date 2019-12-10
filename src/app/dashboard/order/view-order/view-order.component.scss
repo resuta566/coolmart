@@ -11,6 +11,20 @@
 .content{
   padding: 8px 12px;
 }
+.tracking-area{
+  width: auto;
+  height: 200px;
+  background-color: #eff0f5;
+  margin: 20px 30px;
+  border-radius: 4px
+}
+.order-tracking-status{
+  margin-top: 20px;
+}
+.status-title{
+  text-align: center;
+}
+
 .shipping-billing-total-details{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(306px, 1fr));
@@ -21,17 +35,27 @@
   display: inline;
 }
 .package-item{
+  padding: 20px 30px;
   display: grid;
-  grid-template-columns: 80px 360px auto auto auto ;
-  padding: 5px;
+  grid-template-columns: 80px 400px repeat(auto-fit, minmax(80px,1fr));
   align-items: flex-start;
+  text-align: center;
 }
-
+@media (max-width: 571px){
+  .package-item{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px,1fr)) !important;
+    align-items: flex-start;
+    text-align: center;
+  }
+}
 .item-img{
   width: 80px;
   height: 80px;
 }
-
+.item-name{
+  text-align: left;
+}
 
 
 .shipping-billing-total-details span{

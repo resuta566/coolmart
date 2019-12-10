@@ -191,7 +191,14 @@ export class CheckoutComponent implements OnInit {
     });
   }
   placeOrder(){
-    this.router.navigate(['/checkout/payment-options'], { queryParams:{ acceptedTermsCondition: this.placeorderForm.valid}});
+    this.checkoutService.checkout().pipe().subscribe((response:any)=>{
+      console.log(response);
+      this.router.navigate(['/checkout/payment-options'], {
+        queryParams:{
+          orderTranscationId: response.transaction_id ,
+          acceptedTermsCondition: this.placeorderForm.valid
+        }});
+    });
   }
 
   getCart(){

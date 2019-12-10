@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
@@ -40,11 +40,23 @@ export class PaymentService {
       }
     }
 
-    paypalPaymentMethod(){
+    paypalPaymentMethod(orderId: number){
+      let currentUser = this.authenticationService.currentUserValue;
+      let params = new HttpParams().set('transaction_id', orderId.toString());
+      if(currentUser){
+        return this.http.get(`${environment.apiUrl}/api/payment`,
+              { params: params })
+              .pipe(
+              tap(_ => console.log('fetched cart'))
+              );
+      }
+    }
+
+    afterPlaceOrder(orderId: number){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/payment`,this.httpOptions).pipe(
-          tap(_ => console.log('fetched cart', _))
+        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}`,this.httpOptions).pipe(
+          tap(_ => console.log('fetched cart'))
           );
       }
     }

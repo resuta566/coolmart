@@ -18,7 +18,7 @@
             <div class="order-detail">
               <div class="order-left">
                 <div class="order-link">
-                  Order <a [routerLink]="['/dashboard/order/view-order']">#{{ order?.attributes.transaction_id }}</a>
+                  Order <a [routerLink]="['/dashboard/order/view-order', order.id]">#{{ order?.attributes.transaction_id }}</a>
                 </div>
                 <div class="order-info-date">
                   Placed on {{ order?.attributes.date_placed }}
@@ -26,7 +26,7 @@
               </div>
               <div class="center-pull"></div>
               <div class="order-right">
-                <a [routerLink]="['/dashboard/order/view-order']" >DETAILS</a>
+                <a [routerLink]="['/dashboard/order/view-order', order.id]" >DETAILS</a>
               </div>
             </div>
             <div style="overflow-x:auto;">

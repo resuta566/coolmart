@@ -17,6 +17,8 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   selected = false;
+  orderId: number;
+  orderDetails: any;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
@@ -25,14 +27,18 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
     ) {
       this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
         console.log(params);
+        this.orderId = params.orderTranscationId;
         if(params){
-         if(params.acceptedTermsCondition){
           console.log(true);
-        }else{
-          this.notyf.error(`You didn't accept to the Terms and Condition! \nRe-directed to Checkout.`);
-          this.router.navigate(['/checkout'], {queryParams:{ from: 'payment_option_failed' }})
-            console.log(false);
+          if(this.orderId){
+            this.paymentMethods.afterPlaceOrder(this.orderId).pipe().subscribe(response => {
+              this.orderDetails = response;
+            })
+          }else{
+            this.router.navigate(['/pages/not-found']);
           }
+        }else{
+          this.router.navigate(['/pages/not-found']);
         }
       });
      }
@@ -48,8 +54,7 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
 
   payOnPaypal(){
     this.selected = true;
-    this.paymentMethods.paypalPaymentMethod().pipe().subscribe((data: any)=> {
-      console.log(data);
+    this.paymentMethods.paypalPaymentMethod(this.orderId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       if(data){
         window.location.href = data.paypal_link;
       }

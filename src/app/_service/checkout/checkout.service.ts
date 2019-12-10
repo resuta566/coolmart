@@ -50,4 +50,16 @@ export class CheckOutService {
     }
   }
 
+  checkout(){
+    let currentUser = this.authenticationService.currentUserValue;
+    if(currentUser){
+      return this.http.post(`${environment.apiUrl}/api/transactions`,this.httpOptions).pipe(
+        tap(_=>{
+          console.log(_);
+        }),
+        catchError(this.handleError('getCheckoutAddress', []))
+      );
+    }
+  }
+
 }

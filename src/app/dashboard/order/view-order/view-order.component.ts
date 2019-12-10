@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-order',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewOrderComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute
+  ) {
+    this.route.paramMap.pipe().subscribe(param=>{
+
+    });
+  }
 
   ngOnInit() {
+    let string = 'James Lester -- Tunasan';
+    let spliter = string.split('--');
+    console.log(spliter);
+
   }
 
 }

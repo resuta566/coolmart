@@ -51,4 +51,16 @@ export class OrderService {
         );
       }
     }
+
+    oneOrder(transactionId: number){
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
+        return this.http.get(`${environment.apiUrl}/api/transactions/${transactionId}`)
+          .pipe(
+            // tap(_ => console.log('fetched cart')),
+            catchError(this.handleError('getOrder', []))
+        );
+      }
+
+    }
 }

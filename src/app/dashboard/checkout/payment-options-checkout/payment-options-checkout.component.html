@@ -56,8 +56,11 @@
         <div class="col-1">
             <div class="card">
               <h4><b>Order Summary</b></h4>
-              <div class="subtitle">Subtotal(1 Items and shipping fee included) <span class="subtitle-total-price">₱ 55.0</span></div>
-              <div class="total"> <b>Total Amount</b> <span class="total-price">₱ 55.0</span></div>
+              <div class="subtitle">Subtotal({{ orderDetails?.item_count }} Items and shipping fee included)
+                <span class="subtitle-total-price">₱ {{ orderDetails?.sub_total }}</span>
+              </div>
+              <div class="total"> <b>Total Amount</b>
+                <span class="total-price">₱ {{ orderDetails?.sub_total }}</span></div>
             </div>
 
         </div><!-- .col-1 -->
