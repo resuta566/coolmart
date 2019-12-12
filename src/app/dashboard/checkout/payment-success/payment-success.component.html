@@ -4,7 +4,7 @@
       <i class="fa fa-ticket"></i>&nbsp; Thank you for your purchase!
     </div>
     <div class="sub-title">
-      Your order number is <span class="order-number">#{{ successData?.order_id }}</span>
+      Your order number is <span class="order-number">#{{ successData?.address.order_id }}</span>
     </div>
   </div>
   <div class="success-body shadow">
@@ -24,7 +24,7 @@
             <div class="itemrow" *ngFor="let item of successData?.items">
               <div class="item-img-content column-img">
                 <ng-container *ngIf="item.images.length > 0; else noImage">
-                  <img src="item.images[0]" class="item-img" alt="product-image">
+                  <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
                 </ng-container>
                 <ng-template #noImage>
                   <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
@@ -42,7 +42,7 @@
                     <span class="text-detail-strong-text">My Account > My Order</span>
                   </div>
                 </div>
-                <button [routerLink]="['/dashboard/order/view-order', successData?.transaction_id]" > View Order </button>
+                <button [routerLink]="['/dashboard/order/view-order', successData?.address.transaction_id]" > View Order </button>
               </div>
             </div>
           </div>

@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   thereIsItem = true;
   apiUrl = `${environment.apiUrl}`;
-  checkOutAddress: Object | any[];
+  checkOutAddress: any;
   phoneEdit = false;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
@@ -64,7 +64,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   checkOutAddressInfo(){
-    this.checkoutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe(data=>{
+    this.checkoutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.checkOutAddress = data;
       console.log(this.checkOutAddress);
 

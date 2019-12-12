@@ -1,93 +1,86 @@
 <div class="card">
-    <div class="card-header header-bg">
-      My Cancellations
-    </div>
-    <div class="order-list">
-        <div class="order">
-          <div class="order-detail">
-            <div class="order-left">
-              <div class="order-link">
-                Order <a href="#">#263195583976552</a>
-              </div>
-              <div class="order-info-date">
-                Placed on 19 Nov 2019 15:26:08
-              </div>
-            </div>
-            <div class="center-pull"></div>
-            <div class="order-right">
-              <a href="">DETAILS</a>
-            </div>
+  <div class="card-header header-bg">
+    My Cancellations
+  </div>
+  <div class="order-list">
+    <div class="order" *ngFor="let cancelOrder of cancelOrders?.data">
+      <div class="order-detail">
+        <div class="order-left">
+          <div class="order-link">
+            Order <a
+              [routerLink]="['/dashboard/order/cancellations/cancelled-order', cancelOrder?.id ]">#{{ cancelOrder?.attributes.transaction_id }}</a>
           </div>
-          <div id="item" style="overflow-x:auto;">
-            <table>
-              <tr>
-                <div class="order-item">
-                  <td>
-                    <div class="item-pic">
-                      <img src="http://ph-live.slatic.net/original/ae0e0b0b54e1f18b625542082fd22120.jpg"
-                        alt="product-thumbnail">
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-main">
-                      <div class="item-name">
-                        Sandisk Ultra Micro SDXC 64GB Class 10 UHS-I SDSQUNS-064G Memory Card - NEW MODEL (Speed up to
-                        80MB/s)
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-quantity">
-                      Qty: 1
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-status">
-                      Cancelled
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-info">
-                      Delivered on 20 Nov 2019
-                    </div>
-                  </td>
-                </div>
-              </tr>
-              <tr>
-                <div class="order-item">
-                  <td>
-                    <div class="item-pic">
-                      <img src="http://ph-live.slatic.net/original/ae0e0b0b54e1f18b625542082fd22120.jpg"
-                        alt="product-thumbnail">
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-main">
-                      <div class="item-name">
-                        Sandisk Ultra Micro SDXC 64GB Class 10 UHS-I SDSQUNS-064G Memory Card - NEW MODEL (Speed up to
-                        80MB/s)
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-quantity">
-                      Qty: 1
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-status">
-                        Cancelled
-                    </div>
-                  </td>
-                  <td>
-                    <div class="item-info">
-                      Delivered on 20 Nov 2019
-                    </div>
-                  </td>
-                </div>
-              </tr>
-            </table>
+          <div class="order-info-date">
+            Cancel on {{ cancelOrder?.attributes.date_updated }}
           </div>
         </div>
+        <div class="center-pull"></div>
+        <div class="order-right">
+          <a [routerLink]="['/dashboard/order/cancellations/cancelled-order', cancelOrder?.id ]">DETAILS</a>
+        </div>
+      </div>
+      <div id="item" style="overflow-x:auto;">
+        <table>
+          <tr *ngFor="let cancelItem of cancelOrder?.relationships.carts.data">
+            <div class="order-item">
+              <td>
+                <div class="item-pic">
+                  <ng-container *ngIf="cancelItem?.attributes.item_images.length > 0;else noImage">
+                    <img src="{{ apiUrl }}/{{ cancelItem?.attributes.item_images[0] }}" alt="product-thumbnail">
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img src="assets/images/noimage2.jpg" alt="product-thumbnail">
+                  </ng-template>
+                </div>
+              </td>
+              <td>
+                <div class="item-main">
+                  <div class="item-name">
+                    {{ cancelItem?.attributes.item_name }}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="item-quantity">
+                  Qty: {{ cancelItem?.attributes.cart_qty }}
+                </div>
+              </td>
+              <td>
+                <div class="item-status">
+                  {{ cancelItem?.attributes.status }}
+                </div>
+              </td>
+            </div>
+          </tr>
+        </table>
+      </div>
     </div>
+    <div *ngIf="cancelOrders?.data.length > 0" id="order-pagination" style="padding: 1.5em">
+        <nav class="woocommerce-pagination">
+          <ul class="page-numbers">
+            <li [ngClass]="{hidden: cancelOrders?.links.prev !== null}">
+              <a class="page-numbers" [ngClass]="{disabled: cancelOrders?.links.prev == null}">
+                <i class="fa fa-arrow-left"></i>
+              </a>
+            </li>
+            <li [ngClass]="{hidden: cancelOrders?.links.prev == null}">
+              <a class="page-numbers" (click)="changePageCancellOrder(cancelOrders?.links.prev)">
+                <i class="fa fa-arrow-left"></i>
+              </a>
+            </li>
+            <li><span class="page-numbers current">{{ cancelOrders?.meta.current_page }}</span></li>
+            <li [ngClass]="{hidden: cancelOrders?.links.next !== null}">
+              <a [ngClass]="{disabled: cancelOrders?.links.next == null}" class="page-numbers">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </li>
+            <li [ngClass]="{hidden: cancelOrders?.links.next == null}">
+              <a class="page-numbers" (click)="changePageCancellOrder(cancelOrders?.links.next)">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
   </div>
+</div>

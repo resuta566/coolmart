@@ -212,7 +212,7 @@
                   <h3>Shipping &#038; Billing</h3>
                   <h5>Shipping Details</h5>
                   <p style="font-weight: bold; font-size: 14px;">{{ checkOutAddress?.shipping_name }}
-                    <span class="pointer-cursor" (click)="editAddress()" style="color:mediumturquoise; float: right">
+                    <span class="pointer-cursor" (click)="editAddress()" style="color:red; float: right">
                       Edit
                     </span>
                   </p>
@@ -220,7 +220,7 @@
                   <h5>Billing Details</h5>
                   <p style="font-weight: bold; font-size: 14px;">
                     {{ checkOutAddress?.billing_name }}
-                    <span class="pointer-cursor" (click)="editAddress()" style="color:mediumturquoise; float: right">
+                    <span class="pointer-cursor" (click)="editAddress()" style="color:red; float: right">
                       Edit
                     </span>
                   </p>
@@ -232,7 +232,7 @@
                     <ng-container *ngIf="!phoneEdit">
                         {{ checkOutAddress?.contact }}
                     </ng-container>
-                    <span class="pointer-cursor" *ngIf="!phoneEdit" (click)="editPhone()" style="font-weight: bold; font-size: 14px;color:mediumturquoise; float: right">
+                    <span class="pointer-cursor" *ngIf="!phoneEdit" (click)="editPhone()" style="font-weight: bold; font-size: 14px;color:red; float: right">
                       Edit
                     </span>
                       <mat-form-field *ngIf="phoneEdit" class="row margin" flex appearance="outline">

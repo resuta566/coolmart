@@ -55,6 +55,14 @@ export class PaymentService {
     afterPlaceOrder(orderId: number){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
+        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/pending`,this.httpOptions).pipe(
+          tap(_ => console.log('fetched cart'))
+          );
+      }
+    }
+    paymentSuccess(orderId: number){
+      let currentUser = this.authenticationService.currentUserValue;
+      if(currentUser){
         return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}`,this.httpOptions).pipe(
           tap(_ => console.log('fetched cart'))
           );

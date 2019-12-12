@@ -24,11 +24,12 @@ export class AccountComponent implements OnInit {
     this.checkOutService.checkoutAddress().pipe().subscribe((address: any)=>{
       this.addressInfo = address;
       console.log(this.addressInfo);
-
       if(this.addressInfo){
         setTimeout(()=>{
           this.loading = false;
         },500)
+      }else{
+        this.loading = false;
       }
     });
   }

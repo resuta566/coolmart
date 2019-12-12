@@ -25,10 +25,17 @@
                               </mat-progress-spinner>
                               <ng-container *ngIf="!loading">
                                 <span class="title">Address Book</span> | <a [routerLink]="['/dashboard/account/address-book']" >EDIT</a>  <br>
-                                <span class="sub-sub-title"> Default Shipping Address </span> <br>
-                                <span class="name"> {{ addressInfo?.shipping_name }}</span><br>
-                                <span class="address"> {{ addressInfo?.s_post_code }}</span>  <br>
-                                <span class="contact"> (+63) {{ addressInfo?.contact }} </span><br><br>
+
+                                <ng-container *ngIf="addressInfo;else noAddress">
+                                  <span class="sub-sub-title"> Default Shipping Address </span> <br>
+                                  <span class="name"> {{ addressInfo?.shipping_name }}</span><br>
+                                  <span class="address"> {{ addressInfo?.s_post_code }}</span>  <br>
+                                  <span class="contact"> (+63) {{ addressInfo?.contact }} </span><br><br>
+                                </ng-container>
+                                <ng-template #noAddress>
+                                  No Shipping Address Yet
+                                </ng-template>
+
                               </ng-container>
 
                             </div>
@@ -46,10 +53,16 @@
                                 [value]="'50'">
                               </mat-progress-spinner>
                               <ng-container *ngIf="!loading">
-                                <span class="sub-sub-title"> Default Billing Address </span> <br>
-                                <span class="name">{{ addressInfo?.billing_name }}</span><br>
-                                <span class="address">{{ addressInfo?.b_post_code }}</span> <br>
-                                <span class="contact">(+63) {{ addressInfo?.b_contact }}</span><br><br>
+                                <ng-container *ngIf="addressInfo;else noAddress">
+                                    <span class="sub-sub-title"> Default Billing Address </span> <br>
+                                    <span class="name">{{ addressInfo?.billing_name }}</span><br>
+                                    <span class="address">{{ addressInfo?.b_post_code }}</span> <br>
+                                    <span class="contact">(+63) {{ addressInfo?.b_contact }}</span><br><br>
+                                </ng-container>
+                                <ng-template #noAddress>
+                                    No Billing Address Yet
+                                </ng-template>
+
                               </ng-container>
                             </div>
                     </div>

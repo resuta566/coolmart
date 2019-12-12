@@ -49,7 +49,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.notyf.error('Server Responded as '+ err.statusText);
             }
 
-            this.error = err.error.error || err.error.message || err.error.errors.email[0] || err.statusText ;
+            this.error = err.error.error || err.error.message || err.statusText;
             // console.log(err);
             return throwError(this.error);
         }))

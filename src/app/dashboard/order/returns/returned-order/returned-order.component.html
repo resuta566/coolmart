@@ -2,18 +2,18 @@
   <div class="shadow order-header-detail" style="width: 100%; min-height: 60px;">
     <div style="float: left;">
       <span style="color: #212121;">
-        Order #{{ orderData?.address.order_id }}
+        Order #{{ returnedData?.address.order_id }}
       </span>
       <br>
       <span class="order-date">
-        Placed on {{ orderData?.address.date_placed }}
+        Returned on {{ returnedData?.address.date_placed }}
       </span>
     </div>
     <div class="order-header-total">
-      <span class="total-header-title">Total:</span> ₱{{  orderData?.sub_total }}
+      <span class="total-header-title">Total:</span> ₱{{  returnedData?.sub_total }}
     </div>
   </div>
-  <div class="order" *ngFor="let item of orderData?.items;let i = index">
+  <div class="order" *ngFor="let item of returnedData?.items;let i = index">
     <div class="order-detail">
       <div style="float: left;">
         <div class="item-number">
@@ -37,34 +37,25 @@
     <div class="order-package-details">
       <div class="package-item">
         <div class="item-img">
-          <ng-container *ngIf="item.images.length > 0; else noImage">
-            <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
-          </ng-container>
-          <ng-template #noImage>
-            <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
-          </ng-template>
+          <a style="color: #202020 !important;" [routerLink]="['/shop/shop-item/',item.slug]">
+            <ng-container *ngIf="item.images.length > 0; else noImage">
+              <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
+            </ng-container>
+            <ng-template #noImage>
+              <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+            </ng-template>
+          </a>
         </div>
         <div class="item-name">
-          {{ item.name }}
+          <a style="color: #202020 !important;" [routerLink]="['/shop/shop-item/',item.slug]">
+            {{ item.name }}
+          </a>
         </div>
         <div class="item-price">
           ₱{{ item.price }}
         </div>
         <div class="item-ordered-qty">
           Qty: {{ item.qty }}
-        </div>
-        <div class="status-option">
-          <ng-container *ngIf="item.cancellable">
-            <a (click)="cancelItem(item?.cart_id)">
-              CANCEL
-            </a>
-          </ng-container>
-          <ng-container *ngIf="item.status == 'Delivered'">
-            <a (click)="returnItem(item?.cart_id)">
-              RETURN
-            </a>
-          </ng-container>
-
         </div>
       </div>
 
@@ -78,14 +69,14 @@
             Shipping Address
           </div>
           <span class="shipping-name">
-            {{ orderData?.address.ship_post_code[0] }}
+            {{ returnedData?.address.ship_post_code[0] }}
           </span> <br>
           <span class="shipping-address">
-            {{ orderData?.address.ship_post_code[1] }}
+            {{ returnedData?.address.ship_post_code[1] }}
           </span>
           <br>
           <span class="shipping-contact">
-            {{ orderData?.address.ship_post_code[2] }}
+            {{ returnedData?.address.ship_post_code[2] }}
           </span>
         </div>
       </div>
@@ -95,14 +86,14 @@
             Billing Address
           </div>
           <span class="billing-name">
-            {{ orderData?.address.bill_post_code[0] }}
+            {{ returnedData?.address.bill_post_code[0] }}
           </span> <br>
           <span class="billing-address">
-            {{ orderData?.address.bill_post_code[1] }}
+            {{ returnedData?.address.bill_post_code[1] }}
           </span>
           <br>
           <span class="billing-contact">
-            {{ orderData?.address.bill_post_code[2] }}
+            {{ returnedData?.address.bill_post_code[2] }}
           </span>
         </div>
       </div>
@@ -116,7 +107,7 @@
           <div style="float: left;">
             Subtotal
           </div>
-          <div style="float: right;">₱{{ orderData?.sub_total }}</div>
+          <div style="float: right;">₱{{ returnedData?.sub_total }}</div>
         </div>
         <br>
         <div class="shipping-fee">
@@ -132,7 +123,7 @@
             Total(VAT Incl.)
           </div>
           <div class="total-price">
-            ₱{{ orderData?.sub_total }}
+            ₱{{ returnedData?.sub_total }}
           </div>
         </div>
         <br>

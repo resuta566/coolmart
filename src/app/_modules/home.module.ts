@@ -17,6 +17,7 @@ import { AddtocartComponent } from '@app/_components/addtocart/addtocart.compone
 import { AddtocartV2Component } from '@app/_components/addtocart/addtocartv2.component';
 import { AlertModule } from './alert.module';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from './material.module';
 
 
   const Home = [
@@ -41,7 +42,8 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     CommonModule,
     NgxGalleryModule,
-    AlertModule
+    AlertModule,
+    MaterialModule
   ],
   exports: [Home]
 })

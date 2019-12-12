@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ReturnService } from '@app/_service/order/return/return.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-returns',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReturnsComponent implements OnInit {
 
-  constructor() { }
+  apiUrl = `${environment.apiUrl}`;
+  returnDetails: any;
+  constructor(
+    private returnService: ReturnService
+  ) { }
 
   ngOnInit() {
+    this.returns();
   }
 
+  returns(){
+    this.returnService.returnOrders().pipe().subscribe(data=>{
+      this.returnDetails = data;
+      console.log(this.returnDetails);
+    });
+  }
 }

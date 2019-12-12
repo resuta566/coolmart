@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Inject } from '@angular/core';
 import { ProductService } from '@app/_service/product/product.service';
 import { environment } from '@environments/environment';
 import { AlertService } from '@app/_service';
 import { Subject } from 'rxjs';
 import { takeUntil} from 'rxjs/operators';
 import { Filter } from '@app/_models/filter/filter';
+import { Notyf } from 'notyf';
+import { NOTYF } from '@app/_helpers/notyf.token';
 
 @Component({
   selector: 'home-tabs',
@@ -12,6 +14,8 @@ import { Filter } from '@app/_models/filter/filter';
   styleUrls: ['./hometabs.component.scss']
 })
 export class HometabsComponent implements OnInit, OnDestroy{
+
+  mode = 'indeterminate';
   limit = 4;
   products: any;
   btnclass = 'button add_to_cart_button';
@@ -19,9 +23,10 @@ export class HometabsComponent implements OnInit, OnDestroy{
   apiUrl = `${environment.apiUrl}`;
   filter: Filter;
   carouhtml: string;
+  loadingProduct = true;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
-    private elementRef: ElementRef,
+    @Inject(NOTYF) private notyf: Notyf,
     private productService: ProductService,
     private alertService: AlertService
     ) { }
@@ -34,11 +39,22 @@ export class HometabsComponent implements OnInit, OnDestroy{
 
 
   getProducts(option: string) {
+    this.limit = 4;
+    this.loadingProduct = true;
     console.log(option);
     this.productService.getProductOption(option).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;
-      },
-        error => {
+      console.log(this.products);
+
+        if(this.products.length > 0){
+          setTimeout(() => {
+            this.loadingProduct = false;
+          }, 1000);
+        }else{
+          this.loadingProduct = false;
+          this.notyf.error(`There seems to be no ${option} product at this moment.`);
+        }
+    },error => {
         this.alertService.error(error, true);
     });
   }
@@ -49,6 +65,8 @@ export class HometabsComponent implements OnInit, OnDestroy{
   }
 
   show(limit: number){
+    console.log(limit);
+
     this.limit = limit;
   }
 }

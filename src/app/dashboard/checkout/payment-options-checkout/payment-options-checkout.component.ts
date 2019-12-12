@@ -26,13 +26,15 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
     private paymentMethods: PaymentService
     ) {
       this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-        console.log(params);
         this.orderId = params.orderTranscationId;
         if(params){
-          console.log(true);
           if(this.orderId){
             this.paymentMethods.afterPlaceOrder(this.orderId).pipe().subscribe(response => {
               this.orderDetails = response;
+              console.log(this.orderDetails);
+              if(!this.orderDetails.address.status) {
+                this.router.navigate(['/pages/not-found']); //If the Transaction status is false redirect
+              }
             })
           }else{
             this.router.navigate(['/pages/not-found']);

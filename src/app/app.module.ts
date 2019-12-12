@@ -53,6 +53,10 @@ import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/pa
 import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
 import { AddressComponent } from './dashboard/account/address-book/address/address.component';
 import { DigitOnlyDirective } from './_components/directives/digit-only.directive';
+import { CancelOrderComponent } from './dashboard/order/cancellations/cancel-order/cancel-order.component';
+import { CancelledOrderComponent } from './dashboard/order/cancellations/cancelled-order/cancelled-order.component';
+import { ReturnOrderComponent } from './dashboard/order/returns/return-order/return-order.component';
+import { ReturnedOrderComponent } from './dashboard/order/returns/returned-order/returned-order.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -93,7 +97,11 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     PaymentSuccessComponent,
     ViewOrderComponent,
     AddressComponent,
-    DigitOnlyDirective
+    DigitOnlyDirective,
+    CancelOrderComponent,
+    CancelledOrderComponent,
+    ReturnOrderComponent,
+    ReturnedOrderComponent
   ],
   imports: [
     ReactiveFormsModule,
