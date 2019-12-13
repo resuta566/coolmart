@@ -70,7 +70,7 @@
             </a>
           </li>
           <li [ngClass]="{hidden: returnDetails?.links.prev == null}">
-            <a class="page-numbers" (click)="changePageOrder(returnDetails?.links.prev)">
+            <a class="page-numbers" (click)="changePageReturns(returnDetails?.links.prev)">
               <i class="fa fa-arrow-left"></i>
             </a>
           </li>
@@ -81,7 +81,7 @@
             </a>
           </li>
           <li [ngClass]="{hidden: returnDetails?.links.next == null}">
-            <a class="page-numbers" (click)="changePageOrder(returnDetails?.links.next)">
+            <a class="page-numbers" (click)="changePageReturns(returnDetails?.links.next)">
               <i class="fa fa-arrow-right"></i>
             </a>
           </li>

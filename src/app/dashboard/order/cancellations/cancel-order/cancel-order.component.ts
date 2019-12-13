@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CancelService, CancelOrder } from '@app/_service/order/cancel/cancel.service';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
+import { environment } from '@environments/environment';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
     'Change Delivery Address',
     'Incorrect Contact Details'
   ];
+  apiUrl = `${environment.apiUrl}`;
   cancelForm: FormGroup;
   cartId: number;
   itemDetails: any;

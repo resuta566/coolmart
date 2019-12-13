@@ -4,6 +4,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReturnService } from '@app/_service/order/return/return.service';
+import { environment } from '@environments/environment';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class ReturnOrderComponent implements OnInit {
   cartId: number;
   itemDetails: any;
   refundAmt: any;
+  apiUrl = `${environment.apiUrl}`;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,

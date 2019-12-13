@@ -25,4 +25,7 @@ export class ReturnsComponent implements OnInit {
       console.log(this.returnDetails);
     });
   }
+  changePageReturns(){
+
+  }
 }
