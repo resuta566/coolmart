@@ -2,37 +2,64 @@
 <div class="container">
   <div class="row">
     <div class="image-block col-xs-12 col-sm-6">
-      <img data-echo="assets/images/ad-banner-3.png" src="assets/images/blank.gif" alt="">
+      <ng-container *ngIf="brandProduct?.data.attributes.logo;else noimage">
+          <!-- <img attr.data-echo="{{ apiUrl }}/{{ brandProduct?.data.attributes.logo }}" src="assets/images/blank.gif" alt=""> -->
+          <img data-echo="https://scontent.fmnl6-2.fna.fbcdn.net/v/t1.0-9/p960x960/61924777_2184959801601958_8444244795898986496_o.jpg?_nc_cat=109&_nc_ohc=sz5wyBPa638AQndfadPsrm0QhavFiDIWbDCghQWVroNTsz-4UDTDUFDrQ&_nc_ht=scontent.fmnl6-2.fna&oh=aacabda176e406d50c5bc7b76ed1fda8&oe=5E65CB34" src="assets/images/blank.gif" alt="">
+      </ng-container>
+      <ng-template #noimage>
+        <img data-echo="assets/images/noimage.png" src="assets/images/blank.gif" alt="">
+      </ng-template>
+
     </div><!-- /.image-block -->
 
     <div class="products-carousel-block col-xs-12 col-sm-6">
       <section class="home-v2-categories-products-carousel section-products-carousel">
 
         <header>
-          <h2 class="h1">Home Cooling</h2>
+          <h2 class="h1">{{ brandProduct?.data.attributes.name }}</h2>
 
         </header>
 
         <div id="">
           <div class="woocommerce brand-scroll">
             <ul class="products exclude-auto-height ">
-              <li class="product last">
+              <li class="product last" *ngFor="let brandItem of brandProduct?.data.relationships.items.data">
                 <div class="product-outer">
                   <div class="product-inner">
-                    <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                    <a href="single-product.html">
-                      <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
+                    <span class="loop-product-categories">
+                    <a rel="tag">Aircons</a></span>
+                    <a [routerLink]="['/shop/shop-item', brandItem?.attributes.slug]" >
+                      <h3>{{ brandItem?.attributes.name }}</h3>
                       <div class="product-thumbnail">
-                        <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                          class="img-responsive" alt="">
+                        <ng-container *ngIf="brandItem?.attributes.thumbnails.length > 0;else noImage">
+                          <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ brandItem?.attributes.thumbnails[0] }}"
+                          class="img-responsive" alt="product-image">
+                        </ng-container>
+                        <ng-template #noImage>
+                            <img src="assets/images/blank.gif" data-echo="assets/images/noimage.png"
+                            class="img-responsive" alt="product-image">
+                        </ng-template>
+
                       </div>
                     </a>
 
                     <div class="price-add-to-cart">
                       <span class="price">
                         <span class="electro-price">
-                          <ins><span class="amount"> </span></ins>
-                          <span class="amount"> ₱1,999.00</span>
+                          <ins *ngIf="brandItem?.attributes.discountType;else notDiscounted">
+                            <span class="amount">₱{{ brandItem?.attributes.discountedSrp }} </span>
+                          </ins>
+                          <ng-template #notDiscounted>
+                            <span class="amount">₱{{ brandItem?.attributes.discountedSrp }} </span>
+                          </ng-template>
+
+                          <!-- <ng-container *ngIf="brandItem?.attributes.discountType">
+                            <br>
+                            <span>
+                              <del><span class="amount">₱{{ brandItem?.attributes.srp }}</span></del>
+                              <span class="discount"> {{ brandItem?.attributes.discountType }}</span>
+                            </span>
+                          </ng-container> -->
                         </span>
                       </span>
                       <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
@@ -40,208 +67,12 @@
 
                     <div class="hover-area">
                       <div class="action-buttons">
-
-                        <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                        <a href="compare.html" class="add-to-compare-link"> Compare</a>
-                      </div>
-                    </div>
-                  </div><!-- /.product-inner -->
-                </div><!-- /.product-outer -->
-              </li><!-- /.product -->
-              <li class="product last">
-                  <div class="product-outer">
-                    <div class="product-inner">
-                      <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                      <a href="single-product.html">
-                        <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
-                        <div class="product-thumbnail">
-                          <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                            class="img-responsive" alt="">
-                        </div>
-                      </a>
-
-                      <div class="price-add-to-cart">
-                        <span class="price">
-                          <span class="electro-price">
-                            <ins><span class="amount"> </span></ins>
-                            <span class="amount"> ₱1,999.00</span>
-                          </span>
-                        </span>
-                        <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                      </div><!-- /.price-add-to-cart -->
-
-                      <div class="hover-area">
-                        <div class="action-buttons">
-
-                          <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                          <a href="compare.html" class="add-to-compare-link"> Compare</a>
-                        </div>
-                      </div>
-                    </div><!-- /.product-inner -->
-                  </div><!-- /.product-outer -->
-              </li><!-- /.product -->
-              <li class="product last">
-                  <div class="product-outer">
-                    <div class="product-inner">
-                      <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                      <a href="single-product.html">
-                        <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
-                        <div class="product-thumbnail">
-                          <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                            class="img-responsive" alt="">
-                        </div>
-                      </a>
-
-                      <div class="price-add-to-cart">
-                        <span class="price">
-                          <span class="electro-price">
-                            <ins><span class="amount"> </span></ins>
-                            <span class="amount"> ₱1,999.00</span>
-                          </span>
-                        </span>
-                        <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                      </div><!-- /.price-add-to-cart -->
-
-                      <div class="hover-area">
-                        <div class="action-buttons">
-
-                          <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                          <a href="compare.html" class="add-to-compare-link"> Compare</a>
-                        </div>
-                      </div>
-                    </div><!-- /.product-inner -->
-                  </div><!-- /.product-outer -->
-              </li><!-- /.product -->
-              <li class="product last">
-                  <div class="product-outer">
-                    <div class="product-inner">
-                      <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                      <a href="single-product.html">
-                        <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
-                        <div class="product-thumbnail">
-                          <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                            class="img-responsive" alt="">
-                        </div>
-                      </a>
-
-                      <div class="price-add-to-cart">
-                        <span class="price">
-                          <span class="electro-price">
-                            <ins><span class="amount"> </span></ins>
-                            <span class="amount"> ₱1,999.00</span>
-                          </span>
-                        </span>
-                        <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                      </div><!-- /.price-add-to-cart -->
-
-                      <div class="hover-area">
-                        <div class="action-buttons">
-
-                          <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                          <a href="compare.html" class="add-to-compare-link"> Compare</a>
-                        </div>
-                      </div>
-                    </div><!-- /.product-inner -->
-                  </div><!-- /.product-outer -->
-              </li><!-- /.product -->
-              <li class="product last">
-                <div class="product-outer">
-                  <div class="product-inner">
-                    <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                    <a href="single-product.html">
-                      <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
-                      <div class="product-thumbnail">
-                        <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                          class="img-responsive" alt="">
-                      </div>
-                    </a>
-
-                    <div class="price-add-to-cart">
-                      <span class="price">
-                        <span class="electro-price">
-                          <ins><span class="amount"> </span></ins>
-                          <span class="amount"> ₱1,999.00</span>
-                        </span>
-                      </span>
-                      <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                    </div><!-- /.price-add-to-cart -->
-
-                    <div class="hover-area">
-                      <div class="action-buttons">
-
-                        <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                        <a href="compare.html" class="add-to-compare-link"> Compare</a>
-                      </div>
-                    </div>
-                  </div><!-- /.product-inner -->
-                </div><!-- /.product-outer -->
-              </li><!-- /.product -->
-              <li class="product last">
-                <div class="product-outer">
-                  <div class="product-inner">
-                    <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                    <a href="single-product.html">
-                      <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
-                      <div class="product-thumbnail">
-                        <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                          class="img-responsive" alt="">
-                      </div>
-                    </a>
-
-                    <div class="price-add-to-cart">
-                      <span class="price">
-                        <span class="electro-price">
-                          <ins><span class="amount"> </span></ins>
-                          <span class="amount"> ₱1,999.00</span>
-                        </span>
-                      </span>
-                      <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                    </div><!-- /.price-add-to-cart -->
-
-                    <div class="hover-area">
-                      <div class="action-buttons">
-
-                        <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                        <a href="compare.html" class="add-to-compare-link"> Compare</a>
-                      </div>
-                    </div>
-                  </div><!-- /.product-inner -->
-                </div><!-- /.product-outer -->
-              </li><!-- /.product -->
-              <li class="product last">
-                <div class="product-outer">
-                  <div class="product-inner">
-                    <span class="loop-product-categories"><a href="product-category.html" rel="tag">Laptops</a></span>
-                    <a href="single-product.html">
-                      <h3>Tablet Thin EliteBook Revolve 810 G6</h3>
-                      <div class="product-thumbnail">
-                        <img src="assets/images/blank.gif" data-echo="assets/images/products/1.jpg"
-                          class="img-responsive" alt="">
-                      </div>
-                    </a>
-
-                    <div class="price-add-to-cart">
-                      <span class="price">
-                        <span class="electro-price">
-                          <ins><span class="amount"> </span></ins>
-                          <span class="amount"> ₱1,999.00</span>
-                        </span>
-                      </span>
-                      <a rel="nofollow" href="single-product.html" class="button add_to_cart_button">Add to cart</a>
-                    </div><!-- /.price-add-to-cart -->
-
-                    <div class="hover-area">
-                      <div class="action-buttons">
-
-                        <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-
-                        <a href="compare.html" class="add-to-compare-link"> Compare</a>
+                          <ng-container *ngIf="brandItem?.attributes.discountType">
+                            <span>
+                              <span class="discount"> {{ brandItem?.attributes.discountType }}</span> <br>
+                              <del><span class="amount">₱{{ brandItem?.attributes.srp }}</span></del>
+                            </span>
+                          </ng-container>
                       </div>
                     </div>
                   </div><!-- /.product-inner -->

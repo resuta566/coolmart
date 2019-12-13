@@ -133,7 +133,7 @@ export class ProductService {
   getProductReviews(slug: string, page?: string):Observable<Reviews>{
     let actualPage = page || `${environment.apiUrl}/api/items/reviews/${slug}`;
     return this.http.get<Reviews>(actualPage).pipe(
-      tap(_ => console.log('fetched reviews', _))
+      tap(_ => console.log('fetched reviews'))
     );
   }
 }

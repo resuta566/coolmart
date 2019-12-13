@@ -3,6 +3,8 @@
     My Cancellations
   </div>
   <div class="order-list">
+    <ng-container *ngIf="cancelOrders?.data.length == 0"> No Cancelled Items yet.</ng-container>
+
     <div class="order" *ngFor="let cancelOrder of cancelOrders?.data">
       <div class="order-detail">
         <div class="order-left">

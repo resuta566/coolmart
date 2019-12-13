@@ -42,7 +42,22 @@ export class PaymentService {
 
     paypalPaymentMethod(orderId: number){
       let currentUser = this.authenticationService.currentUserValue;
-      let params = new HttpParams().set('transaction_id', orderId.toString());
+      let params = new HttpParams()
+                      .set('transaction_id', orderId.toString())
+                      .set('option', 'paypal');
+      if(currentUser){
+        return this.http.get(`${environment.apiUrl}/api/payment`,
+              { params: params })
+              .pipe(
+              tap(_ => console.log('fetched cart'))
+              );
+      }
+    }
+    codPaymentMethod(orderId: number){
+      let currentUser = this.authenticationService.currentUserValue;
+      let params = new HttpParams()
+                      .set('transaction_id', orderId.toString())
+                      .set('option', 'cod');
       if(currentUser){
         return this.http.get(`${environment.apiUrl}/api/payment`,
               { params: params })

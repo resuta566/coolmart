@@ -22,7 +22,6 @@ export class HometabsComponent implements OnInit, OnDestroy{
   label = 'Add To cart';
   apiUrl = `${environment.apiUrl}`;
   filter: Filter;
-  carouhtml: string;
   loadingProduct = true;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
@@ -41,15 +40,12 @@ export class HometabsComponent implements OnInit, OnDestroy{
   getProducts(option: string) {
     this.limit = 4;
     this.loadingProduct = true;
-    console.log(option);
     this.productService.getProductOption(option).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;
-      console.log(this.products);
-
         if(this.products.length > 0){
           setTimeout(() => {
             this.loadingProduct = false;
-          }, 1000);
+          }, 500);
         }else{
           this.loadingProduct = false;
           this.notyf.error(`There seems to be no ${option} product at this moment.`);
@@ -65,8 +61,6 @@ export class HometabsComponent implements OnInit, OnDestroy{
   }
 
   show(limit: number){
-    console.log(limit);
-
     this.limit = limit;
   }
 }

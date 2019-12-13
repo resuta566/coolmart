@@ -13,57 +13,47 @@
   <div class="contents">
     <div class="col2-set11" id="dashboard">
 
-      <div class="col-2" >
+      <div class="col-2">
         <div class="payment-methods">
-          <div class="payment paypal">
-            <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal" >
+          <div class="paypal payment" [class.shadow]="codOption" (click)="cod()">
+            <img class="payment-img"
+              src="https://cdn1.iconfinder.com/data/icons/marketplace-and-shipping-outline/64/COD_cash_on_delivery_shipping_payment_delivery-512.png"
+              alt="paypal">
+            <div class="payment-title">Cash On Delivery</div>
+            <!-- <div class="payment-sub-title">4% Charge fee</div> -->
+          </div>
+          <div class="cod payment" [class.shadow]="paypalOption" (click)="paypal()">
+            <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal">
             <div class="payment-title">Paypal</div>
-            <div class="payment-sub-title">4% Charge fee</div>
-          </div>
-          <div class="payment paypal">
-              <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal" >
-              <div class="payment-title">Paypal</div>
-              <div class="payment-sub-title">4% Charge fee</div>
-          </div>
-          <div class="payment paypal">
-              <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal" >
-              <div class="payment-title">Paypal</div>
-              <div class="payment-sub-title">4% Charge fee</div>
-          </div>
-          <div class="payment paypal">
-              <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal" >
-              <div class="payment-title">Paypal</div>
-              <div class="payment-sub-title">4% Charge fee</div>
-          </div>
-          <div class="payment paypal">
-              <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal" >
-              <div class="payment-title">Paypal</div>
-              <div class="payment-sub-title">4% Charge fee</div>
-          </div>
-          <div class="payment paypal">
-              <img class="payment-img" src="assets/images/payment-method/paypal.png" alt="paypal" >
-              <div class="payment-title">Paypal</div>
-              <div class="payment-sub-title">4% Charge fee</div>
           </div>
         </div>
-        <div class="payment-details" >
+        <div class="payment-details" *ngIf="paypalOption">
           <p>Pay with your paypal account.</p>
           <p>Make sure you have enough balance in your account.</p>
           <p>You will be redirected to Paypal website to complete your payment.</p>
           <button class="paynow" (click)="payOnPaypal()">Pay Now</button>
         </div>
+        <div class="payment-details" *ngIf="codOption">
+          <p>Important for your Security:</p>
+          <p>Pay using our Cash on Delivery Service. Cool Mart, and its sellers, will NEVER ask you to send cash or
+            deposit any</p>
+          <p>payment (partial or full) to any personal bank account or remittance centers. Full payment is done directly
+            to the </p>
+          <p>courier upon receiving the item.</p>
+          <button class="paynow" (click)="payOnCOD()">CONFIRM ORDER</button>
+        </div>
       </div><!-- .col-2 -->
-        <div class="col-1">
-            <div class="card">
-              <h4><b>Order Summary</b></h4>
-              <div class="subtitle">Subtotal({{ orderDetails?.item_count }} Items and shipping fee included)
-                <span class="subtitle-total-price">₱ {{ orderDetails?.sub_total }}</span>
-              </div>
-              <div class="total"> <b>Total Amount</b>
-                <span class="total-price">₱ {{ orderDetails?.sub_total }}</span></div>
-            </div>
+      <div class="col-1">
+        <div class="card">
+          <h4><b>Order Summary</b></h4>
+          <div class="subtitle">Subtotal({{ orderDetails?.item_count }} Items and shipping fee included)
+            <span class="subtitle-total-price">₱ {{ orderDetails?.sub_total }}</span>
+          </div>
+          <div class="total"> <b>Total Amount</b>
+            <span class="total-price">₱ {{ orderDetails?.sub_total }}</span></div>
+        </div>
 
-        </div><!-- .col-1 -->
+      </div><!-- .col-1 -->
 
 
     </div><!-- .col2-set -->

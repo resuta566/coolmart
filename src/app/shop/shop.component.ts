@@ -135,6 +135,8 @@ export class ShopComponent implements OnInit, OnDestroy {
                 this.page = datas.meta;
                 this.link = datas.links;
                 this.loadingProduct = false;
+                console.log(this.products ,'all products');
+
                 },
                   error => {
                     this.notyf.error(error);

@@ -54,12 +54,12 @@
           Qty: {{ item.qty }}
         </div>
         <div class="status-option">
-          <ng-container *ngIf="item.cancellable">
+          <ng-container *ngIf="item?.cancellable">
             <a (click)="cancelItem(item?.cart_id)">
               CANCEL
             </a>
           </ng-container>
-          <ng-container *ngIf="item.status == 'Delivered'">
+          <ng-container *ngIf="item?.returnable">
             <a (click)="returnItem(item?.cart_id)">
               RETURN
             </a>

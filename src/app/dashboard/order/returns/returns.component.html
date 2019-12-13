@@ -4,12 +4,13 @@
   </div>
 
   <div class="order-list">
+      <ng-container *ngIf="returnDetails?.data.length == 0"> No Returned Items yet.</ng-container>
     <div class="order" *ngFor="let returnDetail of returnDetails?.data">
       <div class="order-detail">
         <div class="order-left">
           <div class="order-link">
             Order <a
-              [routerLink]="['/dashboard/order/returns/returned-order', 11]">#{{ returnDetail?.attributes.transaction_id }}</a>
+              [routerLink]="['/dashboard/order/returns/returned-order', returnDetail?.id]">#{{ returnDetail?.attributes.transaction_id }}</a>
           </div>
           <div class="order-info-date">
             Return on {{ returnDetail?.attributes.date_updated }}

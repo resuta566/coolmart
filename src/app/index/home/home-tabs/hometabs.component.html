@@ -22,7 +22,7 @@
             </mat-progress-spinner>
             <ng-container *ngIf="!loadingProduct">
               <ng-container *ngIf="products.length <= 0">
-                <span>No Product that is On Sale at this moment. </span>
+                <span>No Product that is Featured at this moment. </span>
               </ng-container>
               <ng-container *ngFor="let product of products | slice: 0 : limit ;let i = index">
                 <li class="product">
