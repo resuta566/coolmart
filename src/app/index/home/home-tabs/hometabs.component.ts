@@ -48,7 +48,6 @@ export class HometabsComponent implements OnInit, OnDestroy{
           }, 500);
         }else{
           this.loadingProduct = false;
-          this.notyf.error(`There seems to be no ${option} product at this moment.`);
         }
     },error => {
         this.alertService.error(error, true);

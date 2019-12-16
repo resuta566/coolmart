@@ -41,6 +41,8 @@ export class ShopItemComponent implements OnInit {
   relatedBrandArray: Array<any>;
   relatedCategoryArray: Array<any>;
   relatedTypeArray: Array<any>;
+  customFeet = true;
+  thefeet = 0;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
@@ -66,7 +68,7 @@ export class ShopItemComponent implements OnInit {
           categoryArray: this.relatedCategoryArray,
           typeArray: this.relatedTypeArray,
           sort: 'asc',
-          cap: [1]
+          hp: [1]
         };
       }
     }
@@ -185,8 +187,23 @@ export class ShopItemComponent implements OnInit {
     })
   }
   changePageReview(page: string){
-    console.log(page);
     this.reviewPage = page;
     this.getReviews();
+  }
+  customMeasurement($event){
+    if($event == 'custom'){
+      this.thefeet = 10;
+      this.customFeet = false;
+    }else if($event == 'default'){
+      this.thefeet = 10;
+      this.customFeet = true;
+    }else{
+      this.thefeet = 0;
+      this.customFeet = true;
+    }
+  }
+  feetValue(value){
+    this.thefeet = value;
+    console.log(this.thefeet);
   }
 }

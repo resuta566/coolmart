@@ -9,6 +9,7 @@ import { environment } from '@environments/environment';
 })
 export class HomeProductSectionComponent implements OnInit, OnDestroy {
 
+  loading = true;
   apiUrl = `${environment.apiUrl}`;
   brandProduct: any;
   constructor(
@@ -30,7 +31,10 @@ export class HomeProductSectionComponent implements OnInit, OnDestroy {
   sponsoredProducts(){
     this.productSecService.sponsoredProducts().pipe().subscribe((data: any)=>{
       this.brandProduct = data;
-      // console.log('brandProduct',this.brandProduct);
+      if(this.brandProduct.data.relationships.items.data.length > 0){
+        this.loading = false;
+      }
+      console.log('brandProduct',this.brandProduct);
     });
   }
 }

@@ -302,11 +302,13 @@
                     <div class="form-row place-order">
                       <form [formGroup]="placeorderForm" (ngSubmit)="placeOrder()">
                         <p class="form-row terms wc-terms-and-conditions">
-                          <input formControlName="accept" type="checkbox" id="terms" name="terms" class="input-checkbox"
-                            required>
-                          <label class="checkbox" for="terms">I’ve read and accept the <a target="_blank"
-                              href="/pages/terms-and-conditions">terms &amp; conditions</a> <span
-                              class="required">*</span></label>
+                          <label class="checkbox" for="terms">
+                            <input formControlName="accept" type="checkbox" id="terms" name="terms" class="input-checkbox"
+                              required>
+                            I’ve read and accept the
+                            <a target="_blank" href="/pages/terms-and-conditions">terms &amp; conditions</a>
+                            <span class="required">*</span>
+                          </label>
                           <input type="hidden" value="1" name="terms-field">
                         </p>
 

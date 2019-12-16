@@ -38,7 +38,7 @@ export class HomeBottomProductsComponent implements OnInit {
     this.loadingProduct = true;
     this.productService.getProductOption('featured').pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.productsFeatured = datas.data;
-      console.log(datas);
+      // console.log(datas);
 
         if(this.productsFeatured.length > 0){
           setTimeout(() => {

@@ -25,6 +25,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   @ViewChildren("categorycbox") categorycbox: QueryList<ElementRef>;
   @ViewChildren("typecbox") typecbox: QueryList<ElementRef>;
   @ViewChildren("hpcaps") hpcaps: QueryList<ElementRef>;
+  @ViewChildren("trcaps") trcaps: QueryList<ElementRef>;
   //These Are for the Checkbox list
   private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
 
@@ -37,7 +38,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   mode = 'indeterminate';
   value = 20;
   //MatSpinner Values
-  btnclass="button add_to_cart_button addToCartBtn";
+  btnclass = "button add_to_cart_button addToCartBtn";
   label = "Add to cart";
   //Add To Cart Component class and Label
   apiImgUrl = `${environment.apiUrl}`;
@@ -49,7 +50,8 @@ export class ShopComponent implements OnInit, OnDestroy {
   types: any;
   //Lists
   limit = 4;//Brand Array Filter limit
-  limitCap = 4;//Capacity / HP Array Filter limit
+  limitCapHP = 4;//Capacity / HP Array Filter limit
+  limitCapTR = 4;//Capacity / HP Array Filter limit
   limitCat = 4;//Category Array Filter limit
   limitType = 4;//Type Array Filter limit
   keyword: string; //Search Query
@@ -59,19 +61,27 @@ export class ShopComponent implements OnInit, OnDestroy {
   categoryArray: Array<any> = [];//Category Filter Array
   typeArray: Array<any> = []; //Type Filter Array
   sortby: string;// The value to throw to the service
-  sortOptions =[
-    {id: 1,name: 'Price low to high', value: 'asc'},
-    {id: 2, name: 'Price high to low', value: 'desc'}
+  sortOptions = [
+    { id: 1, name: 'Price low to high', value: 'asc' },
+    { id: 2, name: 'Price high to low', value: 'desc' }
   ]; //Dropdown Values
   airconphp = [
-    {hp: 0.5},
-    {hp: 1.0},
-    {hp: 1.5},
-    {hp: 2.0},
-    {hp: 2.5},
-    {hp: 3.0}
+    { hp: 0.5 },
+    { hp: 1.0 },
+    { hp: 1.5 },
+    { hp: 2.0 },
+    { hp: 2.5 },
+    { hp: 3.0 }
+  ]; //Aircon HorsePower
+  airconptr = [
+    { tr: 1 },
+    { tr: 2 },
+    { tr: 3 },
+    { tr: 4 },
+    { tr: 5 }
   ]; //Aircon HorsePower
   airconhpselectedArray: Array<any> = []; //The Selected Aircon HP
+  aircontrselectedArray: Array<any> = []; //The Selected Aircon TR
   sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
   currentPage: string;
   constructor(
@@ -84,18 +94,18 @@ export class ShopComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private route: ActivatedRoute,
     private router: Router
-    ) {
+  ) {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
       this.keyword = rt.get('search');
       this.loadingProduct = true;
       this.getProducts(this.keyword);
-      if(this.keyword == null){
-        this.titleService.setTitle(  `Buy at Best Price | Cool Mart` );
-      }else{
-      this.titleService.setTitle(  `${this.keyword} - Buy ${this.keyword} at Best Pirce | Cool Mart` );
+      if (this.keyword == null) {
+        this.titleService.setTitle(`Buy at Best Price | Cool Mart`);
+      } else {
+        this.titleService.setTitle(`${this.keyword} - Buy ${this.keyword} at Best Pirce | Cool Mart`);
       }
     });
-    }
+  }
 
   ngOnInit() {
     this.aTag = 'false';
@@ -113,9 +123,9 @@ export class ShopComponent implements OnInit, OnDestroy {
 
 
   getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>,
-              type?: Array<any>, min?:number, max?:number, sortBy?: string,
-              page?: string, cap?: Array<any>
-              ) {
+    type?: Array<any>, min?: number, max?: number, sortBy?: string,
+    page?: string, hp?: Array<any>, tr?: Array<any>
+  ) {
     //Calling the getProducts service from the api
     let filterArray: Filter = {
       name: keyword,
@@ -126,22 +136,23 @@ export class ShopComponent implements OnInit, OnDestroy {
       max: max,
       sort: sortBy,
       page: page,
-      cap: cap
+      hp: hp,
+      tr: tr
     }; //Filter Options
 
     this.productService.getProducts(filterArray)
-          .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
-                this.products = datas.data;
-                this.page = datas.meta;
-                this.link = datas.links;
-                this.loadingProduct = false;
-                console.log(this.products ,'all products');
+      .pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
+        this.products = datas.data;
+        this.page = datas.meta;
+        this.link = datas.links;
+        this.loadingProduct = false;
+        // console.log(this.products ,'all products');
 
-                },
-                  error => {
-                    this.notyf.error(error);
-              })
-              ;
+      },
+        error => {
+          this.notyf.error(error);
+        })
+      ;
   }
 
   search(keyword: string) {
@@ -149,15 +160,18 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.router.navigate([`/shop/${value}`]);
   }
 
-  filter(){
+  filter() {
     //this will filter what are the options
-    this.getProducts(this.keyword, this.brandArray, this.categoryArray, this.typeArray, this.mini, this.maxi, this.sortby, this.currentPage, this.airconhpselectedArray);
+    this.getProducts(this.keyword, this.brandArray,
+      this.categoryArray, this.typeArray, this.mini,
+      this.maxi, this.sortby, this.currentPage,
+      this.airconhpselectedArray, this.aircontrselectedArray);
   }
 
   getBrands() {
     //Get the Brands
     this.loadingBrand = true;
-    this.brandService.getBrands().pipe(takeUntil(this.destroy$)).subscribe((brands: any)=>{
+    this.brandService.getBrands().pipe(takeUntil(this.destroy$)).subscribe((brands: any) => {
       this.brands = brands.data;
       this.loadingBrand = false;
     });
@@ -166,7 +180,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   getCategories() {
     //Get the Categories
     this.loadingCat = true;
-    this.categoriesService.getCategories().pipe(takeUntil(this.destroy$)).subscribe((categories: any)=>{
+    this.categoriesService.getCategories().pipe(takeUntil(this.destroy$)).subscribe((categories: any) => {
       this.categories = categories.data;
       this.loadingCat = false;
     });
@@ -174,77 +188,96 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   getTypes() {
     //Get the Types
-      this.loadingType = true;
-    this.typeService.getTypes().pipe(takeUntil(this.destroy$)).subscribe((types: any)=>{
+    this.loadingType = true;
+    this.typeService.getTypes().pipe(takeUntil(this.destroy$)).subscribe((types: any) => {
       this.types = types.data;
       this.loadingType = false;
     });
   }
 
-  showMore(limit: number){
+  showMore(limit: number) {
     //Show more/less list of brands
     this.limit = limit;
   }
-  showMoreCat(limit: number){
+  showMoreCat(limit: number) {
     //Show more list of categories
     this.limitCat = limit;
   }
-  showCap(limit: number){
-    //Show more list of capacity
-    this.limitCap = limit;
+  showCapHP(limit: number) {
+    //Show more list of capacity HP
+    this.limitCapHP = limit;
   }
-  showMoreType(limit: number){
+  showCapTR(limit: number) {
+    //Show more list of capacity TR
+    this.limitCapTR = limit;
+  }
+  showMoreType(limit: number) {
     //Show more list of types
     this.limitType = limit;
   }
 
-  getBrandId(id: any, isChecked: boolean){
+  getBrandId(id: any, isChecked: boolean) {
+    console.log(id, isChecked);
+
     //Add the Brand ID to the array to send to the API else remove ID from the array
-    if(isChecked){
+    if (isChecked) {
       this.brandArray.push(id);
       this.currentPage = null;
       this.filter();
-    }else {
+    } else {
       let index = this.brandArray.indexOf(id);
-      this.brandArray.splice(index,1);
+      this.brandArray.splice(index, 1);
       this.currentPage = null;
       this.filter();
     }
   }
-  getHpCap(hp: any, isChecked: boolean){
+  getHpCap(hp: any, isChecked: boolean) {
     //Add the HP to the array to send to the API else remove HP from the array
-    if(isChecked){
+    if (isChecked) {
       this.airconhpselectedArray.push(hp);
       this.currentPage = null;
       this.filter();
-    }else {
+    } else {
       let index = this.airconhpselectedArray.indexOf(hp);
-      this.airconhpselectedArray.splice(index,1);
+      this.airconhpselectedArray.splice(index, 1);
       this.currentPage = null;
       this.filter();
     }
   }
-  getCategoryId(id: number, isChecked: boolean){
+  getTrCap(tr: any, isChecked: boolean) {
+    //Add the TR to the array to send to the API else remove HP from the array
+    if (isChecked) {
+      this.aircontrselectedArray.push(tr);
+      this.currentPage = null;
+      this.filter();
+    } else {
+      let index = this.aircontrselectedArray.indexOf(tr);
+      this.aircontrselectedArray.splice(index, 1);
+      this.currentPage = null;
+      this.filter();
+    }
+  }
+  getCategoryId(id: number, isChecked: boolean) {
     //Add the Category ID to the array to send to the API else remove ID from the array
-    if(isChecked){
+    if (isChecked) {
       this.categoryArray.push(id);
       this.currentPage = null;
       this.filter();
-    }else{
+    } else {
       let index = this.categoryArray.indexOf(id);
-      this.categoryArray.splice(index,1);
+      this.categoryArray.splice(index, 1);
       this.currentPage = null;
       this.filter();
     }
   }
 
-  getTypeId(id: number, isChecked: boolean){
+  getTypeId(id: number, isChecked: boolean) {
     //Add the Type ID to the array to send to the API else remove ID from the array
-    if(isChecked){
+    if (isChecked) {
       this.typeArray.push(id);
       this.currentPage = null;
       this.filter();
-    }else{
+    } else {
       let index = this.typeArray.indexOf(id);
       this.typeArray.splice(index, 1);
       this.currentPage = null;
@@ -252,64 +285,72 @@ export class ShopComponent implements OnInit, OnDestroy {
     }
   }
 
-  sort(){
+  sort() {
     //sortSelect throws value either asc or desc
     this.sortby = this.sortSelect;
     this.currentPage = null;
     this.filter();
   }
 
-  reset(option: string){
-    if(option == 'all'){
+  reset(option: string) {
+    if (option == 'all') {
       //Reset All Filter
-      if(this.keyword == null){
+      if (this.keyword == null) {
         window.location.reload();
-      }else{
+      } else {
         window.location.reload();
         this.getProducts(this.keyword);
       }
-    }else if(option == 'brands'){
+    } else if (option == 'brands') {
       //Reset Brand Filter Only
       this.brandscbox.forEach((element) => {
         element.nativeElement.checked = false;
       });
-      this.brandArray.splice(0,this.brandArray.length);
+      this.brandArray.splice(0, this.brandArray.length);
       this.currentPage = null;
       this.filter();
-    }else if(option == 'categories'){
+    } else if (option == 'categories') {
       //Reset Category Filter Only
       this.categorycbox.forEach((element) => {
         element.nativeElement.checked = false;
       });
-      this.categoryArray.splice(0,this.categoryArray.length);
+      this.categoryArray.splice(0, this.categoryArray.length);
       this.currentPage = null;
       this.filter();
-    }else if(option == 'types'){
+    } else if (option == 'types') {
       //Reset Type Filter Only
       this.typecbox.forEach((element) => {
         element.nativeElement.checked = false;
       });
-      this.typeArray.splice(0,this.typeArray.length);
+      this.typeArray.splice(0, this.typeArray.length);
       this.currentPage = null;
       this.filter();
-    }else if(option == 'cap'){
+    } else if (option == 'hp') {
       //Reset Type Filter Only
       this.hpcaps.forEach((element) => {
         element.nativeElement.checked = false;
       });
-      this.airconhpselectedArray.splice(0,this.airconhpselectedArray.length);
+      this.airconhpselectedArray.splice(0, this.airconhpselectedArray.length);
+      this.currentPage = null;
+      this.filter();
+    }else if (option == 'tr') {
+      //Reset Type Filter Only
+      this.trcaps.forEach((element) => {
+        element.nativeElement.checked = false;
+      });
+      this.aircontrselectedArray.splice(0, this.aircontrselectedArray.length);
       this.currentPage = null;
       this.filter();
     }
   }
 
-  pricerange(){
+  pricerange() {
     //Submit the Price Range
     this.currentPage = null;
     this.filter();
   }
 
-  priceClear(){
+  priceClear() {
     //Clear the Price Range
     this.currentPage = null;
     this.mini = 0;
@@ -317,7 +358,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.pricerange();
   }
 
-  changePage(pageUrl: string){
+  changePage(pageUrl: string) {
     this.currentPage = pageUrl;
     this.filter();
   }

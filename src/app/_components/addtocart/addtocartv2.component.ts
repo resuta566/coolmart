@@ -10,11 +10,16 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-addtocart-v2',
-  template:
-    `
-     <a (click)="addtocart()" class="{{ btnclass }}">{{ label }}</a>
-    `,
-  styles: [`a{cursor:pointer!important}`]
+  template: ` <a [attr.disabled]="option" (click)="addtocart()" class="{{ btnclass }}">{{ label }}</a>`,
+  styles:
+    [`
+    a{cursor:pointer!important}
+    a[disabled], a[disabled]:hover {
+      cursor: not-allowed!important;
+      pointer-events: none;
+      color: #e1e1e1;
+   }
+  `]
 })
 export class AddtocartV2Component implements OnInit, OnDestroy {
   @Input('itemId') itemId: number;
@@ -34,7 +39,7 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true); //For Memory Leaks same below
@@ -47,7 +52,7 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
 
     if (currentUser) {
       if (currentUser.user.email_verified_at) {
-        if(this.qty !== 0){
+        if (this.qty !== 0) {
           this.cartForm = this.formBuilder.group({
             //this.itemId is a string so + would make it an integer
             itemId: [+this.itemId, Validators.required],
@@ -55,7 +60,7 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
             qty: [this.qty, Validators.required]
           });
           this.cartService.addToDataBaseCart(this.cartForm.value);
-        }else{
+        } else {
           this.notyf.error('Sorry the Item is currently out of stock.');
         }
       } else {

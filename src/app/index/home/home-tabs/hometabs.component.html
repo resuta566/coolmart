@@ -176,7 +176,7 @@
         <div class="home-v3-owl-carousel-tabs">
           <div class="woocommerce columns-4 tab-scroll">
             <ul class="products columns-4">
-              <mat-progress-spinner *ngIf="loadingProduct;else loaded" class="mat-spinner-color" [mode]="mode"
+              <mat-progress-spinner *ngIf="loadingProduct" class="mat-spinner-color" [mode]="mode"
                 [diameter]="200" [value]="'20'">
               </mat-progress-spinner>
               <ng-container *ngIf="!loadingProduct">
