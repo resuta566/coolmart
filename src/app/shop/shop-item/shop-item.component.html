@@ -103,10 +103,10 @@
 
                   <p class="price">
                     <span class="electro-price">
-                      <ins><span class="amount itemprice">₱{{ response?.attributes.discountedSrp }} </span></ins>
+                      <ins><span class="amount itemprice">₱{{ feetPrice | number }} </span></ins>
                       <ng-container *ngIf="response?.attributes.discountType">
                         <del><span class="amount">₱{{ response?.attributes.srp }}</span></del>
-                        <span class="discount"> {{ response?.attributes.discountType }}</span>
+                        <span class="discount">₱{{ feetPrice | number }}</span>
                       </ng-container>
                     </span></p>
 
@@ -156,7 +156,6 @@
                       </tr>
                     </tbody>
                   </table>
-
 
                   <div class="single_variation_wrap">
                     <div class="woocommerce-variation single_variation"></div>

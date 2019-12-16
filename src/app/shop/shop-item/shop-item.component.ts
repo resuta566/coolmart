@@ -43,6 +43,7 @@ export class ShopItemComponent implements OnInit {
   relatedTypeArray: Array<any>;
   customFeet = true;
   thefeet = 0;
+  feetPrice = 0;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
@@ -58,6 +59,7 @@ export class ShopItemComponent implements OnInit {
   ngOnInit() {
     console.log(this.response);
     this.getProductDetails();
+    this.feetValue(0);
   }
 
   getRelatedProducts() {
@@ -196,14 +198,20 @@ export class ShopItemComponent implements OnInit {
       this.customFeet = false;
     }else if($event == 'default'){
       this.thefeet = 10;
+      this.feetValue(10)
       this.customFeet = true;
     }else{
       this.thefeet = 0;
+      this.feetValue(0)
       this.customFeet = true;
     }
   }
   feetValue(value){
     this.thefeet = value;
+    let prodPrice = +this.response.attributes.discountedSrp.replace(',', '');
+    console.log(prodPrice);
+    let computed = this.thefeet * 300;
+    this.feetPrice = computed + prodPrice;
     console.log(this.thefeet);
   }
 }
