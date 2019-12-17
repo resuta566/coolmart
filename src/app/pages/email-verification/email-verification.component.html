@@ -1,5 +1,8 @@
 <div class="center">
   <h1>Please Verify your E-mail Address.</h1>
-  <button>Re-Send Verification</button>
+  <button [disabled]="btnclicked" (click)="resendVerificationEmail()">Re-Send Verification</button> &nbsp;
   <a href="/" class="btn">Go Home</a>
+  <div>
+    <span *ngIf="btnclicked">Resend: {{ resendtimer }} sec(s) left.</span>
+  </div>
 </div>

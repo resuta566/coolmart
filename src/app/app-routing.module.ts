@@ -51,7 +51,6 @@ const routes: Routes = [
   { path: 'checkout/payment-options' , component: PaymentOptionsCheckoutComponent, canActivate: [AuthGuard], data: {num: 16, title: 'Order Payment Options'} },
   { path: 'checkout/payment-success/:transactionId' , component: PaymentSuccessComponent, canActivate: [AuthGuard], data: {num: 17, title: 'Success Purchase'} },
   { path: 'shop' , component: ShopComponent, data:{ num: 2} },
-  { path: 'shop/:search' , component: ShopComponent, data:{ num: 3} },
   { path: 'shop/shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
   { path: 'shop/shop-item/:brandname/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
   { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {num: 14,title: 'Register / Sign In' + htmlTitle} },

@@ -50,7 +50,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
 
             this.error = err.error.error || err.error.message || err.statusText;
-            console.log(err);
+            console.error(err);
             return throwError(this.error);
         }))
     }

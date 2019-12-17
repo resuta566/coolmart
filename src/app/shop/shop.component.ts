@@ -95,8 +95,18 @@ export class ShopComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
-      this.keyword = rt.get('search');
+    // this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(rt => {
+    //   this.keyword = rt.get('search');
+    //   this.loadingProduct = true;
+    //   this.getProducts(this.keyword);
+    //   if (this.keyword == null) {
+    //     this.titleService.setTitle(`Buy at Best Price | Cool Mart`);
+    //   } else {
+    //     this.titleService.setTitle(`${this.keyword} - Buy ${this.keyword} at Best Pirce | Cool Mart`);
+    //   }
+    // });
+    this.route.queryParams.pipe().subscribe(qp=>{
+      this.keyword = qp.q;
       this.loadingProduct = true;
       this.getProducts(this.keyword);
       if (this.keyword == null) {
@@ -156,8 +166,8 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   search(keyword: string) {
-    let value = keyword;
-    this.router.navigate([`/shop/${value}`]);
+    this.keyword = keyword;
+    this.router.navigate([`/shop`],{ queryParams: { q: this.keyword } });
   }
 
   filter() {

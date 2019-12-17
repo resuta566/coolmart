@@ -23,7 +23,6 @@ export class AuthenticationService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
-
     private handleError<T> (operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
@@ -50,7 +49,13 @@ export class AuthenticationService {
     }
 
     register(user: User) {
-      return this.http.post(`${environment.apiUrl}/api/register`, user, this.httpOptions);
+      return this.http.post(`${environment.apiUrl}/api/register`, user, this.httpOptions)
+          .pipe(
+            map((user: any) =>{
+              localStorage.removeItem('resendVerification');
+              localStorage.setItem('resendVerification', JSON.stringify(user.accessToken));
+            })
+      );
     }
 
     logout() {

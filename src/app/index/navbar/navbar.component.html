@@ -83,10 +83,12 @@
               <form class="navbar-search" method="get" action="/">
                 <label class="sr-only screen-reader-text" for="search">Search for:</label>
                 <div class="input-group">
-                  <input #searchInput (keyup.enter)="search(searchInput.value)" type="text" id="search" class="form-control search-field" dir="ltr" name="s" placeholder="Where To Deliver Your Items?" />
+                  <input #searchInput (keyup.enter)="search(searchInput.value)" [value]="keyword" type="text" id="search" class="form-control search-field" dir="ltr" name="s" placeholder="Search Item" />
                   <div class="input-group-addon search-categories">
                     <select name='product_cat' id='product_cat' class='postform resizeselect' >
-                      <option value='0' selected='selected'>Select Region</option>
+                      <option value='0' selected='selected'>
+                        <!-- Select Region -->
+                      </option>
                       <option  *ngFor="let region of regions" class="level-0" value="{{ region.name }}">{{ region.name }}</option>
                       <!-- <option class="level-0" value="split-type">Split Type</option>
                       <option class="level-0" value="portable">Portable</option> -->
@@ -116,7 +118,7 @@
 
                           <li class="mini_cart_item" *ngFor="let cart of carts | slice: 0 : 4">
                                 <a title="Remove this item" class="remove" (click)="removeItem(cart?.id)">×</a>
-                                <a [routerLink]="['shop-item/', cart?.attributes.item_slug]">
+                                <a [routerLink]="['shop/shop-item/', cart?.attributes.item_slug]">
                                   <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}" alt="">
                                   {{ cart?.attributes.item_name }}&nbsp;
                                 </a>

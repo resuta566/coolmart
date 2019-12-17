@@ -23,6 +23,8 @@ export class AddtocartComponent implements OnInit, OnDestroy {
   @Input('label') label: string;
   @Input('btnclass') btnclass: string;
   @Input('option') option?: false;
+  @Input('service_name') service_name?: string;
+  @Input('value') value?: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   cartForm: FormGroup;
@@ -52,7 +54,9 @@ export class AddtocartComponent implements OnInit, OnDestroy {
           this.cartForm = this.formBuilder.group({
             //this.itemId is a string so + would make it an integer
             itemId: [+this.itemId, Validators.required],
-            qty: [this.qty, Validators.required]
+            qty: [this.qty, Validators.required],
+            service_name: [this.service_name],
+            value: [this.value]
           });
           this.cartService.addToDataBaseCart(this.cartForm.value);
         }else{

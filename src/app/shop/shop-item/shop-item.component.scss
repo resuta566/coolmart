@@ -19,3 +19,10 @@ div.quantity.buttons_added .minus{
 .disabled{
   cursor: not-allowed;
 }
+.display-it{
+  display: none !important;
+}
+.in-stock-product{
+  color: #5cb85c !important;
+  font-weight: bold;
+}

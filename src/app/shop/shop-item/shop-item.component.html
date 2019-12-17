@@ -59,13 +59,14 @@
 
                 <div class="brand">
                   <a>
-                    <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}" alt="{{ response?.relationships.brand.name }}-logo" />
+                    <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}"
+                      alt="{{ response?.relationships.brand.name }}-logo" />
                   </a>
                 </div><!-- .brand -->
 
                 <div class="availability in-stock">Availablity:
                   <ng-container *ngIf="response?.attributes.qty > 0; else noStock">
-                    <span>In stock</span>
+                    <span class="in-stock-product">In stock</span>
                   </ng-container>
                   <ng-template #noStock>
                     <span class="text-danger">Out Of stock</span>
@@ -106,52 +107,46 @@
                       <ins><span class="amount itemprice">₱{{ feetPrice | number }} </span></ins>
                       <ng-container *ngIf="response?.attributes.discountType">
                         <del><span class="amount">₱{{ response?.attributes.srp }}</span></del>
-                        <span class="discount">₱{{ feetPrice | number }}</span>
+                        <span class="discount"> {{ response?.attributes.discountType }} </span>
                       </ng-container>
                     </span></p>
 
                   <meta itemprop="price" content="1215" />
-                  <meta itemprop="priceCurrency" content="USD" />
+                  <meta itemprop="priceCurrency" content="PHP" />
                   <link itemprop="availability" href="http://schema.org/InStock" />
 
                 </div><!-- /itemprop -->
 
                 <form class="variations_form cart" method="post">
 
-                  <table class="variations">
+                  <table class="variations" *ngIf="response?.attributes.standard_installation_fee">
                     <tbody>
                       <tr>
-                        <td class="label"><label>Installation Standard Service</label></td>
+                        <td class="label"><label>Standard Installation Fee</label></td>
                         <td class="value">
                           <select (change)="customMeasurement($event.target.value)" class="" name="attribute_pa_color">
-                            <option value="" selected='selected'>Choose an option</option>
-                            <option value="default">10ft ₱7,500.00</option>
-                            <option value="custom">Custom Measurement by Feet</option>
+                            <option value="nothing" [selected]="optionValue == 'nothing'">Choose an option</option>
+                            <option value="default" [selected]="optionValue == 'default'">10ft
+                              {{ response?.attributes.standard_installation_fee | currency:'₱' }}</option>
+                            <option value="custom" [selected]="optionValue == 'custom'">Custom Measurement by Feet
+                            </option>
                           </select>
                         </td>
-                        <td>
-                          <mat-form-field appearance="outline">
-                            <mat-label>Excess Feet</mat-label>
-                            <input #customFeets [disabled]="customFeet"
-                              (keyup)="feetValue(customFeets.value)"
-                              matInput digitOnly
-                              [value]="thefeet" placeholder=""
-                              min="10" maxlength="2"
-                              >
-                          </mat-form-field>
-                          <small>*Additional ₱300/feet</small>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="label">
-                          <label>Installation Additional Service</label>
-                        </td>
-                        <td class="value">
-                          <select class="" name="attribute_pa_color">
-                            <option value="" selected='selected'>Choose an option</option>
-                            <option value="black-with-red">Black with Red</option>
-                            <option value="white-with-gold">White with Gold</option>
-                          </select>
+                        <td [class.display-it]="customFeet">
+                          <div class="quantity buttons_added">
+                            <input [disabled]="btndecreaseFeet" type="button" class="plus" value="-"
+                              (click)="decreaseFeet()">
+                            <label>Quantity:</label>
+                            <input [disabled]="btndisabled" readonly type="number" size="4" class="input-text qty text"
+                              title="Qty" [value]="thefeet" name="cart[92f54963fc39a9d87c2253186808ea61][qty]"
+                              maxlength="10" min="2" step="1">
+                            <!-- CSS ISSUE and UX Issue class minus is shown as add and works as add -->
+                            <input [disabled]="btnincreaseFeet" type="button" class="minus" value="+"
+                              (click)="increaseFeet()">
+                          </div>
+                          <div>
+                            <small>*Additional ₱300/Feet After 10Feet</small>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -170,8 +165,8 @@
                         <!-- CSS ISSUE and UX Issue class minus is shown as add and works as add -->
                         <input [disabled]="btndisabled" type="button" class="minus" value="+" (click)="addQty()">
                       </div>
-                      <app-addtocart [option]="btnaddtocart" [btnclass]="btnclass" [label]="label"
-                        [itemId]="response?.id" [qty]="itemQty"></app-addtocart>
+                      <app-addtocart [service_name]="service_name" [value]="thefeet" [option]="btnaddtocart"
+                        [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="itemQty"></app-addtocart>
                       <input type="hidden" name="add-to-cart" value="2452" />
                       <input type="hidden" name="product_id" value="2452" />
                       <input type="hidden" name="variation_id" class="variation_id" value="10" />
@@ -369,8 +364,10 @@
                             </ng-template>
                           </div>
                           <div class="product-rating">
-                            <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong
-                                  class="rating">4</strong> out of 5</span></div> (3)
+                            <div title="Rated {{ product?.attributes.ratings }} out of 5" class="star-rating"><span
+                                [style.width.%]="product?.attributes.star_percent_rate"><strong
+                                  class="rating">{{ product?.attributes.ratings }}</strong> out of 5</span></div>
+                            ({{ product?.attributes.total_reviewer }})
                           </div>
 
                           <div class="product-short-description">
@@ -410,8 +407,12 @@
 
                         <div class="hover-area">
                           <div class="action-buttons">
-                            <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
-                            <a href="#" class="add-to-compare-link">Compare</a>
+                            <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
+                              <span class="in-stock-product">In stock</span>
+                            </ng-container>
+                            <ng-template #noStock>
+                              <span class="text-danger">Out Of stock</span>
+                            </ng-template>
                           </div>
                         </div>
                       </div><!-- /.product-inner -->

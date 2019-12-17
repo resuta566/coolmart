@@ -48,7 +48,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   value: string;
   slug: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-
+  keyword = '';
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
@@ -57,13 +57,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
     ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      this.route.queryParams.pipe().subscribe(qp=> {
+        this.keyword = qp.q || '';
+      });
     }
 
   ngOnInit() {
     if(this.currentUser){
-      this.cartService.carts().pipe(first()).subscribe((data: any)=>{
+      this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
         this.carts = data.data;
-        this.count = data.with.count;
+        if(data.with.count){
+          this.count = +data.with.count;
+        }else{
+          this.count = 0;
+        }
       });
     }
     this.isLoggedIn();
@@ -72,9 +79,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngAfterViewInit(): void {
     if(this.currentUser){
       setInterval(()=>{
-        this.cartService.carts().pipe(first()).subscribe((data: any)=>{
+        this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
           this.carts = data.data;
-          this.count = data.with.count;
+          if(data.with.count){
+            this.count = +data.with.count;
+          }else{
+            this.count = 0;
+          }
         });
       }, 10000);
     }
@@ -114,6 +125,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   search(keyword: string) {
     this.value = keyword;
-    this.router.navigate([`/shop/${this.value}`]);
+    window.location.href = `/shop?q=${this.value}`;
   }
 }
