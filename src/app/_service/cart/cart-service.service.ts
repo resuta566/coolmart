@@ -41,15 +41,30 @@ export class CartService {
     }
   }
 
-  addToDataBaseCart(cart: Cart){
+  addToDataBaseCart(cart: Cart, option? :boolean){
     return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
       map((data: any) => {
         // alert(data.success);
         console.log(data);
-        this.notyf.success(data.success);
+        if(data.success){
+          this.notyf.success(data.success);
+          if(option){
+            this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/cart']);
+            });
+          }
+        }
       }),
       catchError(this.handleError('getCart', []))
     ).subscribe(serverdata=>{});
+  }
+
+  cartItemEdit(cartId: number){
+    return this.http.get(`${environment.apiUrl}/api/cart/${cartId}/edit`).pipe(
+      // map((data: any)=>{
+      // }),
+      catchError(this.handleError('getWillUpdateCartItem', []))
+    );
   }
 
   carts(){
@@ -75,9 +90,9 @@ export class CartService {
       }),
       catchError(this.handleError('updateCart', []))
     );
-
-
   }
+
+
 
   removeItemCartQty(id: number){
     return this.http.delete(`${environment.apiUrl}/api/cart/${id}`).pipe(

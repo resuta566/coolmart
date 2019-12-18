@@ -39,7 +39,7 @@ export class CartComponent implements OnInit {
 
       //Compute the subtotal of all the items
       this.carts.forEach( item =>{
-        this.subtotal += parseFloat(item.attributes.subtotal_per_item);
+        this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
       })
     });
   }

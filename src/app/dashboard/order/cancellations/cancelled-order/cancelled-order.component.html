@@ -45,7 +45,12 @@
                   </ng-template>
               </div>
               <div class="item-name">
-                  {{ item.name }}
+                  {{ item.name }}<br>
+                  <span class="additional-info" *ngIf="item?.services">
+                    <span>{{ item?.services.name }}: <b>₱{{ item?.services.total }}</b></span> <br>
+                    <span>Piping: <b>{{ item?.services.total_feet }} feet</b></span> <br>
+                    <small>*Additional <b>₱300</b>/feet after 10feet</small>
+                  </span>
               </div>
               <div class="item-price">
                   ₱{{ item.price }}

@@ -42,7 +42,7 @@
 
                   <td class="product-thumbnail">
                     <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]"
-                      [queryParams]="{ configupdate: 'updateCart'}">
+                      [queryParams]="{ configupdate: 'fromCart'}">
                       <ng-container *ngIf="cart?.attributes.item_images.length > 0;else noImg">
                         <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
                           alt="{{ cart?.attributes.item_name }}">
@@ -58,9 +58,25 @@
 
                   <td data-title="Product" class="product-name">
                     <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]"
-                      [queryParams]="{ configupdate: 'updateCart'}">{{ cart?.attributes.item_name }}</a> <br>
-                    <span class="additional-info" *ngIf="cart?.attributes.services">
-                      {{ cart?.attributes.services.name }}: {{ cart?.attributes.services.total }}</span>
+                      [queryParams]="{ configupdate: 'fromCart'}">{{ cart?.attributes.item_name }}</a> <br>
+                    <ng-container *ngIf="cart?.attributes.services">
+                      <span class="additional-info">
+                        {{ cart?.attributes.services.name }}:
+                        <b>{{ cart?.attributes.services.total | currency: '₱'}}</b>
+                      </span>
+                      <span>
+                        <small>
+                          <a class="edit-cart" [routerLink]="['/cart/update-item/', cart?.id]"
+                            [queryParams]="{ configupdate: 'updateCart'}">
+                            Edit
+                          </a>
+                        </small>
+                      </span> <br>
+                      <span class="additional-info">
+                        Piping: <b>{{ cart?.attributes.services.total_feet }}</b> feet <br>
+                        <small>*Additional <b>₱300</b>/feet after 10feet</small>
+                      </span>
+                    </ng-container>
                   </td>
 
                   <td data-title="Price" class="product-price">
@@ -102,7 +118,7 @@
                   </td>
 
                   <td data-title="Total" class="product-subtotal">
-                    <span class="amount">{{ cart?.attributes.subtotal_per_item | currency:'₱'}}</span>
+                    <span class="amount">{{ cart?.attributes.subtotal_with_service_total | currency:'₱'}}</span>
                   </td>
                 </tr>
                 <tr>

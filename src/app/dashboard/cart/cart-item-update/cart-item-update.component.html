@@ -5,12 +5,13 @@
 
       <nav class="woocommerce-breadcrumb">
         <a href="/">Home</a>
-        <span class="delimiter"><i class="fa fa-angle-right"></i></span>
+        <span class="delimiter">
+          <i class="fa fa-angle-right"></i>
+        </span>
         <a [routerLink]="['/shop']">Shop</a>
-        <span class="delimiter"><i class="fa fa-angle-right"></i></span>
-        <a href="product-category.html">{{ response?.type | titlecase }}</a>
-        <span class="delimiter"><i class="fa fa-angle-right"></i>
-        </span>{{ response?.attributes.name }}
+        <span class="delimiter">
+          <i class="fa fa-angle-right"></i>
+        </span>{{ response?.attributes.item_name }}
       </nav><!-- /.woocommerce-breadcrumb -->
       <div id="primary" class="content-area">
         <main id="main" class="site-main">
@@ -38,34 +39,34 @@
               <div class="summary entry-summary">
 
                 <span class="loop-product-categories">
-                  <a href="product-category.html" rel="tag">{{ response?.type | titlecase}}</a>
+                  <a rel="tag">Cart Item Update</a>
                 </span><!-- /.loop-product-categories -->
 
-                <h1 itemprop="name" class="product_title entry-title">{{ response?.attributes.name }}</h1>
+                <h1 itemprop="name" class="product_title entry-title">{{ response?.attributes.item_name }}</h1>
 
                 <div class="woocommerce-product-rating">
-                  <div class="star-rating" title="Rated {{ response?.attributes.ratings }} out of 5">
-                    <span [style.width.%]="response?.attributes.star_percent_rate">
-                      <strong itemprop="ratingValue" class="rating">{{ response?.attributes.ratings }}</strong>
+                  <div class="star-rating" title="Rated {{ response?.item.attributes.ratings }} out of 5">
+                    <span [style.width.%]="response?.item.attributes.star_percent_rate">
+                      <strong itemprop="ratingValue" class="rating">{{ response?.item.attributes.ratings }}</strong>
                       out of <span itemprop="bestRating">5</span> based on
-                      <span itemprop="ratingCount" class="rating">{{ response?.attributes.total_reviewer }}</span>
+                      <span itemprop="ratingCount" class="rating">{{ response?.item.attributes.total_reviewer }}</span>
                       customer ratings
                     </span>
                   </div>
 
                   <a class="woocommerce-review-link">(<span itemprop="reviewCount"
-                      class="count">{{ response?.attributes.total_reviewer }}</span> customer reviews)</a>
+                      class="count">{{ response?.item.attributes.total_reviewer }}</span> customer reviews)</a>
                 </div><!-- .woocommerce-product-rating -->
 
                 <div class="brand">
                   <a>
-                    <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}"
-                      alt="{{ response?.relationships.brand.name }}-logo" />
+                    <!-- <img src="{{ apiUrl }}/{{ response?.relationships.brand.logo }}"
+                      alt="{{ response?.relationships.brand.name }}-logo" /> -->
                   </a>
                 </div><!-- .brand -->
 
                 <div class="availability in-stock">Availablity:
-                  <ng-container *ngIf="response?.attributes.qty > 0; else noStock">
+                  <ng-container *ngIf="response?.item.attributes.qty > 0; else noStock">
                     <span class="in-stock-product">In stock</span>
                   </ng-container>
                   <ng-template #noStock>
@@ -86,8 +87,8 @@
 
                 <div itemprop="description">
                   <ul>
-                    <ng-container *ngIf="response?.relationships.details.data.length; else nodetail">
-                      <ng-container *ngFor="let detail of response?.relationships.details.data; let i = index">
+                    <ng-container *ngIf="response?.item.relationships.details.data.length; else nodetail">
+                      <ng-container *ngFor="let detail of response?.item.relationships.details.data; let i = index">
                         <li *ngIf="i<4">{{ detail?.attributes.name }} - {{ detail?.attributes.description }}</li>
                       </ng-container>
                     </ng-container>
@@ -104,9 +105,9 @@
 
                   <p class="price">
                     <span class="electro-price">
-                      <ins><span class="amount itemprice">₱{{ feetPrice | number }} </span></ins>
+                      <ins><span class="amount itemprice">{{ feetPrice | currency: '₱' }} </span></ins>
                       <ng-container *ngIf="response?.attributes.discountType">
-                        <del><span class="amount">₱{{ response?.attributes.srp }}</span></del>
+                        <del><span class="amount">{{ response?.item.attributes.item_srp | currency: '₱'}}</span></del>
                         <span class="discount"> {{ response?.attributes.discountType }} </span>
                       </ng-container>
                     </span></p>
@@ -119,16 +120,16 @@
 
                 <form class="variations_form cart" method="post">
 
-                  <table class="variations" *ngIf="response?.attributes.standard_installation_fee">
+                  <table class="variations" *ngIf="response?.item.attributes.standard_installation_fee">
                     <tbody>
                       <tr>
                         <td class="label"><label>Standard Installation Fee</label></td>
                         <td class="value">
                           <select (change)="customMeasurement($event.target.value)" class="" name="attribute_pa_color">
-                            <option value="nothing" [selected]="optionValue == 'nothing'">Choose an option</option>
-                            <option value="default" [selected]="optionValue == 'default'">10ft. piping
-                              {{ response?.attributes.standard_installation_fee | currency:'₱' }}</option>
-                            <option value="custom" [selected]="optionValue == 'custom'">Custom Measurement by Feet
+                            <option value="nothing" [selected]="optionValue == 0">Choose an option</option>
+                            <option value="default" [selected]="optionValue == 10">10ft. piping
+                              {{ response?.item.attributes.standard_installation_fee | currency:'₱' }}</option>
+                            <option value="custom" [selected]="optionValue > 10">Custom Measurement by Feet
                             </option>
                           </select>
                         </td>
@@ -161,12 +162,15 @@
                         <label>Quantity:</label>
                         <input [disabled]="btndisabled" readonly type="number" size="4" class="input-text qty text"
                           title="Qty" [value]="itemQty" name="cart[92f54963fc39a9d87c2253186808ea61][qty]"
-                          max="response?.attributes.qty" min="0" step="1">
+                          max="response?.item.attributes.qty" min="0" step="1">
                         <!-- CSS ISSUE and UX Issue class minus is shown as add and works as add -->
                         <input [disabled]="btndisabled" type="button" class="minus" value="+" (click)="addQty()">
-                      </div>
-                      <app-addtocart [service_name]="service_name" [value]="thefeet" [option]="btnaddtocart"
-                        [btnclass]="btnclass" [label]="label" [itemId]="response?.id" [qty]="itemQty"></app-addtocart>
+                      </div> &nbsp;
+                      <app-addtocart
+                        [service_name]="service_name"
+                        [value]="thefeet" [option]="btnaddtocart"
+                        [redirect]="redirectToCart"
+                        [btnclass]="btnclass" [label]="label" [itemId]="response?.attributes.item_id" [qty]="itemQty"></app-addtocart>
                       <input type="hidden" name="add-to-cart" value="2452" />
                       <input type="hidden" name="product_id" value="2452" />
                       <input type="hidden" name="variation_id" class="variation_id" value="10" />
@@ -199,7 +203,7 @@
 
                 <div class="tab-pane active in panel entry-content wc-tab" id="tab-description">
                   <div class="electro-description">
-                    <div [innerHtml]="response?.attributes.description">
+                    <div [innerHtml]="response?.item.attributes.description">
 
                     </div>
                   </div><!-- /.electro-description -->
@@ -213,7 +217,7 @@
                     </span>
 
                     <span class="tagged_as">Tags:
-                      <a href="#" rel="tag">{{ response?.relationships.brand.name }}</a>
+                      <!-- <a href="#" rel="tag">{{ response?.relationships.brand.name }}</a> -->
                     </span>
 
                   </div><!-- /.product_meta -->
@@ -223,11 +227,11 @@
                   <h3>Technical Specifications</h3>
                   <table class="table">
                     <tbody>
-                      <ng-container *ngIf="!response?.relationships.details.data.length;else details">
+                      <ng-container *ngIf="!response?.item.relationships.details.data.length;else details">
                         <span class="text-danger">No details found!</span>
                       </ng-container>
                       <ng-template #details>
-                        <tr *ngFor="let detail of response?.relationships.details.data">
+                        <tr *ngFor="let detail of response?.item.relationships.details.data">
                           <td>{{ detail?.attributes.name }}</td>
                           <td>{{ detail?.attributes.description }}</td>
                         </tr>
@@ -242,9 +246,9 @@
                       <div class="col-xs-12 col-md-6">
                         <h2 class="based-title">Based on {{ reviewMeta?.total }} reviews</h2>
                         <div class="avg-rating">
-                          <span class="avg-rating-number">{{ response?.attributes.ratings }}</span> overall
+                          <span class="avg-rating-number">{{ response?.item.attributes.ratings }}</span> overall
                           <div class="star-rating">
-                            <span [style.width.%]="response?.attributes.star_percent_rate"></span>
+                            <span [style.width.%]="response?.item.attributes.star_percent_rate"></span>
                           </div>
                         </div>
 

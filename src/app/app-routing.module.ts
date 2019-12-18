@@ -23,6 +23,7 @@ import { PaymentOptionsComponent } from './dashboard/account/payment-options/pay
 import { ProfileComponent } from './dashboard/account/profile/profile.component';
 import { AddressComponent } from './dashboard/account/address-book/address/address.component';
 import { CartComponent } from './dashboard/cart/cart.component';
+import { CartItemUpdateComponent } from './dashboard/cart/cart-item-update/cart-item-update.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/payment-success.component';
@@ -34,17 +35,19 @@ import { CancellationsComponent } from './dashboard/order/cancellations/cancella
 import { ReviewsComponent } from './dashboard/order/reviews/reviews.component';
 import { WriteReviewComponent } from './dashboard/order/reviews/write-review/write-review.component';
 import { ViewOrderComponent } from './dashboard/order/view-order/view-order.component';
-
-import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
 import { CancelOrderComponent } from './dashboard/order/cancellations/cancel-order/cancel-order.component';
 import { CancelledOrderComponent } from './dashboard/order/cancellations/cancelled-order/cancelled-order.component';
 import { ReturnedOrderComponent } from './dashboard/order/returns/returned-order/returned-order.component';
 import { ReturnOrderComponent } from './dashboard/order/returns/return-order/return-order.component';
 
+import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+import { CartResolverService } from './_service/resolver/cart/cart-resolver.service';
+
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
   { path: '' , component: HomeComponent, data:{ num: 1} },
   { path: 'cart' , component: CartComponent, canActivate: [AuthGuard], data: {title: `Cart${htmlTitle}`} },
+  { path: 'cart/update-item/:itemId' , component: CartItemUpdateComponent, canActivate: [AuthGuard],resolve:{data: CartResolverService}},
   { path: 'compare' , component: CompareComponent, data: {title: 'Compare' + htmlTitle} },
   { path: 'wishlist' , component: WishlistComponent, canActivate: [AuthGuard], data: {title: 'Wishlist' + htmlTitle} },
   { path: 'checkout' , component: CheckoutComponent, canActivate: [AuthGuard], data: {title: 'Checkout' + htmlTitle} },

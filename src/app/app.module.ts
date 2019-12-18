@@ -57,6 +57,7 @@ import { CancelOrderComponent } from './dashboard/order/cancellations/cancel-ord
 import { CancelledOrderComponent } from './dashboard/order/cancellations/cancelled-order/cancelled-order.component';
 import { ReturnOrderComponent } from './dashboard/order/returns/return-order/return-order.component';
 import { ReturnedOrderComponent } from './dashboard/order/returns/returned-order/returned-order.component';
+import { CartItemUpdateComponent } from './dashboard/cart/cart-item-update/cart-item-update.component';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
   overrides = {
@@ -101,7 +102,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     CancelOrderComponent,
     CancelledOrderComponent,
     ReturnOrderComponent,
-    ReturnedOrderComponent
+    ReturnedOrderComponent,
+    CartItemUpdateComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -22,7 +22,8 @@ export class AddtocartComponent implements OnInit, OnDestroy {
   @Input('qty') qty: number;
   @Input('label') label: string;
   @Input('btnclass') btnclass: string;
-  @Input('option') option?: false;
+  @Input('option') option? = false;
+  @Input('redirect') redirect? = false;
   @Input('service_name') service_name?: string;
   @Input('value') value?: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -58,7 +59,7 @@ export class AddtocartComponent implements OnInit, OnDestroy {
             service_name: [this.service_name],
             value: [this.value]
           });
-          this.cartService.addToDataBaseCart(this.cartForm.value);
+          this.cartService.addToDataBaseCart(this.cartForm.value, this.redirect);
         }else{
           this.notyf.error('Sorry the Item is currently out of stock.');
         }

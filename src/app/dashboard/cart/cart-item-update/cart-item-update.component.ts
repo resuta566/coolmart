@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ProductService } from '@app/_service/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environments/environment';
@@ -9,16 +9,16 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Filter } from '@app/_models/filter/filter';
 
-import { map, takeUntil } from 'rxjs/operators';
 @Component({
-  selector: 'app-shop-item',
-  templateUrl: './shop-item.component.html',
-  styleUrls: ['./shop-item.component.scss']
+  selector: 'app-cart-item-update',
+  templateUrl: './cart-item-update.component.html',
+  styleUrls: ['./cart-item-update.component.scss']
 })
-export class ShopItemComponent implements OnInit {
+export class CartItemUpdateComponent implements OnInit {
 
   @ViewChild('customFeets', { static: true }) customFeets: ElementRef;
   loading= false;
+  redirectToCart = true;
   apiUrl = `${environment.apiUrl}`;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -36,7 +36,7 @@ export class ShopItemComponent implements OnInit {
   btnaddtocart = false;
   btnclass = 'single_add_to_cart_button button';
   relatedProductsbtnclass = 'button add_to_cart_button';
-  label = 'Add To Cart';
+  label = 'Update Cart';
   itemQty = 1;
   relatedFilter: Filter;
   relatedBrandArray: Array<any>;
@@ -49,7 +49,7 @@ export class ShopItemComponent implements OnInit {
   btndecreaseFeet = true;
   btnincreaseFeet = false;
   standard_installation_fee = 0;
-  optionValue = 'nothing';
+  optionValue: number;
   service_name = '';
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
@@ -57,22 +57,38 @@ export class ShopItemComponent implements OnInit {
     private productService: ProductService,
     private titleService: Title,
     ) {
+      this.route.queryParams.pipe().subscribe(qp=>{
+        console.log(qp);
+
+        if(qp.configupdate == 'updateCart'){
+          this.label = 'Update Cart';
+        }
+      })
       this.response = this.route.snapshot.data['data'];
-      this.relatedBrandArray = [ this.response.attributes.brand_id ];
-      this.relatedCategoryArray = [ this.response.attributes.category_id ];
-      this.relatedTypeArray = [ this.response.attributes.type_id ];
-      this.standard_installation_fee = +this.response.attributes.standard_installation_fee;
+      this.relatedBrandArray = [ this.response.item.attributes.brand_id ];
+      this.relatedCategoryArray = [ this.response.item.attributes.category_id ];
+      this.relatedTypeArray = [ this.response.item.attributes.type_id  ];
+      this.standard_installation_fee = +this.response.attributes.services.item_standard_installation_fee;
+      this.itemQty = this.response.attributes.cart_qty;
+      this.optionValue = +this.response.attributes.services.total_feet;
     }
 
   ngOnInit() {
     console.log(this.response);
     this.getProductDetails();
     this.thePrice();
+    if(this.optionValue > 10){
+      this.customMeasurement('custom');
+    }else if(this.optionValue == 10){
+      this.customMeasurement('default');
+    }else{
+      this.customMeasurement('nothing');
+    }
     // this.customMeasurement('default');
   }
 
   thePrice(){
-    this.feetPrice = +this.response.attributes.discountedSrp.replace(',', '');
+    this.feetPrice = +this.response.item.attributes.discountedSrp.replace(',', '');
   }
 
   theFeetPrice(){
@@ -91,9 +107,9 @@ export class ShopItemComponent implements OnInit {
       }
     }
     this.productService.getProducts(this.relatedFilter).subscribe((datas: any) => {
-        let filtered = datas.data.filter(products => products.id !== this.response.id); //Filter again so that the current product shown doesn't show on the list
+        let filtered = datas.data.filter(products => products.id !== this.response.item.id); //Filter again so that the current product shown doesn't show on the list
         this.products = filtered; //The data
-        // console.log(this.products);
+        console.log(this.products);
       },
         error => {
           this.notyf.error(error);
@@ -102,15 +118,15 @@ export class ShopItemComponent implements OnInit {
 
   getProductDetails(){
     this.getRelatedProducts();
-    if(this.response.attributes.qty == 1 || this.response.attributes.qty == 0 )
+    if(this.response.item.attributes.qty == 1 || this.response.item.attributes.qty == 0 )
       this.btndisabled = true; //Disables the buttons
-    if(this.response.attributes.qty == 0)
+    if(this.response.item.attributes.qty == 0)
       this.itemQty = 0, this.btnaddtocart = true; // Set the Shown QTY to 0 if qty is 0
 
-    this.imgArray = this.response.attributes.images; //Image Array
+    this.imgArray = this.response.attributes.item_images; //Image Array
 
-    this.titleService.setTitle(  `${this.response.attributes.name} : Buy ${this.response.attributes.name} Aircons online with cheap price | Cool Mart` );// Title
-    if(+this.response.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
+    this.titleService.setTitle(  `${this.response.attributes.item_name} : Buy ${this.response.attributes.item_name} Aircons online with cheap price | Cool Mart` );// Title
+    if(+this.response.item.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
     if(this.imgArray.length !== 0){
       //Check if Images are there
       this.gallery();
@@ -170,13 +186,13 @@ export class ShopItemComponent implements OnInit {
 
 
   addQty() {
-    if(this.response.attributes.qty == this.itemQty){
+    if(this.response.item.attributes.qty== this.itemQty){
       this.btndisabled = true;
     }else{
       this.itemQty +=1;
       this.btndisabledminus = false;
       this.btnaddtocart = false;
-      if(this.response.attributes.qty == this.itemQty){
+      if(this.response.item.attributes.qty == this.itemQty){
         this.btndisabled = true;
       }
     }
@@ -199,7 +215,7 @@ export class ShopItemComponent implements OnInit {
   }
 
   getReviews(){
-    this.productService.getProductReviews(this.response.attributes.slug,this.reviewPage).subscribe((data:any)=>{
+    this.productService.getProductReviews(this.response.item.attributes.slug,this.reviewPage).subscribe((data:any)=>{
       this.reviews = data.data;
       this.reviewMeta = data.meta;
       this.reviewLinks = data.links;
@@ -211,10 +227,16 @@ export class ShopItemComponent implements OnInit {
   }
   customMeasurement($event){
     if($event == 'custom'){
-      this.thefeet = 10;
+      this.thefeet = +this.response.attributes.services.total_feet;
       this.service_name = 'Standard Installation Fee';
-      this.feetValue(10);
+      if(this.thefeet > 10){
+        this.btndecreaseFeet = false;
+      }
+      let excessfeet = this.thefeet - 10;
+      let excessprice = excessfeet * 300;
+      this.feetValue(this.thefeet);
       this.theFeetPrice();
+      this.feetPrice += excessprice;
       this.btnincreaseFeet = false;
       this.customFeet = false;
     }else if($event == 'default'){
@@ -259,8 +281,7 @@ export class ShopItemComponent implements OnInit {
 
   }
   feetValue(value){
-    console.log(value);
-    let prodPrice = +this.response.attributes.discountedSrp.replace(',', '');
+    let prodPrice = +this.response.item.attributes.discountedSrp.replace(',', '');
     this.feetPrice = prodPrice;
   }
 }
