@@ -1,3 +1,18 @@
 .order-list{
   box-shadow: none !important;
 }
+<<<<<<< HEAD
+=======
+.hidden{
+  display: none;
+}
+.disabled{
+  cursor: not-allowed;
+}
+.mat-spinner-color ::ng-deep circle{
+  stroke: #f78c00 !important;
+}
+.order{
+  min-height: 115px !important;
+}
+>>>>>>> development

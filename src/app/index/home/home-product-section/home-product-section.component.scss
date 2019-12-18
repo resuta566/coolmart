@@ -1,0 +1,16 @@
+.brand-scroll{
+  padding: 5px 5px;
+  max-height: 560px;
+  min-height: 300px;
+  overflow-y: scroll;
+}
+// .discount{
+//   font-size: 1em;
+//   font-weight: bold;
+// }
+
+li.product:hover .product-inner, .discount{
+  font-size: 1em !important;
+  font-weight: bold !important;
+  color: #e00 !important;
+}

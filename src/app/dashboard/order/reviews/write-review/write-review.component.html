@@ -1,0 +1,55 @@
+<div class="card">
+  <div class="card-header header-bg">Write Review</div>
+  <div class="write-review">
+    <div class="order-list">
+      <div class="order">
+        <div style="overflow-x:auto;">
+          <table>
+            <tr>
+              <div class="order-item">
+                <td>
+                  <div class="item-pic">
+                    <ng-container *ngIf="product?.image.length <=0; else thereIsImage">
+                        <img src="assets/images/noimage2.jpg"
+                        alt="product-thumbnail">
+                    </ng-container>
+                    <ng-template #thereIsImage>
+                      <img src="{{ apiUrl}}/{{ product?.image[0] }}"
+                        alt="product-thumbnail">
+                    </ng-template>
+                  </div>
+                </td>
+                <td id="review-name">
+                  <div class="item-main">
+                    <div class="item-name">
+                      {{ product?.name }}
+                    </div>
+                  </div>
+                </td>
+              </div>
+            </tr>
+          </table>
+        </div>
+        <div style="padding: 8px 12px;">
+          <mat-star-rating
+          [rating]="rating"
+          [starCount]="starCount"
+          [color]="starColor"
+          (ratingUpdated)="onRatingChanged($event)">
+        </mat-star-rating>
+            <div class="text-area" *ngIf="updateReview; else newReview">
+              <textarea [(ngModel)]="comment" maxlength="250" cols="30" rows="10"></textarea>
+              <small>Up to 250 Characters only</small>
+            </div>
+            <ng-template #newReview>
+              <div class="text-area">
+                <textarea [(ngModel)]="comment" maxlength="250" cols="30" rows="10" placeholder="What do you think of this product?"></textarea>
+                <small>Up to 250 Characters only</small>
+              </div>
+            </ng-template>
+            <button (click)="submit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -34,7 +34,18 @@
                                   </ng-container>
                                 </span>
                             </span>
+<<<<<<< HEAD
                             <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1"></app-addtocart>
+=======
+                            <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                              </app-addtocart>
+                            </ng-container>
+                            <ng-template #instock>
+                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                              </app-addtocart>
+                            </ng-template>
+>>>>>>> development
                         </div><!-- /.price-add-to-cart -->
 
                         <div class="hover-area">

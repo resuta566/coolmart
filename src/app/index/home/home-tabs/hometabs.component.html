@@ -1,4 +1,5 @@
 <section class="products-carousel-tabs animate-in-view fadeIn animated" data-animation="fadeIn">
+<<<<<<< HEAD
     <h2 class="sr-only">Product Carousel Tabs</h2>
     <ul class="nav nav-inline text-xs-left">
         <li class="nav-item">
@@ -191,4 +192,256 @@
             </section>
         </div><!-- /.tab-pane -->
     </div><!-- /.tab-content -->
+=======
+  <h2 class="sr-only">Product Carousel Tabs</h2>
+  <ul class="nav nav-inline text-xs-left">
+    <li class="nav-item">
+      <a class="nav-link active" href="#tab-products-1" (click)="getProducts('featured')" data-toggle="tab">Featured</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#tab-products-2" (click)="getProducts('discounted')" data-toggle="tab">On Sale</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#tab-products-3" (click)="getProducts('top-rated')" data-toggle="tab">Top Rated</a>
+    </li>
+  </ul><!-- /.nav -->
+  <alert></alert>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab-products-1" role="tabpanel">
+      <section class="section-products-carousel">
+        <div class="woocommerce columns-4 tab-scroll">
+          <ul class="products columns-4">
+            <mat-progress-spinner *ngIf="loadingProduct" class="mat-spinner-color" [mode]="mode"
+              [diameter]="200" [value]="'20'">
+            </mat-progress-spinner>
+            <ng-container *ngIf="!loadingProduct">
+              <ng-container *ngIf="products.length <= 0">
+                <span>No Product that is Featured at this moment. </span>
+              </ng-container>
+              <ng-container *ngFor="let product of products | slice: 0 : limit ;let i = index">
+                <li class="product">
+                  <div class="product-outer">
+                    <div class="product-inner" [ngClass]="{'myhover': limit <= 4}">
+                      <span class="loop-product-categories">
+                        <a class="pointer-cursor" rel="tag">
+                          Aircon
+                        </a>
+                      </span>
+                      <a
+                        [routerLink]="['/shop/shop-item/', product?.relationships.brand.name , product?.attributes.slug ]">
+                        <h3>{{ product?.attributes.name }}</h3>
+                        <div class="product-thumbnail">
+                          <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                            <img src="assets/images/blank.gif"
+                              attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
+                              class="img-responsive" alt="product-image">
+                          </ng-container>
+                          <ng-template #noImage>
+                            <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
+                              src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                          </ng-template>
+                        </div>
+                      </a>
+
+                      <div class="price-add-to-cart">
+                        <span class="price">
+                          <span class="electro-price">
+                            <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                            <ng-container *ngIf="product?.attributes.discountType">
+                              <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                              <span class="discount"> {{ product?.attributes.discountType }}</span>
+                            </ng-container>
+                          </span>
+                        </span>
+                        <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                          </app-addtocart>
+                        </ng-container>
+                        <ng-template #instock>
+                          <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                          </app-addtocart>
+                        </ng-template>
+                      </div><!-- /.price-add-to-cart -->
+
+                      <div class="hover-area">
+                        <div class="action-buttons">
+
+                          <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
+
+                          <a href="compare.html" class="add-to-compare-link"> Compare</a>
+                        </div>
+                      </div>
+                    </div><!-- /.product-inner -->
+                  </div><!-- /.product-outer -->
+                </li><!-- /.product -->
+              </ng-container>
+            </ng-container>
+          </ul><!-- /.products -->
+        </div>
+        <ng-container *ngIf="limit < products?.length">
+          <button class="button" (click)="show(products?.length)">See All >></button>
+        </ng-container>
+        <ng-container *ngIf="limit == products?.length">
+          <button class="button" (click)="show(4)">See Less >></button>
+        </ng-container>
+      </section>
+    </div><!-- /.tab-pane -->
+
+    <div class="tab-pane" id="tab-products-2" role="tabpanel">
+      <section class="section-products-carousel">
+        <div class="home-v3-owl-carousel-tabs">
+          <div class="woocommerce columns-4 tab-scroll">
+            <ul class="products columns-4">
+              <mat-progress-spinner *ngIf="loadingProduct" class="mat-spinner-color" [mode]="mode"
+                [diameter]="200" [value]="'20'">
+              </mat-progress-spinner>
+              <ng-container *ngIf="!loadingProduct">
+                <ng-container *ngIf="products.length <= 0">
+                  <span>No Product that is On Sale at this moment. </span>
+                </ng-container>
+                <ng-container *ngFor="let product of products | slice: 0 : limit;let i = index">
+                  <li class="product" *ngIf="i<4">
+                    <div class="product-outer">
+                      <div class="product-inner" [ngClass]="{'myhover': limit <= 4}">
+                        <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio
+                            Speakers</a></span>
+                        <a href="/shop/shop-item/{{ product?.attributes.slug }}">
+                          <h3>{{ product?.attributes.name }}</h3>
+                          <div class="product-thumbnail">
+                            <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                              <img src="assets/images/blank.gif"
+                                attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
+                                class="img-responsive" alt="product-image">
+                            </ng-container>
+                            <ng-template #noImage>
+                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
+                                src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                            </ng-template>
+                          </div>
+                        </a>
+
+                        <div class="price-add-to-cart">
+                          <span class="price">
+                            <span class="electro-price">
+                              <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                              <ng-container *ngIf="product?.attributes.discountType">
+                                <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                <span class="discount"> {{ product?.attributes.discountType }}</span>
+                              </ng-container>
+                            </span>
+                          </span>
+                          <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                            </app-addtocart>
+                          </ng-container>
+                          <ng-template #instock>
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                            </app-addtocart>
+                          </ng-template>
+                        </div><!-- /.price-add-to-cart -->
+
+                        <div class="hover-area">
+                          <div class="action-buttons">
+
+                            <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
+
+                            <a href="compare.html" class="add-to-compare-link"> Compare</a>
+                          </div>
+                        </div>
+                      </div><!-- /.product-inner -->
+                    </div><!-- /.product-outer -->
+                  </li><!-- /.product -->
+                </ng-container>
+              </ng-container>
+            </ul><!-- /.products -->
+          </div>
+          <ng-container *ngIf="limit < products?.length">
+            <button class="button" (click)="show(products?.length)">See All >></button>
+          </ng-container>
+          <ng-container *ngIf="limit == products?.length">
+            <button class="button" (click)="show(4)">See Less >></button>
+          </ng-container>
+        </div>
+      </section>
+    </div><!-- /.tab-pane -->
+
+    <div class="tab-pane" id="tab-products-3" role="tabpanel">
+      <section class="section-products-carousel">
+        <div class="home-v3-owl-carousel-tabs">
+          <div class="woocommerce columns-4 tab-scroll">
+            <ul class="products columns-4">
+              <mat-progress-spinner *ngIf="loadingProduct" class="mat-spinner-color" [mode]="mode"
+                [diameter]="200" [value]="'20'">
+              </mat-progress-spinner>
+              <ng-container *ngIf="!loadingProduct">
+                <ng-container *ngIf="products.length <= 0">
+                  <span>No Product that is Top Rated at this moment. </span>
+                </ng-container>
+                <ng-container *ngFor="let product of products | slice: 0 : limit ;let i = index">
+                  <li class="product" *ngIf="i<4">
+                    <div class="product-outer">
+                      <div class="product-inner" [ngClass]="{'myhover': limit <= 4}">
+                        <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio
+                            Speakers</a></span>
+                        <a href="/shop/shop-item/{{ product?.attributes.slug }}">
+                          <h3>{{ product?.attributes.name }}</h3>
+                          <div class="product-thumbnail">
+                            <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                              <img src="assets/images/blank.gif"
+                                attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
+                                class="img-responsive" alt="product-image">
+                            </ng-container>
+                            <ng-template #noImage>
+                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
+                                src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                            </ng-template>
+                          </div>
+                        </a>
+
+                        <div class="price-add-to-cart">
+                          <span class="price">
+                            <span class="electro-price">
+                              <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                              <ng-container *ngIf="product?.attributes.discountType">
+                                <del><span class="amount">₱{{ product?.attributes.srp }}</span></del>
+                                <span class="discount"> {{ product?.attributes.discountType }}</span>
+                              </ng-container>
+                            </span>
+                          </span>
+                          <ng-container *ngIf="product.attributes.qty === 0;else instock">
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="0">
+                            </app-addtocart>
+                          </ng-container>
+                          <ng-template #instock>
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                            </app-addtocart>
+                          </ng-template>
+                        </div><!-- /.price-add-to-cart -->
+
+                        <div class="hover-area">
+                          <div class="action-buttons">
+
+                            <a href="#" rel="nofollow" class="add_to_wishlist"> Wishlist</a>
+
+                            <a href="compare.html" class="add-to-compare-link"> Compare</a>
+                          </div>
+                        </div>
+                      </div><!-- /.product-inner -->
+                    </div><!-- /.product-outer -->
+                  </li><!-- /.product -->
+                </ng-container>
+              </ng-container>
+            </ul><!-- /.products -->
+          </div>
+          <ng-container *ngIf="limit < products?.length">
+            <button class="button" (click)="show(products?.length)">See All >></button>
+          </ng-container>
+          <ng-container *ngIf="limit == products?.length">
+            <button class="button" (click)="show(4)">See Less >></button>
+          </ng-container>
+        </div>
+      </section>
+    </div><!-- /.tab-pane -->
+  </div><!-- /.tab-content -->
+>>>>>>> development
 </section><!-- /.products-carousel-tabs -->

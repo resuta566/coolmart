@@ -23,6 +23,18 @@ export class AuthenticationService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
+    private handleError<T> (operation = 'operation' , result?: T) {
+      return (error: any): Observable<T> => {
+        // TODO: send the error to remote logging infrastructure
+        console.error(error); // log to console instead
+
+        // TODO: better job of transforming error for user consumption
+        console.log(`${operation} failed: ${error.messages}`);
+
+        // Let the app keep running by returning an empty result.
+        return of(result as T);
+      }
+    }
 
     private handleError<T> (operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
@@ -50,7 +62,13 @@ export class AuthenticationService {
     }
 
     register(user: User) {
-      return this.http.post(`${environment.apiUrl}/api/register`, user, this.httpOptions);
+      return this.http.post(`${environment.apiUrl}/api/register`, user, this.httpOptions)
+          .pipe(
+            map((user: any) =>{
+              localStorage.removeItem('resendVerification');
+              localStorage.setItem('resendVerification', JSON.stringify(user.accessToken));
+            })
+      );
     }
 
     logout() {

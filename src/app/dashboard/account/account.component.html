@@ -5,6 +5,7 @@
                 </div>
                 <div class="info-container">
                     <div class="info">
+<<<<<<< HEAD
                         <div class="card">
                             Personal Profile | EDIT
                             James Lester Orfano
@@ -27,6 +28,68 @@
                             resut.a566@gmail.com
                             Subscribe to our Newsletter
                         </div>
+=======
+                          <div class="content shadow">
+                              <span class="title">Personal Profile</span> | <a>EDIT</a> <br>
+                              {{ currentUser.name }}<br>
+                              {{ currentUser.email }}<br><br>
+                              <!-- Subscribe to our Newsletter -->
+                          </div>
+
+                    </div>
+                    <div class="info">
+                            <div class="content shadow">
+                                <mat-progress-spinner
+                                *ngIf="loading"
+                                style="margin:20px auto !important;"
+                                class="mat-spinner-color"
+                                [mode]="'indeterminate'"
+                                [diameter]="80"
+                                [value]="'50'">
+                              </mat-progress-spinner>
+                              <ng-container *ngIf="!loading">
+                                <span class="title">Address Book</span> | <a [routerLink]="['/dashboard/account/address-book']" >EDIT</a>  <br>
+
+                                <ng-container *ngIf="addressInfo;else noAddress">
+                                  <span class="sub-sub-title"> Default Shipping Address </span> <br>
+                                  <span class="name"> {{ addressInfo?.shipping_name }}</span><br>
+                                  <span class="address"> {{ addressInfo?.s_post_code }}</span>  <br>
+                                  <span class="contact"> (+63) {{ addressInfo?.contact }} </span><br><br>
+                                </ng-container>
+                                <ng-template #noAddress>
+                                  No Shipping Address Yet
+                                </ng-template>
+
+                              </ng-container>
+
+                            </div>
+
+                    </div>
+                    <div class="info">
+                            <div class="content shadow">
+                                <br>
+                                <mat-progress-spinner
+                                *ngIf="loading"
+                                style="margin:20px auto !important;"
+                                class="mat-spinner-color"
+                                [mode]="'indeterminate'"
+                                [diameter]="80"
+                                [value]="'50'">
+                              </mat-progress-spinner>
+                              <ng-container *ngIf="!loading">
+                                <ng-container *ngIf="addressInfo;else noAddress">
+                                    <span class="sub-sub-title"> Default Billing Address </span> <br>
+                                    <span class="name">{{ addressInfo?.billing_name }}</span><br>
+                                    <span class="address">{{ addressInfo?.b_post_code }}</span> <br>
+                                    <span class="contact">(+63) {{ addressInfo?.b_contact }}</span><br><br>
+                                </ng-container>
+                                <ng-template #noAddress>
+                                    No Billing Address Yet
+                                </ng-template>
+
+                              </ng-container>
+                            </div>
+>>>>>>> development
                     </div>
                 </div>
             </div>

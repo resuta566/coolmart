@@ -1,5 +1,6 @@
 <div>
   <div class="card">
+<<<<<<< HEAD
     <div class="card-header header-bg">Address(es)</div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -44,3 +45,93 @@
 </div>
 </div>
 
+=======
+    <div class="card-header header-bg">Address(es)
+      <ng-container *ngIf="addresslist?.length > 0">
+        <div style="float: right;" *ngIf="!isSelectionShipping && !isSelectionBilling">
+          <a (click)="clickBilling()" class="pointer-cursor" style="color: white;">
+            Make Default Billing Address
+          </a> |
+          <a (click)="clickShipping()" class="pointer-cursor" style="color: white;">
+            Make Default Shipping Address
+          </a>
+        </div>
+      </ng-container>
+    </div>
+    <div style="overflow: auto;" class="example-container mat-elevation-z8">
+      <ng-container *ngIf="addresslist?.length > 0; else nothing">
+        <table mat-table [dataSource]="addresslist">
+
+          <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Full Name </th>
+            <td mat-cell *matCellDef="let useraddress"> {{ useraddress.fullname}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let useraddress"> {{ useraddress.building}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="postcode">
+            <th mat-header-cell *matHeaderCellDef> Post Code</th>
+            <td mat-cell *matCellDef="let useraddress"> {{ useraddress.post_code}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mobile">
+            <th mat-header-cell *matHeaderCellDef> Mobile</th>
+            <td mat-cell *matCellDef="let useraddress"> {{ useraddress.contact}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="info">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell style="color:#757575;" *matCellDef="let useraddress">
+              <ng-container *ngIf="useraddress.is_shipping == 1">
+                Default Shipping Address <br> <br>
+              </ng-container>
+              <ng-container *ngIf="useraddress.is_billing == 1">
+                Default Billing Address <br> <br>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let useraddress">
+
+              <a *ngIf="!isSelectionShipping && !isSelectionBilling" style="color: #f78c00;"
+                [routerLink]="['/dashboard/account/address-book/address/update/', useraddress.id]">
+                EDIT
+              </a>
+              <mat-radio-button
+                [checked]="useraddress.is_shipping == 1"
+                *ngIf="isSelectionShipping"
+                (click)="getUserAddressId(useraddress.id)">
+              </mat-radio-button>
+              <mat-radio-button
+              [checked]="useraddress.is_billing == 1"
+              *ngIf="isSelectionBilling"
+              (click)="getUserAddressId(useraddress.id)">
+              </mat-radio-button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </ng-container>
+
+      <ng-template #nothing>
+       <p style="text-align: center; margin-top: 30px;">No Address Yet Add? </p><br>
+      </ng-template>
+    </div>
+    <br>
+    <button *ngIf="isSelectionShipping || isSelectionBilling" (click)="cancel()">Cancel</button>
+    <button *ngIf="isSelectionShipping || isSelectionBilling" (click)="saveDefaults()">Save</button>
+    <button *ngIf="!isSelectionShipping && !isSelectionBilling" [routerLink]="['/dashboard/account/address-book/address']">Add New Address</button>
+  </div>
+</div>
+>>>>>>> development

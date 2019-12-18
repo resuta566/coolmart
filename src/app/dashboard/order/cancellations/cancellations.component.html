@@ -1,4 +1,5 @@
 <div class="card">
+<<<<<<< HEAD
     <div class="card-header header-bg">
       My Cancellations
     </div>
@@ -91,3 +92,92 @@
         </div>
     </div>
   </div>
+=======
+  <div class="card-header header-bg">
+    My Cancellations
+  </div>
+  <div class="order-list">
+    <ng-container *ngIf="cancelOrders?.data.length == 0"> No Cancelled Items yet.</ng-container>
+
+    <div class="order" *ngFor="let cancelOrder of cancelOrders?.data">
+      <div class="order-detail">
+        <div class="order-left">
+          <div class="order-link">
+            Order <a
+              [routerLink]="['/dashboard/order/cancellations/cancelled-order', cancelOrder?.id ]">#{{ cancelOrder?.attributes.transaction_id }}</a>
+          </div>
+          <div class="order-info-date">
+            Cancel on {{ cancelOrder?.attributes.date_updated }}
+          </div>
+        </div>
+        <div class="center-pull"></div>
+        <div class="order-right">
+          <a [routerLink]="['/dashboard/order/cancellations/cancelled-order', cancelOrder?.id ]">DETAILS</a>
+        </div>
+      </div>
+      <div id="item" style="overflow-x:auto;">
+        <table>
+          <tr *ngFor="let cancelItem of cancelOrder?.relationships.carts.data">
+            <div class="order-item">
+              <td>
+                <div class="item-pic">
+                  <ng-container *ngIf="cancelItem?.attributes.item_images.length > 0;else noImage">
+                    <img src="{{ apiUrl }}/{{ cancelItem?.attributes.item_images[0] }}" alt="product-thumbnail">
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img src="assets/images/noimage2.jpg" alt="product-thumbnail">
+                  </ng-template>
+                </div>
+              </td>
+              <td>
+                <div class="item-main">
+                  <div class="item-name">
+                    {{ cancelItem?.attributes.item_name }}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="item-quantity">
+                  Qty: {{ cancelItem?.attributes.cart_qty }}
+                </div>
+              </td>
+              <td>
+                <div class="item-status">
+                  {{ cancelItem?.attributes.status }}
+                </div>
+              </td>
+            </div>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="cancelOrders?.data.length > 0" id="order-pagination" style="padding: 1.5em">
+        <nav class="woocommerce-pagination">
+          <ul class="page-numbers">
+            <li [ngClass]="{hidden: cancelOrders?.links.prev !== null}">
+              <a class="page-numbers" [ngClass]="{disabled: cancelOrders?.links.prev == null}">
+                <i class="fa fa-arrow-left"></i>
+              </a>
+            </li>
+            <li [ngClass]="{hidden: cancelOrders?.links.prev == null}">
+              <a class="page-numbers" (click)="changePageCancellOrder(cancelOrders?.links.prev)">
+                <i class="fa fa-arrow-left"></i>
+              </a>
+            </li>
+            <li><span class="page-numbers current">{{ cancelOrders?.meta.current_page }}</span></li>
+            <li [ngClass]="{hidden: cancelOrders?.links.next !== null}">
+              <a [ngClass]="{disabled: cancelOrders?.links.next == null}" class="page-numbers">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </li>
+            <li [ngClass]="{hidden: cancelOrders?.links.next == null}">
+              <a class="page-numbers" (click)="changePageCancellOrder(cancelOrders?.links.next)">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+  </div>
+</div>
+>>>>>>> development

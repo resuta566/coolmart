@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .col2-set11 {
   margin-left: -0.9375rem;
   margin-right: -0.9375rem; }
@@ -42,6 +43,8 @@
 @media (min-width:1200px){
   .containerlist{max-width:1300px}
 }
+=======
+>>>>>>> development
 
 .info-container{
   display: grid;
@@ -51,5 +54,41 @@
 }
 .info{
   padding: 5px;
+<<<<<<< HEAD
   text-align: center;
+=======
+}
+.content{
+  min-height: 240px;
+  padding: 8px 12px;
+  color: #212121;
+}
+a{
+  cursor: pointer;
+}
+.mat-spinner-color ::ng-deep circle{
+  stroke: #f78c00 !important;
+}
+.title{
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+span{
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.sub-sub-title{
+  color: #757575;
+}
+.address,
+.contact{
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.name{
+  font-size: 14px;
+  color: #212121;
+  margin-bottom: 10px;
+  font-weight: 700;
+>>>>>>> development
 }

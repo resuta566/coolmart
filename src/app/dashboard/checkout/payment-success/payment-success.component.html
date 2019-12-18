@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="success-header shadow">
+    <div class="title">
+      <i class="fa fa-ticket"></i>&nbsp; Thank you for your purchase!
+    </div>
+    <div class="sub-title">
+      Your order number is <span class="order-number">#{{ successData?.address.order_id }}</span>
+    </div>
+  </div>
+  <div class="success-body shadow">
+    <div class="payment">
+      <div class="payment-title">
+        Amount to pay on delivery day.
+      </div>
+      <div class="payment-amount">
+        ₱{{ successData?.sub_total }}
+      </div>
+      <div class="the-content">
+        <div class="delivery-package">
+          <div class="delivery-title">
+            Delivery Dates
+          </div>
+          <div class="border shadow">
+            <div class="itemrow" *ngFor="let item of successData?.items">
+              <div class="item-img-content column-img">
+                <ng-container *ngIf="item.images.length > 0; else noImage">
+                  <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
+                </ng-container>
+                <ng-template #noImage>
+                  <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+                </ng-template>
+              </div>
+              <div class="date column">{{ item?.name }}</div>
+              <div class="">Qty: {{ item?.qty }}</div>
+            </div>
+            <hr>
+            <div class="td-tip">
+              <div class="tip">
+                <div class="text-details">
+                  <div class="text-detail-line">
+                    <span>For more details, track your delivery status under </span>
+                    <span class="text-detail-strong-text">My Account > My Order</span>
+                  </div>
+                </div>
+                <button [routerLink]="['/dashboard/order/view-order', successData?.address.transaction_id]" > View Order </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="payment-information border shadow">
+          <i class="fa fa-envelope-o"></i>&nbsp; We’ve sent a confirmation email to {{ currentUser?.email }} with the
+          order
+          details.
+        </div>
+        <div class="order-summary border shadow">
+          <!-- <div (click)="show()" class="order-summary border shadow"> -->
+          Order Summary
+          <div style="float: right; display: flex;">
+            <div class="order-amount" *ngIf="!showAll">₱{{ successData?.sub_total }}</div> &nbsp;
+            <i (click)="show()" class="fa fa-chevron-down" *ngIf="!showAll"></i>
+            <i (click)="show()" class="fa fa-chevron-up" *ngIf="showAll"></i>
+          </div>
+          <ng-container *ngIf="showAll">
+            <div class="margin"></div>
+            <div class="order-subtotal">
+              Subtotal({{ successData?.item_count }} Items)
+              <div style="float: right; display: flex;">₱{{ successData?.sub_total }}</div>
+            </div>
+            <div class="order-shipping-fee">
+              Shipping Fee
+              <div style="float: right; display: flex;">₱0.00</div>
+            </div>
+            <hr>
+            <div class="order-total-amount">
+              Total
+              <div style="float: right; display: flex; color: #f78c00;">₱{{ successData?.sub_total }}</div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="margin"></div>
+        <a href="/">
+          <button class="button continue" style="width: 100%;">Continue Shopping</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

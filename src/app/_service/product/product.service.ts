@@ -5,6 +5,10 @@ import { tap, catchError, map, filter } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
 import { Products } from '@app/_models/products/products';
+<<<<<<< HEAD
+=======
+import { Reviews } from '@app/_models/products/reviews/reviews';
+>>>>>>> development
 import { Filter } from '@app/_models/filter/filter';
 
 @Injectable({
@@ -32,7 +36,11 @@ export class ProductService {
   }
 
   getProducts(filterArray?: Filter) {
+<<<<<<< HEAD
     let name; let brand; let category; let type; let min; let max; let sort ; let page; let cap;
+=======
+    let name; let brand; let category; let type; let min; let max; let sort ; let page; let hp; let tr;
+>>>>>>> development
     if(filterArray){
       name = filterArray.name;
       brand = filterArray.brandArray;
@@ -42,7 +50,12 @@ export class ProductService {
       max = filterArray.max;
       sort = filterArray.sort;
       page  = filterArray.page;
+<<<<<<< HEAD
       cap = filterArray.cap;
+=======
+      hp = filterArray.hp;
+      tr = filterArray.tr;
+>>>>>>> development
     }
     let actualKeyword = name || ''; // The Search Keyword
     let actualbrand = brand || this.null; // Brand Array
@@ -51,7 +64,12 @@ export class ProductService {
     let actualMin = min || ''; //Minimum Value
     let actualMax = max || ''; //Maximum Value
     let actualSort= sort || 'asc'; //Sort by
+<<<<<<< HEAD
     let actualCap = cap || ''; //Capacity / HorsePAWAAA
+=======
+    let actualHp = hp || ''; //Capacity / HorsePAWAAA
+    let actualTr = tr || ''; //Capacity / TONS OF AIR
+>>>>>>> development
     let actualPage = page || `${environment.apiUrl}/api/items`;
     // //The HttpParams
     let prodparams = new HttpParams()
@@ -59,7 +77,12 @@ export class ProductService {
       .set('min',actualMin)
       .set('max', actualMax)
       .set('sort', actualSort)
+<<<<<<< HEAD
       .set('cap',actualCap.toString());
+=======
+      .set('hp',actualHp.toString())
+      .set('tr',actualTr.toString());
+>>>>>>> development
     if(actualbrand){
       if(actualbrand.length !== 0){
         //If actualBrandArray is not 0 loop else delete
@@ -108,7 +131,11 @@ export class ProductService {
           prodparams = prodparams.delete(`type[]`);
 
     }
+<<<<<<< HEAD
     console.log(prodparams.toString());
+=======
+    // console.log(prodparams.toString());
+>>>>>>> development
     return this.http.get<Products[]>(actualPage,
       { params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),
@@ -128,5 +155,12 @@ export class ProductService {
     return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
       tap(_ => console.log('fetched product'))
       );
+  }
+
+  getProductReviews(slug: string, page?: string):Observable<Reviews>{
+    let actualPage = page || `${environment.apiUrl}/api/items/reviews/${slug}`;
+    return this.http.get<Reviews>(actualPage).pipe(
+      tap(_ => console.log('fetched reviews'))
+    );
   }
 }

@@ -1,0 +1,62 @@
+<h3>Request Cancel Item</h3>
+<div class="order-details">
+  <form [formGroup]="cancelForm" (ngSubmit)="submitCancell()">
+    <div class="shadow order">
+      <div class="order-package-details">
+          <div class="package-item">
+              <div class="item-img">
+                <ng-container *ngIf="itemDetails?.attributes.item_images.length > 0; else noImage">
+                    <img src="{{ apiUrl }}/{{ itemDetails?.attributes.item_images[0] }}" class="item-img" alt="product-image">
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+                  </ng-template>
+              </div>
+              <div class="item-name">
+                  {{ itemDetails?.attributes.item_name }}
+              </div>
+              <div class="item-ordered-qty">
+                  Qty: {{ itemDetails?.attributes.cart_qty }}
+              </div>
+              <div class="status-option">
+              <mat-form-field appearance="outline">
+                  <mat-label>Cancellation Reason</mat-label>
+                  <mat-select formControlName="reason">
+                    <mat-option *ngFor="let reason of reasons" [value]="reason">
+                      {{ reason }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="a.reason.errors?.required">Reason is required</mat-error>
+                </mat-form-field>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="shadow additional-info-area">
+      <label for="">Additional Information</label>
+      <textarea formControlName="additional_info" id="" cols="15" rows="5" placeholder="example: I put the wrong whipping address"></textarea>
+    </div>
+    <div class="shadow cancellation-policy-area">
+      <label for="">CoolMart365 Cancellation Policy </label>
+      <div class="policy-list">
+        <div class="policy-text">
+            Before cancelling the order, kindly read thoroughly our following terms & conditions: <br>
+            1. Once you submit this form you agree to cancel the selected item(s) in your order. We will be unable to retrieve your order once it is cancelled.<br>
+            2. Once you confirm your item(s) cancellation, we will process your refund within 24 hours, provided the item(s) has not been handed over to the logistics partner yet. Please note that, if your item has already been handed over to the logistics partner we will be unable to proceed with your cancellation request and we will inform you accordingly.<br>
+            3. If you are cancelling your order partially, ie. not all the items in your order, then we will be unable to refund you the shipping fee.<br>
+            4. Once your item(s) has been successfully cancelled you will receive a notification from us with your refund summary.<br>
+        </div>
+        <div class="cancellation-checkbox">
+          <input formControlName="accept" type="checkbox" id="terms" name="cancellation" required> &nbsp;
+          <label for="cancellation">I’ve read and accept Cool Mart 635
+            <a target="_blank" [routerLink]="['/pages/terms-and-conditions']">Cancellation Policy</a>
+            <span class="required">*</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="submitbtn">
+      <button [disabled]="!cancelForm.valid">SUBMIT</button>
+    </div>
+  </form>
+</div>

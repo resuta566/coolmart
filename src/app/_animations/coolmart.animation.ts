@@ -25,7 +25,12 @@ export function routerAnimation() {
             transform: 'translateX(0%)',
           }),
         ),
+<<<<<<< HEAD
       ]),
+=======
+      ],
+      { optional: true },),
+>>>>>>> development
     ]),
 
     // Previous, slide left to right to show left page
@@ -39,6 +44,10 @@ export function routerAnimation() {
           height: '1000px',
           transform: 'translateX(-100%)',
         }),
+<<<<<<< HEAD
+=======
+        { optional: true },
+>>>>>>> development
       ),
 
       group([
@@ -54,6 +63,10 @@ export function routerAnimation() {
               transform: 'translateX(100%)',
             }),
           ),
+<<<<<<< HEAD
+=======
+          { optional: true },
+>>>>>>> development
         ),
         // slide new page from -100% to 0% to the right
         query(
@@ -65,6 +78,10 @@ export function routerAnimation() {
               transform: 'translateX(0%)',
             }),
           ),
+<<<<<<< HEAD
+=======
+          { optional: true },
+>>>>>>> development
         ),
       ]),
     ]),
@@ -80,6 +97,10 @@ export function routerAnimation() {
           height: '1000px',
           transform: 'translateX(100%)',
         }),
+<<<<<<< HEAD
+=======
+        { optional: true },
+>>>>>>> development
       ),
 
       group([
@@ -95,6 +116,10 @@ export function routerAnimation() {
               transform: 'translateX(-100%)',
             }),
           ),
+<<<<<<< HEAD
+=======
+          { optional: true },
+>>>>>>> development
         ),
         // slide new page from 100% to 0% to the left
         query(
@@ -106,6 +131,10 @@ export function routerAnimation() {
               transform: 'translateX(0%)',
             }),
           ),
+<<<<<<< HEAD
+=======
+          { optional: true },
+>>>>>>> development
         ),
       ]),
     ]),

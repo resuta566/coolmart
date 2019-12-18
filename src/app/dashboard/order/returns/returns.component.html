@@ -4,6 +4,7 @@
   </div>
 
   <div class="order-list">
+<<<<<<< HEAD
       <div class="order">
         <div class="order-detail">
           <div class="order-left">
@@ -90,5 +91,91 @@
           </table>
         </div>
       </div>
+=======
+      <ng-container *ngIf="returnDetails?.data.length == 0"> No Returned Items yet.</ng-container>
+    <div class="order" *ngFor="let returnDetail of returnDetails?.data">
+      <div class="order-detail">
+        <div class="order-left">
+          <div class="order-link">
+            Order <a
+              [routerLink]="['/dashboard/order/returns/returned-order', returnDetail?.id]">#{{ returnDetail?.attributes.transaction_id }}</a>
+          </div>
+          <div class="order-info-date">
+            Return on {{ returnDetail?.attributes.date_updated }}
+          </div>
+        </div>
+        <div class="center-pull"></div>
+        <div class="order-right">
+          <a [routerLink]="['/dashboard/order/returns/returned-order', returnDetail?.id]">DETAILS</a>
+        </div>
+      </div>
+      <div id="item" style="overflow-x:auto;">
+        <table>
+          <tr *ngFor="let item of returnDetail?.relationships.carts.data">
+            <div class="order-item">
+              <td>
+                <div class="item-pic">
+                  <ng-container *ngIf="item?.attributes.item_images > 0;else noImage">
+                    <img src="{{ apiUrl }}/{{ item?.attributes.item_images[0] }}" alt="product-thumbnail">
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img src="assets/images/noimage2.jpg" alt="product-thumbnail">
+                  </ng-template>
+
+                </div>
+              </td>
+              <td>
+                <div class="item-main">
+                  <div class="item-name">
+                    {{ item.attributes.item_name }}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="item-quantity">
+                  Qty: {{ item.attributes.cart_qty }}
+                </div>
+              </td>
+              <td>
+                <div class="item-status">
+                  {{ item.attributes.status }}
+                </div>
+              </td>
+              <td>
+                &nbsp;
+              </td>
+            </div>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="returnDetails?.data.length > 0" id="order-pagination" style="padding: 1.5em">
+      <nav class="woocommerce-pagination">
+        <ul class="page-numbers">
+          <li [ngClass]="{hidden: returnDetails?.links.prev !== null}">
+            <a class="page-numbers" [ngClass]="{disabled: returnDetails?.links.prev == null}">
+              <i class="fa fa-arrow-left"></i>
+            </a>
+          </li>
+          <li [ngClass]="{hidden: returnDetails?.links.prev == null}">
+            <a class="page-numbers" (click)="changePageReturns(returnDetails?.links.prev)">
+              <i class="fa fa-arrow-left"></i>
+            </a>
+          </li>
+          <li><span class="page-numbers current">{{ returnDetails?.meta.current_page }}</span></li>
+          <li [ngClass]="{hidden: returnDetails?.links.next !== null}">
+            <a [ngClass]="{disabled: returnDetails?.links.next == null}" class="page-numbers">
+              <i class="fa fa-arrow-right"></i>
+            </a>
+          </li>
+          <li [ngClass]="{hidden: returnDetails?.links.next == null}">
+            <a class="page-numbers" (click)="changePageReturns(returnDetails?.links.next)">
+              <i class="fa fa-arrow-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+>>>>>>> development
   </div>
 </div>

@@ -1,0 +1,132 @@
+.order{
+  min-height: 115px !important;
+}
+.order-header-detail{
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+.order > .order-detail {
+  min-height: 55px !important;
+}
+.item-number{
+  font-size: 16px;
+}
+.content{
+  padding: 8px 12px;
+}
+.order-tracking-status{
+  margin-top: 20px;
+}
+.order-date{
+  font-size: 12px;
+  color: #757575 !important;
+}
+.order-header-total{
+  float: right;
+  padding-top: 5px;
+  font-size: 20px;
+  line-height: 32px;
+}
+.order-header-total .total-header-title{
+  color: #757575 !important;
+}
+.status-title{
+  text-align: center;
+}
+.package-status{
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+.the-item{
+  display: inline;
+}
+.package-item{
+  padding: 20px 30px;
+  display: grid;
+  grid-template-columns: 80px 320px repeat(auto-fit, minmax(80px,1fr));
+  align-items: flex-start;
+  text-align: center;
+}
+@media (max-width: 991px){
+  .package-item{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px,1fr)) !important;
+    align-items: flex-start;
+    text-align: center;
+  }
+}
+.item-img{
+  width: 70px;
+  height: 70px;
+}
+.item-name{
+  text-align: left;
+}
+
+.additional-info-area{
+  padding: 10px 20px;
+}
+.additional-info-area textarea{
+  resize: none;
+}
+.cancellation-policy-area{
+  padding: 10px 20px;
+}
+.policy-list{
+  background-color: #f1f1f1;
+  min-height: 100px;
+  padding: 5px 10px;
+}
+.policy-text{
+  padding: 5px 10px;
+  background-color: #fff !important;
+}
+.cancellation-checkbox{
+ margin-top: 10px;
+}
+.submitbtn{
+  padding: 8px 10px;
+}
+
+::ng-deep{
+  // input outline color
+  // .mat-form-field-appearance-outline .mat-form-field-outline {
+  //   color: #f78c00 !important;
+  // }
+
+  // mat-input focused color
+  .mat-form-field{
+    display: contents !important;
+  }
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #f78c00 !important;
+  }
+  input.mat-input-element {
+    color: black;
+  }
+  .mat-form-field-empty.mat-form-field-label {
+    color: black;
+  }
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+    color: black;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label{
+    color: black;
+  }
+  .mat-select:focus:not(.mat-select-disabled).mat-primary
+  .mat-select-arrow , .mat-select-underline , .mat-select-trigger{
+    color: black;
+  }
+
+  /* to change selected item color in the select list */
+  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: black;
+  }
+  .mat-input-element{
+    caret-color: black;
+  }
+}
+body div.cdk-overlay-container {
+  z-index: 1000000;
+}

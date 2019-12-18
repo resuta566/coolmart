@@ -22,6 +22,27 @@
   cursor: pointer;
 }
 
+<<<<<<< HEAD
+=======
+.hidden{
+  display: none;
+}
+.disabled{
+  cursor: not-allowed;
+}
+
+.shadow{
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
+  0 8px 10px 1px rgba(0,0,0,.14),
+  0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+.shadow-padding{
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
+  0 8px 10px 1px rgba(0,0,0,.14),
+  0 3px 14px 2px rgba(0,0,0,.12) !important;
+  padding: 15px 15px;
+}
+>>>>>>> development
 
 //Over lay and Spinner animation
 
@@ -93,6 +114,10 @@
   0 3px 14px 2px rgba(0,0,0,.12) !important;
 }
 .order{
+<<<<<<< HEAD
+=======
+  margin-bottom: 10px;
+>>>>>>> development
   min-height: 230px;
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
   0 8px 10px 1px rgba(0,0,0,.14),
@@ -137,6 +162,10 @@
 }
 
 .order-item > .item-main, .order-item > td > .item-main {
+<<<<<<< HEAD
+=======
+  min-width: 400px;
+>>>>>>> development
   width: auto;
   height: 100%;
   float: left;
@@ -181,3 +210,14 @@
   ::-webkit-scrollbar-thumb:hover {
   background: #f78c00;
   }
+<<<<<<< HEAD
+=======
+
+  .additional-info{
+    font-size: 12px;
+    color: #757575;
+  }
+  .edit-cart{
+    color: red !important;
+  }
+>>>>>>> development

@@ -1,0 +1,151 @@
+<div class="order-details">
+  <div class="shadow order-header-detail" style="width: 100%; min-height: 60px;">
+    <div style="float: left;">
+      <span style="color: #212121;">
+        Order #{{ orderData?.address.order_id }}
+      </span>
+      <br>
+      <span class="order-date">
+        Placed on {{ orderData?.address.date_placed }}
+      </span>
+    </div>
+    <div class="order-header-total">
+      <span class="total-header-title">Total:</span> ₱{{  orderData?.sub_total }}
+    </div>
+  </div>
+  <div class="order" *ngFor="let item of orderData?.items;let i = index">
+    <div class="order-detail">
+      <div style="float: left;">
+        <div class="item-number">
+          <span class="fa fa-gift"></span> Item {{ i+1 }} <br>
+        </div>
+      </div>
+    </div>
+    <div class="order-tracking-status">
+      <div class="status-title">
+        Status
+      </div>
+      <div class="package-status">
+        {{ item?.status }}
+      </div>
+    </div>
+    <div class="order-tracking-details">
+      <div class="tracking-area">
+
+      </div>
+    </div>
+    <div class="order-package-details">
+      <div class="package-item">
+        <div class="item-img">
+          <ng-container *ngIf="item.images.length > 0; else noImage">
+            <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
+          </ng-container>
+          <ng-template #noImage>
+            <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+          </ng-template>
+        </div>
+        <div class="item-name">
+          {{ item.name }} <br>
+          <span class="additional-info" *ngIf="item?.services">
+            <span>{{ item?.services.name }}: <b>₱{{ item?.services.total }}</b></span> <br>
+            <span>Piping: <b>{{ item?.services.total_feet }} feet</b></span> <br>
+            <small>*Additional <b>₱300</b>/feet after 10feet</small>
+          </span>
+        </div>
+        <div class="item-price">
+          ₱{{ item.price }}
+        </div>
+        <div class="item-ordered-qty">
+          Qty: {{ item.qty }}
+        </div>
+        <div class="status-option">
+          <ng-container *ngIf="item?.cancellable">
+            <a (click)="cancelItem(item?.cart_id)">
+              CANCEL
+            </a>
+          </ng-container>
+          <ng-container *ngIf="item?.returnable">
+            <a (click)="returnItem(item?.cart_id)">
+              RETURN
+            </a>
+          </ng-container>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="shipping-billing-total-details">
+    <div class="delivery-details">
+      <div class="shipping-details shadow">
+        <div class="content">
+          <div class="shipping-title">
+            Shipping Address
+          </div>
+          <span class="shipping-name">
+            {{ orderData?.address.ship_post_code[0] }}
+          </span> <br>
+          <span class="shipping-address">
+            {{ orderData?.address.ship_post_code[1] }}
+          </span>
+          <br>
+          <span class="shipping-contact">
+            {{ orderData?.address.ship_post_code[2] }}
+          </span>
+        </div>
+      </div>
+      <div class="billing-details shadow">
+        <div class="content">
+          <div class="billing-title">
+            Billing Address
+          </div>
+          <span class="billing-name">
+            {{ orderData?.address.bill_post_code[0] }}
+          </span> <br>
+          <span class="billing-address">
+            {{ orderData?.address.bill_post_code[1] }}
+          </span>
+          <br>
+          <span class="billing-contact">
+            {{ orderData?.address.bill_post_code[2] }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="total-summary shadow">
+      <div class="content">
+        <div class="total-title">
+          Total Summary
+        </div>
+        <div class="sub-total">
+          <div style="float: left;">
+            Subtotal
+          </div>
+          <div style="float: right;">₱{{ orderData?.sub_total }}</div>
+        </div>
+        <br>
+        <div class="shipping-fee">
+          <div style="float: left;">
+            Shipping Fee
+          </div>
+          <div style="float: right;">₱0.00</div>
+        </div>
+        <br>
+        <hr>
+        <div class="total-with-vat">
+          <div style="float: left;">
+            Total(VAT Incl.)
+          </div>
+          <div class="total-price">
+            ₱{{ orderData?.sub_total }}
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="paid-by-what">
+          Paid by Cash on Delivery
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

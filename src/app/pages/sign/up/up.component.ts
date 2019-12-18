@@ -86,8 +86,14 @@ export class UpComponent implements OnInit, OnDestroy {
             }),
             error => {
                 this.alertService.error(error);
+<<<<<<< HEAD
                 this.notyf.error(error);
                 // console.log(error);
+=======
+                this.loading = false;
+                this.notyf.error(error);
+                this.submitted = false;
+>>>>>>> development
             }
           });
     }

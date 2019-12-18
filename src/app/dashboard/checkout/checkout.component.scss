@@ -1,3 +1,70 @@
 .remove{
   cursor: pointer;
 }
+<<<<<<< HEAD
+=======
+.button,
+.button:focus{
+  background-color: #f78c00;
+  color: white;
+}
+.button:hover{
+  background-color: black;
+  color: white;
+}
+.mat-form-field{
+  display: block;
+}
+::ng-deep{
+  // input outline color
+  // .mat-form-field-appearance-outline .mat-form-field-outline {
+  //   color: #f78c00 !important;
+  // }
+
+  // mat-input focused color
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #f78c00 !important;
+  }
+  input.mat-input-element {
+    color: black;
+  }
+  .mat-form-field-empty.mat-form-field-label {
+    color: black;
+  }
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+    color: black;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label{
+    color: black;
+  }
+  .mat-select:focus:not(.mat-select-disabled).mat-primary
+  .mat-select-arrow , .mat-select-underline , .mat-select-trigger{
+    color: black;
+  }
+
+  /* to change selected item color in the select list */
+  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: black;
+  }
+  .mat-input-element{
+    caret-color: black;
+  }
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+.margin{
+  margin: auto;
+}
+.additional-info{
+  font-size: 12px;
+  color: #757575;
+}
+.edit-cart{
+  color: red !important;
+}
+>>>>>>> development

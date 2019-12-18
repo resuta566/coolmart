@@ -14,8 +14,12 @@ export class ShopItemResolverService implements Resolve<Products>{
   ){}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Products>{
+<<<<<<< HEAD
     console.log(route.params);
 
+=======
+    // console.log(route.params);
+>>>>>>> development
     return this.productService.getProduct(route.params['slug']);
   }
 }

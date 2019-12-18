@@ -33,11 +33,13 @@ export class CartComponent implements OnInit {
   }
 
   getCart(){
-    this.cartService.carts().pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
+    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.carts = data.data;
+      console.log(this.carts);
+
       //Compute the subtotal of all the items
       this.carts.forEach( item =>{
-        this.subtotal += parseFloat(item.attributes.subtotal_per_item);
+        this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
       })
     });
   }
@@ -53,19 +55,23 @@ export class CartComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
+<<<<<<< HEAD
         this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
+=======
+        this.cartService.removeItemCartQty(id).pipe(takeUntil(this.destroy$)).subscribe(data=> {});
+>>>>>>> development
       }
     });
 
   }
 
   addQty(cartId: number) {
-    this.cartService.updateItemCartQty(cartId, "addQty").pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
+    this.cartService.updateItemCartQty(cartId, "addQty").pipe(takeUntil(this.destroy$)).subscribe(data=> {});
 
   }
 
   decreaseQty(cartId: number) {
-    this.cartService.updateItemCartQty(cartId, "deductQty").pipe(first(), takeUntil(this.destroy$)).subscribe( data=> {});
+    this.cartService.updateItemCartQty(cartId, "deductQty").pipe(takeUntil(this.destroy$)).subscribe( data=> {});
   }
 
   subTotal(){

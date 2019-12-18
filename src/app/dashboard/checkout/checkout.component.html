@@ -1,3 +1,12 @@
+<div id="overlay" *ngIf="selected">
+  <div class="lds-ring">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
 <div id="content" class="site-content" tabindex="-1">
   <div class="container">
 
@@ -5,7 +14,16 @@
           class="fa fa-angle-right"></i></span>Checkout</nav>
 
     <div id="primary" class="content-area">
+<<<<<<< HEAD
       <main id="main" class="site-main">
+=======
+      <h2 style="text-align: center;" *ngIf="!thereIsItem;">
+        Cart Is Empty! <br>
+        <br>
+        <a href="/" class="button checkout wc-forward ng-star-inserted">SHOP NOW</a>
+      </h2>
+      <main id="main" class="site-main" *ngIf="thereIsItem;">
+>>>>>>> development
         <article class="page type-page status-publish hentry">
           <header class="entry-header">
             <h1 itemprop="name" class="entry-title">Checkout</h1>
@@ -16,6 +34,7 @@
             <div id="customer_details" class="col2-set">
               <div class="col-1">
                 <div class="woocommerce-billing-fields">
+<<<<<<< HEAD
 
                   <h3>Shipping Details</h3>
                   <ng-container>
@@ -251,8 +270,318 @@
                 </div>
               </div>
             </div>
+=======
+                  <div class="shadow-padding" *ngIf="!checkOutAddress?.shipping_id">
+                    <h3>Shipping Details</h3>
+                    <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+                      <ng-container>
+                        <p id="billing_full_name_field" class="form-row form-row form-row-first validate-required">
+                          <label class="" for="billing_full_name">
+                            Full Name
+                            <abbr title="required" class="required">*</abbr>
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Full Name</mat-label>
+                            <input formControlName="fullname" matInput placeholder="">
+                            <mat-error *ngIf="a.fullname.errors?.required">Full Name is required</mat-error>
+                          </mat-form-field>
+                        </p>
+
+                        <p id="billing_address_field" class="form-row form-row form-row-last validate-required">
+                          <label class="" for="billing_address">
+                            House Number, Building and Street Name<abbr title="required" class="required">*</abbr>
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>House Number, Building and Street Name</mat-label>
+                            <input formControlName="building" matInput placeholder="">
+                            <mat-error *ngIf="a.building.errors?.required">House Number, Building and Street Name is
+                              required</mat-error>
+                          </mat-form-field>
+                        </p>
+                        <div class="clear"></div>
+
+                        <p id="billing_mobile_number_field" class="form-row form-row form-row-first validate-required">
+                          <label class="" for="billing_mobile_number">
+                            Mobile Number
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Mobile Number</mat-label>
+                            <input digitOnly formControlName="mobilenumber" matInput placeholder="">
+                            <mat-error *ngIf="a.mobilenumber.errors?.required">Mobile Number is required</mat-error>
+                            <mat-error *ngIf="a.mobilenumber.errors?.pattern">Mobile Number must be valid</mat-error>
+                          </mat-form-field>
+                        </p>
+>>>>>>> development
+
+                        <p id="billing_province_field" class="form-row form-row form-row-last validate-required">
+                          <label class="" for="billing_province">
+                            Province<abbr title="required" class="required">*</abbr>
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Please choose your Province</mat-label>
+                            <mat-select formControlName="province">
+                              <mat-option *ngFor="let province of provinces" (click)="getCities(province.id)"
+                                [value]="province.value">
+                                {{ province.value }}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="a.province.errors?.required">Province is required</mat-error>
+                          </mat-form-field>
+                        </p>
+                        <div class="clear"></div>
+
+<<<<<<< HEAD
+=======
+                        <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required">
+                          <label class="" for="billing_other_notes">
+                            Other Notes
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Other Notes</mat-label>
+                            <input formControlName="other_notes" matInput placeholder="">
+                          </mat-form-field>
+                        </p>
+
+                        <p id="billing_city_municipality_field"
+                          class="form-row form-row form-row-last validate-required">
+                          <label class="" for="billing_city_municipality">
+                            City/Municipality<abbr title="required" class="required">*</abbr>
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Please choose your City/Municipality</mat-label>
+                            <mat-select formControlName="city">
+                              <mat-option *ngFor="let provinceCity of provinceCities"
+                                (click)="getBrgys(provinceCity.id)" [value]="provinceCity.value">
+                                {{ provinceCity.value}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="a.city.errors?.required">City is required</mat-error>
+                          </mat-form-field>
+                        </p>
+                        <div class="clear"></div>
+
+                        <p id="billing_other_notes_field" class="form-row form-row form-row-first validate-required">
+                          <label class="" for="billing_other_notes">
+                            Address Type
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Address Type</mat-label>
+                            <mat-select formControlName="type" [(value)]="type">
+                              <mat-option [value]="1">
+                                Home
+                              </mat-option>
+                              <mat-option [value]="2">
+                                Office
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </p>
+
+                        <p style="float: right;" id="billing_barangay_field"
+                          class="form-row form-row form-row-last validate-required">
+                          <label class="" for="billing_barangay">
+                            Barangay<abbr title="required" class="required">*</abbr>
+                          </label>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Please choose your Barangay</mat-label>
+                            <mat-select formControlName="brgy">
+                              <mat-option *ngFor="let cityBarangay of cityBarangays"
+                                (click)="getBrgyId(cityBarangay.id)" [value]="cityBarangay.value">
+                                {{ cityBarangay.value}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="a.brgy.errors?.required">Barangay is required</mat-error>
+                          </mat-form-field>
+                        </p>
+                        <div class="clear"></div>
+                        <button type="submit" class="button alt">Save</button>
+                      </ng-container>
+                    </form>
+                  </div>
+
+                  <div class="order-items woocommerce-checkout-review-order shadow-padding" style="margin-top: 20px">
+                    <h3 id="order_review_heading">Your order</h3>
+                    <table class="shop_table shop_table_responsive cart">
+                      <thead>
+                        <tr>
+                          <th class="product-remove">&nbsp;</th>
+                          <th class="product-thumbnail">&nbsp;</th>
+                          <th class="product-name">Product</th>
+                          <th class="product-price">Price</th>
+                          <th class="product-quantity">Quantity</th>
+                          <th class="product-subtotal">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <tr class="cart_item" *ngFor="let cart of carts">
+                          <td class="product-remove">
+                            <a class="remove" (click)="removeItem(cart?.id)"><i class="fa fa-trash-o"></i></a>
+                          </td>
+
+                          <td class="product-thumbnail">
+                            <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">
+                              <ng-container *ngIf="cart?.attributes.item_images.length > 0;else noImg">
+                                <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
+                                  alt="{{ cart?.attributes.item_name }}">
+                              </ng-container>
+                              <ng-template #noImg>
+                                <img width="180" height="180" src="assets/images/noimage2.jpg"
+                                  alt="{{ cart?.attributes.item_name }}">
+                              </ng-template>
+                            </a>
+                          </td>
+
+                          <td data-title="Product" class="product-name">
+                            <a
+                              [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
+                              <ng-container *ngIf="cart?.attributes.services">
+                                <span class="additional-info">
+                                  {{ cart?.attributes.services.name }}:
+                                  <b>{{ cart?.attributes.services.total | currency: '₱'}}</b>
+                                </span> <br>
+                                <span class="additional-info">
+                                  Piping: <b>{{ cart?.attributes.services.total_feet }}</b> feet <br>
+                                  <small>*Additional <b>₱300</b>/feet after 10feet</small>
+                                </span>
+                              </ng-container>
+                          </td>
+
+                          <td data-title="Price" class="product-price">
+                            <span class="amount">₱{{ cart?.attributes.item_discountedSrp }}
+                            </span>
+                          </td>
+
+                          <td data-title="Quantity" class="product-quantity">
+                            <small>x</small> {{ cart?.attributes.cart_qty }}
+                          </td>
+
+                          <td data-title="Total" class="product-subtotal">
+                            <span class="amount">{{ cart?.attributes.subtotal_with_service_total | currency:'₱'}}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2 shadow-padding">
+                <ng-container *ngIf="checkOutAddress?.shipping_id">
+                  <h3>Shipping &#038; Billing</h3>
+                  <h5>Shipping Details</h5>
+                  <p style="font-weight: bold; font-size: 14px;">{{ checkOutAddress?.shipping_name }}
+                    <span class="pointer-cursor" (click)="editAddress()" style="color:red; float: right">
+                      Edit
+                    </span>
+                  </p>
+                  <p> {{ checkOutAddress?.s_post_code }}</p>
+                  <h5>Billing Details</h5>
+                  <p style="font-weight: bold; font-size: 14px;">
+                    {{ checkOutAddress?.billing_name }}
+                    <span class="pointer-cursor" (click)="editAddress()" style="color:red; float: right">
+                      Edit
+                    </span>
+                  </p>
+                  <p>
+                    {{ checkOutAddress?.b_post_code }}
+                  </p>
+                  <hr>
+                  <p>
+                    <ng-container *ngIf="!phoneEdit">
+                        {{ checkOutAddress?.contact }}
+                    </ng-container>
+                    <span class="pointer-cursor" *ngIf="!phoneEdit" (click)="editPhone()" style="font-weight: bold; font-size: 14px;color:red; float: right">
+                      Edit
+                    </span>
+                      <mat-form-field *ngIf="phoneEdit" class="row margin" flex appearance="outline">
+                        <mat-label>Mobile Number</mat-label>
+                        <input #editNumber digitOnly matInput placeholder="" value="{{ checkOutAddress?.contact }}" pattern="/^(09|\+639)\d{9}$/">
+                        <button (click)="updateMobile(editNumber.value, checkOutAddress?.shipping_id)" style="top: -8px;" mat-raised-button matSuffix>
+                          Save
+                        </button>
+                      </mat-form-field>
+                  </p>
+                  <p>
+                    {{ checkOutAddress?.email }}
+                    <!-- <span style="color:mediumturquoise; float: right">
+                        Edit
+                      </span> -->
+                  </p>
+                </ng-container>
+
+                <table>
+                  <h3>Order Summary</h3>
+                  <tbody>
+                    <tr class="cart-subtotal">
+                      <th>Subtotal</th>
+                      <td><span class="amount">₱{{ subtotal | number:'.2'}}</span></td>
+                    </tr>
+
+                    <!-- <tr class="shipping">
+                      <th>Shipping Fee</th>
+                      <td data-title="Shipping">Flat Rate: <span class="amount">$300.00</span> <input type="hidden"
+                          class="shipping_method" value="international_delivery" id="shipping_method_0" data-index="0"
+                          name="shipping_method[0]"></td>
+                    </tr> -->
+
+                    <tr class="order-total">
+                      <th>Total</th>
+                      <td><strong><span class="amount">₱{{ subtotal | number:'.2'}}</span></strong> </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="woocommerce-checkout-review-order" id="order_review">
+
+                  <div class="woocommerce-checkout-payment" id="payment">
+                    <!-- <ul class="wc_payment_methods payment_methods methods">
+                      <li class="wc_payment_method payment_method_paypal">
+                        <input type="radio" data-order_button_text="Proceed to PayPal" checked="checked" value="paypal"
+                          name="payment_method" class="input-radio" id="payment_method_paypal">
+
+                        <label for="payment_method_paypal">PayPal <img alt="PayPal Acceptance Mark"
+                            src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg"><a
+                            title="What is PayPal?"
+                            onclick="javascript:window.open('https://www.paypal.com/us/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"
+                            class="about_paypal" href="https://www.paypal.com/us/webapps/mpp/paypal-popup">What is
+                            PayPal?</a></label>
+                        <div style="display:none;" class="payment_box payment_method_paypal">
+                          <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                        </div>
+                      </li>
+                      <li class="wc_payment_method payment_method_cod">
+                        <input type="radio" data-order_button_text="" value="cod" name="payment_method"
+                          class="input-radio" id="payment_method_cod">
+                        <label for="payment_method_cod">Cash on Delivery</label>
+                        <div style="display:none;" class="payment_box payment_method_cod">
+                          <p>Pay with cash upon delivery.</p>
+                        </div>
+                      </li>
+                    </ul> -->
+                    <div class="form-row place-order">
+                      <form [formGroup]="placeorderForm" (ngSubmit)="placeOrder()">
+                        <p class="form-row terms wc-terms-and-conditions">
+                          <label class="checkbox" for="terms">
+                            <input formControlName="accept" type="checkbox" id="terms" name="terms" class="input-checkbox"
+                              required>
+                            I’ve read and accept the
+                            <a target="_blank" href="/pages/terms-and-conditions">terms &amp; conditions</a>
+                            <span class="required">*</span>
+                          </label>
+                          <input type="hidden" value="1" name="terms-field">
+                        </p>
+
+                        <input [disabled]="!placeorderForm.valid || !checkOutAddress?.shipping_id" type="submit" data-value="Place order"
+                          value="Place order" class="button alt">
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
+>>>>>>> development
           </form>
         </article>
       </main><!-- #main -->

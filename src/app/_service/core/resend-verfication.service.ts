@@ -16,11 +16,19 @@ export class ResendVerficationService {
   }
 
   resendverification(){
+<<<<<<< HEAD
     let currentUser = this.authenticationService.currentUserValue;
     let httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json',
         'Authorization': `Bearer ${currentUser.accessToken}`
+=======
+    let currentUser = localStorage.getItem('resendVerification').replace(/"/g,'');
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${currentUser}`
+>>>>>>> development
       })
     };
     return this.http.get(`${environment.apiUrl}/api/email/resend`, httpOptions);

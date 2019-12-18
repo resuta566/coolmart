@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
+=======
+import { AuthenticationService } from '@app/_service';
+import { User } from '@app/_models';
+import { Observable } from 'rxjs';
+import { CheckOutService } from '@app/_service/checkout/checkout.service';
+>>>>>>> development
 
 @Component({
   selector: 'dashboard-account',
@@ -7,9 +14,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
+<<<<<<< HEAD
   constructor() { }
 
   ngOnInit() {
+=======
+  currentUser: any;
+  addressInfo: any;
+  loading = true;
+  constructor(
+    private authenticationService: AuthenticationService,
+    private checkOutService: CheckOutService
+    ) { }
+
+  ngOnInit() {
+    this.currentUser = this.authenticationService.currentUserValue.user;
+    this.checkOutService.checkoutAddress().pipe().subscribe((address: any)=>{
+      this.addressInfo = address;
+      console.log(this.addressInfo);
+      if(this.addressInfo){
+        setTimeout(()=>{
+          this.loading = false;
+        },500)
+      }else{
+        this.loading = false;
+      }
+    });
+>>>>>>> development
   }
 
 }

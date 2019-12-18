@@ -4,6 +4,7 @@
       <a href="/">Home</a><span class="delimiter">
         <i class="fa fa-angle-right"></i></span>Shop
     </nav>
+<<<<<<< HEAD
     <mat-progress-spinner
               *ngIf="loadingProduct"
               style="margin:200px auto !important;"
@@ -234,6 +235,368 @@
                                 <div style="clear:both"></div>
                                 <div class="yith-wcwl-wishlistaddresponse"></div>
 
+=======
+    <mat-progress-spinner *ngIf="loadingProduct" style="margin:200px auto !important;" class="mat-spinner-color"
+      [mode]="mode" [diameter]="200" [value]="value">
+    </mat-progress-spinner>
+    <div *ngIf="!loadingProduct">
+      <div id="primary" class="content-area">
+        <main id="main" class="site-main">
+
+          <header class="page-header">
+            <div class="product-search-bar">
+              <input #productSearch (keyup.enter)="search(productSearch.value)" type="text"
+                placeholder="Search for Product" [value]="keyword">
+              <button (click)="search(productSearch.value)" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+            <h1 class="page-title">
+              <ng-container *ngIf="keyword; else shop">
+                {{ keyword }}
+              </ng-container>
+              <ng-template #shop>
+                Buy at Cool Mart
+              </ng-template>
+
+            </h1>
+            <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }}
+              results
+            </p>
+          </header>
+          <div class="shop-control-bar">
+            <ul class="shop-view-switcher nav nav-tabs" role="tablist">
+              <li class="nav-item"><a class="nav-link active" data-toggle="tab" title="Grid View" href="#grid"><i
+                    class="fa fa-th"></i></a></li>
+              <li class="nav-item"><a class="nav-link " data-toggle="tab" title="List View" href="#list-view"><i
+                    class="fa fa-list"></i></a></li>
+              <li class="nav-item"><a class="nav-link " data-toggle="tab" title="List View Small"
+                  href="#list-view-small"><i class="fa fa-th-list"></i></a></li>
+            </ul>
+            <div class="woocommerce-ordering">
+              <label for="orderby">Sort By: &nbsp;</label>
+              <select name="orderby" class="orderby" [(ngModel)]="sortSelect" (change)="sort()">
+                <ng-container *ngFor="let sort of sortOptions">
+                  <option [ngValue]="sort.value">{{ sort.name }}</option>
+                </ng-container>
+
+              </select>
+            </div>
+            <nav class="woocommerce-pagination" style="float: right;">
+              <ul class="page-numbers">
+                <li [ngClass]="{hidden: link?.prev !== null}"><a class="page-numbers"
+                    [ngClass]="{disabled: link?.prev == null}"><i class="fa fa-arrow-left"></i></a></li>
+                <li [ngClass]="{hidden: link?.prev == null}"><a class="page-numbers" (click)="changePage(link?.prev)"><i
+                      class="fa fa-arrow-left"></i></a></li>
+                <li><span class="page-numbers current">{{ page?.current_page }}</span></li>
+                <li><a class="page-numbers" (click)="changePage(link?.next)"><i class="fa fa-arrow-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="tab-content">
+
+            <div role="tabpanel" class="tab-pane active" id="grid" aria-expanded="true">
+
+              <ul class="products columns-3">
+                <ng-container *ngIf="products?.length !== 0; else noProduct">
+                  <li class="product " *ngFor="let product of products ">
+                    <div class="product-outer">
+                      <div class="product-inner">
+                        <span class="loop-product-categories"><a rel="tag">Air
+                            Conditioner</a></span>
+                        <a
+                          [routerLink]="['/shop/shop-item/',product?.relationships.brand.name,product?.attributes.slug]">
+                          <h3>{{ product.attributes.name }}</h3>
+                          <div class="product-thumbnail">
+                            <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                              <img class="wp-post-image"
+                                attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
+                                src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                            </ng-container>
+                            <ng-template #noImage>
+                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
+                                src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                            </ng-template>
+                          </div>
+
+                          <div class="product-rating">
+                            <div title="Rated {{ product.attributes.ratings }} out of 5" class="star-rating"><span
+                                [style.width.%]="product.attributes.star_percent_rate"><strong
+                                  class="rating">{{ product.attributes.ratings }}</strong>
+                                out of 5</span></div> ({{ product.attributes.total_reviewer }})
+                          </div>
+
+                          <div class="product-short-description">
+                            <ul>
+                              <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                  <li *ngIf="i<4">
+                                    <span class="a-list-item">{{ detail?.attributes.name }} -
+                                      {{ detail?.attributes.description }}</span>
+                                  </li>
+                                </ng-container>
+                              </ng-container>
+                              <ng-template #noDetails>
+                                <span class="text-danger">No details found!</span>
+                              </ng-template>
+                            </ul>
+                          </div>
+
+                          <!-- <div class="product-sku">SKU: 5487FB8/15</div> -->
+                        </a>
+                        <div class="price-add-to-cart">
+                          <span class="price">
+                            <span class="electro-price">
+                              <ng-container *ngIf="product?.attributes.discountType; else nodiscount">
+                                <del><span class="amount slashed">₱{{ product?.attributes.srp }}</span></del>
+                                <ins><span class="amount notslashed">₱{{ product?.attributes.discountedSrp }}
+                                  </span></ins>
+                                <span class="discount"> {{ product?.attributes.discountType }}</span>
+                              </ng-container>
+                              <ng-template #nodiscount>
+                                <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                              </ng-template>
+
+                            </span>
+                          </span>
+                          <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                            <app-addtocart [option]="'true'" [btnclass]="btnclass" [label]="label"
+                              [itemId]="product?.id" [qty]="0">
+                            </app-addtocart>
+                          </ng-container>
+                          <ng-template #instock>
+                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                            </app-addtocart>
+                          </ng-template>
+                        </div><!-- /.price-add-to-cart -->
+                        <div class="hover-area">
+                          <div class="action-buttons in-stock">
+                            <!-- <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
+                            <a href="#" class="add-to-compare-link">Compare</a> -->
+                            <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
+                              <span class="in-stock-product">In Stock</span>
+                            </ng-container>
+                            <ng-template #noStock>
+                              <span class="text-danger text-bold">Out Of Stock</span>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div><!-- /.product-inner -->
+                    </div><!-- /.product-outer -->
+                  </li>
+                </ng-container>
+                <ng-template #noProduct>
+                  <br>
+                  <h2>THERE'S NO PRODUCT FOUND</h2>
+                </ng-template>
+
+              </ul>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="list-view" aria-expanded="true">
+              <ul class="products columns-3">
+                <ng-container *ngIf="products?.length !== 0; else noProduct">
+                  <li class="product list-view" *ngFor="let product of products">
+                    <div class="media">
+                      <div class="media-left">
+                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                          <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                            <img class="wp-post-image"
+                              attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
+                              src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                          </ng-container>
+                          <ng-template #noImage>
+                            <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
+                              src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                          </ng-template>
+                        </a>
+                      </div>
+                      <div class="media-body media-middle">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <span class="loop-product-categories"><a rel="tag">Aircons</a></span>
+                            <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                              <h3>{{ product.attributes.name }}</h3>
+                              <div class="product-rating">
+                                <div title="Rated {{ product.attributes.ratings }} out of 5" class="star-rating">
+                                  <span [style.width.%]="product.attributes.star_percent_rate">
+                                    <strong class="rating">{{ product.attributes.ratings }}</strong>
+                                    out of 5
+                                  </span>
+                                </div> ({{ product.attributes.total_reviewer }})
+                              </div>
+                              <div class="product-short-description">
+                                <ul style="padding-left: 18px;">
+                                  <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                    <ng-container
+                                      *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                      <li *ngIf="i<4">
+                                        <span class="a-list-item">{{ detail?.attributes.name }} -
+                                          {{ detail?.attributes.description }} </span>
+                                      </li>
+                                    </ng-container>
+                                  </ng-container>
+                                  <ng-template #noDetails>
+                                    <span class="text-danger">No details found!</span>
+                                  </ng-template>
+                                </ul>
+                              </div>
+                            </a>
+                          </div>
+                          <div class="col-xs-12">
+
+                            <div class="availability in-stock">Availablity:
+                              <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
+                                <span>In Stock</span>
+                              </ng-container>
+                              <ng-template #noStock>
+                                <span class="text-danger">Out Of Stock</span>
+                              </ng-template>
+                            </div>
+
+                            <span class="price">
+                              <span class="electro-price">
+                                <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                <ng-container *ngIf="product?.attributes.discountType">
+                                  <del><span class="amount">₱{{ product?.attributes.srp }}</span></del><br>
+                                  <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                </ng-container>
+                              </span></span>
+                            <!-- <a class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+                            data-product_sku="5487FB8/35" data-product_id="2706" data-quantity="1"
+                            href="single-product.html" rel="nofollow">Add to cart</a> -->
+
+                            <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                              <app-addtocart-v2 [option]="'true'"
+                                [btnclass]="'button product_type_simple add_to_cart_button ajax_add_to_cart'"
+                                [label]="label" [itemId]="product?.id" [qty]="0">
+                              </app-addtocart-v2>
+                            </ng-container>
+                            <ng-template #instock>
+                              <app-addtocart-v2
+                                [btnclass]="'button product_type_simple add_to_cart_button ajax_add_to_cart'"
+                                [label]="label" [itemId]="product?.id" [qty]="1">
+                              </app-addtocart-v2>
+                            </ng-template>
+                            <div class="hover-area">
+                              <div class="action-buttons">
+                                <div class="yith-wcwl-add-to-wishlist add-to-wishlist-2706">
+                                  <a class="add_to_wishlist" data-product-type="simple" data-product-id="2706"
+                                    rel="nofollow" href="#">Wishlist</a>
+
+                                  <div style="display:none;" class="yith-wcwl-wishlistaddedbrowse hide">
+                                    <span class="feedback">Product added!</span>
+                                    <a rel="nofollow" href="#">Wishlist</a>
+                                  </div>
+
+                                  <div style="display:none" class="yith-wcwl-wishlistexistsbrowse hide">
+                                    <span class="feedback">The product is already in the wishlist!</span>
+                                    <a rel="nofollow" href="#">Wishlist</a>
+                                  </div>
+
+                                  <div style="clear:both"></div>
+                                  <div class="yith-wcwl-wishlistaddresponse"></div>
+
+                                </div>
+                                <div class="clear"></div>
+                                <a data-product_id="2706" class="add-to-compare-link" href="#">Compare</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ng-container>
+                <ng-template #noProduct>
+                  <br>
+                  <h2>THERE'S NO PRODUCT FOUND</h2>
+                </ng-template>
+              </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="list-view-small" aria-expanded="true">
+              <ul class="products columns-3">
+                <ng-container *ngIf="products?.length !== 0; else noProduct">
+                  <li class="product list-view list-view-small" *ngFor="let product of products">
+                    <div class="media">
+                      <div class="media-left">
+                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                          <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                            <img class="wp-post-image"
+                              attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
+                              src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                          </ng-container>
+                          <ng-template #noImage>
+                            <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
+                              src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                          </ng-template>
+                        </a>
+                      </div>
+                      <div class="media-body media-middle">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <span class="loop-product-categories">
+                              <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">Air
+                                Conditioner</a></span><a href="product-category.html">
+                              <h3>{{ product.attributes.name }}</h3>
+                              <div class="product-short-description">
+                                <ul style="padding-left: 18px;">
+                                  <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                    <ng-container
+                                      *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                      <li *ngIf="i<4">
+                                        <span class="a-list-item">{{ detail?.attributes.name }} -
+                                          {{ detail?.attributes.description }} </span>
+                                      </li>
+                                    </ng-container>
+                                  </ng-container>
+                                  <ng-template #noDetails>
+                                    <span class="text-danger">No details found!</span>
+                                  </ng-template>
+                                </ul>
+                              </div>
+                              <div class="product-rating">
+                                <div title="Rated {{ product.attributes.ratings }} out of 5" class="star-rating">
+                                  <span [style.width.%]="product.attributes.star_percent_rate">
+                                    <strong class="rating">{{ product.attributes.ratings }}</strong>
+                                    out of 5
+                                  </span>
+                                </div> ({{ product.attributes.total_reviewer }})
+                              </div>
+                            </a>
+                          </div>
+                          <div class="col-xs-12">
+                            <div class="price-add-to-cart">
+                              <span class="price">
+                                <span class="electro-price">
+                                  <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                  <ng-container *ngIf="product?.attributes.discountType">
+                                    <del><span class="amount">₱{{ product?.attributes.srp }}</span></del><br>
+                                    <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                  </ng-container>
+                                </span>
+                              </span>
+                              <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                                <app-addtocart [option]="'true'" [btnclass]="btnclass" [label]="label"
+                                  [itemId]="product?.id" [qty]="0">
+                                </app-addtocart>
+                              </ng-container>
+                              <ng-template #instock>
+                                <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                                </app-addtocart>
+                              </ng-template>
+                            </div><!-- /.price-add-to-cart -->
+
+                            <div class="hover-area">
+                              <div class="action-buttons">
+                                <!-- <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
+                                <a href="compare.html" class="add-to-compare-link">Compare</a> -->
+                                <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
+                                  <span class="in-stock-product">In Stock</span>
+                                </ng-container>
+                                <ng-template #noStock>
+                                  <span class="text-danger">Out Of Stock</span>
+                                </ng-template>
+>>>>>>> development
                               </div>
                               <div class="clear"></div>
                               <a data-product_id="2706" class="add-to-compare-link" href="#">Compare</a>
@@ -292,6 +655,7 @@
                                 </ng-template>
                               </ul>
                             </div>
+<<<<<<< HEAD
                             <div class="product-rating">
                               <div title="Rated 4 out of 5" class="star-rating"><span style="width:80%"><strong
                                     class="rating">4</strong> out of 5</span></div> (3)
@@ -553,6 +917,270 @@
         </ul>
       </aside>
     </div>
+=======
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ng-container>
+                <ng-template #noProduct>
+                  <br>
+                  <h2>THERE'S NO PRODUCT FOUND</h2>
+                </ng-template>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-control-bar-bottom">
+            <p class="woocommerce-result-count">Showing {{ page?.from }}&ndash;{{ page?.to }} of {{ page?.total }}
+              results
+            </p>
+            <nav class="woocommerce-pagination">
+              <ul class="page-numbers">
+                <li [ngClass]="{hidden: link?.prev !== null}"><a class="page-numbers"
+                    [ngClass]="{disabled: link?.prev == null}"><i class="fa fa-arrow-left"></i></a></li>
+                <li [ngClass]="{hidden: link?.prev == null}"><a class="page-numbers" (click)="changePage(link?.prev)"><i
+                      class="fa fa-arrow-left"></i></a></li>
+                <li><span class="page-numbers current">{{ page?.current_page }}</span></li>
+                <li><a class="page-numbers" (click)="changePage(link?.next)"><i class="fa fa-arrow-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+
+        </main><!-- #main -->
+      </div><!-- #primary -->
+
+      <div id="sidebar" class="sidebar" role="complementary">
+        <!-- <aside class="widget woocommerce widget_product_categories electro_widget_product_categories">
+                      <ul class="product-categories category-single">
+                          <li class="product_cat">
+                              <ul class="show-all-cat">
+                                  <li class="product_cat"><span class="show-all-cat-dropdown">Show All Categories</span>
+                                      <ul>
+                                          <li class="cat-item"><a href="product-category.html">GPS &amp; Navi</a> <span class="count">(0)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Home Entertainment</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Cameras &amp; Photography</a> <span class="count">(5)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Smart Phones &amp; Tablets</a> <span class="count">(20)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Video Games &amp; Consoles</a> <span class="count">(3)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">TV &amp; Audio</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Gadgets</a> <span class="count">(3)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Car Electronic &amp; GPS</a> <span class="count">(0)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Accessories</a> <span class="count">(11)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Printers &amp; Ink</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Software</a> <span class="count">(0)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Office Supplies</a> <span class="count">(0)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Computer Components</a> <span class="count">(1)</span></li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                              <ul>
+                                  <li class="cat-item current-cat"><a href="product-category.html">Laptops &amp; Computers</a> <span class="count">(13)</span>
+                                      <ul class='children'>
+                                          <li class="cat-item"><a href="product-category.html">Laptops</a> <span class="count">(6)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Ultrabooks</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Computers</a> <span class="count">(0)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Mac Computers</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">All in One</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Servers</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Peripherals</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Gaming</a> <span class="count">(1)</span></li>
+                                          <li class="cat-item"><a href="product-category.html">Accessories</a> <span class="count">(2)</span></li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </aside> -->
+        <aside class="widget widget_electro_products_filter">
+          <h3 class="widget-title">Filters &nbsp; <a class="brandreset" (click)="reset('all')">Clear All</a></h3>
+          <aside class="widget woocommerce widget_layered_nav">
+            <h3 class="widget-title">Brands &nbsp; <a class="brandreset" (click)="reset('brands')">Clear</a></h3>
+            <ul>
+              <mat-progress-spinner *ngIf="loadingBrand" class="mat-spinner-color" [mode]="mode" [diameter]="60"
+                [value]="value">
+              </mat-progress-spinner>
+              <li *ngFor="let brand of brands | slice: 0 : limit;let i = index">
+                <label for="brand_{{ brand?.attributes.name }}" class="filter">
+                  <input #brandscbox id="brand_{{ brand?.attributes.name }}" [value]="brand?.id" type="checkbox"
+                    name="brand_{{ i }}" (click)="getBrandId(brand?.id, $event.target.checked)" autocomplete="off">
+                  &nbsp;{{ brand?.attributes.name }}
+                  <!-- <mat-checkbox #brandscbox
+              id="brand_{{ brand?.attributes.name }}" [value]="brand?.id" name="brand_{{ i }}"
+              (change)="getBrandId(brand?.id, brandscbox.checked)">{{ brand?.attributes.name }}</mat-checkbox> -->
+                  <!-- <span class="count">(2)</span> -->
+                </label>
+              </li>
+            </ul>
+            <p class="maxlist-more" *ngIf="limit < brands?.length">
+              <a class="filter" (click)="showMore(brands.length)">+ Show more</a>
+            </p>
+            <p class="maxlist-more" *ngIf="limit > 4">
+              <a class="filter" (click)="showMore(4)">- Show less</a>
+            </p>
+          </aside>
+          <aside class="widget woocommerce widget_layered_nav">
+            <h3 class="widget-title">Air Conditioner HP &nbsp; <a class="brandreset" (click)="reset('hp')">Clear</a>
+            </h3>
+            <ul>
+              <mat-progress-spinner *ngIf="loadingCat" class="mat-spinner-color" [mode]="mode" [diameter]="60"
+                [value]="value">
+              </mat-progress-spinner>
+              <li *ngFor="let hpcap of airconphp | slice: 0 : limitCapHP;let i = index">
+                <label for="hpcap_{{ hpcap?.hp }}" class="filter">
+                  <input #hpcaps id="hpcap_{{ hpcap?.hp }}" [value]="hpcap?.hp" type="checkbox" name="hpcap{{ i }}"
+                    (click)="getHpCap(hpcap?.hp, $event.target.checked)">
+                  &nbsp;{{ hpcap?.hp }} HP
+                  <!-- <span class="count">(2)</span> -->
+                </label>
+              </li>
+            </ul>
+            <p class="maxlist-more" *ngIf="limitCapHP < airconphp.length">
+              <a class="filter" (click)="showCapHP(airconphp.length)">+ Show more</a>
+            </p>
+            <p class="maxlist-more" *ngIf="limitCapHP > 4">
+              <a class="filter" (click)="showCapHP(4)">- Show less</a>
+            </p>
+          </aside>
+          <aside class="widget woocommerce widget_layered_nav">
+            <h3 class="widget-title">Air Conditioner TR &nbsp; <a class="brandreset" (click)="reset('tr')">Clear</a>
+            </h3>
+            <ul>
+              <mat-progress-spinner *ngIf="loadingCat" class="mat-spinner-color" [mode]="mode" [diameter]="60"
+                [value]="value">
+              </mat-progress-spinner>
+              <li *ngFor="let trcap of airconptr | slice: 0 : limitCapTR;let i = index">
+                <label for="trcap{{ trcap?.tr }}" class="filter">
+                  <input #hpcaps id="trcap{{ trcap?.tr }}" [value]="trcap?.tr" type="checkbox" name="trcap{{ i }}"
+                    (click)="getTrCap(trcap?.tr, $event.target.checked)">
+                  &nbsp;{{ trcap?.tr }} TR
+                  <!-- <span class="count">(2)</span> -->
+                </label>
+              </li>
+            </ul>
+            <p class="maxlist-more" *ngIf="limitCapTR < airconphp.length">
+              <a class="filter" (click)="showCapTR(airconphp.length)">+ Show more</a>
+            </p>
+            <p class="maxlist-more" *ngIf="limitCapTR > 4">
+              <a class="filter" (click)="showCapTR(4)">- Show less</a>
+            </p>
+          </aside>
+          <aside class="widget woocommerce widget_layered_nav">
+            <h3 class="widget-title">Category &nbsp; <a class="brandreset" (click)="reset('categories')">Clear</a> </h3>
+            <ul>
+              <mat-progress-spinner *ngIf="loadingCat" class="mat-spinner-color" [mode]="mode" [diameter]="60"
+                [value]="value">
+              </mat-progress-spinner>
+              <li *ngFor="let category of categories | slice: 0 : limitCat;let i = index">
+                <label for="cat_{{ category?.attributes.name }}" class="filter">
+                  <input #categorycbox id="cat_{{ category?.attributes.name }}" [value]="category?.id" type="checkbox"
+                    name="category_{{ i }}" (click)="getCategoryId(category?.id, $event.target.checked)">
+                  &nbsp;{{ category?.attributes.name }}
+                  <!-- <span class="count">(2)</span> -->
+                </label>
+              </li>
+            </ul>
+            <p class="maxlist-more" *ngIf="limitCat < categories?.length">
+              <a class="filter" (click)="showMoreCat(categories.length)">+ Show more</a>
+            </p>
+            <p class="maxlist-more" *ngIf="limitCat > 4">
+              <a class="filter" (click)="showMoreCat(4)">- Show less</a>
+            </p>
+          </aside>
+          <aside class="widget woocommerce widget_layered_nav">
+            <h3 class="widget-title">Type &nbsp; <a class="brandreset" (click)="reset('types')">Clear</a> </h3>
+            <ul>
+              <mat-progress-spinner *ngIf="loadingType" class="mat-spinner-color" [mode]="mode" [diameter]="60"
+                [value]="value">
+              </mat-progress-spinner>
+              <li *ngFor="let type of types | slice : 0 : limitType;let i = index">
+                <label for="type_{{ type?.attributes.name }}" class="filter">
+                  <input #typecbox id="type_{{ type?.attributes.name }}" [value]="type?.id" type="checkbox"
+                    name="type_{{ i }}" (click)="getTypeId(type?.id, $event.target.checked)">
+                  &nbsp;{{ type?.attributes.name }}
+                  <!-- <span class="count">(2)</span> -->
+                </label>
+              </li>
+            </ul>
+            <p class="maxlist-more" *ngIf="limitType < types?.length">
+              <a class="filter" (click)="showMoreType(types.length)">+ Show more</a>
+            </p>
+            <p class="maxlist-more" *ngIf="limitType > 4">
+              <a class="filter" (click)="showMoreType(4)">- Show less</a>
+            </p>
+          </aside>
+          <aside class="widget woocommerce widget_price_filter">
+            <h3 class="widget-title">Price &nbsp; <a class="brandreset" (click)="priceClear()">Clear</a></h3>
+            <form action="#">
+              <div class="price_slider_wrapper">
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <input [(ngModel)]="mini" style="width: 60%" type="number" name="mini" id="mini" min="0"
+                        max="{{ maxi }}" placeholder="Min">
+                    </div>
+                    <br>
+                    <div class="col">
+                      <input [(ngModel)]="maxi" style="width: 60%" type="number" name="maxi" id="maxi" min="0"
+                        placeholder="Max"></div>
+                  </div>
+                </div>
+                <div class="price_slider_amount">
+                  <a (click)="pricerange()" class="button ">Filter</a>
+                  <!-- <div style="" class="price_label">Price: <span class="from">{{ mini.value | currency: '₱' }}</span> &mdash; <span class="to">{{ maxi.value | currency: '₱' }}</span></div> -->
+                  <!-- <div class="clear"></div> -->
+                </div>
+              </div>
+            </form>
+          </aside>
+        </aside>
+        <aside class="widget widget_text">
+          <div class="textwidget">
+            <a href="#"><img src="assets/images/banner/ad-banner-sidebar.jpg" alt="Banner"></a>
+          </div>
+        </aside>
+        <aside class="widget widget_products">
+          <h3 class="widget-title">Latest Products</h3>
+          <mat-progress-spinner *ngIf="loadingProduct" style="margin:0 auto;" class="mat-spinner-color" [mode]="mode"
+            [diameter]="200" [value]="value">
+          </mat-progress-spinner>
+          <ul class="product_list_widget">
+            <li>
+              <a href="single-product.html" title="Notebook Black Spire V Nitro  VN7-591G">
+                <img width="180" height="180" src="assets/images/product-category/1.jpg" class="wp-post-image"
+                  alt="" /><span class="product-title">Notebook Black Spire V Nitro VN7-591G</span>
+              </a>
+              <span class="electro-price"><ins><span class="amount">&#36;1,999.00</span></ins> <del><span
+                    class="amount">&#36;2,299.00</span></del></span>
+            </li>
+
+            <li>
+              <a href="single-product.html" title="Tablet Thin EliteBook  Revolve 810 G6">
+                <img width="180" height="180" src="assets/images/product-category/2.jpg" class="wp-post-image"
+                  alt="" /><span class="product-title">Tablet Thin EliteBook Revolve 810 G6</span>
+              </a>
+              <span class="electro-price"><span class="amount">&#36;1,300.00</span></span>
+            </li>
+
+            <li>
+              <a href="single-product.html" title="Notebook Widescreen Z51-70  40K6013UPB">
+                <img width="180" height="180" src="assets/images/product-category/3.jpg" class="wp-post-image"
+                  alt="" /><span class="product-title">Notebook Widescreen Z51-70 40K6013UPB</span>
+              </a>
+              <span class="electro-price"><span class="amount">&#36;1,100.00</span></span>
+            </li>
+
+            <li>
+              <a href="single-product.html" title="Notebook Purple G952VX-T7008T">
+                <img width="180" height="180" src="assets/images/product-category/4.jpg" class="wp-post-image"
+                  alt="" /><span class="product-title">Notebook Purple G952VX-T7008T</span>
+              </a>
+              <span class="electro-price"><span class="amount">&#36;2,780.00</span></span>
+            </li>
+          </ul>
+        </aside>
+      </div>
+>>>>>>> development
     </div>
 
   </div><!-- .container -->

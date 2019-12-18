@@ -15,10 +15,6 @@ import { Notyf } from 'notyf';
   providedIn: 'root'
 })
 export class CartService {
-  cart: Array<any>;
-
-  addOne = true;
-  addQty = true;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
@@ -45,21 +41,45 @@ export class CartService {
     }
   }
 
-  addToDataBaseCart(cart: Cart){
+  addToDataBaseCart(cart: Cart, option? :boolean){
     return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
       map((data: any) => {
         // alert(data.success);
+<<<<<<< HEAD
         this.notyf.success(data.success);
+=======
+        console.log(data);
+        if(data.success){
+          this.notyf.success(data.success);
+          if(option){
+            this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/cart']);
+            });
+          }
+        }
+>>>>>>> development
       }),
       catchError(this.handleError('getCart', []))
     ).subscribe(serverdata=>{});
   }
 
+  cartItemEdit(cartId: number){
+    return this.http.get(`${environment.apiUrl}/api/cart/${cartId}/edit`).pipe(
+      // map((data: any)=>{
+      // }),
+      catchError(this.handleError('getWillUpdateCartItem', []))
+    );
+  }
+
   carts(){
     let currentUser = this.authenticationService.currentUserValue;
     if(currentUser){
+<<<<<<< HEAD
       let authId = currentUser.user.id.toString();
       return this.http.get(`${environment.apiUrl}/api/cart` , { params: { authId: authId, } } )
+=======
+      return this.http.get(`${environment.apiUrl}/api/cart`)
+>>>>>>> development
         .pipe(
           // tap(_ => console.log('fetched cart')),
           catchError(this.handleError('getCart', []))
@@ -79,9 +99,9 @@ export class CartService {
       }),
       catchError(this.handleError('updateCart', []))
     );
-
-
   }
+
+
 
   removeItemCartQty(id: number){
     return this.http.delete(`${environment.apiUrl}/api/cart/${id}`).pipe(
@@ -90,8 +110,6 @@ export class CartService {
           this.router.navigate(['/cart']);
           this.notyf.error('Item(s) remove from cart!');
         });
-      }),
-      tap(_ => {
       }),
       catchError(this.handleError('updateCart', []))
     );
