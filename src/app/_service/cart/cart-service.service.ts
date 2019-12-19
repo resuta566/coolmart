@@ -44,8 +44,7 @@ export class CartService {
   addToDataBaseCart(cart: Cart, option? :boolean){
     return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
       map((data: any) => {
-        // alert(data.success);
-        console.log(data);
+        // console.log(data);
         if(data.success){
           this.notyf.success(data.success);
           if(option){

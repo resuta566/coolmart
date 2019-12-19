@@ -1,20 +1,4 @@
-
-.info-container{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(306px, 1fr));
-  padding: 5px;
-  align-items: flex-start;
-}
-.info{
-  padding: 5px;
-  text-align: center;
-}
 ::ng-deep{
-  // input outline color
-  // .mat-form-field-appearance-outline .mat-form-field-outline {
-  //   color: #f78c00 !important;
-  // }
-
   // mat-input focused color
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     color: #f78c00 !important;
@@ -45,9 +29,27 @@
   }
 
   .mat-form-field{
-    display: contents !important;
+    // display: contents !important;
+    width: 500px !important;
+  }
+
+  @media (max-width: 583px){
+    .mat-form-field{
+      display: contents !important;
+      // width: 500px !important;
+    }
   }
 }
-.changepass{
-  margin: auto 10px;
+.send-email-password-reset{
+  margin-top: 150px;
+}
+button{
+  color: white;
+  background-color: #f78c00;
+}
+button:hover{
+  color: black;
+}
+.response{
+  padding-top: 30px;
 }

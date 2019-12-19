@@ -26,7 +26,7 @@ export class ShopItemComponent implements OnInit {
   img: string;
   slug: string;
   response: any;
-  products: Object;
+  products: any;
   reviews: any;
   reviewPage = '';
   reviewMeta: any;

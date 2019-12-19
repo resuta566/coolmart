@@ -351,8 +351,8 @@
                   <li class="product" *ngIf="i<5">
                     <div class="product-outer">
                       <div class="product-inner">
-                        <span class="loop-product-categories"><a href="product-category.html"
-                            rel="tag">{{ product?.type | titlecase}}</a></span>
+                        <span class="loop-product-categories">
+                          <a rel="tag">{{ product?.type | titlecase}}</a></span>
                         <a href="/shop/shop-item/{{ product?.attributes.slug }}">
                           <h3>{{ product?.attributes.name }}</h3>
                           <div class="product-thumbnail">

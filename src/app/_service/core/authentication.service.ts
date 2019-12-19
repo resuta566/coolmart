@@ -1,11 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
+import { NOTYF } from '@app/_helpers/notyf.token';
+import { Notyf } from 'notyf';
+import { Router } from '@angular/router';
 
+export class ResetPassword{
+  email: string;
+  password: string;
+  token: string;
+}
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
@@ -15,7 +23,11 @@ export class AuthenticationService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json'})
     };
 
-    constructor(private http: HttpClient) {
+    constructor(
+      @Inject(NOTYF) private notyf: Notyf,
+      private http: HttpClient,
+      private router: Router
+      ) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -56,6 +68,45 @@ export class AuthenticationService {
               localStorage.setItem('resendVerification', JSON.stringify(user.accessToken));
             })
       );
+    }
+
+    forgotPassword(email: string){
+      return this.http.post(`${environment.apiUrl}/api/password/create`, {email: email})
+          .pipe(
+            map((response: any)=>{
+              console.log(response);
+              if(response.error){
+                this.notyf.error(response.error);
+                this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+                  this.router.navigate(['/forgot-password/send-email']);
+                });
+              }else{
+                this.notyf.success(response.message);
+                this.router.navigate(['/sign_in']);
+              }
+            })
+          );
+    }
+
+    resetNewPassword(reset: ResetPassword){
+      let resetParams = new HttpParams()
+                            .set('email', reset.email)
+                            .set('password',reset.password)
+                            .set('token',reset.token);
+      return this.http.post(`${environment.apiUrl}/api/password/reset`,null,{params: resetParams})
+          .pipe(
+            map((response: any)=>{
+              this.notyf.success(response.message);
+              this.router.navigate(['/sign_in']);
+            })
+          );
+    }
+
+    resetDetails(token: string){
+      return this.http.get(`${environment.apiUrl}/api/password/find/${token}`)
+          .pipe(
+            catchError(this.handleError('getResetDetails', []))
+          )
     }
 
     logout() {

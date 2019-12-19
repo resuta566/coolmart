@@ -39,7 +39,6 @@ import { MaterialModule } from './material.module';
   declarations: [Home],
   imports:[
     RouterModule,
-    BrowserModule,
     CommonModule,
     NgxGalleryModule,
     AlertModule,

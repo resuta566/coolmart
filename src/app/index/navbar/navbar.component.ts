@@ -125,6 +125,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   search(keyword: string) {
     this.value = keyword;
-    window.location.href = `/shop?q=${this.value}`;
+    this.router.navigate(['/shop'], {queryParams: {q: this.value}});
   }
 }

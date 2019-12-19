@@ -12,6 +12,7 @@ import { InComponent } from '../pages/sign/in/in.component';
 import { SignComponent } from '../pages/sign/sign.component';
 import { UpComponent } from '../pages/sign/up/up.component';
 import { AlertModule } from './alert.module';
+import { RouterModule } from '@angular/router';
 
   const Pages = [
     FaqComponent,
@@ -32,7 +33,8 @@ import { AlertModule } from './alert.module';
     FormsModule,
     BrowserModule,
     CommonModule,
-    AlertModule
+    AlertModule,
+    RouterModule
   ]
 })
 export class PagesModule {}

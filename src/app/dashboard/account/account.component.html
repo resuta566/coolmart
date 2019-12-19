@@ -6,7 +6,7 @@
                 <div class="info-container">
                     <div class="info">
                           <div class="content shadow">
-                              <span class="title">Personal Profile</span> | <a>EDIT</a> <br>
+                              <span class="title">Personal Profile</span> | <a [routerLink]="['/dashboard/account/profile']" >EDIT</a> <br>
                               {{ currentUser.name }}<br>
                               {{ currentUser.email }}<br><br>
                               <!-- Subscribe to our Newsletter -->
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-header header-bg" >
                     Recent Orders
                   </div>
@@ -87,4 +87,4 @@
                     </tbody>
                 </table>
                 <router-outlet></router-outlet>
-            </div>
+            </div> -->

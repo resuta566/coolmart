@@ -3,11 +3,11 @@
   <div class="row">
     <div class="image-block col-xs-12 col-sm-6">
       <ng-container *ngIf="brandProduct?.data.attributes.logo;else noimage">
-          <img attr.data-echo="{{ apiUrl }}/{{ brandProduct?.data.attributes.logo }}" src="assets/images/blank.gif" alt="">
+          <img attr.data-echo="{{ apiUrl }}/{{ brandProduct?.data.attributes.logo }}" src="assets/images/blank.gif" alt="{{ brandProduct?.data.attributes.name }}">
           <!-- <img data-echo="https://scontent.fmnl6-2.fna.fbcdn.net/v/t1.0-9/p960x960/61924777_2184959801601958_8444244795898986496_o.jpg?_nc_cat=109&_nc_ohc=sz5wyBPa638AQndfadPsrm0QhavFiDIWbDCghQWVroNTsz-4UDTDUFDrQ&_nc_ht=scontent.fmnl6-2.fna&oh=aacabda176e406d50c5bc7b76ed1fda8&oe=5E65CB34" src="assets/images/blank.gif" alt=""> -->
       </ng-container>
       <ng-template #noimage>
-        <img data-echo="assets/images/noimage.png" src="assets/images/blank.gif" alt="">
+        <img data-echo="assets/images/noimage.png" src="assets/images/blank.gif" alt="{{ brandProduct?.data.attributes.name }}">
       </ng-template>
 
     </div><!-- /.image-block -->

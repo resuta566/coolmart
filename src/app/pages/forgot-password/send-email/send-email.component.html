@@ -1,0 +1,18 @@
+<div class="title">
+  <h1>Forgot password?</h1>
+</div>
+<div class="send-email-password-reset">
+  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+    <div class="email-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input formControlName="email" required matInput placeholder="">
+        <mat-error *ngIf="e.email.errors?.required">Email Address is required</mat-error>
+        <mat-error *ngIf="e.email.errors?.email">Email Address must be a valid email address</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="send-btn">
+      <button [disabled]="submitted">Send Reset Link</button>
+    </div>
+  </form>
+</div>

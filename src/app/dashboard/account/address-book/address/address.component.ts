@@ -80,7 +80,7 @@ export class AddressComponent implements OnInit {
         brgy: data.brgy[1],
         type: data.type
       })
-      console.log(this.addressForm);
+      // console.log(this.addressForm);
 
     })
   }

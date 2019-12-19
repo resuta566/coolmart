@@ -36,7 +36,7 @@ export class EmailVerificationComponent implements OnInit {
     },1000)
   }
   resendVerificationEmail(){
-    this.resendtimer = 60;
+    this.resendtimer = 360000;
     this.btnclicked = true;
     this.timer();
     this.resendService.resendverification()

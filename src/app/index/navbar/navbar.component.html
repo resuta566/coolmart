@@ -10,7 +10,7 @@
               <ul id="menu-top-bar-right" class="nav nav-inline pull-right animate-dropdown flip">
                   <li class="menu-item animate-dropdown"><a title="Store Locator" [routerLink]="['/pages/store-location']"><i class="ec ec-map-pointer"></i>Store Locator</a></li>
                   <li class="menu-item animate-dropdown"><a title="Track Your Order" [routerLink]="['/pages/track']"><i class="ec ec-transport"></i>Track Your Order</a></li>
-                  <li class="menu-item animate-dropdown"><a title="Shop" href="/shop"><i class="ec ec-shopping-bag"></i>Shop</a></li>
+                  <li class="menu-item animate-dropdown"><a title="Shop" [routerLink]="['/shop']"><i class="ec ec-shopping-bag"></i>Shop</a></li>
                   <li *ngIf="!isLoggedIn()" class="menu-item animate-dropdown"><a title="Sign In" [routerLink]="['/sign_in']"><i class="ec ec-user"></i>Sign In / Sign Up</a></li>
                   <li *ngIf="isLoggedIn()" class="menu-item menu-item-has-children animate-dropdown nav-item dropdown">
                       <a title="Log Out" class="nav-link logout"  data-toggle="dropdown">

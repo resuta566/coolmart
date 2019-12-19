@@ -48,6 +48,7 @@ export class AppComponent implements OnInit{
     }
 
   ngOnInit() {
+    console.log(`You're Dumb!`);
     const appTitle = this.titleService.getTitle();
     this.routerNav
       .events.pipe(
