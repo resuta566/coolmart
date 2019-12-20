@@ -48,7 +48,7 @@ export class AppComponent implements OnInit{
     }
 
   ngOnInit() {
-    console.log(`You're Dumb!`);
+    console.log(`If someone said that you could hack using console, THAT IS A SCAM! \nDon't believe them!`);
     const appTitle = this.titleService.getTitle();
     this.routerNav
       .events.pipe(

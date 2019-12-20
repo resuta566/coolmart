@@ -290,36 +290,12 @@
                 <div class="woocommerce-checkout-review-order" id="order_review">
 
                   <div class="woocommerce-checkout-payment" id="payment">
-                    <!-- <ul class="wc_payment_methods payment_methods methods">
-                      <li class="wc_payment_method payment_method_paypal">
-                        <input type="radio" data-order_button_text="Proceed to PayPal" checked="checked" value="paypal"
-                          name="payment_method" class="input-radio" id="payment_method_paypal">
-
-                        <label for="payment_method_paypal">PayPal <img alt="PayPal Acceptance Mark"
-                            src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg"><a
-                            title="What is PayPal?"
-                            onclick="javascript:window.open('https://www.paypal.com/us/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"
-                            class="about_paypal" href="https://www.paypal.com/us/webapps/mpp/paypal-popup">What is
-                            PayPal?</a></label>
-                        <div style="display:none;" class="payment_box payment_method_paypal">
-                          <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
-                        </div>
-                      </li>
-                      <li class="wc_payment_method payment_method_cod">
-                        <input type="radio" data-order_button_text="" value="cod" name="payment_method"
-                          class="input-radio" id="payment_method_cod">
-                        <label for="payment_method_cod">Cash on Delivery</label>
-                        <div style="display:none;" class="payment_box payment_method_cod">
-                          <p>Pay with cash upon delivery.</p>
-                        </div>
-                      </li>
-                    </ul> -->
                     <div class="form-row place-order">
                       <form [formGroup]="placeorderForm" (ngSubmit)="placeOrder()">
                         <p class="form-row terms wc-terms-and-conditions">
                           <label class="checkbox" for="terms">
                             <input formControlName="accept" type="checkbox" id="terms" name="terms" class="input-checkbox"
-                              required>
+                              required> &nbsp;&nbsp;&nbsp;
                             I’ve read and accept the
                             <a target="_blank" href="/pages/terms-and-conditions">terms &amp; conditions</a>
                             <span class="required">*</span>

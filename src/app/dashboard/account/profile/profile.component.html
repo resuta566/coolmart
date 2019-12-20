@@ -26,28 +26,45 @@
                       <!-- <p style="color: #929292;">Please add your mobile</p> -->
               </div>
           </div>
-          <div class="changepass">
-            <form>
+          <div class="changepass" [class.display-change-pass]="btnChangePass">
+            <form [formGroup]="userChangePassForm" (ngSubmit)="submitChangePass()">
               <div class="current-password">
                 <mat-form-field appearance="outline">
                   <mat-label>Current Password</mat-label>
-                  <input required matInput placeholder="">
-                  <mat-error>Current Password is required</mat-error>
+                  <input class="inputpass" type="password" required formControlName="password" matInput placeholder="">
+                  <mat-error *ngIf="p.password.errors?.required">Current Password is required</mat-error>
+                  <mat-error *ngIf="p.password.errors?.minlength">Current Password must be 8 characters.</mat-error>
+                  <mat-error *ngIf="p.password.errors?.maxlength">Current Password must not be more than 16 characters.</mat-error>
                 </mat-form-field>
               </div>
               <div class="new-password">
                 <mat-form-field appearance="outline">
                   <mat-label>New Password</mat-label>
-                  <input required matInput placeholder="">
-                  <mat-error>New Password is required</mat-error>
+                  <input class="inputpass" type="password" formControlName="newpassword" required matInput placeholder="">
+                  <mat-error *ngIf="p.newpassword.errors?.required">New Password is required</mat-error>
+                  <mat-error *ngIf="p.newpassword.errors?.minlength">New Password must be 8 characters.</mat-error>
+                  <mat-error *ngIf="p.newpassword.errors?.maxlength">New Password must not be more than 16 characters.</mat-error>
                 </mat-form-field>
               </div>
               <div class="confirm-new-password">
                 <mat-form-field appearance="outline">
                   <mat-label>Confirm New Password</mat-label>
-                  <input required matInput placeholder="">
-                  <mat-error>Confirm New Password is required</mat-error>
+                  <input class="inputpass" type="password" formControlName="confirmnewpassword" required matInput placeholder="">
+                  <mat-error *ngIf="p.confirmnewpassword.errors?.required">Confirm New Password is required</mat-error>
+                  <mat-error *ngIf="p.confirmnewpassword.errors?.minlength">Confirm New Password must be 8 characters.</mat-error>
+                  <mat-error *ngIf="p.confirmnewpassword.errors?.maxlength">Confirm New Password must not be more than 16 characters.</mat-error>
+                  <mat-error *ngIf="p.confirmnewpassword.errors?.mustMatch">Confirm New Password must match!</mat-error>
                 </mat-form-field>
+              </div>
+              <div class="submit-btn">
+                <a (click)="changePassBtn()" class="button"
+                  style="margin: 5px;">
+                  Cancel
+              </a>
+                <button class="button"
+                  style="margin: 5px;">
+                  SUBMIT
+                </button>
               </div>
             </form>
           </div>
@@ -55,7 +72,12 @@
 
           <div>
             <!-- <button class="button" style="margin: 5px;">EDIT PROFILE</button> -->
-            <button class="button" style="margin: 5px;">CHANGE PASSWORD</button>
+            <button class="button"
+              [class.display-change-pass]="!btnChangePass"
+              style="margin: 5px;"
+              (click)="changePassBtn()">
+              CHANGE PASSWORD
+            </button>
           </div>
       </div>
 </div>

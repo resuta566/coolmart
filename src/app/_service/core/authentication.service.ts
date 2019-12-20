@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
@@ -10,9 +10,11 @@ import { Notyf } from 'notyf';
 import { Router } from '@angular/router';
 
 export class ResetPassword{
-  email: string;
-  password: string;
-  token: string;
+  email?: string;
+  password?: string;
+  current_password?: string;
+  new_password?: string;
+  token?: string;
 }
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -52,6 +54,8 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/api/login`, { email, password }, this.httpOptions)
             .pipe(
               map(user => {
+                  //Remove Email Resend Verification Token
+                  localStorage.removeItem('resendVerification');
                   // store user details and jwt token in local storage to keep user logged in between page refreshes
                   localStorage.setItem('currentUser', JSON.stringify(user));
                   this.currentUserSubject.next(user);
@@ -98,17 +102,42 @@ export class AuthenticationService {
             map((response: any)=>{
               this.notyf.success(response.message);
               this.router.navigate(['/sign_in']);
-            })
+            }),
+            retry(3),
+            catchError(this.handleError('resetNewPassword', []))
           );
     }
 
     resetDetails(token: string){
       return this.http.get(`${environment.apiUrl}/api/password/find/${token}`)
           .pipe(
+            retry(3),
             catchError(this.handleError('getResetDetails', []))
           )
     }
 
+    resetUserPassword(resetpass: ResetPassword){
+      let userResetParams = new HttpParams()
+                                    .set('password', resetpass.current_password)
+                                    .set('new_password', resetpass.new_password);
+                                    console.log(userResetParams.toString());
+
+      return this.http.post(`${environment.apiUrl}/api/password/change`,null, {params: userResetParams})
+          .pipe(
+            map((response: any)=>{
+              if(response.message){ //Else Error
+                this.notyf.success(response.message);
+                this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+                  this.router.navigate(['/dashboard/account/profile']);
+                });
+              }else{
+                this.notyf.error('Current '+response.error);
+              }
+            }),
+            retry(3),
+            catchError(this.handleError('resetUserPassWord', []))
+          );
+    }
     logout() {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');

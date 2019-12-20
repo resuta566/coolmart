@@ -47,7 +47,7 @@ export class UpComponent implements OnInit, OnDestroy {
         validator: MustMatch('password', 'cpassword')
       });
 
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
+      this.returnUrl = '/dashboard'
   }
 
   ngOnDestroy(): void {
@@ -70,18 +70,19 @@ export class UpComponent implements OnInit, OnDestroy {
         return;
     }
 
-    this.loading = true;
     // console.log(this.registerForm.value.email)
     this.authenticationService.register(this.registerForm.value)
         .pipe(first(),takeUntil(this.destroy$))
         .subscribe(
             data => {
+              this.loading = true;
+              console.log(data);
+              this.notyf.success('Successfully Registered!');
               this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
               .pipe(first())
               .subscribe(data => {
                   if(data){
                     this.router.navigate([this.returnUrl]);
-                    this.notyf.success('Successfully Registered!');
                   }
             }),
             error => {

@@ -209,3 +209,18 @@
   .edit-cart{
     color: red !important;
   }
+//This is for the input[type=password] CSS Issue with the template and material.
+.inputpass{
+  margin: -0.857em -1.214em !important;
+  background-color: transparent;
+  color: #818181;
+  line-height: 1.286em;
+  outline: 0;
+  border: 0;
+  -webkit-appearance: none;
+  border-radius: 1.571em;
+  box-sizing: none !important;
+  border-width: 0px;
+  border-style: none !important;
+  border-color: rgba(221, 221, 221, 0);
+}

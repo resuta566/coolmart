@@ -135,7 +135,9 @@
         <br>
         <br>
         <div class="paid-by-what">
-          Paid by Cash on Delivery
+          <ng-container *ngIf="returnedData?.method">
+            Paid by {{ returnedData?.method }}
+          </ng-container>
         </div>
       </div>
     </div>

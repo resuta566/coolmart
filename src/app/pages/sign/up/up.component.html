@@ -1,6 +1,6 @@
-<!-- <div id="overlay" *ngIf="submitted">
+<div id="overlay" *ngIf="loading">
   <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-</div> -->
+</div>
 <h2>Register</h2>
 
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register">

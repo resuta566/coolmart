@@ -130,7 +130,10 @@
           <br>
           <br>
           <div class="paid-by-what">
-              Paid by Cash on Delivery
+
+          <ng-container *ngIf="cancelledData?.method">
+            Paid by {{ cancelledData?.method }}
+          </ng-container>
           </div>
         </div>
       </div>
