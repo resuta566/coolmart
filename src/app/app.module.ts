@@ -15,7 +15,6 @@ import { DigitOnlyDirective } from '@app/_components/directives/digit-only.direc
 import { NOTYF, notyfFactory } from '@app/_helpers/notyf.token';
 import { JwtInterceptor, ErrorInterceptor } from '@app/_helpers';
 
-import { PagesModule } from './_modules/pages.module';
 import { HomeModule } from './_modules/home.module';
 import { AlertModule } from '@app/_modules/alert.module';
 
@@ -24,20 +23,22 @@ import { NavbarComponent } from './index/navbar/navbar.component';
 import { FooterComponent } from './index/footer/footer.component';
 
 import { CompareComponent } from './pages/compare/compare.component';
-import { StoreLocationComponent } from './pages/store-location/store-location.component';
-import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 import { ShopItemResolverService } from './_service/resolver/shop/shop-item/shop-item-resolver.service';
+
 import { CartComponent } from './dashboard/cart/cart.component';
 import { CartItemUpdateComponent } from './dashboard/cart/cart-item-update/cart-item-update.component';
 import { WishlistComponent } from './dashboard/wishlist/wishlist.component';
 import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
 import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/payment-success.component';
-import { TrackComponent } from './dashboard/track/track.component';
+
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { SendEmailComponent } from './pages/forgot-password/send-email/send-email.component';
 import { ResetPasswordComponent } from './pages/forgot-password/reset-password/reset-password.component';
+import { SignComponent } from '@app/pages/sign/sign.component';
+import { InComponent } from './pages/sign/in/in.component';
+import { UpComponent } from './pages/sign/up/up.component';
 
 @Injectable()
 export class CustomHammerConfig extends HammerGestureConfig  {
@@ -55,26 +56,25 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     NavbarComponent,
     FooterComponent,
     CompareComponent,
-    StoreLocationComponent,
     ConfirmationDialogComponent,
-    EmailVerificationComponent,
     CartComponent,
     CartItemUpdateComponent,
     WishlistComponent,
     CheckoutComponent,
     PaymentOptionsCheckoutComponent,
     PaymentSuccessComponent,
-    TrackComponent,
     ForgotPasswordComponent,
     SendEmailComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    SignComponent,
+    InComponent,
+    UpComponent
   ],
   imports: [
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     CommonModule,
-    PagesModule,
     HomeModule,
     HttpClientModule,
     NgxGalleryModule,
