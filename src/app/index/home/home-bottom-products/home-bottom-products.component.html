@@ -14,11 +14,10 @@
                   title="{{ prodFeatured?.attributes.name }}">
                   <ng-container *ngIf="prodFeatured?.attributes.thumbnails.length > 0;else noImage">
                     <img class="wp-post-image"
-                      attr.data-echo="{{ apiUrl }}/{{ prodFeatured?.attributes.thumbnails[0] }}"
-                      src="assets/images/blank.gif" alt="">
+                      src="{{ apiUrl }}/{{ prodFeatured?.attributes.thumbnails[0] }}" alt="{{ prodFeatured?.attributes.name }}">
                   </ng-container>
                   <ng-template #noImage>
-                    <img class="wp-post-image" data-echo="assets/images/noimage.png" src="assets/images/blank.gif"
+                    <img class="wp-post-image" src="assets/images/noimage.png"
                       alt="">
                   </ng-template>
 
@@ -43,12 +42,12 @@
                 <a [routerLink]="['/shop/shop-item', prodOnSale?.attributes.slug]"
                   title="{{ prodOnSale?.attributes.name }}">
                   <ng-container *ngIf="prodOnSale?.attributes.thumbnails > 0;else noImage">
-                    <img class="wp-post-image" attr.data-echo="{{ apiUrl }}/{{ prodOnSale?.attributes.thumbnails[0] }}"
-                      src="{{ prodOnSale?.attributes.name }}" alt="">
+                    <img class="wp-post-image"
+                      src="{{ apiUrl }}/{{ prodOnSale?.attributes.thumbnails[0] }}" alt="{{ prodOnSale?.attributes.name }}">
                   </ng-container>
                   <ng-template #noImage>
-                    <img class="wp-post-image" data-echo="assets/images/noimage.png"
-                      src="{{ prodOnSale?.attributes.name }}" alt="">
+                    <img class="wp-post-image"
+                      src="assets/images/noimage.png" alt="{{ prodOnSale?.attributes.name }}">
                   </ng-template>
 
                   <span class="product-title">{{ prodOnSale?.attributes.name }}</span>
@@ -71,8 +70,15 @@
               </ng-container>
               <li *ngFor="let prodTop of productsTop">
                 <a [routerLink]="['/shop/shop-item', prodTop?.attributes.slug]" title="{{ prodTop?.attributes.name }}">
-                  <img class="wp-post-image" attr.data-echo="{{ apiUrl }}/{{ prodTop?.attributes.thumbnails[0] }}"
-                    src="assets/images/blank.gif" alt="{{ prodTop?.attributes.name }}">
+
+                  <ng-container *ngIf="prodTop?.attributes.thumbnails.length > 0;else noImage">
+                    <img class="wp-post-image"
+                      src="{{ apiUrl }}/{{ prodTop?.attributes.thumbnails[0] }}" alt="{{ prodTop?.attributes.name }}">
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img class="wp-post-image" src="assets/images/noimage.png"
+                      alt="">
+                  </ng-template>
                   <span class="product-title">{{ prodTop?.attributes.name }}</span>
                 </a>
                 <div class="star-rating" title="Rated {{ prodTop?.attributes.ratings }} out of 5">

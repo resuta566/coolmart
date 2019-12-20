@@ -209,7 +209,12 @@
                           </td>
 
                           <td data-title="Quantity" class="product-quantity">
-                            <small>x</small> {{ cart?.attributes.cart_qty }}
+                            <small>x</small> {{ cart?.attributes.validQty }} <br>
+                            <ng-container *ngIf="cart?.item.attributes.qty <= 5">
+                              <span  class="additional-info edit-cart">
+                                <small>{{ cart?.item.attributes.qty }} item(s) left!</small>
+                              </span>
+                            </ng-container>
                           </td>
 
                           <td data-title="Total" class="product-subtotal">

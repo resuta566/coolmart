@@ -205,6 +205,7 @@ export class CheckoutComponent implements OnInit {
   getCart(){
     this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.carts = data.data;
+      console.log(this.carts);
       if(this.carts.length <= 0) this.thereIsItem = false;
 
       //Compute the subtotal of all the items

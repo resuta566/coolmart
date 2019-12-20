@@ -31,8 +31,11 @@ export class HomeProductSectionComponent implements OnInit, OnDestroy {
   sponsoredProducts(){
     this.productSecService.sponsoredProducts().pipe().subscribe((data: any)=>{
       this.brandProduct = data;
-      if(this.brandProduct.data.relationships.items.data.length > 0){
+      if(this.brandProduct){
         this.loading = false;
+        if(this.brandProduct.data.relationships.items.data.length > 0){
+          this.loading = false;
+        }
       }
       console.log('brandProduct',this.brandProduct);
     });

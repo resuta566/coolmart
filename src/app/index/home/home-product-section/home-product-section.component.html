@@ -32,11 +32,11 @@
                       <h3>{{ brandItem?.attributes.name }}</h3>
                       <div class="product-thumbnail">
                         <ng-container *ngIf="brandItem?.attributes.thumbnails.length > 0;else noImage">
-                          <img src="assets/images/blank.gif" attr.data-echo="{{ apiUrl }}/{{ brandItem?.attributes.thumbnails[0] }}"
+                          <img src="{{ apiUrl }}/{{ brandItem?.attributes.thumbnails[0] }}"
                           class="img-responsive" alt="product-image">
                         </ng-container>
                         <ng-template #noImage>
-                            <img src="assets/images/blank.gif" data-echo="assets/images/noimage.png"
+                            <img src="assets/images/noimage.png"
                             class="img-responsive" alt="product-image">
                         </ng-template>
 

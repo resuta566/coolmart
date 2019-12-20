@@ -1,3 +1,6 @@
+<div id="overlay" *ngIf="loading">
+  <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>
 <h3>Request Cancel Item</h3>
 <div class="order-details">
   <form [formGroup]="cancelForm" (ngSubmit)="submitCancell()">
@@ -56,7 +59,7 @@
       </div>
     </div>
     <div class="submitbtn">
-      <button [disabled]="!cancelForm.valid">SUBMIT</button>
+      <button [disabled]="!cancelForm.valid && loading">SUBMIT</button>
     </div>
   </form>
 </div>

@@ -78,11 +78,11 @@
                             <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
                               <img class="wp-post-image"
                                 attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
-                                src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                                src="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" alt="{{ product?.attributes.name }}">
                             </ng-container>
                             <ng-template #noImage>
-                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
-                                src="assets/images/blank.gif" alt="{{ product?.attributes.name }}">
+                              <img class="wp-post-image"
+                                src="assets/images/noimage.jpg" alt="{{ product?.attributes.name }}">
                             </ng-template>
                           </div>
 

@@ -67,6 +67,10 @@
                 <div class="availability in-stock">Availablity:
                   <ng-container *ngIf="response?.attributes.qty > 0; else noStock">
                     <span class="in-stock-product">In stock</span>
+                    &nbsp;
+                    <ng-container *ngIf="response?.attributes.qty <=5">
+                      <span class="item-qty-left">{{ response?.attributes.qty }} item(s) left!</span>
+                    </ng-container>
                   </ng-container>
                   <ng-template #noStock>
                     <span class="text-danger">Out Of stock</span>
@@ -359,11 +363,11 @@
                             <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
                               <img class="wp-post-image"
                                 attr.data-echo="{{ apiUrl }}/{{ product.attributes.thumbnails[0] }}"
-                                src="assets/images/blank.gif" alt="product-thumbnail">
+                                src="{{ apiUrl }}/{{ product.attributes.thumbnails[0] }}" alt="product-thumbnail">
                             </ng-container>
                             <ng-template #noImage>
-                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
-                                src="assets/images/blank.gif" alt="product-thumbnail">
+                              <img class="wp-post-image"
+                                src="assets/images/noimage.jpg" alt="product-thumbnail">
                             </ng-template>
                           </div>
                           <div class="product-rating">

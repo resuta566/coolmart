@@ -30,6 +30,7 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
   cartId: number;
   itemDetails: any;
   returnUrl = '';
+  loading = false;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
@@ -73,6 +74,7 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
   get a() { return this.cancelForm.controls; }
 
   submitCancell(){
+    this.loading = true;
     let cancelOrder: CancelOrder = {
       cartId: this.cancelForm.value.cart_id,
       reason: this.cancelForm.value.reason,
@@ -80,9 +82,11 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
     }
     this.cancelService.cancelOrder(cancelOrder).pipe().subscribe((response: any)=>{
       this.router.navigate([this.returnUrl]);
-      this.notyf.success(response.message)
+      this.notyf.success(response.message);
+      this.loading = false;
     },err=>{
       this.notyf.error(err.message);
+      this.loading = false;
     });
   }
 }
