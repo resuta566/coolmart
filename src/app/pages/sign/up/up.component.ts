@@ -83,6 +83,8 @@ export class UpComponent implements OnInit, OnDestroy {
               .subscribe(data => {
                   if(data){
                     this.router.navigate([this.returnUrl]);
+                  }else{
+
                   }
             }),
             error => {

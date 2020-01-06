@@ -6,8 +6,6 @@ import { HomeComponent } from './index/home/home.component';
 
 import { SignComponent } from './pages/sign/sign.component';
 import { CompareComponent } from './pages/compare/compare.component';
-import { SendEmailComponent } from './pages/forgot-password/send-email/send-email.component';
-import { ResetPasswordComponent } from './pages/forgot-password/reset-password/reset-password.component';
 
 import { CartComponent } from './dashboard/cart/cart.component';
 import { CartItemUpdateComponent } from './dashboard/cart/cart-item-update/cart-item-update.component';
@@ -17,7 +15,6 @@ import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/pa
 import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
 
 import { CartResolverService } from './_service/resolver/cart/cart-resolver.service';
-import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 const routes: Routes = [
@@ -40,13 +37,11 @@ const routes: Routes = [
     )
   },
   { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {num: 14,title: 'Register / Sign In' + htmlTitle} },
-  { path: 'forgot-password' , component: ForgotPasswordComponent,
-        canActivate: [LoggedInGuard],
-        children:[
-          {path: '',pathMatch: 'full',redirectTo: 'send-email'},
-          {path: 'send-email', component: SendEmailComponent, data: {num: 99, title: 'Forgot Password' + htmlTitle}},
-          {path: 'reset/:token', component: ResetPasswordComponent, data: {num: 99, title: 'Reset Password' + htmlTitle}}
-        ]
+  { path: 'forgot-password' ,
+    loadChildren: () =>
+    import(`@app/_modules/pages/forgot-password/forgot-password.module`).then(
+      module => module.ForgotPasswordModule
+    )
   },
   { path: 'dashboard' ,
     loadChildren: () =>

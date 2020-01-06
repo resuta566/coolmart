@@ -70,6 +70,7 @@ export class AuthenticationService {
             map((user: any) =>{
               localStorage.removeItem('resendVerification');
               localStorage.setItem('resendVerification', JSON.stringify(user.accessToken));
+              return user;
             })
       );
     }

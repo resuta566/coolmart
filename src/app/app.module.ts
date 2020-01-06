@@ -33,9 +33,6 @@ import { CheckoutComponent } from './dashboard/checkout/checkout.component';
 import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-options-checkout/payment-options-checkout.component';
 import { PaymentSuccessComponent } from './dashboard/checkout/payment-success/payment-success.component';
 
-import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { SendEmailComponent } from './pages/forgot-password/send-email/send-email.component';
-import { ResetPasswordComponent } from './pages/forgot-password/reset-password/reset-password.component';
 import { SignComponent } from '@app/pages/sign/sign.component';
 import { InComponent } from './pages/sign/in/in.component';
 import { UpComponent } from './pages/sign/up/up.component';
@@ -63,9 +60,6 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     CheckoutComponent,
     PaymentOptionsCheckoutComponent,
     PaymentSuccessComponent,
-    ForgotPasswordComponent,
-    SendEmailComponent,
-    ResetPasswordComponent,
     SignComponent,
     InComponent,
     UpComponent
