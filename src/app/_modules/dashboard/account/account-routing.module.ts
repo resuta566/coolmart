@@ -9,19 +9,49 @@ import { SummaryComponent } from '@app/dashboard/account/summary/summary.compone
 
 
 const routes: Routes = [
-  { path: '', component: AccountComponent,
-    data: { num: 6, title: 'Manage My Account'},
+  {
+    path: '',
+    component: AccountComponent,
+    data: {
+      num: 6,
+      title: 'Manage My Account'
+    },
     children:[
-      { path: '', pathMatch: 'full', redirectTo: 'summary' },
-      { path: 'summary', component: SummaryComponent, data: { num: 7, title: 'My Profile'}  },
-      { path: 'profile', component: ProfileComponent, data: { num: 7, title: 'My Profile'}  },
-      { path: 'address-book' ,
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'summary'
+      },
+      {
+        path: 'summary',
+        component: SummaryComponent,
+        data: {
+          num: 7,
+          title: 'My Profile'
+        }
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        data: {
+          num: 7,
+          title: 'My Profile'
+        }
+      },
+      {
+        path: 'address-book' ,
           loadChildren: () =>
-          import(`@app/_modules/dashboard/account/address-book/address-book.module`).then(
-            module => module.AddressBookModule
-          )
+            import(`@app/_modules/dashboard/account/address-book/address-book.module`)
+            .then(module => module.AddressBookModule)
         },
-      { path: 'payment-options', component: PaymentOptionsComponent, data:{ num: 9, title: 'Select Payment Option'} }
+      {
+        path: 'payment-options',
+        component: PaymentOptionsComponent,
+        data:{
+          num: 9,
+          title: 'Select Payment Option'
+        }
+      }
     ]
    }
   ];

@@ -4,8 +4,22 @@ import { AddressComponent } from '@app/dashboard/account/address-book/address/ad
 
 
 const routes: Routes = [
-  { path: '', component: AddressComponent, data: { num: 19, title:'View My Address'}  },
-  { path: 'update/:addressId', component: AddressComponent, data: { num: 19, title:'Update Address'} }
+  {
+    path: '',
+    component: AddressComponent,
+    data: {
+      num: 19,
+      title:'View My Address'
+    }
+  },
+  {
+    path: 'update/:addressId',
+    component: AddressComponent,
+    data: {
+      num: 19,
+      title:'Update Address'
+    }
+  }
 ];
 
 @NgModule({

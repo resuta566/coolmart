@@ -8,13 +8,33 @@ import { ResetPasswordComponent } from '@app/pages/forgot-password/reset-passwor
 const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
 
 const routes: Routes = [
-  { path: '' , component: ForgotPasswordComponent,
-        canActivate: [LoggedInGuard],
-        children:[
-          {path: '',pathMatch: 'full',redirectTo: 'send-email'},
-          {path: 'send-email', component: SendEmailComponent, data: {num: 99, title: 'Forgot Password' + htmlTitle}},
-          {path: 'reset/:token', component: ResetPasswordComponent, data: {num: 99, title: 'Reset Password' + htmlTitle}}
-        ]
+  {
+    path: '' ,
+    component: ForgotPasswordComponent,
+    canActivate: [LoggedInGuard],
+    children:[
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'send-email'
+      },
+      {
+        path: 'send-email',
+        component: SendEmailComponent,
+        data: {
+          num: 99,
+          title: 'Forgot Password' + htmlTitle
+        }
+      },
+      {
+        path: 'reset/:token',
+        component: ResetPasswordComponent,
+        data: {
+          num: 99,
+          title: 'Reset Password' + htmlTitle
+        }
+      }
+    ]
   }
 ];
 

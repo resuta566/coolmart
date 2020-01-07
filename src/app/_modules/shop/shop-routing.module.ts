@@ -8,9 +8,33 @@ import { ShopItemResolverService } from '@app/_service/resolver/shop/shop-item/s
 const routes: Routes = [
   { path: '' ,
     children:[
-      { path: '' , component: ShopComponent, data:{ num: 2}},
-      { path: 'shop-item/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
-      { path: 'shop-item/:brandname/:slug' , component: ShopItemComponent, resolve:{ data : ShopItemResolverService }, data:{ num: 4} },
+      {
+        path: '' ,
+        component: ShopComponent,
+        data:{
+          num: 2
+        }
+      },
+      {
+        path: 'shop-item/:slug' ,
+        component: ShopItemComponent,
+        resolve:{
+          data : ShopItemResolverService
+        },
+        data:{
+          num: 4
+        }
+      },
+      {
+        path: 'shop-item/:brandname/:slug' ,
+        component: ShopItemComponent,
+        resolve:{
+          data : ShopItemResolverService
+        },
+        data:{
+          num: 4
+        }
+      },
     ]
   },
 ];
