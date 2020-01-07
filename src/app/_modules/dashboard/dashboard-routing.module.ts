@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from '@app/dashboard/account/account.component';
-import { ProfileComponent } from '@app/dashboard/account/profile/profile.component';
-import { AddressBookComponent } from '@app/dashboard/account/address-book/address-book.component';
-import { AddressComponent } from '@app/dashboard/account/address-book/address/address.component';
-import { PaymentOptionsComponent } from '@app/dashboard/account/payment-options/payment-options.component';
 import { OrderComponent } from '@app/dashboard/order/order.component';
 import { ViewOrderComponent } from '@app/dashboard/order/view-order/view-order.component';
 import { CancelOrderComponent } from '@app/dashboard/order/cancellations/cancel-order/cancel-order.component';
@@ -26,12 +22,14 @@ const routes: Routes = [
       data: { num: 5, title: 'Dashboard' + htmlTitle},
       children:[
         { path: '', pathMatch: 'full', redirectTo: 'account'},
-        { path: 'account', component: AccountComponent, data: { num: 6, title: 'Manage My Account'} },
-        { path: 'account/profile', component: ProfileComponent, data: { num: 7, title: 'My Profile'}  },
-        { path: 'account/address-book', component: AddressBookComponent, data: { num: 8, title: 'My Address Book'}  },
-        { path: 'account/address-book/address', component: AddressComponent, data: { num: 19, title:'View My Address'}  },
-        { path: 'account/address-book/address/update/:addressId', component: AddressComponent, data: { num: 19, title:'Update Address'}  },
-        { path: 'account/payment-options', component: PaymentOptionsComponent, data:{ num: 9, title: 'Select Payment Option'} },
+
+        { path: 'account' ,
+          loadChildren: () =>
+          import(`@app/_modules/dashboard/account/account.module`).then(
+            module => module.AccountModule
+          )
+        },
+
         { path: 'order', component: OrderComponent, data:{ num: 10, title: 'My Orders'} },
         { path: 'order/view-order/:transactionId', component: ViewOrderComponent, data:{ num: 18, title: 'View My Order'} },
         { path: 'order/cancel-order/:cartId', component: CancelOrderComponent, data:{ num: 20, title: 'Cancel My Order'} },

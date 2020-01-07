@@ -2,10 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardComponent } from '@app/dashboard/dashboard.component';
-import { AccountComponent } from '@app/dashboard/account/account.component';
-import { ProfileComponent } from '@app/dashboard/account/profile/profile.component';
-import { AddressBookComponent } from '@app/dashboard/account/address-book/address-book.component';
-import { PaymentOptionsComponent } from '@app/dashboard/account/payment-options/payment-options.component';
 import { OrderComponent } from '@app/dashboard/order/order.component';
 import { ReturnsComponent } from '@app/dashboard/order/returns/returns.component';
 import { CancellationsComponent } from '@app/dashboard/order/cancellations/cancellations.component';
@@ -13,7 +9,6 @@ import { ReviewsComponent } from '@app/dashboard/order/reviews/reviews.component
 import { WriteReviewComponent } from '@app/dashboard/order/reviews/write-review/write-review.component';
 import { PaypalComponent } from '@app/dashboard/checkout/payment-options-checkout/options/paypal/paypal.component';
 import { ViewOrderComponent } from '@app/dashboard/order/view-order/view-order.component';
-import { AddressComponent } from '@app/dashboard/account/address-book/address/address.component';
 import { CancelOrderComponent } from '@app/dashboard/order/cancellations/cancel-order/cancel-order.component';
 import { CancelledOrderComponent } from '@app/dashboard/order/cancellations/cancelled-order/cancelled-order.component';
 import { ReturnOrderComponent } from '@app/dashboard/order/returns/return-order/return-order.component';
@@ -29,10 +24,6 @@ import { StarRatingReviewComponent } from '@app/_components/star-rating-reviews/
 
 @NgModule({
   declarations: [
-    AccountComponent,
-    ProfileComponent,
-    AddressBookComponent,
-    PaymentOptionsComponent,
     OrderComponent,
     ReturnsComponent,
     CancellationsComponent,
@@ -41,7 +32,6 @@ import { StarRatingReviewComponent } from '@app/_components/star-rating-reviews/
     WriteReviewComponent,
     PaypalComponent,
     ViewOrderComponent,
-    AddressComponent,
     CancelOrderComponent,
     CancelledOrderComponent,
     ReturnOrderComponent,
