@@ -36,19 +36,23 @@ const routes: Routes = [
       module => module.ShopModule
     )
   },
+
   { path: 'sign_in' , component: SignComponent, canActivate: [LoggedInGuard], data: {num: 14,title: 'Register / Sign In' + htmlTitle} },
+
   { path: 'forgot-password' ,
     loadChildren: () =>
     import(`@app/_modules/pages/forgot-password/forgot-password.module`).then(
       module => module.ForgotPasswordModule
     )
   },
+
   { path: 'dashboard' ,
     loadChildren: () =>
     import(`@app/_modules/dashboard/dashboard.module`).then(
       module => module.DashboardModule
     )
   },
+
   { path: 'pages' ,
     loadChildren: () =>
     import(`@app/_modules/pages/pages.module`).then(

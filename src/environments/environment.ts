@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // _apiUrl: 'http://192.168.254.101/newgencool-backend/public',
-  _apiUrl: 'http://localhost:8000',
+  _apiUrl: 'http://192.168.254.101/newgencool-backend/public',
+  // _apiUrl: 'http://localhost:8000',
   // _apiUrl: 'http://coolmart.herokuapp.com',
 
   _addressApi: 'http://192.168.254.101/allcool/public',

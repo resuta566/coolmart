@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from '@app/dashboard/account/account.component';
 import { ProfileComponent } from '@app/dashboard/account/profile/profile.component';
