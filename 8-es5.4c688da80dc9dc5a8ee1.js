@@ -1,0 +1,1 @@
+function _classCallCheck(n,a){if(!(n instanceof a))throw new TypeError("Cannot call a class as a function")}(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{ACDr:function(n,a,c){"use strict";c.r(a),c("XNiG"),c("1G5W"),c.d(a,"PagesModule",(function(){return s}));var s=function n(){_classCallCheck(this,n)}}}]);

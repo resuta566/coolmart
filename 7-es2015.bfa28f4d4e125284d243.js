@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{MZGs:function(o,s,n){"use strict";n.r(s),n.d(s,"ForgotPasswordModule",(function(){return w}));class w{}}}]);
