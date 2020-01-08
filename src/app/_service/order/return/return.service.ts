@@ -5,7 +5,6 @@ import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '@app/_service/core/authentication.service';
-import { Router } from '@angular/router';
 
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
@@ -30,7 +29,7 @@ export class ReturnService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
     private handleError<T> (operation = 'operation' , result?: T) {
@@ -49,7 +48,7 @@ export class ReturnService {
 
     returnOrders(page?: string){
       let actualPage = page || `${environment.apiUrl}/api/returns`;
-      return this.http.get(actualPage)
+      return this.http.get(actualPage, this.httpOptions)
         .pipe(
           // tap(_ => console.log('fetched cart')),
           catchError(this.handleError('getAllCancels', []))

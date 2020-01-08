@@ -27,7 +27,7 @@ export class CancelService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
     private handleError<T> (operation = 'operation' , result?: T) {
@@ -46,7 +46,7 @@ export class CancelService {
 
     cancelOrders(page?: string){
       let actualPage = page || `${environment.apiUrl}/api/cancellations`;
-      return this.http.get(actualPage)
+      return this.http.get(actualPage, this.httpOptions)
         .pipe(
           // tap(_ => console.log('fetched cart')),
           catchError(this.handleError('getAllCancels', []))
@@ -65,7 +65,7 @@ export class CancelService {
     cancelShowItem(cartId: number){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/transaction-item/${cartId}`)
+        return this.http.get(`${environment.apiUrl}/api/transaction-item/${cartId}`, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getWillBeCancelled Item', []))

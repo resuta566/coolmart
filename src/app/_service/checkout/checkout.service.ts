@@ -55,7 +55,7 @@ export class CheckOutService {
     if(currentUser){
       return this.http.post(`${environment.apiUrl}/api/transactions`,this.httpOptions).pipe(
         tap(_=>{
-          console.log(_);
+          console.log(_, 'checkout');
         }),
         catchError(this.handleError('getCheckoutAddress', []))
       );

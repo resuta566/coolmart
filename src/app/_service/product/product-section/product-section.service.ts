@@ -35,7 +35,7 @@ export class ProductSectionService {
   }
 
   sponsoredProducts(){
-    return this.http.get(`${environment.apiUrl}/api/featured-brand`).pipe(
+    return this.http.get(`${environment.apiUrl}/api/featured-brand`,{ headers: this.httpOptions.headers }).pipe(
       tap(_=> console.log('fetched sponsored'))
 
     );

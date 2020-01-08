@@ -24,7 +24,7 @@ export class ReviewService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
     private handleError<T> (operation = 'operation' , result?: T) {
@@ -44,7 +44,7 @@ export class ReviewService {
     reviews(page?: string){
       let actualPage = page || `${environment.apiUrl}/api/items/reviewable`;
       if(this.currentUser){
-        return this.http.get(actualPage)
+        return this.http.get(actualPage, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getReviewable', []))
@@ -55,7 +55,7 @@ export class ReviewService {
     reviewed(page?: string){
       let actualPage = page || `${environment.apiUrl}/api/items/reviewed`;
       if(this.currentUser){
-        return this.http.get(actualPage)
+        return this.http.get(actualPage, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getReviewable', []))
@@ -65,7 +65,7 @@ export class ReviewService {
 
     oneReviewed(slug: string){
       if(this.currentUser){
-        return this.http.get(`${environment.apiUrl}/api/items/review/${slug}`)
+        return this.http.get(`${environment.apiUrl}/api/items/review/${slug}`, this.httpOptions)
               .pipe(
                 // tap(_ => console.log('fetched cart')),
                 catchError(this.handleError('Reviewed Item', []))
@@ -74,7 +74,7 @@ export class ReviewService {
     }
 
     writeReview(slug: string){
-      return this.http.get(`${environment.apiUrl}/api/items/review/${slug}/create`)
+      return this.http.get(`${environment.apiUrl}/api/items/review/${slug}/create`, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('write Review', []))

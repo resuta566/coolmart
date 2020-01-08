@@ -23,7 +23,7 @@ export class OrderService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({'Accept' : 'application/json', 'Content-Type' : 'application/json'})
     };
 
     private handleError<T> (operation = 'operation' , result?: T) {
@@ -44,7 +44,7 @@ export class OrderService {
       let actualPage = page || `${environment.apiUrl}/api/transactions`;
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        return this.http.get(actualPage)
+        return this.http.get(actualPage, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getOrder', []))
@@ -55,7 +55,7 @@ export class OrderService {
     oneOrder(transactionId: number){
       let currentUser = this.authenticationService.currentUserValue;
       if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/transactions/${transactionId}`)
+        return this.http.get(`${environment.apiUrl}/api/transactions/${transactionId}`, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getOrder', []))

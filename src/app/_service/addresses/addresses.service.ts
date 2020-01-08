@@ -23,7 +23,7 @@ export class AddressesService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
 
@@ -127,7 +127,7 @@ export class AddressesService {
     }
 
     province(){
-        return this.http.get(`${ADDRESS_API}/api/province-radius`)
+        return this.http.get(`${ADDRESS_API}/api/province-radius`, { headers: this.httpOptions.headers })
           .pipe(
             // tap(_ => console.log('fetched cart')),
             catchError(this.handleError('getProvice', []))
@@ -137,13 +137,15 @@ export class AddressesService {
     selected_province_cities(provinceId){
       let provId = provinceId.toString();
       return this.http.get(`${ADDRESS_API}/api/province-cities`,
-            { params:
-              { province_id : provId }
-            })
-              .pipe(
-                // tap(_ => console.log('fetched cart')),
-                catchError(this.handleError('getProviceCities', []))
-            );
+          {
+            headers: this.httpOptions.headers ,
+            params: {
+              province_id : provId
+            }
+          }).pipe(
+            // tap(_ => console.log('fetched cart')),
+            catchError(this.handleError('getProviceCities', []))
+        );
     }
 
     selected_city_barangays(cityId){

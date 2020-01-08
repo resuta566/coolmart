@@ -14,7 +14,7 @@ import { Filter } from '@app/_models/filter/filter';
 export class ProductService {
   null = null;
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+    headers: new HttpHeaders({'Content-Type' : 'application/json', 'Accept' : 'application/json'})
   };
 
   constructor(private http: HttpClient) { }
@@ -114,14 +114,14 @@ export class ProductService {
     }
     console.log(prodparams.toString());
     return this.http.get<Products[]>(actualPage,
-      { params: prodparams }).pipe(
+      { headers: this.httpOptions.headers, params: prodparams }).pipe(
           tap(_ => console.log('fetched products')),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
   }
 
   getProductOption(option?: string){
-    return this.http.get<Products[]>(`${environment.apiUrl}/api/items/${option}`).pipe(
+    return this.http.get<Products[]>(`${environment.apiUrl}/api/items/${option}`, this.httpOptions).pipe(
           tap(_ => console.log('fetched products Options')),
           catchError(this.handleError<Products[]>('getProducts', []))
         );
@@ -129,14 +129,14 @@ export class ProductService {
 
   getProduct(slug: string): Observable<Products> {
     //Get Single Product
-    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`).pipe(
+    return this.http.get<Products>(`${environment.apiUrl}/api/items/${slug}`,this.httpOptions ).pipe(
       tap(_ => console.log('fetched product'))
       );
   }
 
   getProductReviews(slug: string, page?: string):Observable<Reviews>{
     let actualPage = page || `${environment.apiUrl}/api/items/reviews/${slug}`;
-    return this.http.get<Reviews>(actualPage).pipe(
+    return this.http.get<Reviews>(actualPage, this.httpOptions ).pipe(
       tap(_ => console.log('fetched reviews'))
     );
   }

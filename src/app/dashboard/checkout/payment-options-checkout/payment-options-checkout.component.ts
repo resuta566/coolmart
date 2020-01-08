@@ -6,6 +6,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { NavbarService } from '@app/_service/navbar/navbar.service';
 
 @Component({
   selector: 'app-payment-options-checkout',
@@ -24,7 +25,8 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
     @Inject(NOTYF) private notyf: Notyf,
     private route: ActivatedRoute,
     private router: Router,
-    private paymentMethods: PaymentService
+    private paymentMethods: PaymentService,
+    private navbarService: NavbarService
     ) {
       this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
         this.orderId = params.orderTranscationId;
@@ -32,6 +34,7 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
           if(this.orderId){
             this.paymentMethods.afterPlaceOrder(this.orderId).pipe().subscribe(response => {
               this.orderDetails = response;
+              this.navbarService.reload();
               console.log(this.orderDetails);
               if(!this.orderDetails.address.status) {
                  this.router.navigate(['/pages/not-found']); //If the Transaction status is false redirect

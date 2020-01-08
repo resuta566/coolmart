@@ -8,6 +8,7 @@ import { environment } from '@environments/environment';
 import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
+import { NavbarService } from '@app/_service/navbar/navbar.service';
 
 export interface Regions{
   id: number;
@@ -54,7 +55,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private cartService: CartService,
     private confirmDialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navbarService: NavbarService
     ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
       this.route.queryParams.pipe().subscribe(qp=> {
@@ -64,12 +66,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if(this.currentUser){
-      this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
-        this.carts = data.data;
-        if(data.with.count){
-          this.count = +data.with.count;
-        }else{
-          this.count = 0;
+      this.loadCartItemCounter();
+      this.navbarService.change.subscribe(reload => {
+        if(reload){
+          this.loadCartItemCounter();
         }
       });
     }
@@ -78,17 +78,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if(this.currentUser){
-      setInterval(()=>{
-        this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
-          this.carts = data.data;
-          if(data.with.count){
-            this.count = +data.with.count;
-          }else{
-            this.count = 0;
-          }
-        });
-      }, 10000);
+      // setInterval(()=>{
+      //   this.loadCartItemCounter();
+      // }, 10000);
+      this.navbarService.change.subscribe(reload => {
+        if(reload){
+          this.loadCartItemCounter();
+        }
+      });
     }
+  }
+
+  loadCartItemCounter(){
+    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+      this.carts = data.data;
+      if(data.with.count){
+        this.count = +data.with.count;
+      }else{
+        this.count = 0;
+      }
+    });
   }
 
   ngOnDestroy(): void {
