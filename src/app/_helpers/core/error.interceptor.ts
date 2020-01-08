@@ -31,7 +31,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             if(err.status == 403){
               console.log(err);
               this.notyf.error(err.error.message || err.error.error);
-              this.router.navigate(['/pages/email-verification']);
+              if(err.error.verfication == 1){
+                this.router.navigate(['/pages/email-verification']);
+              }else{
+                this.router.navigate(['/pages/not-found']);
+              }
             }
 
             if(err.status == 404){

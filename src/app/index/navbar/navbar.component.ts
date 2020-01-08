@@ -78,9 +78,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if(this.currentUser){
-      // setInterval(()=>{
-      //   this.loadCartItemCounter();
-      // }, 10000);
       this.navbarService.change.subscribe(reload => {
         if(reload){
           this.loadCartItemCounter();
