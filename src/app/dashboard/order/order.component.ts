@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrderService } from '@app/_service/order/order.service';
 import { Subject } from 'rxjs';
-import { takeUntil, first } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 
 @Component({
@@ -36,10 +36,8 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   getOrder(){
     this.loadingOrder = true;
-    this.orderService.orders(this.orderChangePage).pipe(first(), takeUntil(this.destroy$)).subscribe((data: any)=>{
+    this.orderService.orders(this.orderChangePage).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.orders = data.data;
-      console.log(data);
-
       this.orderPage = data.links;
       this.orderMeta = data.meta;
       setTimeout(()=> {
