@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header header-bg">My Order(s)</div>
   <mat-tab-group dynamicHeight>
-    <mat-tab label="All(1)">
+    <mat-tab label="All({{ orderMeta?.total }})">
       <ng-template matTabContent>
         <div class="order-list">
           <mat-progress-spinner *ngIf="loadingOrder; else loaded" style="margin:60px auto !important;"
