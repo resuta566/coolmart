@@ -37,7 +37,6 @@ export class StarRatingReviewComponent implements OnInit {
   constructor(private snackBar: MatSnackBar) {
   }
 
-
   ngOnInit() {
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);

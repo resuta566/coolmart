@@ -79,7 +79,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     { tr: 3 },
     { tr: 4 },
     { tr: 5 }
-  ]; //Aircon HorsePower
+  ]; //Aircon Ton of Refrigeration
   airconhpselectedArray: Array<any> = []; //The Selected Aircon HP
   aircontrselectedArray: Array<any> = []; //The Selected Aircon TR
   sortSelect = this.sortOptions[0].value; //Initialize to have default value in the dropdown
@@ -147,7 +147,6 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.link = datas.links;
         this.loadingProduct = false;
         // console.log(this.products ,'all products');
-
       },
         error => {
           this.notyf.error(error);
@@ -218,7 +217,6 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   getBrandId(id: any, isChecked: boolean) {
     console.log(id, isChecked);
-
     //Add the Brand ID to the array to send to the API else remove ID from the array
     if (isChecked) {
       this.brandArray.push(id);

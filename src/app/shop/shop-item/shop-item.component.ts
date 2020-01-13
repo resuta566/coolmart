@@ -25,8 +25,6 @@ export class ShopItemComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   imgArray = [];
-  img: string;
-  slug: string;
   response: any;
   products: any;
   reviews: any;
@@ -50,8 +48,8 @@ export class ShopItemComponent implements OnInit {
   feetmsg = '';
   btndecreaseFeet = true;
   btnincreaseFeet = false;
-  standard_installation_fee = 0;
-  optionValue = 'nothing';
+  standard_installation_fee = 0; //Standard Isntallation Fee
+  optionValue = 'nothing'; //Line 131 on html For Dropdown
   service_name = '';
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
@@ -59,6 +57,7 @@ export class ShopItemComponent implements OnInit {
     private productService: ProductService,
     private titleService: Title,
     ) {
+      //Data Resolver
       this.response = this.route.snapshot.data['data'];
       this.relatedBrandArray = [ this.response.attributes.brand_id ];
       this.relatedCategoryArray = [ this.response.attributes.category_id ];
@@ -78,6 +77,7 @@ export class ShopItemComponent implements OnInit {
   }
 
   thePrice(){
+    //change the string into int
     this.feetPrice = +this.response.attributes.discountedSrp.replace(',', '');
   }
 
@@ -125,8 +125,7 @@ export class ShopItemComponent implements OnInit {
     }
   }
 
-  gallery(){
-    //NGX-Gallery
+  gallery(){ //NGX-Gallery
       this.galleryOptions = [
         {
             width: '470px',
@@ -162,7 +161,8 @@ export class ShopItemComponent implements OnInit {
         }
     ];
 
-    this.galleryImages = [];
+    this.galleryImages = []; //Initialize the string array
+
     for(const imgUrl of this.imgArray) {
       const image = {
         small: this.apiUrl+'/'+imgUrl,
@@ -170,7 +170,7 @@ export class ShopItemComponent implements OnInit {
         big: this.apiUrl+'/'+imgUrl
       }
 
-      this.galleryImages.push(image)
+      this.galleryImages.push(image); //Push each image link to the array
     }
 
   }
@@ -204,7 +204,7 @@ export class ShopItemComponent implements OnInit {
     }
   }
 
-  getReviews(){
+  getReviews(){ //Item Reviews
     this.productService.getProductReviews(this.response.attributes.slug,this.reviewPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data:any)=>{
