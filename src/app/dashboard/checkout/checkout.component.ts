@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { environment } from '@environments/environment';
 import { first, takeUntil } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { CheckOutService } from '@app/_service/checkout/checkout.service';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
 
   type = 1;
   provinces: any;

@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService, ResetPassword } from '@app/_service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '@app/_helpers';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
+  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
   btnChangePass = true;
   currentUser: any;
   userChangePassForm: FormGroup
@@ -21,6 +24,11 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.passwordForm();
     this.currentUser = this.authenticationService.currentUserValue.user;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
   }
 
   passwordForm(){
@@ -42,7 +50,7 @@ export class ProfileComponent implements OnInit {
       new_password: this.userChangePassForm.value.newpassword
     }
     console.log(changepassword);
-    this.authenticationService.resetUserPassword(changepassword).pipe().subscribe(_=>_);
+    this.authenticationService.resetUserPassword(changepassword).pipe(takeUntil(this.destroy$)).subscribe(_=>_);
   }
 
   changePassBtn(){

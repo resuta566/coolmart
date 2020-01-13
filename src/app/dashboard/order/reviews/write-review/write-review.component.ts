@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, Inject } from '@angular/core';
 import { StarRatingColor } from '@app/_components/star-rating/star-rating.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil, first } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { ReviewService } from '@app/_service/order/reviews/review.service';
 import { environment } from '@environments/environment';
 import { NOTYF } from '@app/_helpers/notyf.token';
@@ -77,7 +77,7 @@ export class WriteReviewComponent implements OnInit, OnDestroy {
   }
 
   submit(){
-    this.reviewService.sendReview(this.prodId, this.rating, this.comment).pipe(first()).subscribe((data:any)=> {
+    this.reviewService.sendReview(this.prodId, this.rating, this.comment).pipe(takeUntil(this.destroy$)).subscribe((data:any)=> {
       this.notyf.success(data);
       setTimeout(()=>{
         this.router.navigate(['/dashboard/order/reviews']);

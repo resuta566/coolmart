@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { AddressesService } from '@app/_service/addresses/addresses.service';
 import { Address } from '@app/_models/address/address';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
-import { ThrowStmt } from '@angular/compiler';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -13,8 +13,9 @@ import { Notyf } from 'notyf';
   templateUrl: './address-book.component.html',
   styleUrls: ['./address-book.component.scss']
 })
-export class AddressBookComponent implements OnInit {
+export class AddressBookComponent implements OnInit, OnDestroy {
 
+  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
   isSelectionShipping = false;
   isSelectionBilling = false;
   addresslist: Address[];
@@ -31,8 +32,13 @@ export class AddressBookComponent implements OnInit {
     this.userAddress();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
+  }
+
   userAddress(){
-    this.addressService.userAddress().pipe().subscribe(data=>{
+    this.addressService.userAddress().pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.addresslist = data;
       console.log(this.addresslist);
 
@@ -64,14 +70,14 @@ export class AddressBookComponent implements OnInit {
   }
  saveDefaults(){
    if(this.isSelectionShipping){
-    this.addressService.setDefaultShipping(this.addressId).pipe().subscribe(data=> {
+    this.addressService.setDefaultShipping(this.addressId).pipe(takeUntil(this.destroy$)).subscribe(data=> {
       this.notyf.success('Set Default Shipping Success');
       this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/dashboard/account/address-book']);
       });
     });
    }else if(this.isSelectionBilling){
-    this.addressService.setDefaultBilling(this.addressId).pipe().subscribe(data=> {
+    this.addressService.setDefaultBilling(this.addressId).pipe(takeUntil(this.destroy$)).subscribe(data=> {
       this.notyf.success('Set Default Billing Success');
       this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/dashboard/account/address-book']);

@@ -53,8 +53,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.reviewsPage = data.links;
       this.reviewsMeta = data.meta;
       this.reviewListCount = this.reviews.length;
-      console.log(data);
-
     })
   }
 
@@ -67,7 +65,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.loadingHistory = true;
     this.reviewService.reviewed(this.reviewedChangePage).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
       this.reviewedList = data;
-      console.log(data);
 
       setTimeout(()=>{
         this.reviewedListCount = data.data.length;

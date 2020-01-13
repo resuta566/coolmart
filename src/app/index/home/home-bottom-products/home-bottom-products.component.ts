@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { ProductService } from '@app/_service/product/product.service';
 import { environment } from '@environments/environment';
 import { Filter } from '@app/_models/filter/filter';
@@ -12,7 +12,7 @@ import { Notyf } from 'notyf';
   templateUrl: './home-bottom-products.component.html',
   styleUrls: ['./home-bottom-products.component.scss']
 })
-export class HomeBottomProductsComponent implements OnInit {
+export class HomeBottomProductsComponent implements OnInit, OnDestroy {
 
   mode = 'indeterminate';
   limit = 4;
@@ -34,6 +34,12 @@ export class HomeBottomProductsComponent implements OnInit {
     this.getDiscounted();
     this.getTopRated();
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   getFeatured() {
     this.loadingProduct = true;
     this.productService.getProductOption('featured').pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {

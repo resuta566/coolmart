@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from '@app/_service/core/authentication.service';
 import { CheckOutService } from '@app/_service/checkout/checkout.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss']
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
 
+  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
   currentUser: any;
   addressInfo: any;
   loading = true;
@@ -19,7 +22,7 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUserValue.user;
-    this.checkOutService.checkoutAddress().pipe().subscribe((address: any)=>{
+    this.checkOutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((address: any)=>{
       this.addressInfo = address;
       console.log(this.addressInfo);
       if(this.addressInfo){
@@ -30,6 +33,11 @@ export class SummaryComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
   }
 
 }

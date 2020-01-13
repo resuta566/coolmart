@@ -1,16 +1,18 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { ResendVerficationService } from '@app/_service/core/resend-verfication.service';
 import { takeUntil } from 'rxjs/operators';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-email-verification',
   templateUrl: './email-verification.component.html',
   styleUrls: ['./email-verification.component.scss']
 })
-export class EmailVerificationComponent implements OnInit {
+export class EmailVerificationComponent implements OnInit, OnDestroy {
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   btnclicked = false;
   resendtimer: number;
   constructor(
@@ -21,10 +23,9 @@ export class EmailVerificationComponent implements OnInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-
+  ngOnDestroy(): void {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
   }
   timer(){
     let timer = setInterval(()=>{
@@ -40,7 +41,7 @@ export class EmailVerificationComponent implements OnInit {
     this.btnclicked = true;
     this.timer();
     this.resendService.resendverification()
-      .pipe().subscribe((data: any)=>{
+    .pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
         console.log(data);
         if(data){
           this.notyf.success('Verification Email Successfully Resend!')

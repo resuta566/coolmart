@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductSectionService } from '@app/_service/product/product-section/product-section.service';
 import { environment } from '@environments/environment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'home-product-section',
@@ -9,6 +11,7 @@ import { environment } from '@environments/environment';
 })
 export class HomeProductSectionComponent implements OnInit, OnDestroy {
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   loading = true;
   apiUrl = `${environment.apiUrl}`;
   brandProduct: any;
@@ -24,12 +27,13 @@ export class HomeProductSectionComponent implements OnInit, OnDestroy {
     },1000)
   }
 
-  ngOnDestroy(){
-
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   sponsoredProducts(){
-    this.productSecService.sponsoredProducts().pipe().subscribe((data: any)=>{
+    this.productSecService.sponsoredProducts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.brandProduct = data;
       if(this.brandProduct){
         this.loading = false;

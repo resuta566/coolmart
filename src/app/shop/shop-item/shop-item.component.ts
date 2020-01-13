@@ -9,7 +9,8 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Filter } from '@app/_models/filter/filter';
 
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-shop-item',
   templateUrl: './shop-item.component.html',
@@ -18,6 +19,7 @@ import { map, takeUntil } from 'rxjs/operators';
 export class ShopItemComponent implements OnInit {
 
   @ViewChild('customFeets', { static: true }) customFeets: ElementRef;
+  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
   loading= false;
   apiUrl = `${environment.apiUrl}`;
   galleryOptions: NgxGalleryOptions[];
@@ -65,10 +67,14 @@ export class ShopItemComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log(this.response);
     this.getProductDetails();
     this.thePrice();
     // this.customMeasurement('default');
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
   }
 
   thePrice(){
@@ -90,7 +96,9 @@ export class ShopItemComponent implements OnInit {
         };
       }
     }
-    this.productService.getProducts(this.relatedFilter).subscribe((datas: any) => {
+    this.productService.getProducts(this.relatedFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((datas: any) => {
         let filtered = datas.data.filter(products => products.id !== this.response.id); //Filter again so that the current product shown doesn't show on the list
         this.products = filtered; //The data
         // console.log(this.products);
@@ -167,8 +175,6 @@ export class ShopItemComponent implements OnInit {
 
   }
 
-
-
   addQty() {
     if(this.response.attributes.qty == this.itemQty){
       this.btndisabled = true;
@@ -199,10 +205,12 @@ export class ShopItemComponent implements OnInit {
   }
 
   getReviews(){
-    this.productService.getProductReviews(this.response.attributes.slug,this.reviewPage).subscribe((data:any)=>{
-      this.reviews = data.data;
-      this.reviewMeta = data.meta;
-      this.reviewLinks = data.links;
+    this.productService.getProductReviews(this.response.attributes.slug,this.reviewPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data:any)=>{
+        this.reviews = data.data;
+        this.reviewMeta = data.meta;
+        this.reviewLinks = data.links;
     })
   }
   changePageReview(page: string){

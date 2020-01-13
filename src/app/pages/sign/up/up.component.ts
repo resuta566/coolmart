@@ -79,7 +79,7 @@ export class UpComponent implements OnInit, OnDestroy {
               console.log(data);
               this.notyf.success('Successfully Registered!');
               this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
-              .pipe(first())
+              .pipe(first(),takeUntil(this.destroy$))
               .subscribe(data => {
                   if(data){
                     this.router.navigate([this.returnUrl]);

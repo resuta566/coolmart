@@ -29,13 +29,17 @@ export class HometabsComponent implements OnInit, OnDestroy{
     private productService: ProductService,
     private alertService: AlertService
     ) { }
-  ngOnInit() {
-  }
+
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.getProducts('featured');
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 
   getProducts(option: string) {
     this.limit = 4;
@@ -52,11 +56,6 @@ export class HometabsComponent implements OnInit, OnDestroy{
     },error => {
         this.alertService.error(error, true);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   show(limit: number){

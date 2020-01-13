@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Address } from '@app/_models/address/address';
 import { first, takeUntil } from 'rxjs/operators';
@@ -10,13 +10,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
 
-
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss']
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit, OnDestroy{
 
   provinces: any;
   provinceId = 0;
@@ -44,7 +43,7 @@ export class AddressComponent implements OnInit {
 
   ngOnInit(){
     this.addressForms();
-    this.router.paramMap.subscribe(addressId => {
+    this.router.paramMap.pipe(takeUntil(this.destroy$)).subscribe(addressId => {
       this.addressIdEdit = addressId.get('addressId')
       console.log(this.addressIdEdit);
 
@@ -54,11 +53,16 @@ export class AddressComponent implements OnInit {
     });
     this.selected = true;
     this.provinceList();
+  }
 
+
+  ngOnDestroy() {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
   }
 
   getOneUserAddress(addressId: number){
-    this.addressesService.oneUserAddress(addressId).pipe().subscribe(data => {
+    this.addressesService.oneUserAddress(addressId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.isAddressUpdate = true;
       this.addressData = data;
       console.log(this.addressData);
@@ -86,7 +90,7 @@ export class AddressComponent implements OnInit {
   }
 
   provinceList(){
-    this.addressesService.province().subscribe((data: any) => {
+    this.addressesService.province().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.provinces = data;
       this.selected = false;
     });
@@ -96,7 +100,7 @@ export class AddressComponent implements OnInit {
 
     this.provinceId = provinceid;
     this.selected = true;
-    this.addressesService.selected_province_cities(provinceid).subscribe((data: any)=>{
+    this.addressesService.selected_province_cities(provinceid).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       this.provinceCities = data;
       if(this.provinceCities.length > 0){
         this.provinceCityId = 0;
@@ -114,7 +118,7 @@ export class AddressComponent implements OnInit {
   getBrgys(cityId: number){
     this.provinceCityId = cityId;
     this.selected = true;
-    this.addressesService.selected_city_barangays(cityId).subscribe((data: any)=> {
+    this.addressesService.selected_city_barangays(cityId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       this.cityBarangays = data;
       if(this.cityBarangays.length > 0 ){
         this.cityBrgyId = 0;
@@ -155,7 +159,7 @@ export class AddressComponent implements OnInit {
       console.log(newAddress);
 
       this.addressesService.updateAddress(newAddress)
-          .pipe(first(),takeUntil(this.destroy$))
+          .pipe(takeUntil(this.destroy$))
           .subscribe(data=>{
             if(data){
               console.log(data);
@@ -182,7 +186,7 @@ export class AddressComponent implements OnInit {
         return;
       }
       this.addressesService.saveAddress(newAddress)
-          .pipe(first(),takeUntil(this.destroy$))
+          .pipe(takeUntil(this.destroy$))
           .subscribe(data=>{
             if(data){
               this.notyf.success(data);
@@ -205,7 +209,7 @@ export class AddressComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.addressesService.deleteAddress(+this.addressIdEdit).pipe().subscribe(response=>{});
+        this.addressesService.deleteAddress(+this.addressIdEdit).pipe(takeUntil(this.destroy$)).subscribe(response=>{});
       }
     });
 

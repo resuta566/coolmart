@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService, ResetPassword } from '@app/_service';
 import { MustMatch } from '@app/_helpers';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   token: string;
   data: any;
   userForm: FormGroup;
@@ -20,7 +23,7 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
     ) {
-      this.route.paramMap.pipe().subscribe(param=>{
+      this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
         console.log(param);
         this.token = param.get('token')
         if(param){
@@ -36,6 +39,10 @@ export class ResetPasswordComponent implements OnInit {
     console.log(this.userForm);
    }
 
+   ngOnDestroy(): void {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
+  }
   resetForm(){
     this.userForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -47,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetDetails(){
-    this.authenticationService.resetDetails(this.token).pipe().subscribe((data:any)=>{
+    this.authenticationService.resetDetails(this.token).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
       this.data = data;
       console.log(this.data);
       setTimeout(()=>{
@@ -69,6 +76,6 @@ export class ResetPasswordComponent implements OnInit {
       password: this.userForm.value.password,
       token: this.token
     }
-    this.authenticationService.resetNewPassword(resetData).pipe().subscribe(response=>{});
+    this.authenticationService.resetNewPassword(resetData).pipe(takeUntil(this.destroy$)).subscribe(response=>{});
   }
 }

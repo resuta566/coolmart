@@ -31,7 +31,6 @@ export class OrderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true); //For Memory Leaks same below
     this.destroy$.unsubscribe();
-
   }
 
   getOrder(){

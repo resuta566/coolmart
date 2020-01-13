@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { first, takeUntil } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialo
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
 
   carts: any;
   subtotal = 0;

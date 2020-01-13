@@ -32,10 +32,9 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
         this.orderId = params.orderTranscationId;
         if(params){
           if(this.orderId){
-            this.paymentMethods.afterPlaceOrder(this.orderId).pipe().subscribe(response => {
+            this.paymentMethods.afterPlaceOrder(this.orderId).pipe(takeUntil(this.destroy$)).subscribe(response => {
               this.orderDetails = response;
               this.navbarService.reload();
-              console.log(this.orderDetails);
               if(!this.orderDetails.address.status) {
                  this.router.navigate(['/pages/not-found']); //If the Transaction status is false redirect
               }
@@ -52,8 +51,6 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.destroy$.next(true); //Prevent Memory Leaks
     this.destroy$.unsubscribe();
   }
@@ -74,7 +71,6 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
         window.location.href = data.paypal_link;
       }
     },err=>{
-      console.log(err);
       // this.notyf.error(err);
       this.selected = false;
     });
@@ -84,7 +80,6 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
     this.paymentMethods.codPaymentMethod(this.orderId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       this.router.navigate(['/checkout/payment-success', data.transaction_id]);
     },err=>{
-      console.log(err);
       // this.notyf.error(err);
       this.selected = false;
     });

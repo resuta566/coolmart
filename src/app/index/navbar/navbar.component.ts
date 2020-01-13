@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private navbarService: NavbarService
     ) {
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      this.authenticationService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(x => this.currentUser = x);
       this.route.queryParams.pipe().subscribe(qp=> {
         this.keyword = qp.q || '';
       });
@@ -67,7 +67,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(this.currentUser){
       this.loadCartItemCounter();
-      this.navbarService.change.subscribe(reload => {
+      this.navbarService.change.pipe(takeUntil(this.destroy$)).subscribe(reload => {
         if(reload){
           this.loadCartItemCounter();
         }
@@ -85,6 +85,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       });
     }
   }
+  ngOnDestroy(): void {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
+  }
 
   loadCartItemCounter(){
     this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
@@ -97,10 +101,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
-    this.destroy$.unsubscribe();
-  }
 
   removeItem(id: number) {
     const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {

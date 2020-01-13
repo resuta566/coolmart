@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReturnService } from '@app/_service/order/return/return.service';
 import { environment } from '@environments/environment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { environment } from '@environments/environment';
   templateUrl: './return-order.component.html',
   styleUrls: ['./return-order.component.scss']
 })
-export class ReturnOrderComponent implements OnInit {
+export class ReturnOrderComponent implements OnInit, OnDestroy {
 
   reasons = [
     'Defective',
@@ -25,6 +27,7 @@ export class ReturnOrderComponent implements OnInit {
     'Conterfeit',
     'Gwapo Ko'
   ];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   submitted = false;
   returnForm: FormGroup;
   cartId: number;
@@ -41,15 +44,20 @@ export class ReturnOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.pipe().subscribe(param=>{
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
       this.cartId = +param.get('cartId');
       this.showItem();
     });
     this.returnOrderForm();
   }
+  ngOnDestroy(): void {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
+  }
+
 
   showItem(){
-    this.returnService.returnShowItem(this.cartId).pipe().subscribe((data: any)=>{
+    this.returnService.returnShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
       let max = parseFloat(data.attributes.checkedout_subtotal.replace(',','').replace('.',',')).toFixed(2);
       this.a.refund_amount.setValidators(Validators.max(+max));
       setTimeout(()=>{

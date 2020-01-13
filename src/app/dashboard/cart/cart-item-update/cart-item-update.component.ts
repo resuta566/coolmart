@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, OnDestroy } from '@angular/core';
 import { ProductService } from '@app/_service/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@environments/environment';
@@ -9,14 +9,18 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Filter } from '@app/_models/filter/filter';
 
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   selector: 'app-cart-item-update',
   templateUrl: './cart-item-update.component.html',
   styleUrls: ['./cart-item-update.component.scss']
 })
-export class CartItemUpdateComponent implements OnInit {
+export class CartItemUpdateComponent implements OnInit, OnDestroy {
 
   @ViewChild('customFeets', { static: true }) customFeets: ElementRef;
+  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
   loading= false;
   redirectToCart = true;
   apiUrl = `${environment.apiUrl}`;
@@ -57,9 +61,7 @@ export class CartItemUpdateComponent implements OnInit {
     private productService: ProductService,
     private titleService: Title,
     ) {
-      this.route.queryParams.pipe().subscribe(qp=>{
-        console.log(qp);
-
+      this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(qp=>{
         if(qp.configupdate == 'updateCart'){
           this.label = 'Update Cart';
         }
@@ -74,7 +76,6 @@ export class CartItemUpdateComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log(this.response);
     this.getProductDetails();
     this.thePrice();
     if(this.optionValue > 10){
@@ -85,6 +86,11 @@ export class CartItemUpdateComponent implements OnInit {
       this.customMeasurement('nothing');
     }
     // this.customMeasurement('default');
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.unsubscribe();
   }
 
   thePrice(){
@@ -106,7 +112,7 @@ export class CartItemUpdateComponent implements OnInit {
         };
       }
     }
-    this.productService.getProducts(this.relatedFilter).subscribe((datas: any) => {
+    this.productService.getProducts(this.relatedFilter).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
         let filtered = datas.data.filter(products => products.id !== this.response.item.id); //Filter again so that the current product shown doesn't show on the list
         this.products = filtered; //The data
         console.log(this.products);
@@ -215,7 +221,9 @@ export class CartItemUpdateComponent implements OnInit {
   }
 
   getReviews(){
-    this.productService.getProductReviews(this.response.item.attributes.slug,this.reviewPage).subscribe((data:any)=>{
+    this.productService.getProductReviews(this.response.item.attributes.slug,this.reviewPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data:any)=>{
       this.reviews = data.data;
       this.reviewMeta = data.meta;
       this.reviewLinks = data.links;

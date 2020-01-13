@@ -95,7 +95,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.route.queryParams.pipe().subscribe(qp=>{
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(qp=>{
       this.keyword = qp.q || '';
       this.loadingProduct = true;
       this.getProducts(this.keyword);

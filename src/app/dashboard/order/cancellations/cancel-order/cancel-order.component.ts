@@ -5,6 +5,8 @@ import { CancelService, CancelOrder } from '@app/_service/order/cancel/cancel.se
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { environment } from '@environments/environment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -25,6 +27,7 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
     'Change Delivery Address',
     'Incorrect Contact Details'
   ];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   apiUrl = `${environment.apiUrl}`;
   cancelForm: FormGroup;
   cartId: number;
@@ -38,10 +41,10 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
     private router: Router,
     private cancelService: CancelService
   ) {
-    this.route.paramMap.pipe().subscribe(param=>{
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
       console.log(param.get('cartId'));
       this.cartId = +param.get('cartId');
-      this.cancelService.cancelShowItem(this.cartId).pipe().subscribe((data:any)=>{
+      this.cancelService.cancelShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
         this.itemDetails = data;
         console.log(this.itemDetails);
         if(!this.itemDetails.attributes.cancellable){
@@ -49,7 +52,7 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
         }
       })
     });
-    this.route.queryParams.pipe().subscribe(param=>{
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(param=>{
       this.returnUrl = param.returnUrl;
       console.log(this.returnUrl);
     });
@@ -60,7 +63,8 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   cancellationForm(){
@@ -80,7 +84,7 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
       reason: this.cancelForm.value.reason,
       optional: this.cancelForm.value.additional_info
     }
-    this.cancelService.cancelOrder(cancelOrder).pipe().subscribe((response: any)=>{
+    this.cancelService.cancelOrder(cancelOrder).pipe(takeUntil(this.destroy$)).subscribe((response: any)=>{
       this.router.navigate([this.returnUrl]);
       this.notyf.success(response.message);
       this.loading = false;

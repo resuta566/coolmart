@@ -85,14 +85,5 @@ export class HomeBottomBrandsCarouselComponent implements OnInit, OnDestroy {
     }
     this.galleryImages.push(image);
   }
-
-  // for(const imgUrl of this.imgArray) {
-  //   const image = {
-  //     small: this.apiUrl+'/'+imgUrl,
-  //     medium: this.apiUrl+'/'+imgUrl,
-  //     big: this.apiUrl+'/'+imgUrl
-  //   }
-  //   this.galleryImages.push(image)
-  // }
   }
 }
