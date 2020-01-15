@@ -28,7 +28,7 @@
                   <div class="product-inner">
                     <span class="loop-product-categories">
                     <a rel="tag">Aircons</a></span>
-                    <a [routerLink]="['/shop/shop-item', brandItem?.attributes.slug]" >
+                    <a [routerLink]="['/shop/item', brandItem?.attributes.slug]" >
                       <h3>{{ brandItem?.attributes.name }}</h3>
                       <div class="product-thumbnail">
                         <ng-container *ngIf="brandItem?.attributes.thumbnails.length > 0;else noImage">

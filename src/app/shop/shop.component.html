@@ -72,7 +72,7 @@
                         <span class="loop-product-categories"><a rel="tag">Air
                             Conditioner</a></span>
                         <a
-                          [routerLink]="['/shop/shop-item/',product?.relationships.brand.name,product?.attributes.slug]">
+                          [routerLink]="['/shop/item/',product?.relationships.brand.name,product?.attributes.slug]">
                           <h3>{{ product.attributes.name }}</h3>
                           <div class="product-thumbnail">
                             <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
@@ -166,7 +166,7 @@
                   <li class="product list-view" *ngFor="let product of products">
                     <div class="media">
                       <div class="media-left">
-                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                        <a [routerLink]="['/shop/item/',product?.attributes.slug]">
                           <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
                             <img class="wp-post-image"
                               attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
@@ -182,7 +182,7 @@
                         <div class="row">
                           <div class="col-xs-12">
                             <span class="loop-product-categories"><a rel="tag">Aircons</a></span>
-                            <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                            <a [routerLink]="['/shop/item/',product?.attributes.slug]">
                               <h3>{{ product.attributes.name }}</h3>
                               <div class="product-rating">
                                 <div title="Rated {{ product.attributes.ratings }} out of 5" class="star-rating">
@@ -287,7 +287,7 @@
                   <li class="product list-view list-view-small" *ngFor="let product of products">
                     <div class="media">
                       <div class="media-left">
-                        <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">
+                        <a [routerLink]="['/shop/item/',product?.attributes.slug]">
                           <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
                             <img class="wp-post-image"
                               attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
@@ -303,7 +303,7 @@
                         <div class="row">
                           <div class="col-xs-12">
                             <span class="loop-product-categories">
-                              <a [routerLink]="['/shop/shop-item/',product?.attributes.slug]">Air
+                              <a [routerLink]="['/shop/item/',product?.attributes.slug]">Air
                                 Conditioner</a></span><a href="product-category.html">
                               <h3>{{ product.attributes.name }}</h3>
                               <div class="product-short-description">

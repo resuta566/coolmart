@@ -12,7 +12,7 @@
                 <div class="product-outer">
                     <div class="product-inner">
                         <span class="loop-product-categories"><a href="product-category.html" rel="tag">Audio Speakers</a></span>
-                        <a [routerLink]="['/shop/shop-item/', product?.relationships.brand.name , product?.attributes.slug ]">
+                        <a [routerLink]="['/shop/item/', product?.relationships.brand.name , product?.attributes.slug ]">
                             <h3>{{ product?.attributes.name }}</h3>
                             <div class="product-thumbnail">
                                 <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">

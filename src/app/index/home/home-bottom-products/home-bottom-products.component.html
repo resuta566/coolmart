@@ -10,7 +10,7 @@
                 No Featured Products Yet
               </ng-container>
               <li *ngFor="let prodFeatured of productsFeatured">
-                <a [routerLink]="['/shop/shop-item', prodFeatured?.attributes.slug]"
+                <a [routerLink]="['/shop/item', prodFeatured?.attributes.slug]"
                   title="{{ prodFeatured?.attributes.name }}">
                   <ng-container *ngIf="prodFeatured?.attributes.thumbnails.length > 0;else noImage">
                     <img class="wp-post-image"
@@ -39,7 +39,7 @@
                 No On Sale Products Yet
               </ng-container>
               <li *ngFor="let prodOnSale of productsOnSale">
-                <a [routerLink]="['/shop/shop-item', prodOnSale?.attributes.slug]"
+                <a [routerLink]="['/shop/item', prodOnSale?.attributes.slug]"
                   title="{{ prodOnSale?.attributes.name }}">
                   <ng-container *ngIf="prodOnSale?.attributes.thumbnails > 0;else noImage">
                     <img class="wp-post-image"
@@ -69,7 +69,7 @@
                 No Top Products Yet
               </ng-container>
               <li *ngFor="let prodTop of productsTop">
-                <a [routerLink]="['/shop/shop-item', prodTop?.attributes.slug]" title="{{ prodTop?.attributes.name }}">
+                <a [routerLink]="['/shop/item', prodTop?.attributes.slug]" title="{{ prodTop?.attributes.name }}">
 
                   <ng-container *ngIf="prodTop?.attributes.thumbnails.length > 0;else noImage">
                     <img class="wp-post-image"

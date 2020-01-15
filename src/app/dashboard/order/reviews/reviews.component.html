@@ -24,7 +24,7 @@
                     <td id="review-name">
                       <div class="item-main">
                         <div class="item-name">
-                          <a style="color: black" [routerLink]="['/shop/shop-item/', review.attributes.item_slug]">
+                          <a style="color: black" [routerLink]="['/shop/item/', review.attributes.item_slug]">
                             {{ review.attributes.item_name }} <br>
                           </a>
                           <div style="color: #757575;">
@@ -122,7 +122,7 @@
                           <td id="review-name" style="height: 135px;">
                             <div class="item-main">
                               <div class="item-name">
-                                <a [routerLink]="['/shop/shop-item/', reviewed?.slug]" >
+                                <a [routerLink]="['/shop/item/', reviewed?.slug]" >
                                   {{ reviewed.name }}
                                 </a>
                                 <br>

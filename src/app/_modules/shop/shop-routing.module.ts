@@ -16,7 +16,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'shop-item/:slug' ,
+        path: 'item/:slug' ,
         component: ShopItemComponent,
         resolve:{
           data : ShopItemResolverService
@@ -26,7 +26,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'shop-item/:brandname/:slug' ,
+        path: 'item/:brandname/:slug' ,
         component: ShopItemComponent,
         resolve:{
           data : ShopItemResolverService

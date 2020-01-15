@@ -41,7 +41,7 @@
                   </td>
 
                   <td class="product-thumbnail">
-                    <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]"
+                    <a [routerLink]="['/shop/item/', cart?.attributes.item_slug]"
                       [queryParams]="{ configupdate: 'fromCart'}">
                       <ng-container *ngIf="cart?.attributes.item_images.length > 0;else noImg">
                         <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
@@ -57,7 +57,7 @@
                   </td>
 
                   <td data-title="Product" class="product-name">
-                    <a [routerLink]="['/shop/shop-item/', cart?.attributes.item_slug]"
+                    <a [routerLink]="['/shop/item/', cart?.attributes.item_slug]"
                       [queryParams]="{ configupdate: 'fromCart'}">{{ cart?.attributes.item_name }}</a> <br>
                     <ng-container *ngIf="cart?.attributes.services">
                       <span class="additional-info">

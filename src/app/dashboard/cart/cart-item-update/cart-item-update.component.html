@@ -357,7 +357,7 @@
                       <div class="product-inner">
                         <span class="loop-product-categories"><a href="product-category.html"
                             rel="tag">{{ product?.type | titlecase}}</a></span>
-                        <a href="/shop/shop-item/{{ product?.attributes.slug }}">
+                        <a href="/shop/item/{{ product?.attributes.slug }}">
                           <h3>{{ product?.attributes.name }}</h3>
                           <div class="product-thumbnail">
                             <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
