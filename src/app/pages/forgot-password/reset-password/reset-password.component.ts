@@ -17,6 +17,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   token: string;
   data: any;
   userForm: FormGroup;
+  message = "";
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
@@ -76,6 +77,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       password: this.userForm.value.password,
       token: this.token
     }
+    this.message = "Please Wait.."
     this.authenticationService.resetNewPassword(resetData).pipe(takeUntil(this.destroy$)).subscribe(response=>{});
   }
 }

@@ -40,6 +40,14 @@
     }
   }
 }
+.inputpass{
+  width: 500px !important;
+}
+@media (max-width: 583px){
+  .inputpass{
+    display: contents !important;
+  }
+}
 .send-email-password-reset{
   margin-top: 150px;
 }

@@ -118,7 +118,6 @@ const routes: Routes = [
       .then(module => module.PagesModule)
   },
 
-
   {
     path: '**',
     redirectTo: 'pages/not-found'

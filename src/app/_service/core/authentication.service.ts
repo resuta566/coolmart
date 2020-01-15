@@ -93,12 +93,9 @@ export class AuthenticationService {
           );
     }
 
+    // New Password for Requested Forgot Password
     resetNewPassword(reset: ResetPassword){
-      let resetParams = new HttpParams()
-                            .set('email', reset.email)
-                            .set('password',reset.password)
-                            .set('token',reset.token);
-      return this.http.post(`${environment.apiUrl}/api/password/reset`,null,{params: resetParams})
+      return this.http.post(`${environment.apiUrl}/api/password/reset`,reset)
           .pipe(
             map((response: any)=>{
               this.notyf.success(response.message);
@@ -109,6 +106,7 @@ export class AuthenticationService {
           );
     }
 
+    // Details for Reset Forgot Password
     resetDetails(token: string){
       return this.http.get(`${environment.apiUrl}/api/password/find/${token}`)
           .pipe(
@@ -117,13 +115,14 @@ export class AuthenticationService {
           )
     }
 
+    // Logged In User Changed Pass
     resetUserPassword(resetpass: ResetPassword){
-      let userResetParams = new HttpParams()
-                                    .set('password', resetpass.current_password)
-                                    .set('new_password', resetpass.new_password);
-                                    console.log(userResetParams.toString());
-
-      return this.http.post(`${environment.apiUrl}/api/password/change`,null, {params: userResetParams})
+      let body = {
+        password: resetpass.current_password,
+        new_password: resetpass.new_password
+      }
+      console.log(JSON.stringify(body));
+      return this.http.post(`${environment.apiUrl}/api/password/change`,body)
           .pipe(
             map((response: any)=>{
               if(response.message){ //Else Error
@@ -139,6 +138,7 @@ export class AuthenticationService {
             catchError(this.handleError('resetUserPassWord', []))
           );
     }
+
     logout() {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
