@@ -1,7 +1,8 @@
 <div class="center">
   <h1>Please Verify your E-mail Address.</h1>
   <button [disabled]="btnclicked" (click)="resendVerificationEmail()">Re-Send Verification</button> &nbsp;
-  <a href="/" class="btn">Go Home</a>
+  <a href="/" class="btn">Go Home</a> &nbsp;
+  <a [routerLink]="['/sign_in']" class="btn">Sign In</a>
   <div>
     <span *ngIf="btnclicked">Resend: {{ resendtimer }} sec(s) left.</span>
   </div>

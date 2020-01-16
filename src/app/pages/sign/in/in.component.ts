@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
+import { NavbarService } from '@app/_service/navbar/navbar.service';
 
 @Component({
   selector: 'sign-in',
@@ -26,7 +27,8 @@ export class InComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private navbarService: NavbarService
   ) {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
@@ -69,8 +71,10 @@ export class InComponent implements OnInit, OnDestroy {
         .subscribe(
             data => {
                 if(data){
-                    this.router.navigateByUrl(this.returnUrl);
-                    this.notyf.success('Successfully Loggedin!');
+                  this.notyf.success('Successfully Loggedin!');
+                  window.location.href = this.returnUrl;
+                    // this.router.navigateByUrl(this.returnUrl);
+                    this.navbarService.reload();
                 }
             },
             error => {

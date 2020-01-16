@@ -61,29 +61,34 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.authenticationService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(x => this.currentUser = x);
       this.route.queryParams.pipe().subscribe(qp=> {
         this.keyword = qp.q || '';
+        this.loadCartItemCounter();
       });
     }
 
   ngOnInit() {
-    if(this.currentUser){
+    this.loadCartItemCounter();
+    setTimeout(()=>{
       this.loadCartItemCounter();
-      this.navbarService.change.pipe(takeUntil(this.destroy$)).subscribe(reload => {
-        if(reload){
-          this.loadCartItemCounter();
-        }
-      });
-    }
+    },500);
     this.isLoggedIn();
   }
 
   ngAfterViewInit(): void {
+    setTimeout(()=>{
+      this.loadCartItemCounter();
+    },100);
+
     if(this.currentUser){
       this.navbarService.change.subscribe(reload => {
-        if(reload){
+        if(reload == true){
           this.loadCartItemCounter();
         }
+        console.log(reload);
       });
+    }else{
+      this.count = 0;
     }
+
   }
   ngOnDestroy(): void {
     this.destroy$.next(true); //For Memory Leaks same below
@@ -91,14 +96,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   loadCartItemCounter(){
-    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
-      this.carts = data.data;
-      if(data.with.count){
-        this.count = +data.with.count;
-      }else{
-        this.count = 0;
-      }
-    });
+      this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+        this.carts = data.data;
+        if(data.with.count){
+          this.count = +data.with.count;
+        }else{
+          this.count = 0;
+        }
+      });
+
   }
 
 
@@ -127,6 +133,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       alert('Server Error Please wait.');
     }
     this.router.navigate(['/sign_in']);
+    this.count = 0;
   }
 
   search(keyword: string) {

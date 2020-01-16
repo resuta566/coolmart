@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of} from 'rxjs';
+import { Observable, empty} from 'rxjs';
 import { tap, catchError, map } from "rxjs/operators";
 
 import { environment } from '@environments/environment';
@@ -11,14 +11,13 @@ import { Router } from '@angular/router';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { NavbarService } from '../navbar/navbar.service';
-
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type' : 'application/json'})
+    headers: new HttpHeaders({ 'Accept': 'application/json'})
   };
 
   constructor(
@@ -44,12 +43,12 @@ export class CartService {
   }
 
   addToDataBaseCart(cart: Cart, option? :boolean){
-    return this.http.post(`${environment.apiUrl}/api/cart`, cart ).pipe(
+    return this.http.post(`${environment.apiUrl}/api/cart`, cart, this.httpOptions ).pipe(
       map((data: any) => {
         // console.log(data);
         if(data.success){
-          this.notyf.success(data.success);
           this.navbarService.reload();
+          this.notyf.success(data.success);
           if(option){
             this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/cart']);
@@ -77,12 +76,13 @@ export class CartService {
           // tap(_ => console.log('fetched cart')),
           catchError(this.handleError('getCart', []))
       );
+    }else{
+      return empty();
     }
-
   }
 
   updateItemCartQty(cartId: number, btn: string){
-    return this.http.patch(`${environment.apiUrl}/api/cart/${+cartId}`, { action: btn } ).pipe(
+    return this.http.patch(`${environment.apiUrl}/api/cart/${+cartId}`, { action: btn },this.httpOptions ).pipe(
       map(data=>{
         this.navbarService.reload();
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
@@ -98,7 +98,7 @@ export class CartService {
 
 
   removeItemCartQty(id: number){
-    return this.http.delete(`${environment.apiUrl}/api/cart/${id}`).pipe(
+    return this.http.delete(`${environment.apiUrl}/api/cart/${id}`,this.httpOptions).pipe(
       map(data=>{
         this.navbarService.reload();
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
