@@ -38,13 +38,12 @@
                         <h3>{{ product?.attributes.name }}</h3>
                         <div class="product-thumbnail">
                           <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
-                            <img src="assets/images/blank.gif"
-                              attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
+                            <img src="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
                               class="img-responsive" alt="product-image">
                           </ng-container>
                           <ng-template #noImage>
-                            <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
-                              src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                            <img class="wp-post-image" src="assets/images/noimage.jpg"
+                               class="img-responsive" alt="product-image">
                           </ng-template>
                         </div>
                       </a>
@@ -115,13 +114,12 @@
                           <h3>{{ product?.attributes.name }}</h3>
                           <div class="product-thumbnail">
                             <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
-                              <img src="assets/images/blank.gif"
-                                attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
+                              <img src="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
                                 class="img-responsive" alt="product-image">
                             </ng-container>
                             <ng-template #noImage>
-                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
-                                src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                              <img class="wp-post-image" src="assets/images/noimage.jpg"
+                                 class="img-responsive" alt="product-image">
                             </ng-template>
                           </div>
                         </a>
@@ -193,13 +191,12 @@
                           <h3>{{ product?.attributes.name }}</h3>
                           <div class="product-thumbnail">
                             <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
-                              <img src="assets/images/blank.gif"
-                                attr.data-echo="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
+                              <img src="{{ apiUrl }}/{{ product?.attributes.thumbnails[0] }}"
                                 class="img-responsive" alt="product-image">
                             </ng-container>
                             <ng-template #noImage>
-                              <img class="wp-post-image" data-echo="assets/images/noimage.jpg"
-                                src="assets/images/blank.gif" class="img-responsive" alt="product-image">
+                              <img class="wp-post-image" src="assets/images/noimage.jpg"
+                                 class="img-responsive" alt="product-image">
                             </ng-template>
                           </div>
                         </a>
