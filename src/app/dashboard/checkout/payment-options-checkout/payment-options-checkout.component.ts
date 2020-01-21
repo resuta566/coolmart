@@ -34,8 +34,7 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
           if(this.orderId){
             this.paymentMethods.afterPlaceOrder(this.orderId).pipe(takeUntil(this.destroy$)).subscribe(response => {
               this.orderDetails = response;
-              this.navbarService.reload();
-              if(!this.orderDetails.address.status) {
+              if(this.orderDetails.address.status == false) {
                  this.router.navigate(['/pages/not-found']); //If the Transaction status is false redirect
               }
             })
@@ -49,6 +48,7 @@ export class PaymentOptionsCheckoutComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit() {
+    this.navbarService.reload();
   }
   ngOnDestroy(): void {
     this.destroy$.next(true); //Prevent Memory Leaks

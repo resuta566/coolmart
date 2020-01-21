@@ -65,96 +65,107 @@
             <div role="tabpanel" class="tab-pane active" id="grid" aria-expanded="true">
 
               <ul class="products columns-3">
-                <ng-container *ngIf="products?.length !== 0; else noProduct">
-                  <li class="product " *ngFor="let product of products ">
-                    <div class="product-outer">
-                      <div class="product-inner">
-                        <span class="loop-product-categories"><a rel="tag">Air
-                            Conditioner</a></span>
-                        <a
-                          [routerLink]="['/shop/item/',product?.relationships.brand.name,product?.attributes.slug]">
-                          <h3>{{ product.attributes.name }}</h3>
-                          <div class="product-thumbnail">
-                            <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
-                              <img class="wp-post-image"
-                                attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
-                                src="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}" alt="{{ product?.attributes.name }}">
-                            </ng-container>
-                            <ng-template #noImage>
-                              <img class="wp-post-image"
-                                src="assets/images/noimage.jpg" alt="{{ product?.attributes.name }}">
-                            </ng-template>
-                          </div>
-
-                          <div class="product-rating">
-                            <div title="Rated {{ product.attributes.ratings }} out of 5" class="star-rating"><span
-                                [style.width.%]="product.attributes.star_percent_rate"><strong
-                                  class="rating">{{ product.attributes.ratings }}</strong>
-                                out of 5</span></div> ({{ product.attributes.total_reviewer }})
-                          </div>
-
-                          <div class="product-short-description">
-                            <ul>
-                              <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
-                                <ng-container *ngFor="let detail of product?.relationships.details.data; let i = index">
-                                  <li *ngIf="i<4">
-                                    <span class="a-list-item">{{ detail?.attributes.name }} -
-                                      {{ detail?.attributes.description }}</span>
-                                  </li>
-                                </ng-container>
-                              </ng-container>
-                              <ng-template #noDetails>
-                                <span class="text-danger">No details found!</span>
-                              </ng-template>
-                            </ul>
-                          </div>
-
-                          <!-- <div class="product-sku">SKU: 5487FB8/15</div> -->
-                        </a>
-                        <div class="price-add-to-cart">
-                          <span class="price">
-                            <span class="electro-price">
-                              <ng-container *ngIf="product?.attributes.discountType; else nodiscount">
-                                <del><span class="amount slashed">₱{{ product?.attributes.srp }}</span></del>
-                                <ins><span class="amount notslashed">₱{{ product?.attributes.discountedSrp }}
-                                  </span></ins>
-                                <span class="discount"> {{ product?.attributes.discountType }}</span>
-                              </ng-container>
-                              <ng-template #nodiscount>
-                                <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
-                              </ng-template>
-
-                            </span>
-                          </span>
-                          <ng-container *ngIf="+product.attributes.qty === 0;else instock">
-                            <app-addtocart [option]="'true'" [btnclass]="btnclass" [label]="label"
-                              [itemId]="product?.id" [qty]="0">
-                            </app-addtocart>
-                          </ng-container>
-                          <ng-template #instock>
-                            <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
-                            </app-addtocart>
-                          </ng-template>
-                        </div><!-- /.price-add-to-cart -->
-                        <div class="hover-area">
-                          <div class="action-buttons in-stock">
-                            <!-- <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
-                            <a href="#" class="add-to-compare-link">Compare</a> -->
-                            <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
-                              <span class="in-stock-product">In Stock</span>
-                            </ng-container>
-                            <ng-template #noStock>
-                              <span class="text-danger text-bold">Out Of Stock</span>
-                            </ng-template>
-                          </div>
-                        </div>
-                      </div><!-- /.product-inner -->
-                    </div><!-- /.product-outer -->
-                  </li>
+                <ng-container *ngIf="loadingProductFilter; else loadedFiltered">
+                  <mat-progress-spinner
+                    style="margin:200px auto !important;"
+                    class="mat-spinner-color"
+                    [mode]="mode"
+                    [diameter]="200" [value]="value">
+                  </mat-progress-spinner>
                 </ng-container>
-                <ng-template #noProduct>
-                  <br>
-                  <h2>THERE'S NO PRODUCT FOUND</h2>
+                <ng-template #loadedFiltered>
+                  <ng-container *ngIf="products?.length !== 0; else noProduct">
+                    <li class="product " *ngFor="let product of products ">
+                      <div class="product-outer">
+                        <div class="product-inner">
+                          <span class="loop-product-categories"><a rel="tag">Air
+                              Conditioner</a></span>
+                          <a [routerLink]="['/shop/item/',product?.relationships.brand.name,product?.attributes.slug]">
+                            <h3>{{ product.attributes.name }}</h3>
+                            <div class="product-thumbnail">
+                              <ng-container *ngIf="product?.attributes.thumbnails.length !== 0; else noImage">
+                                <img class="wp-post-image"
+                                  attr.data-echo="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
+                                  src="{{ apiImgUrl }}/{{ product.attributes.thumbnails[0] }}"
+                                  alt="{{ product?.attributes.name }}">
+                              </ng-container>
+                              <ng-template #noImage>
+                                <img class="wp-post-image" src="assets/images/noimage.jpg"
+                                  alt="{{ product?.attributes.name }}">
+                              </ng-template>
+                            </div>
+
+                            <div class="product-rating">
+                              <div title="Rated {{ product.attributes.ratings }} out of 5" class="star-rating"><span
+                                  [style.width.%]="product.attributes.star_percent_rate"><strong
+                                    class="rating">{{ product.attributes.ratings }}</strong>
+                                  out of 5</span></div> ({{ product.attributes.total_reviewer }})
+                            </div>
+
+                            <div class="product-short-description">
+                              <ul>
+                                <ng-container *ngIf="product?.relationships.details.data.length; else noDetails">
+                                  <ng-container
+                                    *ngFor="let detail of product?.relationships.details.data; let i = index">
+                                    <li *ngIf="i<4">
+                                      <span class="a-list-item">{{ detail?.attributes.name }} -
+                                        {{ detail?.attributes.description }}</span>
+                                    </li>
+                                  </ng-container>
+                                </ng-container>
+                                <ng-template #noDetails>
+                                  <span class="text-danger">No details found!</span>
+                                </ng-template>
+                              </ul>
+                            </div>
+
+                            <!-- <div class="product-sku">SKU: 5487FB8/15</div> -->
+                          </a>
+                          <div class="price-add-to-cart">
+                            <span class="price">
+                              <span class="electro-price">
+                                <ng-container *ngIf="product?.attributes.discountType; else nodiscount">
+                                  <del><span class="amount slashed">₱{{ product?.attributes.srp }}</span></del>
+                                  <ins><span class="amount notslashed">₱{{ product?.attributes.discountedSrp }}
+                                    </span></ins>
+                                  <span class="discount"> {{ product?.attributes.discountType }}</span>
+                                </ng-container>
+                                <ng-template #nodiscount>
+                                  <ins><span class="amount">₱{{ product?.attributes.discountedSrp }} </span></ins>
+                                </ng-template>
+
+                              </span>
+                            </span>
+                            <ng-container *ngIf="+product.attributes.qty === 0;else instock">
+                              <app-addtocart [option]="'true'" [btnclass]="btnclass" [label]="label"
+                                [itemId]="product?.id" [qty]="0">
+                              </app-addtocart>
+                            </ng-container>
+                            <ng-template #instock>
+                              <app-addtocart [btnclass]="btnclass" [label]="label" [itemId]="product?.id" [qty]="1">
+                              </app-addtocart>
+                            </ng-template>
+                          </div><!-- /.price-add-to-cart -->
+                          <div class="hover-area">
+                            <div class="action-buttons in-stock">
+                              <!-- <a href="#" rel="nofollow" class="add_to_wishlist">Wishlist</a>
+                              <a href="#" class="add-to-compare-link">Compare</a> -->
+                              <ng-container *ngIf="product?.attributes.qty > 0; else noStock">
+                                <span class="in-stock-product">In Stock</span>
+                              </ng-container>
+                              <ng-template #noStock>
+                                <span class="text-danger text-bold">Out Of Stock</span>
+                              </ng-template>
+                            </div>
+                          </div>
+                        </div><!-- /.product-inner -->
+                      </div><!-- /.product-outer -->
+                    </li>
+                  </ng-container>
+                  <ng-template #noProduct>
+                    <br>
+                    <h2>THERE'S NO PRODUCT FOUND</h2>
+                  </ng-template>
                 </ng-template>
 
               </ul>

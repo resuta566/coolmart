@@ -74,9 +74,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(()=>{
-      this.loadCartItemCounter();
-    },100);
+    // setTimeout(()=>{
+    //   this.loadCartItemCounter();
+    // },100);
+    this.isLoggedIn();
 
     if(this.currentUser){
       this.navbarService.change.subscribe(reload => {

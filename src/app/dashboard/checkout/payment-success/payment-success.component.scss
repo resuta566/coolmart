@@ -173,3 +173,7 @@
   background-color: #f78c00;
   color: #ffffff;
 }
+
+.mat-spinner-color ::ng-deep circle{
+  stroke: #f78c00 !important;
+}

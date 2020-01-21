@@ -30,6 +30,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
 
   loadingProduct = false;
+  loadingProductFilter = false;
   loadingBrand = false;
   loadingCat = false;
   loadingType = false;
@@ -146,6 +147,7 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.page = datas.meta;
         this.link = datas.links;
         this.loadingProduct = false;
+        this.loadingProductFilter = false;
         // console.log(this.products ,'all products');
       },
         error => {
@@ -160,6 +162,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   filter() {
+    this.loadingProductFilter = true;
     //this will filter what are the options
     this.getProducts(this.keyword, this.brandArray,
       this.categoryArray, this.typeArray, this.mini,

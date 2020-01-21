@@ -19,16 +19,24 @@ export class PaymentSuccessComponent implements OnInit , OnDestroy{
   orderId: any;
   successData: any;
   currentUser: any;
+  loading = false;
+  //Loading
+  color = 'warn';
+  mode = 'indeterminate';
+  value = 20;
+  //MatSpinner Values
   constructor(
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private paymentService: PaymentService
   ) {
+    this.loading = true;
     this.currentUser = this.authenticationService.currentUserValue.user;
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
       this.orderId = param.get('transactionId');
       this.paymentService.paymentSuccess(this.orderId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
         this.successData = data;
+        this.loading = false;
       }
       );
     })
