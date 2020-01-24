@@ -21,7 +21,7 @@ export class ProductSectionService {
     private http: HttpClient
     ) { }
 
-  private handleError<T> (operation = 'operation' , result?: T) {
+  private handleError<T>(operation = 'operation' , result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
@@ -31,12 +31,12 @@ export class ProductSectionService {
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
-    }
+    };
   }
 
-  sponsoredProducts(){
-    return this.http.get(`${environment.apiUrl}/api/featured-brand`,{ headers: this.httpOptions.headers }).pipe(
-      tap(_=> console.log('fetched sponsored'))
+  sponsoredProducts() {
+    return this.http.get(`${environment.apiUrl}/api/featured-brand`, { headers: this.httpOptions.headers }).pipe(
+      tap(_ => console.log('fetched sponsored'))
 
     );
   }

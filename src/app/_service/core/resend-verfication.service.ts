@@ -16,8 +16,8 @@ export class ResendVerficationService {
   }
 
   resendverification(){
-    let currentUser = localStorage.getItem('resendVerification').replace(/"/g,'');
-    let httpOptions = {
+    const currentUser = localStorage.getItem('resendVerification').replace(/"/g,'');
+    const httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json',
         'Authorization': `Bearer ${currentUser}`

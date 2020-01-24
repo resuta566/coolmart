@@ -27,7 +27,7 @@ export class AddressesService {
     };
 
 
-    private handleError<T> (operation = 'operation' , result?: T) {
+    private handleError<T>(operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
         console.error(error); // log to console instead
@@ -38,27 +38,27 @@ export class AddressesService {
         // Let the app keep running by returning an empty result.
         return of(result as T);
 
-      }
+      };
     }
-    oneUserAddress(addressId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.get<Address>(`${environment.apiUrl}/api/user-address/${addressId}/edit`,this.httpOptions)
+    oneUserAddress(addressId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.get<Address>(`${environment.apiUrl}/api/user-address/${addressId}/edit`, this.httpOptions)
                 .pipe(catchError(this.handleError<Address>('getOneUserAddress')));
       }
     }
-    userAddress(){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.get<Address[]>(`${environment.apiUrl}/api/user-address`,this.httpOptions)
+    userAddress() {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.get<Address[]>(`${environment.apiUrl}/api/user-address`, this.httpOptions)
                 .pipe(catchError(this.handleError<Address[]>('getUserAddresses', [])));
       }
     }
 
-    saveAddress(address: Address){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        let addressparams = new HttpParams()
+    saveAddress(address: Address) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        const addressparams = new HttpParams()
                             .append('fullname', address.fullname)
                             .append('contact', address.mobilenumber.toString())
                             .append('other_notes', address.other_notes)
@@ -66,20 +66,20 @@ export class AddressesService {
                             .append('province', address.province)
                             .append('city', address.city)
                             .append('brgy', address.brgy)
-                            .append('type', address.type.toString())
+                            .append('type', address.type.toString());
 
         return this.http.post(`${environment.apiUrl}/api/billing-address`, this.httpOptions,
                   { params: addressparams  });
       }
     }
-    updateAddress(address: Address){
+    updateAddress(address: Address) {
 
-      let headers = new Headers();
+      const headers = new Headers();
       headers.set('Content-Type', 'application/json');
 
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        let addressparams = new HttpParams()
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        const addressparams = new HttpParams()
                             .set('fullname', address.fullname)
                             .set('contact', address.mobilenumber.toString())
                             .set('other_notes', address.other_notes)
@@ -90,32 +90,32 @@ export class AddressesService {
                             .set('type', address.type.toString())
                             .set('address_id', address.id.toString());
 
-        return this.http.put(`${environment.apiUrl}/api/billing-address`,null, { params:addressparams })
+        return this.http.put(`${environment.apiUrl}/api/billing-address`, null, { params: addressparams })
                 .pipe(tap( data => {
                   console.log( data );
                 }));
       }
     }
 
-    updateMobile(mobile: number, address_id: number){
+    updateMobile(mobile: number, address_id: number) {
 
-      let headers = new Headers();
+      const headers = new Headers();
       headers.set('Content-Type', 'application/json');
 
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        let mobiles = new HttpParams()
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        const mobiles = new HttpParams()
                             .set('address_id', address_id.toString())
                             .set('contact', mobile.toString());
         console.log(mobiles);
 
-        return this.http.put(`${environment.apiUrl}/api/billing-address`,null, { params : mobiles })
+        return this.http.put(`${environment.apiUrl}/api/billing-address`, null, { params : mobiles })
                 .pipe(tap( data => {
                 }));
       }
     }
 
-    deleteAddress(addressId: number){
+    deleteAddress(addressId: number) {
       return this.http.delete(`${environment.apiUrl}/api/user-address/${addressId}`).pipe(
             map((response: Address) => {
               this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
@@ -126,7 +126,7 @@ export class AddressesService {
       );
     }
 
-    province(){
+    province() {
         return this.http.get(`${ADDRESS_API}/api/province-radius`, { headers: this.httpOptions.headers })
           .pipe(
             // tap(_ => console.log('fetched cart')),
@@ -134,8 +134,8 @@ export class AddressesService {
         );
     }
 
-    selected_province_cities(provinceId){
-      let provId = provinceId.toString();
+    selected_province_cities(provinceId) {
+      const provId = provinceId.toString();
       return this.http.get(`${ADDRESS_API}/api/province-cities`,
           {
             headers: this.httpOptions.headers ,
@@ -148,8 +148,8 @@ export class AddressesService {
         );
     }
 
-    selected_city_barangays(cityId){
-      let citId = cityId.toString();
+    selected_city_barangays(cityId) {
+      const citId = cityId.toString();
       return this.http.get(`${ADDRESS_API}/api/city-barangays`,
             { params:
               { city_id : citId }
@@ -160,12 +160,12 @@ export class AddressesService {
             );
     }
 
-    setDefaultShipping(addressId: number){
-      let params = new HttpParams().set('shipping', '1');
-      return this.http.put(`${environment.apiUrl}/api/default-address/${addressId}`,null,{params: params})
+    setDefaultShipping(addressId: number) {
+      const params = new HttpParams().set('shipping', '1');
+      return this.http.put(`${environment.apiUrl}/api/default-address/${addressId}`, null,{params: params})
     }
-    setDefaultBilling(addressId: number){
-      let params = new HttpParams().set('billing', '1');
-      return this.http.put(`${environment.apiUrl}/api/default-address/${addressId}`,null, {params: params})
+    setDefaultBilling(addressId: number) {
+      const params = new HttpParams().set('billing', '1');
+      return this.http.put(`${environment.apiUrl}/api/default-address/${addressId}`, null, {params: params})
     }
 }

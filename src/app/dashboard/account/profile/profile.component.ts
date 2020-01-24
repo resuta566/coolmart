@@ -12,10 +12,10 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
+  private destroy$: Subject<boolean> = new Subject<boolean>(); // Destroy Subscription to avoid memory leaks
   btnChangePass = true;
   currentUser: any;
-  userChangePassForm: FormGroup
+  userChangePassForm: FormGroup;
   constructor(
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder
@@ -27,33 +27,33 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  passwordForm(){
+  passwordForm() {
     this.userChangePassForm = this.formBuilder.group({
-      password:['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      newpassword:['',[Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      confirmnewpassword:['',[Validators.required, Validators.minLength(8), Validators.maxLength(16)]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      newpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      confirmnewpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]]
     }, {
       validator: MustMatch('newpassword', 'confirmnewpassword')
-    })
+    });
   }
 
-  get p(){ return this.userChangePassForm.controls}
+  get p() { return this.userChangePassForm.controls;}
 
-  submitChangePass(){
-    if(!this.userChangePassForm.valid) return;
-    let changepassword: ResetPassword = {
+  submitChangePass() {
+    if (!this.userChangePassForm.valid) return;
+    const changepassword: ResetPassword = {
       current_password: this.userChangePassForm.value.password,
       new_password: this.userChangePassForm.value.newpassword
-    }
+    };
     console.log(changepassword);
-    this.authenticationService.resetUserPassword(changepassword).pipe(takeUntil(this.destroy$)).subscribe(_=>_);
+    this.authenticationService.resetUserPassword(changepassword).pipe(takeUntil(this.destroy$)).subscribe(_ => _);
   }
 
-  changePassBtn(){
+  changePassBtn() {
     this.btnChangePass = !this.btnChangePass;
   }
 }

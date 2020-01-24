@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: OrderComponent,
-    data:{
+    data: {
       num: 10,
       title: 'My Orders'
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: 'view-order/:transactionId',
     component: ViewOrderComponent,
-    data:{
+    data: {
       num: 18,
       title: 'View My Order'
     }
@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'cancel-order/:cartId',
     component: CancelOrderComponent,
-    data:{
+    data: {
       num: 20,
       title: 'Cancel My Order'
     }
@@ -39,7 +39,7 @@ const routes: Routes = [
   {
     path: 'return-order/:cartId',
     component: ReturnOrderComponent,
-    data:{
+    data: {
       num: 21,
       title: 'Return My Returns'
     }
@@ -47,7 +47,7 @@ const routes: Routes = [
   {
     path: 'returns',
     component: ReturnsComponent,
-    data:{
+    data: {
       num: 22,
       title: 'My Returns'
     }
@@ -55,7 +55,7 @@ const routes: Routes = [
   {
     path: 'returns/returned-order/:transactionId',
     component: ReturnedOrderComponent ,
-    data:{
+    data: {
       num: 23,
       title: 'My Returned Order'
     }
@@ -63,7 +63,7 @@ const routes: Routes = [
   {
     path: 'cancellations',
     component: CancellationsComponent,
-    data:{
+    data: {
       num: 12,
       title: 'My Cancellations'
     }
@@ -71,7 +71,7 @@ const routes: Routes = [
   {
     path: 'cancellations/cancelled-order/:transactionId',
     component: CancelledOrderComponent,
-    data:{
+    data: {
       num: 12,
       title: 'My Cancelled Order'
     }
@@ -79,7 +79,7 @@ const routes: Routes = [
   {
     path: 'reviews',
     component: ReviewsComponent,
-    data:{
+    data: {
       num: 13,
       title: 'My Reviews'
     }
@@ -87,7 +87,7 @@ const routes: Routes = [
   {
     path: 'reviews/write-review/:id',
     component: WriteReviewComponent,
-    data:{
+    data: {
       num: 15,
       title: 'Write Review'
     }

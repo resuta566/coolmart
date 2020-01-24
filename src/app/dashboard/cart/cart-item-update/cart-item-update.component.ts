@@ -20,8 +20,8 @@ import { takeUntil } from 'rxjs/operators';
 export class CartItemUpdateComponent implements OnInit, OnDestroy {
 
   @ViewChild('customFeets', { static: true }) customFeets: ElementRef;
-  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
-  loading= false;
+  private destroy$: Subject<boolean> = new Subject<boolean>(); // Destroy Subscription to avoid memory leaks
+  loading = false;
   redirectToCart = true;
   apiUrl = `${environment.apiUrl}`;
   galleryOptions: NgxGalleryOptions[];
@@ -61,11 +61,11 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private titleService: Title,
     ) {
-      this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(qp=>{
-        if(qp.configupdate == 'updateCart'){
+      this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(qp => {
+        if (qp.configupdate == 'updateCart') {
           this.label = 'Update Cart';
         }
-      })
+      });
       this.response = this.route.snapshot.data['data'];
       this.relatedBrandArray = [ this.response.item.attributes.brand_id ];
       this.relatedCategoryArray = [ this.response.item.attributes.category_id ];
@@ -78,32 +78,32 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getProductDetails();
     this.thePrice();
-    if(this.optionValue > 10){
+    if (this.optionValue > 10) {
       this.customMeasurement('custom');
-    }else if(this.optionValue == 10){
+    } else if (+this.optionValue === 10) {
       this.customMeasurement('default');
-    }else{
+    } else {
       this.customMeasurement('nothing');
     }
     // this.customMeasurement('default');
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  thePrice(){
+  thePrice() {
     this.feetPrice = +this.response.item.attributes.discountedSrp.replace(',', '');
   }
 
-  theFeetPrice(){
+  theFeetPrice() {
     this.feetPrice += this.standard_installation_fee;
   }
 
   getRelatedProducts() {
-    if(this.relatedBrandArray){
-      if(this.relatedBrandArray.length !== 0){
+    if (this.relatedBrandArray) {
+      if (this.relatedBrandArray.length !== 0) {
         this.relatedFilter = {
           brandArray: this.relatedBrandArray,
           categoryArray: this.relatedCategoryArray,
@@ -113,8 +113,9 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
       }
     }
     this.productService.getProducts(this.relatedFilter).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
-        let filtered = datas.data.filter(products => products.id !== this.response.item.id); //Filter again so that the current product shown doesn't show on the list
-        this.products = filtered; //The data
+        const filtered = datas.data.filter(products => products.id !== this.response.item.id);
+        // Filter again so that the current product shown doesn't show on the list
+        this.products = filtered; // The data
         console.log(this.products);
       },
         error => {
@@ -122,25 +123,27 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
     });
   }
 
-  getProductDetails(){
+  getProductDetails() {
     this.getRelatedProducts();
-    if(this.response.item.attributes.qty == 1 || this.response.item.attributes.qty == 0 )
-      this.btndisabled = true; //Disables the buttons
-    if(this.response.item.attributes.qty == 0)
+    if (+this.response.item.attributes.qty === 1 || +this.response.item.attributes.qty === 0 ) {
+      this.btndisabled = true; // Disables the buttons
+    }
+    if (+this.response.item.attributes.qty === 0) {
       this.itemQty = 0, this.btnaddtocart = true; // Set the Shown QTY to 0 if qty is 0
+    }
 
-    this.imgArray = this.response.attributes.item_images; //Image Array
+    this.imgArray = this.response.attributes.item_images; // Image Array
 
-    this.titleService.setTitle(  `${this.response.attributes.item_name} : Buy ${this.response.attributes.item_name} Aircons online with cheap price | Cool Mart` );// Title
-    if(+this.response.item.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; //If Qty = 0 or No Stock disable the addto cart + - btns
-    if(this.imgArray.length !== 0){
-      //Check if Images are there
+    this.titleService.setTitle(  `${this.response.attributes.item_name} : Buy ${this.response.attributes.item_name} Aircons online with cheap price | Cool Mart` ); // Title
+    if (+this.response.item.attributes.qty === 0) return this.btndisabledminus = true, this.btndisabled = true; // If Qty = 0 or No Stock disable the addto cart + - btns
+    if (this.imgArray.length !== 0) {
+      // Check if Images are there
       this.gallery();
     }
   }
 
-  gallery(){
-    //NGX-Gallery
+  gallery() {
+    // NGX-Gallery
       this.galleryOptions = [
         {
             width: '470px',
@@ -170,21 +173,21 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
         {
             breakpoint: 400,
             preview: false ,
-            width: "100%",
-            height: "300px",
+            width: '100%',
+            height: '300px',
             thumbnailsColumns: 2
         }
     ];
 
-    this.galleryImages = [];
-    for(const imgUrl of this.imgArray) {
+      this.galleryImages = [];
+      for (const imgUrl of this.imgArray) {
       const image = {
-        small: this.apiUrl+'/'+imgUrl,
-        medium: this.apiUrl+'/'+imgUrl,
-        big: this.apiUrl+'/'+imgUrl
-      }
+        small: this.apiUrl + '/' + imgUrl,
+        medium: this.apiUrl + '/' + imgUrl,
+        big: this.apiUrl + '/' + imgUrl
+      };
 
-      this.galleryImages.push(image)
+      this.galleryImages.push(image);
     }
 
   }
@@ -192,27 +195,27 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
 
 
   addQty() {
-    if(this.response.item.attributes.qty== this.itemQty){
+    if (+this.response.item.attributes.qty === +this.itemQty) {
       this.btndisabled = true;
-    }else{
-      this.itemQty +=1;
+    } else {
+      this.itemQty += 1;
       this.btndisabledminus = false;
       this.btnaddtocart = false;
-      if(this.response.item.attributes.qty == this.itemQty){
+      if (+this.response.item.attributes.qty === +this.itemQty) {
         this.btndisabled = true;
       }
     }
   }
 
   decreaseQty() {
-    if(this.itemQty == 0){
+    if (+this.itemQty === 0) {
       this.btndisabledminus = true;
       this.btnaddtocart = true;
       this.btndisabled = true;
-    }else{
+    } else {
       this.itemQty -= 1;
       this.btndisabled = false;
-      if(this.itemQty == 0){
+      if (+this.itemQty === 0) {
         this.btndisabledminus = true;
         this.btnaddtocart = true;
         this.btndisabled = false;
@@ -220,34 +223,34 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
     }
   }
 
-  getReviews(){
-    this.productService.getProductReviews(this.response.item.attributes.slug,this.reviewPage)
+  getReviews() {
+    this.productService.getProductReviews(this.response.item.attributes.slug, this.reviewPage)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data:any)=>{
+      .subscribe((data: any) => {
       this.reviews = data.data;
       this.reviewMeta = data.meta;
       this.reviewLinks = data.links;
-    })
+    });
   }
-  changePageReview(page: string){
+  changePageReview(page: string) {
     this.reviewPage = page;
     this.getReviews();
   }
-  customMeasurement($event){
-    if($event == 'custom'){
+  customMeasurement($event) {
+    if ($event === 'custom') {
       this.thefeet = +this.response.attributes.services.total_feet;
       this.service_name = 'Standard Installation Fee';
-      if(this.thefeet > 10){
+      if (this.thefeet > 10) {
         this.btndecreaseFeet = false;
       }
-      let excessfeet = this.thefeet - 10;
-      let excessprice = excessfeet * 300;
+      const excessfeet = this.thefeet - 10;
+      const excessprice = excessfeet * 300;
       this.feetValue(this.thefeet);
       this.theFeetPrice();
       this.feetPrice += excessprice;
       this.btnincreaseFeet = false;
       this.customFeet = false;
-    }else if($event == 'default'){
+    } else if ($event === 'default') {
       this.thefeet = 10;
       this.service_name = 'Standard Installation Fee';
       this.feetValue(10);
@@ -255,7 +258,7 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
       this.btnincreaseFeet = true;
       this.btndecreaseFeet = true;
       this.customFeet = false;
-    }else if($event == 'nothing'){
+    } else if ($event === 'nothing') {
       this.service_name = null;
       this.thefeet = null;
       this.customFeet = true;
@@ -263,24 +266,24 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
       this.feetmsg = '';
     }
   }
-  decreaseFeet(){
+  decreaseFeet() {
     this.btnincreaseFeet = false;
-    if(this.thefeet == 10){
+    if (this.thefeet === 10) {
       this.btndecreaseFeet = true;
-    }else{
+    } else {
       this.thefeet -= 1;
       this.feetPrice -= 300;
       this.btndecreaseFeet = false;
-      if(this.thefeet == 10){
+      if (+this.thefeet === 10) {
         this.btndecreaseFeet = true;
       }
     }
   }
-  increaseFeet(){
-    if(this.thefeet >= 99){
+  increaseFeet() {
+    if (this.thefeet >= 99) {
       this.btnincreaseFeet = true;
       this.btndecreaseFeet = false;
-    }else{
+    } else {
       this.thefeet += 1;
       this.feetPrice += 300;
       this.btndecreaseFeet = false;
@@ -288,8 +291,8 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
     }
 
   }
-  feetValue(value){
-    let prodPrice = +this.response.item.attributes.discountedSrp.replace(',', '');
+  feetValue(value) {
+    const prodPrice = +this.response.item.attributes.discountedSrp.replace(',', '');
     this.feetPrice = prodPrice;
   }
 }

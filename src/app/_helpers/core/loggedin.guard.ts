@@ -17,12 +17,12 @@ export class LoggedInGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authenticationService.currentUserValue;
         if (currentUser) {
-          //logged in so redirect to login page with the return url
+          // logged in so redirect to login page with the return url
           this.router.navigate(['dashboard'], { queryParams: { returnUrl: state.url } });
           this.notyf.error(`You're already Logged In!`);
           return false;
         }
-        //not logged in so return true
+        // not logged in so return true
         return true;
     }
 }

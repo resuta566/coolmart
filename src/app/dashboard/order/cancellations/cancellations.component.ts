@@ -22,18 +22,18 @@ export class CancellationsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._cancelOrders();
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  _cancelOrders(){
-    this.cancellService.cancelOrders(this.cancelChangePage).pipe(takeUntil(this.destroy$)).subscribe(orders=>{
+  _cancelOrders() {
+    this.cancellService.cancelOrders(this.cancelChangePage).pipe(takeUntil(this.destroy$)).subscribe(orders => {
       this.cancelOrders = orders;
     });
   }
 
-  changePageCancellOrder(page: string){
+  changePageCancellOrder(page: string) {
     this.cancelChangePage = page;
     this._cancelOrders();
   }

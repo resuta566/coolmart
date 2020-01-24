@@ -14,16 +14,16 @@ export class SignComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    let currentUser = this.authenticationService.currentUserValue;
-    if(currentUser){
+    const currentUser = this.authenticationService.currentUserValue;
+    if (currentUser) {
       this.router.navigateByUrl('/dashboard');
     }
   }
 
   ngAfterViewInit() {
-    let currentUser = this.authenticationService.currentUserValue;
-    setTimeout(()=>{
-      if(currentUser){
+    const currentUser = this.authenticationService.currentUserValue;
+    setTimeout(() => {
+      if (currentUser) {
         this.router.navigateByUrl('/dashboard');
       }
     }, 500);

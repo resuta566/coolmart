@@ -11,20 +11,20 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './payment-success.component.html',
   styleUrls: ['./payment-success.component.scss']
 })
-export class PaymentSuccessComponent implements OnInit , OnDestroy{
+export class PaymentSuccessComponent implements OnInit , OnDestroy {
 
-  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
+  private destroy$: Subject<boolean> = new Subject<boolean>(); // Destroy Subscription to avoid memory leaks
   apiUrl = `${environment.apiUrl}`;
   showAll = false;
   orderId: any;
   successData: any;
   currentUser: any;
   loading = false;
-  //Loading
+  // Loading
   color = 'warn';
   mode = 'indeterminate';
   value = 20;
-  //MatSpinner Values
+  // MatSpinner Values
   constructor(
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -34,27 +34,27 @@ export class PaymentSuccessComponent implements OnInit , OnDestroy{
     this.currentUser = this.authenticationService.currentUserValue.user;
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
       this.orderId = param.get('transactionId');
-      this.paymentService.paymentSuccess(this.orderId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+      this.paymentService.paymentSuccess(this.orderId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         this.successData = data;
         this.loading = false;
       }
       );
-    })
+    });
   }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  successOrder(){
+  successOrder() {
 
   }
 
-  show(){
+  show() {
     this.showAll = !this.showAll;
   }
 }

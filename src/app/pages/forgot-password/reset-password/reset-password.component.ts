@@ -17,19 +17,19 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   token: string;
   data: any;
   userForm: FormGroup;
-  message = "";
+  message = '';
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router
     ) {
-      this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+      this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
         console.log(param);
-        this.token = param.get('token')
-        if(param){
+        this.token = param.get('token');
+        if (param) {
           this.resetDetails();
-        }else{
+        } else {
           this.router.navigate(['/pages/not-found']);
         }
       });
@@ -41,43 +41,43 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
    }
 
    ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
-  resetForm(){
+  resetForm() {
     this.userForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password:['',[Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      cpassword:['',[Validators.required, Validators.minLength(8), Validators.maxLength(16)]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      cpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]]
     }, {
       validator: MustMatch('password', 'cpassword')
-    })
+    });
   }
 
-  resetDetails(){
-    this.authenticationService.resetDetails(this.token).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+  resetDetails() {
+    this.authenticationService.resetDetails(this.token).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.data = data;
       console.log(this.data);
-      setTimeout(()=>{
+      setTimeout(() => {
         this.userForm.patchValue({
           email: this.data.email
-        })
-      },500)
+        });
+      }, 500);
     });
   }
 
   get re() { return this.userForm.controls; }
 
-  resetPassword(){
+  resetPassword() {
     if (this.userForm.invalid) {
       return;
     }
-    let resetData: ResetPassword = {
+    const resetData: ResetPassword = {
       email: this.userForm.value.email,
       password: this.userForm.value.password,
       token: this.token
-    }
-    this.message = "Please Wait.."
-    this.authenticationService.resetNewPassword(resetData).pipe(takeUntil(this.destroy$)).subscribe(response=>{});
+    };
+    this.message = 'Please Wait..';
+    this.authenticationService.resetNewPassword(resetData).pipe(takeUntil(this.destroy$)).subscribe(response => {});
   }
 }

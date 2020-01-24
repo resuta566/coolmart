@@ -9,7 +9,7 @@ const routes: Routes = [
     component: AddressComponent,
     data: {
       num: 19,
-      title:'View My Address'
+      title: 'View My Address'
     }
   },
   {
@@ -17,7 +17,7 @@ const routes: Routes = [
     component: AddressComponent,
     data: {
       num: 19,
-      title:'Update Address'
+      title: 'Update Address'
     }
   }
 ];

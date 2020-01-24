@@ -7,31 +7,31 @@ import { ShopItemResolverService } from '@app/_service/resolver/shop/shop-item/s
 
 const routes: Routes = [
   { path: '' ,
-    children:[
+    children: [
       {
         path: '' ,
         component: ShopComponent,
-        data:{
+        data: {
           num: 2
         }
       },
       {
         path: 'item/:slug' ,
         component: ShopItemComponent,
-        resolve:{
+        resolve: {
           data : ShopItemResolverService
         },
-        data:{
+        data: {
           num: 4
         }
       },
       {
         path: 'item/:brandname/:slug' ,
         component: ShopItemComponent,
-        resolve:{
+        resolve: {
           data : ShopItemResolverService
         },
-        data:{
+        data: {
           num: 4
         }
       },

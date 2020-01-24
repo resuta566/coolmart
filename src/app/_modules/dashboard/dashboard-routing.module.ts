@@ -4,13 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from '@app/dashboard/dashboard.component';
 import { AuthGuard } from '@app/_helpers';
 
-const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
+const htmlTitle = ' | Cool Mart : Online Aircon Shopping with Great Prices!';
 
 const routes: Routes = [
     { path: '', component: DashboardComponent,
       canActivate: [AuthGuard],
       data: { num: 5, title: 'Dashboard' + htmlTitle},
-      children:[
+      children: [
         {
           path: '',
           pathMatch: 'full',

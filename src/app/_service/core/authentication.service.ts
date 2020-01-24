@@ -9,7 +9,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 import { Router } from '@angular/router';
 
-export class ResetPassword{
+export class ResetPassword {
   email?: string;
   password?: string;
   current_password?: string;
@@ -37,7 +37,7 @@ export class AuthenticationService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
-    private handleError<T> (operation = 'operation' , result?: T) {
+    private handleError<T>(operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
         console.error(error); // log to console instead
@@ -54,7 +54,7 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/api/login`, { email, password }, this.httpOptions)
             .pipe(
               map(user => {
-                  //Remove Email Resend Verification Token
+                  // Remove Email Resend Verification Token
                   localStorage.removeItem('resendVerification');
                   // store user details and jwt token in local storage to keep user logged in between page refreshes
                   localStorage.setItem('currentUser', JSON.stringify(user));
@@ -67,7 +67,7 @@ export class AuthenticationService {
     register(user: User) {
       return this.http.post(`${environment.apiUrl}/api/register`, user, this.httpOptions)
           .pipe(
-            map((user: any) =>{
+            map((user : any) => {
               localStorage.removeItem('resendVerification');
               localStorage.setItem('resendVerification', JSON.stringify(user.accessToken));
               return user;
@@ -76,16 +76,16 @@ export class AuthenticationService {
     }
 
     forgotPassword(email: string){
-      return this.http.post(`${environment.apiUrl}/api/password/create`, {email: email})
+      return this.http.post(`${environment.apiUrl}/api/password/create`, { email: email })
           .pipe(
-            map((response: any)=>{
+            map((response: any) => {
               console.log(response);
-              if(response.error){
+              if (response.error) {
                 this.notyf.error(response.error);
                 this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
                   this.router.navigate(['/forgot-password/send-email']);
                 });
-              }else{
+              } else {
                 this.notyf.success(response.message);
                 this.router.navigate(['/sign_in']);
               }
@@ -95,9 +95,9 @@ export class AuthenticationService {
 
     // New Password for Requested Forgot Password
     resetNewPassword(reset: ResetPassword){
-      return this.http.post(`${environment.apiUrl}/api/password/reset`,reset)
+      return this.http.post(`${environment.apiUrl}/api/password/reset`, reset)
           .pipe(
-            map((response: any)=>{
+            map((response: any) => {
               this.notyf.success(response.message);
               this.router.navigate(['/sign_in']);
             }),
@@ -112,26 +112,26 @@ export class AuthenticationService {
           .pipe(
             retry(3),
             catchError(this.handleError('getResetDetails', []))
-          )
+          );
     }
 
     // Logged In User Changed Pass
     resetUserPassword(resetpass: ResetPassword){
-      let body = {
+      const body = {
         password: resetpass.current_password,
         new_password: resetpass.new_password
       }
       console.log(JSON.stringify(body));
-      return this.http.post(`${environment.apiUrl}/api/password/change`,body)
+      return this.http.post(`${environment.apiUrl}/api/password/change`, body)
           .pipe(
-            map((response: any)=>{
-              if(response.message){ //Else Error
+            map((response: any) => {
+              if (response.message) { // Else Error
                 this.notyf.success(response.message);
                 this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
                   this.router.navigate(['/dashboard/account/profile']);
                 });
-              }else{
-                this.notyf.error('Current '+response.error);
+              } else {
+                this.notyf.error('Current ' +response.error);
               }
             }),
             retry(3),
@@ -142,7 +142,6 @@ export class AuthenticationService {
     logout() {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
-      localStorage.removeItem('cart');
       this.currentUserSubject.next(null);
       return this.http.post(`${environment.apiUrl}/api/logout`, null);
     }

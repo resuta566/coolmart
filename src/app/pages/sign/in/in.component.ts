@@ -42,13 +42,13 @@ export class InComponent implements OnInit, OnDestroy {
   });
 
   // get return url from route parameters or default to '/'
-  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/dashboard';
 
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
@@ -67,14 +67,14 @@ export class InComponent implements OnInit, OnDestroy {
     }
 
     this.authenticationService.login(this.f.email.value, this.f.password.value)
-        .pipe(first(),takeUntil(this.destroy$))
+        .pipe(first(), takeUntil(this.destroy$))
         .subscribe(
             data => {
-                if(data){
+                if (data) {
                   this.notyf.success('Successfully Loggedin!');
                   window.location.href = this.returnUrl;
                     // this.router.navigateByUrl(this.returnUrl);
-                    this.navbarService.reload();
+                  this.navbarService.reload();
                 }
             },
             error => {

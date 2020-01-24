@@ -1,16 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { tap, catchError, map } from "rxjs/operators";
+import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '@app/_service/core/authentication.service';
-import { Router } from '@angular/router';
 
-import { NOTYF } from '@app/_helpers/notyf.token';
-import { Notyf } from 'notyf';
-
-export class CancelOrder{
+export class CancelOrder {
   cartId: number;
   reason: string;
   optional: string;
@@ -30,7 +26,7 @@ export class CancelService {
       headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
-    private handleError<T> (operation = 'operation' , result?: T) {
+    private handleError<T>(operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
         console.error(error); // log to console instead
@@ -41,11 +37,11 @@ export class CancelService {
         // Let the app keep running by returning an empty result.
         return of(result as T);
 
-      }
+      };
     }
 
-    cancelOrders(page?: string){
-      let actualPage = page || `${environment.apiUrl}/api/cancellations`;
+    cancelOrders(page?: string) {
+      const actualPage = page || `${environment.apiUrl}/api/cancellations`;
       return this.http.get(actualPage, this.httpOptions)
         .pipe(
           // tap(_ => console.log('fetched cart')),
@@ -53,18 +49,18 @@ export class CancelService {
       );
     }
 
-    cancelViewItem(orderId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/cancelled`,this.httpOptions).pipe(
+    cancelViewItem(orderId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/cancelled`, this.httpOptions).pipe(
           tap(_ => console.log('fetched Cancelled Item'))
           );
       }
     }
 
-    cancelShowItem(cartId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
+    cancelShowItem(cartId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
         return this.http.get(`${environment.apiUrl}/api/transaction-item/${cartId}`, this.httpOptions)
           .pipe(
             // tap(_ => console.log('fetched cart')),
@@ -73,12 +69,12 @@ export class CancelService {
       }
     }
 
-    cancelOrder(order: CancelOrder ){
+    cancelOrder(order: CancelOrder ) {
       console.log(order);
-      let params = new HttpParams().set('reason',order.reason).set('optional',order.optional);
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`,null,
+      const params = new HttpParams().set('reason', order.reason).set('optional', order.optional);
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`, null,
           {params: params}
           )
           .pipe(

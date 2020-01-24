@@ -6,7 +6,7 @@ export const NOTYF = new InjectionToken<Notyf>('NotyfToken');
 export function notyfFactory(): Notyf {
   return new Notyf({
     duration: 5000, // Set your global Notyf configuration here
-    types:[
+    types: [
       {
         type: 'success',
         className: 'notyf__toast--success',

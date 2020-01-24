@@ -10,7 +10,7 @@ import { EmailVerificationComponent } from '@app/pages/email-verification/email-
 import { ErrorpagesComponent } from '@app/pages/errorpages/errorpages.component';
 
 
-const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
+const htmlTitle = ' | Cool Mart : Online Aircon Shopping with Great Prices!';
 
 const routes: Routes = [
   {

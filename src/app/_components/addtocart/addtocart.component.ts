@@ -41,26 +41,26 @@ export class AddtocartComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
 
   }
 
   addtocart() {
-    let currentUser = this.authenticationService.currentUserValue;
+    const currentUser = this.authenticationService.currentUserValue;
 
     if (currentUser) {
       if (currentUser.user.email_verified_at) {
-        if(this.qty !== 0){
+        if (this.qty !== 0) {
           this.cartForm = this.formBuilder.group({
-            //this.itemId is a string so + would make it an integer
+            // this.itemId is a string so + would make it an integer
             itemId: [+this.itemId, Validators.required],
             qty: [this.qty, Validators.required],
             service_name: [this.service_name],
             value: [this.value]
           });
           this.cartService.addToDataBaseCart(this.cartForm.value, this.redirect);
-        }else{
+        } else {
           this.notyf.error('Sorry the Item is currently out of stock.');
         }
       } else {

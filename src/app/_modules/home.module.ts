@@ -20,24 +20,24 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material.module';
 
 
-  const Home = [
-    HomeComponent,
-    HomecarouselComponent,
-    HomedealsComponent,
-    HometabsComponent,
-    HomeProductSectionComponent,
-    HomeBestSellerComponent,
-    HomeTopThisMonthComponent,
-    HomeBottomProductsComponent,
-    HomeBottomBrandsCarouselComponent,
-    HomeProductsCardComponent,
-    AddtocartComponent,
-    AddtocartV2Component
-  ]
+const Home = [
+  HomeComponent,
+  HomecarouselComponent,
+  HomedealsComponent,
+  HometabsComponent,
+  HomeProductSectionComponent,
+  HomeBestSellerComponent,
+  HomeTopThisMonthComponent,
+  HomeBottomProductsComponent,
+  HomeBottomBrandsCarouselComponent,
+  HomeProductsCardComponent,
+  AddtocartComponent,
+  AddtocartV2Component
+];
 
 @NgModule({
   declarations: [Home],
-  imports:[
+  imports: [
     RouterModule,
     CommonModule,
     NgxGalleryModule,

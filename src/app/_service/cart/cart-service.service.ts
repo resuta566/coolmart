@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, empty, of} from 'rxjs';
-import { tap, catchError, map } from "rxjs/operators";
+import { tap, catchError, map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Cart } from '@app/_models/cart/cart';
@@ -28,7 +28,7 @@ export class CartService {
     private navbarService: NavbarService
     ) { }
 
-  private handleError<T> (operation = 'operation' , result?: T) {
+  private handleError<T>(operation = 'operation' , result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
@@ -39,17 +39,17 @@ export class CartService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
 
-    }
+    };
   }
 
-  addToDataBaseCart(cart: Cart, option? :boolean){
+  addToDataBaseCart(cart: Cart, option?: boolean) {
     return this.http.post(`${environment.apiUrl}/api/cart`, cart, this.httpOptions ).pipe(
       map((data: any) => {
         // console.log(data);
-        if(data.success){
+        if (data.success) {
           this.navbarService.reload();
           this.notyf.success(data.success);
-          if(option){
+          if (option) {
             this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/cart']);
             });
@@ -57,33 +57,33 @@ export class CartService {
         }
       }),
       catchError(this.handleError('getCart', []))
-    ).subscribe(serverdata=>{});
+    ).subscribe(serverdata => {});
   }
 
-  cartItemEdit(cartId: number){
-    return this.http.get(`${environment.apiUrl}/api/cart/${cartId}/edit`,this.httpOptions).pipe(
+  cartItemEdit(cartId: number) {
+    return this.http.get(`${environment.apiUrl}/api/cart/${cartId}/edit`, this.httpOptions).pipe(
       // map((data: any)=>{
       // }),
       catchError(this.handleError('getWillUpdateCartItem', []))
     );
   }
 
-  carts(){
-    let currentUser = this.authenticationService.currentUserValue;
-    if(currentUser){
-      return this.http.get(`${environment.apiUrl}/api/cart`,this.httpOptions)
+  carts() {
+    const currentUser = this.authenticationService.currentUserValue;
+    if (currentUser) {
+      return this.http.get(`${environment.apiUrl}/api/cart`, this.httpOptions)
         .pipe(
           // tap(_ => console.log('fetched cart')),
           catchError(this.handleError('getCart', []))
       );
-    }else{
-      return empty();
     }
+    return empty();
+
   }
 
-  updateItemCartQty(cartId: number, btn: string){
-    return this.http.patch(`${environment.apiUrl}/api/cart/${+cartId}`, { action: btn },this.httpOptions ).pipe(
-      map(data=>{
+  updateItemCartQty(cartId: number, btn: string) {
+    return this.http.patch(`${environment.apiUrl}/api/cart/${+cartId}`, { action: btn }, this.httpOptions ).pipe(
+      map(_ => {
         this.navbarService.reload();
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/cart']);
@@ -98,8 +98,8 @@ export class CartService {
 
 
   removeItemCartQty(id: number){
-    return this.http.delete(`${environment.apiUrl}/api/cart/${id}`,this.httpOptions).pipe(
-      map(data=>{
+    return this.http.delete(`${environment.apiUrl}/api/cart/${id}`, this.httpOptions).pipe(
+      map(_ => {
         this.navbarService.reload();
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/cart']);

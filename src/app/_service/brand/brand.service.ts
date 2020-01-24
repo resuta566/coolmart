@@ -17,7 +17,7 @@ export class BrandService {
 
   constructor(private http: HttpClient) { }
 
-  private handleError<T> (operation = 'operation' , result?: T) {
+  private handleError<T>(operation = 'operation' , result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
@@ -28,10 +28,10 @@ export class BrandService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
 
-    }
+    };
   }
 
-  getBrands(){
+  getBrands() {
     return this.http.get<Brands[]>(`${environment.apiUrl}/api/brands`).pipe(
       tap(_ => console.log('fetched brands')),
       catchError(this.handleError<Brands[]>('getBrands', []))

@@ -21,10 +21,11 @@ export class HomeProductSectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
   }
-  ngAfterContentInit() {
-    setTimeout(()=>{
+
+  ngAfterViewInit() {
+    setTimeout(() => {
       this.sponsoredProducts();
-    },1000)
+    }, 1000);
   }
 
   ngOnDestroy(): void {
@@ -32,16 +33,16 @@ export class HomeProductSectionComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  sponsoredProducts(){
-    this.productSecService.sponsoredProducts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+  sponsoredProducts() {
+    this.productSecService.sponsoredProducts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.brandProduct = data;
-      if(this.brandProduct){
+      if (this.brandProduct) {
         this.loading = false;
-        if(this.brandProduct.data.relationships.items.data.length > 0){
+        if (this.brandProduct.data.relationships.items.data.length > 0) {
           this.loading = false;
         }
       }
-      console.log('brandProduct',this.brandProduct);
+      console.log('brandProduct', this.brandProduct);
     });
   }
 }

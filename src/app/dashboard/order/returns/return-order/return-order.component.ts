@@ -44,29 +44,29 @@ export class ReturnOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
       this.cartId = +param.get('cartId');
       this.showItem();
     });
     this.returnOrderForm();
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
 
-  showItem(){
-    this.returnService.returnShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
-      let max = parseFloat(data.attributes.checkedout_subtotal.replace(',','').replace('.',',')).toFixed(2);
+  showItem() {
+    this.returnService.returnShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+      const max = parseFloat(data.attributes.checkedout_subtotal.replace(',', '').replace('.', ',')).toFixed(2);
       this.a.refund_amount.setValidators(Validators.max(+max));
-      setTimeout(()=>{
+      setTimeout(() => {
         this.a.cartId.setValue(this.cartId);
         this.a.refund_amount.setValue(data.attributes.checkedout_subtotal);
-      },500)
+      }, 500);
       this.itemDetails = data;
-      if(!this.itemDetails.attributes.returnable){
-        this.router.navigate(['/pages/not-found'])
+      if (!this.itemDetails.attributes.returnable) {
+        this.router.navigate(['/pages/not-found']);
       }
       console.log(this.itemDetails);
 
@@ -75,16 +75,16 @@ export class ReturnOrderComponent implements OnInit, OnDestroy {
 
   get a() { return this.returnForm.controls; }
 
-  returnOrderForm(){
+  returnOrderForm() {
     this.returnForm = this.formBuilder.group({
       cartId: [this.cartId, Validators.required],
-      refund_amount: ['',Validators.required],
+      refund_amount: ['', Validators.required],
       thereason: ['', Validators.required],
       additional_info: ['', Validators.required],
-      accept:[false, Validators.required]
-    })
+      accept: [false, Validators.required]
+    });
   }
-  submit(){
+  submit() {
     console.log(this.returnForm);
     this.submitted = true;
 

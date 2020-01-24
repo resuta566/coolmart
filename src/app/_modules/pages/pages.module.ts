@@ -15,16 +15,16 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { TrackComponent } from '@app/dashboard/track/track.component';
 import { EmailVerificationComponent } from '@app/pages/email-verification/email-verification.component';
 
-  const Pages = [
-    FaqComponent,
-    AboutUsComponent,
-    ContactUsComponent,
-    ErrorpagesComponent,
-    StoreLocationComponent,
-    TermsConditionsComponent,
-    TrackComponent,
-    EmailVerificationComponent
-  ]
+const Pages = [
+  FaqComponent,
+  AboutUsComponent,
+  ContactUsComponent,
+  ErrorpagesComponent,
+  StoreLocationComponent,
+  TermsConditionsComponent,
+  TrackComponent,
+  EmailVerificationComponent
+];
 
 @NgModule({
   declarations: [Pages],

@@ -26,7 +26,7 @@ export function routerAnimation() {
           }),
         ),
       ],
-      { optional: true },),
+      { optional: true }, ),
     ]),
 
     // Previous, slide left to right to show left page

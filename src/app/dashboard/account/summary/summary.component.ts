@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class SummaryComponent implements OnInit, OnDestroy {
 
-  private destroy$: Subject<boolean> = new Subject<boolean>(); //Destroy Subscription to avoid memory leaks
+  private destroy$: Subject<boolean> = new Subject<boolean>(); // Destroy Subscription to avoid memory leaks
   currentUser: any;
   addressInfo: any;
   loading = true;
@@ -22,21 +22,21 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUserValue.user;
-    this.checkOutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((address: any)=>{
+    this.checkOutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((address: any) => {
       this.addressInfo = address;
       console.log(this.addressInfo);
-      if(this.addressInfo){
-        setTimeout(()=>{
+      if (this.addressInfo) {
+        setTimeout(() => {
           this.loading = false;
-        },500)
-      }else{
+        }, 500 );
+      } else {
         this.loading = false;
       }
     });
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 

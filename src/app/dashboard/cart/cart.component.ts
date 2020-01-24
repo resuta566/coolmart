@@ -28,19 +28,19 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  getCart(){
-    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+  getCart() {
+    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.carts = data.data;
       console.log(this.carts);
 
-      //Compute the subtotal of all the items
-      this.carts.forEach( item =>{
+      // Compute the subtotal of all the items
+      this.carts.forEach( item => {
         this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
-      })
+      });
     });
   }
 
@@ -54,28 +54,28 @@ export class CartComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.title = 'Remove from cart?';
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.cartService.removeItemCartQty(id).pipe(takeUntil(this.destroy$)).subscribe(data=> {});
+      if (result) {
+        this.cartService.removeItemCartQty(id).pipe(takeUntil(this.destroy$)).subscribe(data => {});
       }
     });
 
   }
 
   addQty(cartId: number) {
-    this.cartService.updateItemCartQty(cartId, "addQty").pipe(takeUntil(this.destroy$)).subscribe(data=> {});
+    this.cartService.updateItemCartQty(cartId, 'addQty').pipe(takeUntil(this.destroy$)).subscribe(data => {});
 
   }
 
   decreaseQty(cartId: number) {
-    this.cartService.updateItemCartQty(cartId, "deductQty").pipe(takeUntil(this.destroy$)).subscribe( data=> {});
+    this.cartService.updateItemCartQty(cartId, 'deductQty').pipe(takeUntil(this.destroy$)).subscribe( data => {});
   }
 
-  subTotal(){
+  subTotal() {
     this.sum = 0;
-    for( let oneCart of this.carts ){
+    for ( const oneCart of this.carts ) {
       this.sum += oneCart.price * oneCart.qty;
    }
-   return this.sum;
+    return this.sum;
   }
 
 }

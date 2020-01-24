@@ -21,10 +21,10 @@ export class ViewOrderComponent implements OnInit, OnDestroy {
     private router: Router,
     private orderService: OrderService
   ) {
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
       console.log(param.get('transactionId'));
       this.orderId = +param.get('transactionId');
-      this.orderService.oneOrder(this.orderId).pipe(takeUntil(this.destroy$)).subscribe(data =>{
+      this.orderService.oneOrder(this.orderId).pipe(takeUntil(this.destroy$)).subscribe(data => {
         this.orderData = data;
         console.log(this.orderData);
 
@@ -34,22 +34,22 @@ export class ViewOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    let string = 'James Lester -- Tunasan';
-    let spliter = string.split('--');
+    const stringe = 'James Lester -- Tunasan';
+    const spliter = stringe.split('--');
     console.log(spliter);
 
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  cancelItem(cartId: number){
-    let url = this.router.routerState.snapshot.url;
-    this.router.navigate(['/dashboard/order/cancel-order/', cartId],{queryParams: {returnUrl: url.toString()}});
+  cancelItem(cartId: number) {
+    const url = this.router.routerState.snapshot.url;
+    this.router.navigate(['/dashboard/order/cancel-order/', cartId], {queryParams: {returnUrl: url.toString()}});
   }
-  returnItem(cartId: number){
-    let url = this.router.routerState.snapshot.url;
-    this.router.navigate(['/dashboard/order/return-order/', cartId],{queryParams: {returnUrl: url.toString()}});
+  returnItem(cartId: number) {
+    const url = this.router.routerState.snapshot.url;
+    this.router.navigate(['/dashboard/order/return-order/', cartId], {queryParams: {returnUrl: url.toString()}});
   }
 }

@@ -46,15 +46,15 @@ export class HomeBottomProductsComponent implements OnInit, OnDestroy {
       this.productsFeatured = datas.data;
       // console.log(datas);
 
-        if(this.productsFeatured.length > 0){
+      if (this.productsFeatured.length > 0) {
           setTimeout(() => {
             this.loadingProduct = false;
           }, 500);
-        }else{
+        } else {
           this.loadingProduct = false;
           // this.notyf.error(`There seems to be no featured product at this moment.`);
         }
-    },error => {
+    }, error => {
       // this.notyf.error(`There seems to be no ${option} product at this moment.`);
       console.log(error);
     });
@@ -63,15 +63,15 @@ export class HomeBottomProductsComponent implements OnInit, OnDestroy {
     this.loadingProduct = true;
     this.productService.getProductOption('discounted').pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.productsOnSale = datas.data;
-        if(this.productsOnSale.length > 0){
+      if (this.productsOnSale.length > 0) {
           setTimeout(() => {
             this.loadingProduct = false;
           }, 500);
-        }else{
+        } else {
           this.loadingProduct = false;
           // this.notyf.error(`There seems to be no On Sale product at this moment.`);
         }
-    },error => {
+    }, error => {
       // this.notyf.error(`There seems to be no ${option} product at this moment.`);
       console.log(error);
     });
@@ -80,15 +80,15 @@ export class HomeBottomProductsComponent implements OnInit, OnDestroy {
     this.loadingProduct = true;
     this.productService.getProductOption('top-rated').pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.productsTop = datas.data;
-        if(this.productsTop.length > 0){
+      if (this.productsTop.length > 0) {
           setTimeout(() => {
             this.loadingProduct = false;
           }, 500);
-        }else{
+        } else {
           this.loadingProduct = false;
           // this.notyf.error(`There seems to be no Top Rated product at this moment.`);
         }
-    },error => {
+    }, error => {
       // this.notyf.error(`There seems to be no ${option} product at this moment.`);
       console.log(error);
     });

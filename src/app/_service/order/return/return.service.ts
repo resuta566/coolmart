@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { tap, catchError, map } from "rxjs/operators";
+import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '@app/_service/core/authentication.service';
@@ -10,7 +10,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 
 
-export class Return{
+export class Return {
   cartId: number;
   refund_amount: number;
   thereason: string;
@@ -32,7 +32,7 @@ export class ReturnService {
       headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
-    private handleError<T> (operation = 'operation' , result?: T) {
+    private handleError<T>(operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
         console.error(error); // log to console instead
@@ -43,11 +43,11 @@ export class ReturnService {
         // Let the app keep running by returning an empty result.
         return of(result as T);
 
-      }
+      };
     }
 
-    returnOrders(page?: string){
-      let actualPage = page || `${environment.apiUrl}/api/returns`;
+    returnOrders(page?: string) {
+      const actualPage = page || `${environment.apiUrl}/api/returns`;
       return this.http.get(actualPage, this.httpOptions)
         .pipe(
           // tap(_ => console.log('fetched cart')),
@@ -55,18 +55,18 @@ export class ReturnService {
       );
     }
 
-    returnViewItem(orderId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/returned`,this.httpOptions).pipe(
+    returnViewItem(orderId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/returned`, this.httpOptions).pipe(
           tap(_ => console.log('fetched return Item'))
           );
       }
     }
 
-    returnShowItem(cartId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
+    returnShowItem(cartId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
         return this.http.get(`${environment.apiUrl}/api/transaction-item/${cartId}`)
           .pipe(
             // tap(_ => console.log('fetched cart')),
@@ -75,15 +75,15 @@ export class ReturnService {
       }
     }
 
-    returnOrderPut(order: Return){
+    returnOrderPut(order: Return) {
       console.log(order);
-      let params = new HttpParams()
-                  .set('reason',order.thereason)
-                  .set('optional',order.additional_info)
+      const params = new HttpParams()
+                  .set('reason', order.thereason)
+                  .set('optional', order.additional_info)
                   .set('refund_amount', order.refund_amount.toString());
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`,null,
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`, null,
           {params: params}
           )
           .pipe(

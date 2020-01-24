@@ -16,14 +16,14 @@ import { PaymentOptionsCheckoutComponent } from './dashboard/checkout/payment-op
 
 import { CartResolverService } from './_service/resolver/cart/cart-resolver.service';
 
-const htmlTitle = " | Cool Mart : Online Aircon Shopping with Great Prices!";
+const htmlTitle = ' | Cool Mart : Online Aircon Shopping with Great Prices!';
 
 const routes: Routes = [
   {
     path: '' ,
     pathMatch: 'full',
     component: HomeComponent,
-    data:{
+    data: {
       num: 1
     }
   },
@@ -39,7 +39,7 @@ const routes: Routes = [
     path: 'cart/update-item/:itemId' ,
     component: CartItemUpdateComponent,
     canActivate: [AuthGuard],
-    resolve:{
+    resolve: {
       data: CartResolverService
     }
   },
@@ -125,7 +125,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{
+  imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: 'enabled',
     anchorScrolling: 'enabled',
   })],

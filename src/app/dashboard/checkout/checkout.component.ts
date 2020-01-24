@@ -59,91 +59,91 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  checkOutAddressInfo(){
-    this.checkoutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+  checkOutAddressInfo() {
+    this.checkoutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.checkOutAddress = data;
       console.log(this.checkOutAddress);
 
     });
   }
 
-  provinceList(){
+  provinceList() {
     this.addressesService.province().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.provinces = data;
       this.selected = false;
     });
   }
 
-  getCities(provinceid: number){
+  getCities(provinceid: number) {
     this.provinceId = provinceid;
     this.selected = true;
-    this.addressesService.selected_province_cities(provinceid).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+    this.addressesService.selected_province_cities(provinceid).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.provinceCities = data;
-      if(this.provinceCities.length > 0){
+      if (this.provinceCities.length > 0) {
         this.provinceCityId = 0;
         this.addressForm.get('city').enable();
         this.addressForm.controls['city'].reset();
         this.selected = false;
       }
-    },err => {
+    }, err => {
       this.selected = false;
-    })
+    });
     this.cityBrgyId = 0;
     this.addressForm.get('brgy').disable();
     this.addressForm.controls['brgy'].reset();
   }
-  getBrgys(cityId: number){
+  getBrgys(cityId: number) {
     this.provinceCityId = cityId;
     this.selected = true;
-    this.addressesService.selected_city_barangays(cityId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
+    this.addressesService.selected_city_barangays(cityId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.cityBarangays = data;
-      if(this.cityBarangays.length > 0 ){
+      if (this.cityBarangays.length > 0 ) {
         this.cityBrgyId = 0;
         this.addressForm.get('brgy').enable();
         this.addressForm.controls['brgy'].reset();
         this.selected = false;
       }
-    },err => {
+    }, err => {
       this.selected = false;
     })
   }
-  getBrgyId(brgyid: number){
+  getBrgyId(brgyid: number) {
     this.cityBrgyId = brgyid;
   }
 
-  saveAddress(){
-    let newAddress: Address = {
+  saveAddress() {
+    const newAddress: Address = {
       fullname: this.a.fullname.value,
       mobilenumber: this.a.mobilenumber.value,
       other_notes: this.a.other_notes.value,
       building: this.a.building.value,
-      province: this.provinceId.toString()+ '--' + this.a.province.value,
-      city: this.provinceCityId.toString() + '--' +this.a.city.value,
+      province: this.provinceId.toString() + '--' + this.a.province.value,
+      city: this.provinceCityId.toString() + '--' + this.a.city.value,
       brgy: this.cityBrgyId.toString() + '--' + this.a.brgy.value,
       type: this.a.type.value,
-    }
+    };
     if (this.addressForm.invalid) {
       return;
     }
     this.addressesService.saveAddress(newAddress)
-        .pipe(first(),takeUntil(this.destroy$))
-        .subscribe(data=>{
+        .pipe(first(), takeUntil(this.destroy$))
+        .subscribe(data => {
           this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/checkout']);
             this.notyf.success(data);
           });
-        })
+        });
   }
-  editPhone(){
+  editPhone() {
     this.phoneEdit = !this.phoneEdit;
     console.log(this.phoneEdit);
 
   }
-  editAddress(){
+  editAddress() {
     const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
       width: '450px',
       height: '180px'
@@ -152,25 +152,25 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.message = 'Do you want to change the Shipping or Billing Address?';
 
     dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
-      if(result) {
+      if (result) {
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/dashboard/account/address-book']);
         });
       }
     });
   }
-  updateMobile(mobile: number, address_id: number){
-    this.addressesService.updateMobile(mobile,address_id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
+  updateMobile(mobile: number, address_id: number) {
+    this.addressesService.updateMobile(mobile, address_id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/checkout']);
         this.notyf.success(data);
       });
-    })
+    });
   }
   // convenience getter for easy access to form fields
   get a() { return this.addressForm.controls; }
 
-  addressForms(){
+  addressForms() {
     this.addressForm = this.formBuilderAddress.group({
       fullname: ['', Validators.required],
       mobilenumber: ['', [
@@ -185,33 +185,33 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  acceptForm(){
+  acceptForm() {
     this.placeorderForm = this.formBuilder.group({
-      accept:[false, Validators.required]
+      accept: [false, Validators.required]
     });
   }
-  placeOrder(){
+  placeOrder() {
     this.selected = true;
-    this.checkoutService.checkout().pipe(takeUntil(this.destroy$)).subscribe((response:any)=>{
+    this.checkoutService.checkout().pipe(takeUntil(this.destroy$)).subscribe((response: any) => {
       console.log(response);
       this.router.navigate(['/checkout/payment-options'], {
-        queryParams:{
+        queryParams: {
           orderTranscationId: response.transaction_id ,
           acceptedTermsCondition: this.placeorderForm.valid
         }});
     });
   }
 
-  getCart(){
-    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+  getCart() {
+    this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.carts = data.data;
       console.log(this.carts);
-      if(this.carts.length <= 0) this.thereIsItem = false;
+      if (this.carts.length <= 0) this.thereIsItem = false;
 
-      //Compute the subtotal of all the items
-      this.carts.forEach( item =>{
+      // Compute the subtotal of all the items
+      this.carts.forEach( item => {
         this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
-      })
+      });
     });
   }
 
@@ -224,17 +224,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.title = 'Remove from cart?';
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.cartService.removeItemCartQty(id).pipe(takeUntil(this.destroy$)).subscribe(data=> {});
+      if (result) {
+        this.cartService.removeItemCartQty(id).pipe(takeUntil(this.destroy$)).subscribe(data => {});
       }
     });
   }
 
-  subTotal(){
+  subTotal() {
     this.sum = 0;
-    for( let oneCart of this.carts ){
+    for ( const oneCart of this.carts ) {
       this.sum += oneCart.price * oneCart.qty;
    }
-   return this.sum;
+    return this.sum;
   }
 }

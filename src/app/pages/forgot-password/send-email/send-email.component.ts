@@ -22,17 +22,17 @@ export class SendEmailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
-    })
+    });
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
   get e() { return this.emailForm.controls; }
 
-  sendEmail(){
+  sendEmail() {
     this.submitted = true;
     if (this.emailForm.invalid) {
       return;
@@ -40,7 +40,7 @@ export class SendEmailComponent implements OnInit, OnDestroy {
 
     this.authenticationService.forgotPassword(this.e.email.value)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(response=>{
+        .subscribe(response => {
           this.submitted = false;
         });
   }

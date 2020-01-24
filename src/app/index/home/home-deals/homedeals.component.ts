@@ -9,8 +9,8 @@ export class HomedealsComponent implements OnInit {
 
   constructor() { }
 
+  img = 'http://192.168.254.101/coolmart365-backend/public/uploads/brand/logo/haier_1573454238.jpg';
+
   ngOnInit() {
   }
-
-  img = "http://192.168.254.101/coolmart365-backend/public/uploads/brand/logo/haier_1573454238.jpg";
 }

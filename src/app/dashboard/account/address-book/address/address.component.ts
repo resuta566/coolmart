@@ -15,7 +15,7 @@ import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialo
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss']
 })
-export class AddressComponent implements OnInit, OnDestroy{
+export class AddressComponent implements OnInit, OnDestroy {
 
   provinces: any;
   provinceId = 0;
@@ -41,13 +41,13 @@ export class AddressComponent implements OnInit, OnDestroy{
     ) {
      }
 
-  ngOnInit(){
+  ngOnInit() {
     this.addressForms();
     this.router.paramMap.pipe(takeUntil(this.destroy$)).subscribe(addressId => {
-      this.addressIdEdit = addressId.get('addressId')
+      this.addressIdEdit = addressId.get('addressId');
       console.log(this.addressIdEdit);
 
-      if(this.addressIdEdit){
+      if (this.addressIdEdit) {
         this.getOneUserAddress(+this.addressIdEdit);
       }
     });
@@ -57,23 +57,23 @@ export class AddressComponent implements OnInit, OnDestroy{
 
 
   ngOnDestroy() {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  getOneUserAddress(addressId: number){
+  getOneUserAddress(addressId: number) {
     this.addressesService.oneUserAddress(addressId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.isAddressUpdate = true;
       this.addressData = data;
       console.log(this.addressData);
       this.getCities(+data.province[0]);
       this.getBrgys(+data.city[0]);
-      setTimeout(()=>{
+      setTimeout(() => {
         this.provinceCityId = +data.city[0];
         this.cityBrgyId = +data.brgy[0];
         this.a.city.setValue(data.city[1]);
         this.a.brgy.setValue(data.brgy[1]);
-      },500)
+      }, 500 );
       this.addressForm.patchValue({
         fullname: data.fullname,
         mobilenumber: data.contact,
@@ -83,62 +83,62 @@ export class AddressComponent implements OnInit, OnDestroy{
         city: data.city[1],
         brgy: data.brgy[1],
         type: data.type
-      })
+      });
       // console.log(this.addressForm);
 
-    })
+    });
   }
 
-  provinceList(){
+  provinceList() {
     this.addressesService.province().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.provinces = data;
       this.selected = false;
     });
   }
 
-  getCities(provinceid: number){
+  getCities(provinceid: number) {
 
     this.provinceId = provinceid;
     this.selected = true;
-    this.addressesService.selected_province_cities(provinceid).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+    this.addressesService.selected_province_cities(provinceid).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.provinceCities = data;
-      if(this.provinceCities.length > 0){
+      if (this.provinceCities.length > 0) {
         this.provinceCityId = 0;
         this.addressForm.get('city').enable();
         this.a['city'].reset();
         this.selected = false;
       }
-    },err => {
+    }, err => {
       this.selected = false;
-    })
+    });
     this.cityBrgyId = 0;
     this.addressForm.get('brgy').disable();
     this.a['brgy'].reset();
   }
-  getBrgys(cityId: number){
+  getBrgys(cityId: number) {
     this.provinceCityId = cityId;
     this.selected = true;
-    this.addressesService.selected_city_barangays(cityId).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
+    this.addressesService.selected_city_barangays(cityId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.cityBarangays = data;
-      if(this.cityBarangays.length > 0 ){
+      if (this.cityBarangays.length > 0 ) {
         this.cityBrgyId = 0;
         this.addressForm.get('brgy').enable();
         this.a['brgy'].reset();
         this.selected = false;
       }
-    },err => {
+    }, err => {
       this.selected = false;
-    })
+    });
   }
-  getBrgyId(brgyid: number){
+  getBrgyId(brgyid: number) {
     this.cityBrgyId = brgyid;
   }
 
-  saveAddress(){
+  saveAddress() {
     // console.log(this.a);
     console.log(this.addressForm);
     let newAddress: Address;
-    if(this.addressIdEdit){
+    if (this.addressIdEdit) {
       console.log(this.addressIdEdit);
 
       newAddress = {
@@ -147,11 +147,11 @@ export class AddressComponent implements OnInit, OnDestroy{
         mobilenumber: this.a.mobilenumber.value,
         other_notes: this.a.other_notes.value,
         building: this.a.building.value,
-        province: this.provinceId.toString()+ '--' + this.a.province.value,
-        city: this.provinceCityId.toString() + '--' +this.a.city.value,
+        province: this.provinceId.toString() + '--' + this.a.province.value,
+        city: this.provinceCityId.toString() + '--' + this.a.city.value,
         brgy: this.cityBrgyId.toString() + '--' + this.a.brgy.value,
         type: this.a.type.value,
-      }
+      };
 
       if (this.addressForm.invalid) {
         return;
@@ -160,46 +160,46 @@ export class AddressComponent implements OnInit, OnDestroy{
 
       this.addressesService.updateAddress(newAddress)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(data=>{
-            if(data){
+          .subscribe(data => {
+            if (data) {
               console.log(data);
 
               this.notyf.success(data);
               this.route.navigate(['/dashboard/account/address-book']);
             }
-          },err=>{
+          }, err => {
             this.notyf.error('Error');
-          })
-    }else{
+          });
+    } else {
       newAddress = {
         fullname: this.a.fullname.value,
         mobilenumber: this.a.mobilenumber.value,
         other_notes: this.a.other_notes.value,
         building: this.a.building.value,
-        province: this.provinceId.toString()+ '--' + this.a.province.value,
-        city: this.provinceCityId.toString() + '--' +this.a.city.value,
+        province: this.provinceId.toString() + '--' + this.a.province.value,
+        city: this.provinceCityId.toString() + '--' + this.a.city.value,
         brgy: this.cityBrgyId.toString() + '--' + this.a.brgy.value,
         type: this.a.type.value,
-      }
+      };
 
       if (this.addressForm.invalid) {
         return;
       }
       this.addressesService.saveAddress(newAddress)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(data=>{
-            if(data){
+          .subscribe(data => {
+            if (data) {
               this.notyf.success(data);
               this.route.navigate(['/dashboard/account/address-book']);
             }
-          },err=>{
+          }, err => {
             this.notyf.error('Error');
-          })
+          });
     }
 
   }
 
-  deleteAddress(){
+  deleteAddress() {
     const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
       width: '300px',
       height: '199px'
@@ -208,8 +208,8 @@ export class AddressComponent implements OnInit, OnDestroy{
     dialogRef.componentInstance.title = 'Remove from Address Book?';
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.addressesService.deleteAddress(+this.addressIdEdit).pipe(takeUntil(this.destroy$)).subscribe(response=>{});
+      if (result) {
+        this.addressesService.deleteAddress(+this.addressIdEdit).pipe(takeUntil(this.destroy$)).subscribe(response => {});
       }
     });
 
@@ -218,7 +218,7 @@ export class AddressComponent implements OnInit, OnDestroy{
   // convenience getter for easy access to form fields
   get a() { return this.addressForm.controls; }
 
-  addressForms(){
+  addressForms() {
     this.addressForm = this.formBuilderAddress.group({
       fullname: ['', Validators.required],
       mobilenumber: ['', [

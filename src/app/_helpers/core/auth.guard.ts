@@ -20,9 +20,9 @@ export class AuthGuard implements CanActivate {
             // logged in so return true
             return true;
         }
-          // not logged in so redirect to login page with the return url
-          this.router.navigate(['sign_in'], { queryParams: { returnUrl: state.url } });
-          this.notyf.error('Please Log In!');
-          return false;
+        // not logged in so redirect to login page with the return url
+        this.router.navigate(['sign_in'], { queryParams: { returnUrl: state.url } });
+        this.notyf.error('Please Log In!');
+        return false;
     }
 }

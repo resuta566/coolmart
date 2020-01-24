@@ -30,9 +30,9 @@ export class StarRatingComponent implements OnInit {
   @Input('color') color: string = 'accent';
   @Output() private ratingUpdated = new EventEmitter();
 
-  private snackBarDuration: number = 2000;
+  private snackBarDuration = 2000;
   ratingArr = [];
-  message:string = "Excellent";
+  message = 'Excellent';
 
   constructor(private snackBar: MatSnackBar) {
   }
@@ -43,21 +43,21 @@ export class StarRatingComponent implements OnInit {
       this.ratingArr.push(index);
     }
   }
-  onClick(rating:number) {
+  onClick(rating: number) {
 
-    if(rating == 1) this.message = "Worst";
-    if(rating == 2) this.message = "Very Bad";
-    if(rating == 3) this.message = "Fair";
-    if(rating == 4) this.message = "Good";
-    if(rating == 5) this.message = "Excellent";
-    this.snackBar.open('You rated ' + rating + ' / ' + this.starCount +' '+this.message, '', {
+    if(rating == 1) this.message = 'Worst';
+    if(rating == 2) this.message = 'Very Bad';
+    if(rating == 3) this.message = 'Fair';
+    if(rating == 4) this.message = 'Good';
+    if(rating == 5) this.message = 'Excellent';
+    this.snackBar.open('You rated ' + rating + ' / ' + this.starCount + ' ' + this.message, '', {
       duration: this.snackBarDuration
     });
     this.ratingUpdated.emit(rating);
     return false;
   }
 
-  showIcon(index:number) {
+  showIcon(index: number) {
     if (this.rating >= index + 1) {
       return 'star';
     } else {
@@ -67,7 +67,7 @@ export class StarRatingComponent implements OnInit {
 
 }
 export enum StarRatingColor {
-  primary = "primary",
-  accent = "accent",
-  warn = "warn"
+  primary = 'primary',
+  accent = 'accent',
+  warn = 'warn'
 }

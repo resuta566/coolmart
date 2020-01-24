@@ -29,8 +29,8 @@ export class HomeProductsCardComponent implements OnInit, OnDestroy {
   }
 
   getProducts() {
-    let filter: Filter = {
-      typeArray: [1,2]
+    const filter: Filter = {
+      typeArray: [1, 2]
     };
     this.productService.getProducts(filter).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;

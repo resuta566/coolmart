@@ -14,9 +14,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   checkcomment = '';
   reviews: any;
-  rating:number = 5;
-  starCount:number = 5;
-  starColor:StarRatingColor = StarRatingColor.accent;
+  rating = 5;
+  starCount = 5;
+  starColor: StarRatingColor = StarRatingColor.accent;
   reviewsPage: any;
   reviewsChangePage = '';
   reviewsMeta: any;
@@ -42,44 +42,44 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.destroy();
   }
 
-  destroy(){
-    this.destroy$.next(true); //For Memory Leaks same below
+  destroy() {
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  review(){
-    this.reviewService.reviews(this.reviewsChangePage).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+  review() {
+    this.reviewService.reviews(this.reviewsChangePage).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.reviews = data.data;
       this.reviewsPage = data.links;
       this.reviewsMeta = data.meta;
       this.reviewListCount = this.reviews.length;
-    })
+    });
   }
 
-  changePageReviews(page: string){
+  changePageReviews(page: string) {
     this.reviewsChangePage = page;
     this.review();
   }
 
-  reviewed(){
+  reviewed() {
     this.loadingHistory = true;
-    this.reviewService.reviewed(this.reviewedChangePage).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+    this.reviewService.reviewed(this.reviewedChangePage).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.reviewedList = data;
 
-      setTimeout(()=>{
+      setTimeout(() => {
         this.reviewedListCount = data.data.length;
         this.loadingHistory = false;
       }, 400);
-    })
+    });
   }
-  changePageReviewed(page: string){
+  changePageReviewed(page: string) {
 
     this.reviewedChangePage = page;
     this.reviewed();
   }
 
-  tabClicked($event){
-    if($event.index == 1){
+  tabClicked($event) {
+    if (+$event.index === 1) {
       this.reviewed();
     }
   }

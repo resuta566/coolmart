@@ -22,17 +22,17 @@ export class ReturnsComponent implements OnInit, OnDestroy {
     this.returns();
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  returns(){
-    this.returnService.returnOrders().pipe(takeUntil(this.destroy$)).subscribe(data=>{
+  returns() {
+    this.returnService.returnOrders().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.returnDetails = data;
       console.log(this.returnDetails);
     });
   }
-  changePageReturns(page: string){
+  changePageReturns(page: string) {
     console.log(page);
   }
 }

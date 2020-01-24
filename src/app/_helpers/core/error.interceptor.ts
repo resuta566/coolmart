@@ -21,44 +21,44 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
 
-            if (err.status == 401) {
+            if (err.status === 401) {
               // auto logout if 401 response returned from api
               this.notyf.error(err.error.message);
               this.authenticationService.logout();
-              location.reload(true);
+              location.reload();
             }
 
-            if(err.status == 403){
+            if (err.status === 403) {
               console.log(err);
               this.notyf.error(err.error.message || err.error.error);
-              if(err.error.verification == true){
+              if (err.error.verification === true) {
                 this.router.navigate(['/pages/email-verification']);
-              }else{
+              } else {
                 this.router.navigate(['/pages/not-found']);
               }
             }
 
-            if(err.status == 404){
+            if (err.status === 404) {
               console.log(err);
               this.router.navigate(['/pages/not-found']);
               this.notyf.error(err.error.message);
             }
 
-            if(err.status == 422){
+            if (err.status === 422) {
               this.error = err.error.error || err.error.errors.email[0] || err.statusText;
               this.notyf.error(err.error.errors.email[0]);
             }
 
-            if(err.status >= 500){
+            if (err.status >= 500) {
               this.notyf.error('Internal Server Error!');
             }
-            if(err.status == 0){
-              this.notyf.error('Server Responded as '+ err.statusText);
+            if (err.status === 0) {
+              this.notyf.error('Server Responded as ' + err.statusText);
             }
 
             this.error = err.error.error || err.error.message || err.statusText;
             console.error(err);
             return throwError(this.error);
-        }))
+        }));
     }
 }

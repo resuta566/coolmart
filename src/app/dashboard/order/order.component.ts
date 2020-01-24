@@ -29,23 +29,23 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.getOrder();
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  getOrder(){
+  getOrder() {
     this.loadingOrder = true;
-    this.orderService.orders(this.orderChangePage).pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+    this.orderService.orders(this.orderChangePage).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.orders = data.data;
       this.orderPage = data.links;
       this.orderMeta = data.meta;
-      setTimeout(()=> {
+      setTimeout(() => {
         this.loadingOrder = false;
       }, 1000);
     });
   }
 
-  changePageOrder(page: string){
+  changePageOrder(page: string) {
     this.orderChangePage = page;
     this.getOrder();
   }

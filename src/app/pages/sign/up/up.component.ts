@@ -47,12 +47,12 @@ export class UpComponent implements OnInit, OnDestroy {
         validator: MustMatch('password', 'cpassword')
       });
 
-      this.returnUrl = '/dashboard'
+    this.returnUrl = '/dashboard';
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
@@ -72,18 +72,18 @@ export class UpComponent implements OnInit, OnDestroy {
 
     // console.log(this.registerForm.value.email)
     this.authenticationService.register(this.registerForm.value)
-        .pipe(first(),takeUntil(this.destroy$))
+        .pipe(first(), takeUntil(this.destroy$))
         .subscribe(
             data => {
               this.loading = true;
               console.log(data);
               this.notyf.success('Successfully Registered!');
               this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
-              .pipe(first(),takeUntil(this.destroy$))
-              .subscribe(data => {
-                  if(data){
+              .pipe(first(), takeUntil(this.destroy$))
+              .subscribe( data => {
+                  if (data) {
                     this.router.navigate([this.returnUrl]);
-                  }else{
+                  } else {
 
                   }
             }),
@@ -92,7 +92,7 @@ export class UpComponent implements OnInit, OnDestroy {
                 this.loading = false;
                 this.submitted = false;
                 this.notyf.error(error);
-            }
+            };
           });
     }
 

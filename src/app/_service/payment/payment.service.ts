@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { tap, catchError, map } from "rxjs/operators";
+import { tap } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '..';
@@ -26,7 +26,7 @@ export class PaymentService {
       headers: new HttpHeaders({ 'Accept' : 'application/json'})
     };
 
-    private handleError<T> (operation = 'operation' , result?: T) {
+    private handleError<T>(operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
         console.error(error); // log to console instead
@@ -37,15 +37,15 @@ export class PaymentService {
         // Let the app keep running by returning an empty result.
         return of(result as T);
 
-      }
+      };
     }
 
-    paypalPaymentMethod(orderId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      let params = new HttpParams()
+    paypalPaymentMethod(orderId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      const params = new HttpParams()
                       .set('transaction_id', orderId.toString())
                       .set('option', 'paypal');
-      if(currentUser){
+      if (currentUser) {
         return this.http.get(`${environment.apiUrl}/api/payment`,
               { params: params })
               .pipe(
@@ -53,12 +53,12 @@ export class PaymentService {
               );
       }
     }
-    codPaymentMethod(orderId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      let params = new HttpParams()
+    codPaymentMethod(orderId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      const params = new HttpParams()
                       .set('transaction_id', orderId.toString())
                       .set('option', 'cod');
-      if(currentUser){
+      if (currentUser) {
         return this.http.get(`${environment.apiUrl}/api/payment`,
               { params: params })
               .pipe(
@@ -67,18 +67,18 @@ export class PaymentService {
       }
     }
 
-    afterPlaceOrder(orderId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/pending`,this.httpOptions).pipe(
+    afterPlaceOrder(orderId: number) {
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}/pending`, this.httpOptions).pipe(
           tap(_ => console.log('fetched cart'))
           );
       }
     }
     paymentSuccess(orderId: number){
-      let currentUser = this.authenticationService.currentUserValue;
-      if(currentUser){
-        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}`,this.httpOptions).pipe(
+      const currentUser = this.authenticationService.currentUserValue;
+      if (currentUser) {
+        return this.http.get(`${environment.apiUrl}/api/transactions/${orderId}`, this.httpOptions).pipe(
           tap(_ => console.log('fetched cart'))
           );
       }

@@ -10,7 +10,7 @@ export class CartResolverService implements Resolve<any>{
 
   constructor(
     private cartService: CartService
-  ){}
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>{
     // console.log(route.params);

@@ -13,7 +13,7 @@ import { NOTYF } from '@app/_helpers/notyf.token';
   templateUrl: './hometabs.component.html',
   styleUrls: ['./hometabs.component.scss']
 })
-export class HometabsComponent implements OnInit, OnDestroy{
+export class HometabsComponent implements OnInit, OnDestroy {
 
   mode = 'indeterminate';
   limit = 4;
@@ -46,19 +46,19 @@ export class HometabsComponent implements OnInit, OnDestroy{
     this.loadingProduct = true;
     this.productService.getProductOption(option).pipe(takeUntil(this.destroy$)).subscribe((datas: any) => {
       this.products = datas.data;
-        if(this.products.length > 0){
+      if (this.products.length > 0) {
           setTimeout(() => {
             this.loadingProduct = false;
           }, 500);
-        }else{
+        } else {
           this.loadingProduct = false;
         }
-    },error => {
+    }, error => {
         this.alertService.error(error, true);
     });
   }
 
-  show(limit: number){
+  show(limit: number) {
     this.limit = limit;
   }
 }

@@ -41,18 +41,18 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
     private router: Router,
     private cancelService: CancelService
   ) {
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
       console.log(param.get('cartId'));
       this.cartId = +param.get('cartId');
-      this.cancelService.cancelShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+      this.cancelService.cancelShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         this.itemDetails = data;
         console.log(this.itemDetails);
-        if(!this.itemDetails.attributes.cancellable){
+        if (!this.itemDetails.attributes.cancellable) {
           this.router.navigate(['/pages/not-found']);
         }
-      })
+      });
     });
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(param => {
       this.returnUrl = param.returnUrl;
       console.log(this.returnUrl);
     });
@@ -62,33 +62,33 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
     this.cancellationForm();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  cancellationForm(){
+  cancellationForm() {
     this.cancelForm = this.formBuilder.group({
-      cart_id:[this.cartId ,Validators.required],
-      reason:['',Validators.required],
-      additional_info:[''],
-      accept:[false, Validators.required]
-    })
+      cart_id: [this.cartId , Validators.required],
+      reason: ['', Validators.required],
+      additional_info: [''],
+      accept: [false, Validators.required]
+    });
   }
   get a() { return this.cancelForm.controls; }
 
-  submitCancell(){
+  submitCancell() {
     this.loading = true;
-    let cancelOrder: CancelOrder = {
+    const cancelOrder: CancelOrder = {
       cartId: this.cancelForm.value.cart_id,
       reason: this.cancelForm.value.reason,
       optional: this.cancelForm.value.additional_info
-    }
-    this.cancelService.cancelOrder(cancelOrder).pipe(takeUntil(this.destroy$)).subscribe((response: any)=>{
+    };
+    this.cancelService.cancelOrder(cancelOrder).pipe(takeUntil(this.destroy$)).subscribe((response: any) => {
       this.router.navigate([this.returnUrl]);
       this.notyf.success(response.message);
       this.loading = false;
-    },err=>{
+    }, err => {
       this.notyf.error(err.message);
       this.loading = false;
     });

@@ -20,21 +20,21 @@ export class ReturnedOrderComponent implements OnInit, OnDestroy {
     private returnService: ReturnService,
     private route: ActivatedRoute
     ) {
-      this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+      this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
         this.cartId = +param.get('transactionId');
-      })
+      });
     }
 
   ngOnInit() {
     this.returnData();
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  returnData(){
-    this.returnService.returnViewItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe(data=>{
+  returnData() {
+    this.returnService.returnViewItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.returnedData = data;
       console.log(this.returnedData);
 

@@ -25,7 +25,7 @@ export class HomeBottomBrandsCarouselComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.brandService.getBrands().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.brands = data.data;
-      if(this.brands !== null){
+      if (this.brands !== null) {
         this.gallery();
       }
     });
@@ -36,11 +36,11 @@ export class HomeBottomBrandsCarouselComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  gallery(){
+  gallery() {
     this.galleryOptions = [
       {
           image: false,
-          width: "100%",
+          width: '100%',
           height: '200px',
           thumbnailsColumns: 4,
           imagePercent: 100,
@@ -68,20 +68,20 @@ export class HomeBottomBrandsCarouselComponent implements OnInit, OnDestroy {
       {
           breakpoint: 561,
           preview: false ,
-          width: "100%",
-          height: "200px",
+          width: '100%',
+          height: '200px',
           thumbnailsColumns: 2
       }
   ];
 
-  this.galleryImages = [];
+    this.galleryImages = [];
 
-  for(const brand of this.brands) {
+    for (const brand of this.brands) {
     this.imgUrl = brand.attributes.logo;
     const image = {
-      small: this.apiUrl+'/'+this.imgUrl,
-      medium: this.apiUrl+'/'+this.imgUrl,
-      big: this.apiUrl+'/'+this.imgUrl
+      small: this.apiUrl + '/' + this.imgUrl,
+      medium: this.apiUrl + '/' + this.imgUrl,
+      big: this.apiUrl + '/' + this.imgUrl
     }
     this.galleryImages.push(image);
   }

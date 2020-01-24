@@ -10,7 +10,7 @@ import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialo
 import { Subject } from 'rxjs';
 import { NavbarService } from '@app/_service/navbar/navbar.service';
 
-export interface Regions{
+export interface Regions {
   id: number;
   name: string;
 }
@@ -21,8 +21,8 @@ export interface Regions{
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  regions: Regions[] =[
-    {id: 0,name: 'NCR'},
+  regions: Regions[] = [
+    {id: 0, name: 'NCR'},
     {id: 1, name: 'CAR'},
     {id: 2, name: 'ARMM'},
     {id: 3, name: 'Region I'},
@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private navbarService: NavbarService
     ) {
       this.authenticationService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(x => this.currentUser = x);
-      this.route.queryParams.pipe().subscribe(qp=> {
+      this.route.queryParams.pipe().subscribe(qp => {
         this.keyword = qp.q || '';
         this.loadCartItemCounter();
       });
@@ -67,9 +67,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadCartItemCounter();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.loadCartItemCounter();
-    },500);
+    }, 500);
     this.isLoggedIn();
   }
 
@@ -79,29 +79,29 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // },100);
     this.isLoggedIn();
 
-    if(this.currentUser){
+    if (this.currentUser) {
       this.navbarService.change.subscribe(reload => {
-        if(reload == true){
+        if (reload === true) {
           this.loadCartItemCounter();
         }
         console.log(reload);
       });
-    }else{
+    } else {
       this.count = 0;
     }
 
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
 
-  loadCartItemCounter(){
-      this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+  loadCartItemCounter() {
+      this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         this.carts = data.data;
-        if(data.with.count){
+        if (data.with.count) {
           this.count = +data.with.count;
-        }else{
+        } else {
           this.count = 0;
         }
       });
@@ -118,19 +118,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.title = 'Remove from cart?';
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data=> {});
+      if (result) {
+        this.cartService.removeItemCartQty(id).pipe(first(), takeUntil(this.destroy$)).subscribe(data => {});
       }
     });
 
   }
 
-  isLoggedIn(){
-    if(this.currentUser) return true;
+  isLoggedIn() {
+    if (this.currentUser) { return true; }
   }
 
   logout() {
-    if(!this.authenticationService.logout()){
+    if (!this.authenticationService.logout()) {
       alert('Server Error Please wait.');
     }
     this.router.navigate(['/sign_in']);

@@ -20,19 +20,19 @@ export class CancelledOrderComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private cancelService: CancelService
   ) {
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param=>{
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(param => {
       this.orderItemId = +param.get('transactionId');
-      this.cancelService.cancelViewItem(this.orderItemId).pipe(takeUntil(this.destroy$)).subscribe((data:any) =>{
+      this.cancelService.cancelViewItem(this.orderItemId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         this.cancelledData = data;
         console.log(this.cancelledData);
-      })
-    })
+      });
+    });
    }
 
   ngOnInit() {
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

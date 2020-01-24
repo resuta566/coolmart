@@ -24,28 +24,28 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true); //For Memory Leaks same below
+    this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
   }
-  timer(){
-    let timer = setInterval(()=>{
+  timer() {
+    const timer = setInterval(() => {
       this.resendtimer -= 1;
-      if(this.resendtimer == 0){
+      if (+this.resendtimer === 0) {
         clearInterval(timer);
         this.btnclicked = false;
       }
-    },1000)
+    }, 1000);
   }
-  resendVerificationEmail(){
+  resendVerificationEmail() {
     this.resendtimer = 360000;
     this.btnclicked = true;
     this.timer();
     this.resendService.resendverification()
-    .pipe(takeUntil(this.destroy$)).subscribe((data: any)=>{
+    .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         console.log(data);
-        if(data){
-          this.notyf.success('Verification Email Successfully Resend!')
+        if (data) {
+          this.notyf.success('Verification Email Successfully Resend!');
         }
-      })
+      });
   }
 }
