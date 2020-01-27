@@ -45,8 +45,16 @@
   }
 
   .mat-form-field{
-    display: contents !important;
+    width: 50% !important;
   }
+
+  @media (max-width: 880px){
+    .mat-form-field{
+      display: contents !important;
+      // width: 500px !important;
+    }
+  }
+
 }
 .changepass{
   margin: auto 10px;

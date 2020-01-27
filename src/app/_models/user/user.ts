@@ -5,15 +5,19 @@ export class User {
     name: string;
     email: string;
     access_token?: string;
-  }
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    email_verified_at: string;
-  }
+  };
+  user: string;
+
   name: string;
+  birthdate: string;
   role_name: string;
   accessToken?: string;
   token_type: string;
+
+  // User Birthdate for post method
+  month: string;
+  date: string;
+  year: string;
+
+  gender: number;
 }

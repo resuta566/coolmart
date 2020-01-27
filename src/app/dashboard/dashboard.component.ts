@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentUser = this.authenticationService.currentUserValue.user.name;
+    this.currentUser = this.authenticationService.currentUserValue.user;
   }
 
 

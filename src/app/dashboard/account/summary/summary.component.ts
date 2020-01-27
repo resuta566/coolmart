@@ -3,6 +3,7 @@ import { AuthenticationService } from '@app/_service/core/authentication.service
 import { CheckOutService } from '@app/_service/checkout/checkout.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { User } from '@app/_models';
 
 @Component({
   selector: 'app-summary',
@@ -15,16 +16,20 @@ export class SummaryComponent implements OnInit, OnDestroy {
   currentUser: any;
   addressInfo: any;
   loading = true;
+  profile: User;
   constructor(
     private authenticationService: AuthenticationService,
     private checkOutService: CheckOutService
     ) { }
 
   ngOnInit() {
-    this.currentUser = this.authenticationService.currentUserValue.user;
+
+    this.authenticationService.profile().pipe(takeUntil(this.destroy$)).subscribe((userProfile: User) => {
+      this.profile = userProfile;
+    });
+
     this.checkOutService.checkoutAddress().pipe(takeUntil(this.destroy$)).subscribe((address: any) => {
       this.addressInfo = address;
-      console.log(this.addressInfo);
       if (this.addressInfo) {
         setTimeout(() => {
           this.loading = false;

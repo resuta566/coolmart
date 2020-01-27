@@ -7,8 +7,8 @@
                     <div class="info">
                           <div class="content shadow">
                               <span class="title">Personal Profile</span> | <a [routerLink]="['/dashboard/account/profile']" >EDIT</a> <br>
-                              {{ currentUser.name }}<br>
-                              {{ currentUser.email }}<br><br>
+                              {{ profile?.name }}<br>
+                              {{ profile?.email }}<br><br>
                               <!-- Subscribe to our Newsletter -->
                           </div>
 
@@ -68,23 +68,3 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="card">
-                <div class="card-header header-bg" >
-                    Recent Orders
-                  </div>
-                <table class="shop_table shop_table_responsive cart">
-                    <thead>
-                        <tr>
-                            <th class="product-name">Product</th>
-                            <th class="product-thumbnail">&nbsp;</th>
-                            <th class="product-price">Price</th>
-                            <th class="product-quantity">Quantity</th>
-                            <th class="product-subtotal">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-                <router-outlet></router-outlet>
-            </div> -->

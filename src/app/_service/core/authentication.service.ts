@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 
@@ -16,6 +16,7 @@ export class ResetPassword {
   new_password?: string;
   token?: string;
 }
+
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
@@ -37,6 +38,7 @@ export class AuthenticationService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
+
     private handleError<T>(operation = 'operation' , result?: T) {
       return (error: any): Observable<T> => {
         // TODO: send the error to remote logging infrastructure
@@ -47,7 +49,7 @@ export class AuthenticationService {
 
         // Let the app keep running by returning an empty result.
         return of(result as T);
-      }
+      };
     }
 
     login(email: string, password: string) {
@@ -67,16 +69,24 @@ export class AuthenticationService {
     register(user: User) {
       return this.http.post(`${environment.apiUrl}/api/register`, user, this.httpOptions)
           .pipe(
-            map((user : any) => {
+            map((userData: User) => {
               localStorage.removeItem('resendVerification');
-              localStorage.setItem('resendVerification', JSON.stringify(user.accessToken));
-              return user;
+              localStorage.setItem('resendVerification', JSON.stringify(userData.accessToken));
+              return userData;
             })
       );
     }
 
-    forgotPassword(email: string){
-      return this.http.post(`${environment.apiUrl}/api/password/create`, { email: email })
+    // User Profile for Dashboard
+    profile() {
+      return this.http.get<User>(`${environment.apiUrl}/api/my-profile`, this.httpOptions)
+             .pipe(
+               catchError(this.handleError<User>('user Profile'))
+             );
+    }
+
+    forgotPassword(email: string) {
+      return this.http.post(`${environment.apiUrl}/api/password/create`, { email })
           .pipe(
             map((response: any) => {
               console.log(response);
@@ -94,7 +104,7 @@ export class AuthenticationService {
     }
 
     // New Password for Requested Forgot Password
-    resetNewPassword(reset: ResetPassword){
+    resetNewPassword(reset: ResetPassword) {
       return this.http.post(`${environment.apiUrl}/api/password/reset`, reset)
           .pipe(
             map((response: any) => {
@@ -107,7 +117,7 @@ export class AuthenticationService {
     }
 
     // Details for Reset Forgot Password
-    resetDetails(token: string){
+    resetDetails(token: string) {
       return this.http.get(`${environment.apiUrl}/api/password/find/${token}`)
           .pipe(
             retry(3),
@@ -116,11 +126,11 @@ export class AuthenticationService {
     }
 
     // Logged In User Changed Pass
-    resetUserPassword(resetpass: ResetPassword){
+    resetUserPassword(resetpass: ResetPassword) {
       const body = {
         password: resetpass.current_password,
         new_password: resetpass.new_password
-      }
+      };
       console.log(JSON.stringify(body));
       return this.http.post(`${environment.apiUrl}/api/password/change`, body)
           .pipe(
@@ -131,7 +141,7 @@ export class AuthenticationService {
                   this.router.navigate(['/dashboard/account/profile']);
                 });
               } else {
-                this.notyf.error('Current ' +response.error);
+                this.notyf.error('Current ' + response.error);
               }
             }),
             retry(3),

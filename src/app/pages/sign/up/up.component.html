@@ -1,63 +1,138 @@
 <div id="overlay" *ngIf="loading">
-  <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+  <div class="lds-ring">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
 <h2>Register</h2>
 
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register">
+  <p class="before-register-text">Create your very own account</p>
 
-    <p class="before-register-text">Create your very own account</p>
+  <div class="form-row form-row-wide">
+    <label for="reg_email">Full Name<span class="required">*</span></label>
+    <input type="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+      class="input-text" name="name" id="reg_name" />
+    <div *ngIf="submitted && f.name.errors" class="text-danger">
+      <div *ngIf="f.name.errors.required">Full Name is required</div>
+      <div *ngIf="f.name.errors.minlength">
+        Full Name must be at least 6 characters.
+      </div>
+      <div *ngIf="f.name.errors.maxlength">
+        Full Name must not be more than 50 characters.
+      </div>
+    </div>
+  </div>
 
-    <div class="form-row form-row-wide">
-        <label for="reg_email">Full Name<span class="required">*</span></label>
-        <input type="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" class="input-text" name="name" id="reg_name" />
-        <div *ngIf="submitted && f.name.errors" class="text-danger">
-            <div *ngIf="f.name.errors.required">Full Name is required</div>
+  <div class="form-row form-row-wide">
+    <label for="reg_email">Email address<span class="required">*</span></label>
+    <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+      class="input-text" name="email" id="reg_email" />
+    <div *ngIf="submitted && f.email.errors" class="text-danger">
+      <div *ngIf="f.email.errors.required">Email is required</div>
+      <div *ngIf="f.email.errors.email">
+        Email must be a valid email address
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row form-row-wide">
+    <label for="reg_email">Password<span class="required">*</span></label>
+    <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+      class="input-text" name="password" id="reg_password" />
+    <div *ngIf="submitted && f.password.errors" class="text-danger">
+      <div *ngIf="f.password.errors.required">Password is required</div>
+      <div *ngIf="f.password.errors.minlength">
+        Password must be at least 8 characters
+      </div>
+      <div *ngIf="f.password.errors.maxlength">
+        Password must not be more than 50 characters
+      </div>
+      <div *ngIf="f.password.errors.mustMatch">Passwords must match</div>
+    </div>
+  </div>
+
+  <div class="form-row form-row-wide">
+    <label for="reg_email">Confirm Password<span class="required">*</span></label>
+    <input type="password" formControlName="cpassword" [ngClass]="{ 'is-invalid': submitted && f.cpassword.errors }"
+      class="input-text" name="cpassword" id="reg_cpassword" />
+    <div *ngIf="submitted && f.cpassword.errors" class="text-danger">
+      <div *ngIf="f.cpassword.errors.required">
+        Confirm Password is required
+      </div>
+      <div *ngIf="f.cpassword.errors.minlength">
+        Confirm Password must be at least 8 characters
+      </div>
+      <div *ngIf="f.cpassword.errors.maxlength">
+        Confirm Password must not be more than 50 characters
+      </div>
+      <div *ngIf="f.cpassword.errors.mustMatch">Passwords must match</div>
+    </div>
+  </div>
+
+  <div class="form-row form-row-wide">
+    <div class="row">
+      <div class="col-lg-9 birthday">
+        <label for="reg_birthday">Birthday<span class="required">*</span></label>
+        <br />
+        <select formControlName="month" class="" name="attribute_pa_color">
+          <option value="" disabled selected>Month</option>
+          <option *ngFor="let month of months; let i = index" [value]="i + 1">{{
+            month
+          }}</option>
+        </select>
+        <select formControlName="date" class="" name="attribute_pa_color">
+          <option value="" disabled selected>Day</option>
+          <option *ngFor="let day of days; let i = index" [value]="i + 1">{{
+            i + 1
+          }}</option>
+        </select>
+        <select formControlName="year" class="" name="attribute_pa_color">
+          <option value="" disabled selected>Year</option>
+          <option *ngFor="let year of years.slice().reverse()" [value]="year">{{
+            year
+          }}</option>
+        </select>
+        <div *ngIf="submitted && f.month.errors" class="text-danger">
+          <div *ngIf="f.month.errors.required">Month is required</div>
         </div>
-    </div>
-
-    <div class="form-row form-row-wide">
-        <label for="reg_email">Email address<span class="required">*</span></label>
-        <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="input-text" name="email" id="reg_email" />
-        <div *ngIf="submitted && f.email.errors" class="text-danger">
-            <div *ngIf="f.email.errors.required">Email is required</div>
-            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+        <div *ngIf="submitted && f.date.errors " class="text-danger">
+          <div *ngIf="f.date.errors.required">Day is required</div>
         </div>
-    </div>
-
-    <div class="form-row form-row-wide">
-        <label for="reg_email">Password<span class="required">*</span></label>
-        <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="input-text" name="password" id="reg_password" />
-        <div *ngIf="submitted && f.password.errors" class="text-danger">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
-            <div *ngIf="f.password.errors.mustMatch">Passwords must match</div>
+        <div *ngIf="submitted && f.year.errors" class="text-danger">
+          <div *ngIf="f.year.errors.required">Year is required</div>
         </div>
-    </div>
-
-    <div class="form-row form-row-wide">
-        <label for="reg_email">Confirm Password<span class="required">*</span></label>
-        <input type="password" formControlName="cpassword" [ngClass]="{ 'is-invalid': submitted && f.cpassword.errors }" class="input-text" name="cpassword" id="reg_cpassword" />
-        <div *ngIf="submitted && f.cpassword.errors" class="text-danger">
-            <div *ngIf="f.cpassword.errors.required">Confirm Password is required</div>
-            <div *ngIf="f.cpassword.errors.mustMatch">Passwords must match</div>
+      </div>
+      <div class="col-lg-3">
+        <label for="reg_gender">Gender<span class="required">*</span></label>
+        <br />
+        <select formControlName="gender" name="gender">
+          <option value="" selected></option>
+          <option value="0">Male</option>
+          <option value="1">Female</option>
+        </select>
+        <div *ngIf="submitted && f.gender.errors" class="text-danger">
+          <div *ngIf="f.gender.errors.required">Gender is required</div>
         </div>
+      </div>
     </div>
+  </div>
 
+  <div class="form-row">
+    <button class="btn button">
+      <span class="spinner-border spinner-border-sm mr-1"></span>
+      Register
+    </button>
+  </div>
 
-    <div class="form-row">
-        <button class="btn button">
-            <span class="spinner-border spinner-border-sm mr-1"></span>
-            Register
-          </button>
-    </div>
-
-    <div class="register-benefits">
-        <h3>Sign up today and you will be able to :</h3>
-        <ul>
-            <li>Speed your way through checkout</li>
-            <li>Track your orders easily</li>
-            <li>Keep a record of all your purchases</li>
-        </ul>
-    </div>
-
+  <div class="register-benefits">
+    <h3>Sign up today and you will be able to :</h3>
+    <ul>
+      <li>Speed your way through checkout</li>
+      <li>Track your orders easily</li>
+      <li>Keep a record of all your purchases</li>
+    </ul>
+  </div>
 </form>

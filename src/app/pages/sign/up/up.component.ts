@@ -10,7 +10,9 @@ import { Subject } from 'rxjs';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
 
+import * as _moment from 'moment';
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'sign-up',
   templateUrl: './up.component.html',
   styleUrls: ['./up.component.scss']
@@ -21,6 +23,9 @@ export class UpComponent implements OnInit, OnDestroy {
   submitted = false;
   messages: string;
   returnUrl: string;
+  months: Array<string>;
+  days = new Array(31);
+  years: number[] = [];
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -38,11 +43,22 @@ export class UpComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    const startYear = 1900;
+    const thisYear = new Date().getFullYear();
+    for (let s = startYear; s <= thisYear ; s++) {
+      this.years.push(s);
+    }
+
+    this.months = _moment.months();
     this.registerForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      cpassword: ['', [Validators.required, Validators.minLength(8)]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+      cpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+      month: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      year: ['', [Validators.required]],
+      gender: ['', [Validators.required]]
       }, {
         validator: MustMatch('password', 'cpassword')
       });
@@ -80,19 +96,11 @@ export class UpComponent implements OnInit, OnDestroy {
               this.notyf.success('Successfully Registered!');
               this.authenticationService.login(this.registerForm.value.email, this.registerForm.value.password)
               .pipe(first(), takeUntil(this.destroy$))
-              .subscribe( data => {
-                  if (data) {
+              .subscribe( ldata => {
+                  if (ldata) {
                     this.router.navigate([this.returnUrl]);
-                  } else {
-
                   }
-            }),
-            error => {
-                this.alertService.error(error);
-                this.loading = false;
-                this.submitted = false;
-                this.notyf.error(error);
-            };
+            });
           });
     }
 

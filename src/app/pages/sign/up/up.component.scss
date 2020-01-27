@@ -97,3 +97,24 @@
   border-color: #dc3545;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
+select{
+  display: inline-block;
+    max-width: 100%;
+    padding: .375rem 1.75rem .375rem .75rem;
+    padding-right: .75rem \9;
+    color: #55595c;
+    vertical-align: middle;
+    background: #fff;
+    background-image: none \9;
+    background-size: 8px 10px;
+    border: 1px solid #ccc;
+    -moz-appearance: none;
+    // -webkit-appearance: none;
+    border-radius: 1.071em;
+    color: #7e7e7e;
+    border-color: #e3e3e3;
+}
+select:focus{
+  border-color: #51a7e8;
+  outline: none;
+}

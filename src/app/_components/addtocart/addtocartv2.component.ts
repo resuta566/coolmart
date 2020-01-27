@@ -48,24 +48,18 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
   }
 
   addtocart() {
-    let currentUser = this.authenticationService.currentUserValue;
+    const currentUser = this.authenticationService.currentUserValue;
 
     if (currentUser) {
-      if (currentUser.user.email_verified_at) {
-        if (this.qty !== 0) {
-          this.cartForm = this.formBuilder.group({
-            // this.itemId is a string so + would make it an integer
-            itemId: [+this.itemId, Validators.required],
-            authId: [currentUser.user.id, Validators.required],
-            qty: [this.qty, Validators.required]
-          });
-          this.cartService.addToDataBaseCart(this.cartForm.value);
-        } else {
-          this.notyf.error('Sorry the Item is currently out of stock.');
-        }
+      if (this.qty !== 0) {
+        this.cartForm = this.formBuilder.group({
+          // this.itemId is a string so + would make it an integer
+          itemId: [+this.itemId, Validators.required],
+          qty: [this.qty, Validators.required]
+        });
+        this.cartService.addToDataBaseCart(this.cartForm.value);
       } else {
-        this.router.navigate(['/pages/email-verification']);
-        this.notyf.error('Please Verify your email!');
+        this.notyf.error('Sorry the Item is currently out of stock.');
       }
     } else {
       this.router.navigate(['dashboard']);

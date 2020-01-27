@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, empty, of} from 'rxjs';
+import { Observable, of} from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
@@ -17,7 +17,7 @@ import { NavbarService } from '../navbar/navbar.service';
 export class CartService {
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Accept': 'application/json'})
+    headers: new HttpHeaders({ Accept: 'application/json'})
   };
 
   constructor(
@@ -77,7 +77,7 @@ export class CartService {
           catchError(this.handleError('getCart', []))
       );
     }
-    return empty();
+    return of({});
 
   }
 

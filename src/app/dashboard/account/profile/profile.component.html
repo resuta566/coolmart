@@ -8,22 +8,28 @@
               <div class="info">
 
                       Full Name <br>
-                      {{ currentUser.name }} <br> <br>
-                      <!-- Birthday <br>
-                      01-01-1999 -->
+                      {{ currentUser?.name }} <br> <br>
+                      Birthday <br>
+                      {{ currentUser?.birthdate | date: birthDateFormat }}
               </div>
               <div class="info">
                       Email Address
                       <!-- | <a href="">Change </a> -->
                        <br>
-                      {{ currentUser.email }} <br> <br>
-                      <!-- Gender <br>
-                      Male -->
+                      {{ currentUser?.email }} <br> <br>
+                      Gender <br>
+                      {{ currentUser?.gender }}
               </div>
               <div class="info">
-                      <!-- Mobile -->
-                      <!-- | <a href="">Add</a> -->
-                      <!-- <p style="color: #929292;">Please add your mobile</p> -->
+                      Mobile
+                      | <a href="">Add</a>
+                      <ng-container *ngIf="currentUser?.phone; else nothing">
+                        {{ currentUser?.phone }}
+                      </ng-container>
+                      <ng-template #nothing>
+                        <p style="color: #929292;">Please add your mobile</p>
+                      </ng-template>
+
               </div>
           </div>
           <div class="changepass" [class.display-change-pass]="btnChangePass">

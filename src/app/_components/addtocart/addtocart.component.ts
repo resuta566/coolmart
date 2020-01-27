@@ -22,8 +22,8 @@ export class AddtocartComponent implements OnInit, OnDestroy {
   @Input('qty') qty: number;
   @Input('label') label: string;
   @Input('btnclass') btnclass: string;
-  @Input('option') option? = false;
-  @Input('redirect') redirect? = false;
+  @Input('option') option?= false;
+  @Input('redirect') redirect?= false;
   @Input('service_name') service_name?: string;
   @Input('value') value?: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -38,7 +38,7 @@ export class AddtocartComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true); // For Memory Leaks same below
@@ -50,22 +50,17 @@ export class AddtocartComponent implements OnInit, OnDestroy {
     const currentUser = this.authenticationService.currentUserValue;
 
     if (currentUser) {
-      if (currentUser.user.email_verified_at) {
-        if (this.qty !== 0) {
-          this.cartForm = this.formBuilder.group({
-            // this.itemId is a string so + would make it an integer
-            itemId: [+this.itemId, Validators.required],
-            qty: [this.qty, Validators.required],
-            service_name: [this.service_name],
-            value: [this.value]
-          });
-          this.cartService.addToDataBaseCart(this.cartForm.value, this.redirect);
-        } else {
-          this.notyf.error('Sorry the Item is currently out of stock.');
-        }
+      if (this.qty !== 0) {
+        this.cartForm = this.formBuilder.group({
+          // this.itemId is a string so + would make it an integer
+          itemId: [+this.itemId, Validators.required],
+          qty: [this.qty, Validators.required],
+          service_name: [this.service_name],
+          value: [this.value]
+        });
+        this.cartService.addToDataBaseCart(this.cartForm.value, this.redirect);
       } else {
-        this.router.navigate(['/pages/email-verification']);
-        this.notyf.error('Please Verify your email!');
+        this.notyf.error('Sorry the Item is currently out of stock.');
       }
     } else {
       this.router.navigate(['dashboard']);

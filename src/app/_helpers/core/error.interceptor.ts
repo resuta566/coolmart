@@ -12,12 +12,14 @@ import { Notyf } from 'notyf';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+  error: any;
+
   constructor(
       @Inject(NOTYF) private notyf: Notyf,
       private authenticationService: AuthenticationService,
       private router: Router,
       ) { }
-    error: any;
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
 
@@ -45,8 +47,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
 
             if (err.status === 422) {
-              this.error = err.error.error || err.error.errors.email[0] || err.statusText;
-              this.notyf.error(err.error.errors.email[0]);
+              this.error = err.error.error || err.error.errors.email[0]
+              || err.error.errors.month[0] || err.error.errors.year[0]
+              || err.error.errors.date[0] || err.message  || err.statusText ;
+              this.notyf.error(this.error);
             }
 
             if (err.status >= 500) {

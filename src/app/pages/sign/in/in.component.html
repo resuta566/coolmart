@@ -10,7 +10,7 @@
 
   <div class="form-row form-row-wide form-group">
     <label for="email">Email address<span class="required">*</span></label>
-    <input type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control input-text" name="email" id="email"/>
+    <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control input-text" name="email" id="email"/>
     <div *ngIf="submitted && f.email.errors" class="text-danger">
         <div *ngIf="f.email.errors.required">Email is required</div>
     </div>

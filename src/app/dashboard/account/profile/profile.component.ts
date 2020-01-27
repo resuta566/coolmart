@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '@app/_helpers';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { User } from '@app/_models';
 
 @Component({
   selector: 'app-profile',
@@ -14,21 +15,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>(); // Destroy Subscription to avoid memory leaks
   btnChangePass = true;
-  currentUser: any;
+  currentUser: User;
   userChangePassForm: FormGroup;
+  birthDateFormat = 'MMMM dd, yyyy';
   constructor(
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
+    this.profile();
     this.passwordForm();
-    this.currentUser = this.authenticationService.currentUserValue.user;
   }
 
   ngOnDestroy() {
     this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
+  }
+
+  profile() {
+    this.authenticationService.profile().pipe().subscribe((profile: User) => {
+      this.currentUser = profile;
+      console.log(this.currentUser);
+
+    });
   }
 
   passwordForm() {
@@ -41,10 +51,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  get p() { return this.userChangePassForm.controls;}
+  get p() { return this.userChangePassForm.controls; }
 
   submitChangePass() {
-    if (!this.userChangePassForm.valid) return;
+    if (!this.userChangePassForm.valid) { return; }
     const changepassword: ResetPassword = {
       current_password: this.userChangePassForm.value.password,
       new_password: this.userChangePassForm.value.newpassword
