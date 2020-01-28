@@ -23,7 +23,7 @@ export class UpComponent implements OnInit, OnDestroy {
   submitted = false;
   messages: string;
   returnUrl: string;
-  months: Array<string>;
+  months = _moment.months();
   days = new Array(31);
   years: number[] = [];
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -49,7 +49,6 @@ export class UpComponent implements OnInit, OnDestroy {
       this.years.push(s);
     }
 
-    this.months = _moment.months();
     this.registerForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],

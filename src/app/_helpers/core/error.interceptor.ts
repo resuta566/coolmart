@@ -23,11 +23,11 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
 
+            // tslint:disable-next-line: triple-equals
             if (err.status === 401) {
               // auto logout if 401 response returned from api
               this.notyf.error(err.error.message);
               this.authenticationService.logout();
-              location.reload();
             }
 
             if (err.status === 403) {

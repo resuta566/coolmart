@@ -97,7 +97,7 @@ export class CartService {
 
 
 
-  removeItemCartQty(id: number){
+  removeItemCartQty(id: number) {
     return this.http.delete(`${environment.apiUrl}/api/cart/${id}`, this.httpOptions).pipe(
       map(_ => {
         this.navbarService.reload();

@@ -9,6 +9,8 @@ export class User {
   user: string;
 
   name: string;
+  email: string;
+  phone: string;
   birthdate: string;
   role_name: string;
   accessToken?: string;
@@ -20,4 +22,5 @@ export class User {
   year: string;
 
   gender: number;
+  genderId: number;
 }

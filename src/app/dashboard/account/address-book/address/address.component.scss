@@ -1,6 +1,4 @@
-mat-form-field {
-  width: 100%;
-  }
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -28,6 +26,10 @@ input[type=number]::-webkit-outer-spin-button {
   .mat-select:focus:not(.mat-select-disabled).mat-primary
   .mat-select-arrow , .mat-select-underline , .mat-select-trigger{
     color: black;
+  }
+
+  .mat-form-field {
+    width: 100% !important;
   }
 
   /* to change selected item color in the select list */

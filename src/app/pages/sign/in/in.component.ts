@@ -70,10 +70,11 @@ export class InComponent implements OnInit, OnDestroy {
         .pipe(first(), takeUntil(this.destroy$))
         .subscribe(
             data => {
-                if (data) {
+              if (data) {
                   this.notyf.success('Successfully Loggedin!');
                   window.location.href = this.returnUrl;
-                    // this.router.navigateByUrl(this.returnUrl);
+                  // this.router.navigateByUrl(this.returnUrl);
+                  // Bug NgAfterViewInit Navbar Doesn't update the count when use router.
                   this.navbarService.reload();
                 }
             },

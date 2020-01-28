@@ -23,7 +23,7 @@ export class ReviewService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Accept' : 'application/json'})
+      headers: new HttpHeaders({ Accept : 'application/json'})
     };
 
     private handleError<T>(operation = 'operation' , result?: T) {
@@ -63,7 +63,7 @@ export class ReviewService {
     }
 
     oneReviewed(slug: string) {
-      if (this.currentUser){
+      if (this.currentUser) {
         return this.http.get(`${environment.apiUrl}/api/items/review/${slug}`, this.httpOptions)
               .pipe(
                 // tap(_ => console.log('fetched cart')),
@@ -80,7 +80,7 @@ export class ReviewService {
         );
     }
 
-    sendReview(itemId: number, stars: number, comments: string){
+    sendReview(itemId: number, stars: number, comments: string) {
       if (this.currentUser) {
         return this.http.post(`${environment.apiUrl}/api/items/reviews`, { itemId:itemId, stars:stars, comments:comments},this.httpOptions)
           .pipe(

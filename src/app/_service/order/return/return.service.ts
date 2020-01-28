@@ -4,7 +4,7 @@ import { Observable, of} from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { AuthenticationService } from '@app/_service/core/authentication.service';
+import { AuthenticationService } from '@app/_service';
 
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
@@ -29,7 +29,7 @@ export class ReturnService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Accept' : 'application/json'})
+      headers: new HttpHeaders({ Accept : 'application/json'})
     };
 
     private handleError<T>(operation = 'operation' , result?: T) {

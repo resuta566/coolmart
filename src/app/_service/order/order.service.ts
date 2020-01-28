@@ -23,7 +23,7 @@ export class OrderService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({'Accept' : 'application/json', 'Content-Type' : 'application/json'})
+      headers: new HttpHeaders({ Accept : 'application/json', 'Content-Type' : 'application/json'})
     };
 
     private handleError<T>(operation = 'operation' , result?: T) {

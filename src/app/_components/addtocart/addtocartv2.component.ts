@@ -30,6 +30,7 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   cartForm: FormGroup;
+  returnUrl: string;
 
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
@@ -37,7 +38,9 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
     private cartService: CartService,
     private router: Router,
     private authenticationService: AuthenticationService
-  ) { }
+  ) {
+    this.returnUrl = router.url;
+  }
 
   ngOnInit() { }
 
@@ -62,7 +65,8 @@ export class AddtocartV2Component implements OnInit, OnDestroy {
         this.notyf.error('Sorry the Item is currently out of stock.');
       }
     } else {
-      this.router.navigate(['dashboard']);
+      window.location.href = `/sign_in?returnUrl=${this.returnUrl}`;
+      // this.router.navigate(['sign_in']);
       this.notyf.error('Please Log In to Add this Item to Cart!');
     }
   }

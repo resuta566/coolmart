@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/_service';
 import { User } from '@app/_models';
@@ -19,7 +19,7 @@ export interface Regions {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   regions: Regions[] = [
     {id: 0, name: 'NCR'},
@@ -61,15 +61,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.authenticationService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(x => this.currentUser = x);
       this.route.queryParams.pipe().subscribe(qp => {
         this.keyword = qp.q || '';
-        this.loadCartItemCounter();
+        if (this.currentUser) {
+          this.loadCartItemCounter();
+        }
       });
     }
 
   ngOnInit() {
-    this.loadCartItemCounter();
-    setTimeout(() => {
+    if (this.currentUser) {
       this.loadCartItemCounter();
-    }, 500);
+      setTimeout(() => {
+        this.loadCartItemCounter();
+      }, 500);
+    }
     this.isLoggedIn();
   }
 
@@ -130,11 +134,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    if (!this.authenticationService.logout()) {
-      alert('Server Error Please wait.');
-    }
-    this.router.navigate(['/sign_in']);
     this.count = 0;
+    this.authenticationService.logout().pipe(takeUntil(this.destroy$)).subscribe(_ => _);
   }
 
   search(keyword: string) {

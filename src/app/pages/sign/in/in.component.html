@@ -19,6 +19,7 @@
   <div class="form-row form-row-wide">
     <label for="password">Password<span class="required">*</span></label>
     <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control input-text" name="password" id="password" />
+    
     <div *ngIf="submitted && f.password.errors" class="text-danger">
         <div *ngIf="f.password.errors.required">Password is required</div>
     </div>

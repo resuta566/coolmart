@@ -77,7 +77,14 @@ export class CancelOrderComponent implements OnInit, OnDestroy {
   }
   get a() { return this.cancelForm.controls; }
 
-  submitCancell() {
+  submitCancel() {
+
+    if (!this.cancelForm.valid) { return; }
+    if (!this.a.accept.value) {
+      this.notyf.error('You must accept CoolMart365 Cancellation Policy! ');
+      return;
+    }
+
     this.loading = true;
     const cancelOrder: CancelOrder = {
       cartId: this.cancelForm.value.cart_id,

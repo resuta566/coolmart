@@ -1,89 +1,164 @@
 <div class="card">
-    <div class="card-header header-bg">
-        My Profile
+  <div class="card-header header-bg">
+    My Profile
+  </div>
+
+  <div class="card" style="margin: 10px">
+    <div class="info-container">
+      <div class="info">
+        <!-- Prodile Edit Form -->
+        <form [formGroup]="userEditProfile" (ngSubmit)="submitEditProfile()">
+          Full Name <br>
+          <div class="static-profile" [class.display-edit-profile]="!btnEditProfile">
+            {{ currentUser?.name }}
+          </div>
+          <div class="edit-profile" [class.display-edit-profile]="btnEditProfile">
+            <mat-form-field appearance="outline">
+              <mat-label>Full Name</mat-label>
+              <input class="inputpass" formControlName="name" type="text" required matInput placeholder="" />
+              <mat-error *ngIf="pr.name.errors?.required">Full Name is required</mat-error>
+              <mat-error *ngIf="pr.name.errors?.minlength">Full Name must not be less than 5 characters!</mat-error>
+              <mat-error *ngIf="pr.name.errors?.maxlength">Full Name must not be more than 50 characters!</mat-error>
+            </mat-form-field>
+          </div>
+          <br>
+          <br>
+          Birthday <br>
+          <div class="static-profile" [class.display-edit-profile]="!btnEditProfile">
+            {{ currentUser?.birthdate | date: birthDateFormat }}
+          </div>
+          <div class="edit-profile" [class.display-edit-profile]="btnEditProfile">
+            <mat-form-field appearance="outline">
+              <mat-label>Month</mat-label>
+              <mat-select formControlName="month" >
+                <mat-option *ngFor="let month of months; let i = index" [value]="i + 1">
+                  {{ month }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="pr.month.errors?.required">Month is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Day</mat-label>
+              <mat-select formControlName="date">
+                <mat-option *ngFor="let day of days; let i = index" [value]="i + 1">
+                  {{ i + 1 }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="pr.date.errors?.required">Day is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Year</mat-label>
+              <mat-select formControlName="year">
+                <mat-option *ngFor="let year of years.slice().reverse()" [value]="year">
+                  {{ year }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="pr.year.errors?.required">Year is required</mat-error>
+            </mat-form-field>
+          </div>
+          <br>
+          Gender <br>
+          <div class="static-profile" [class.display-edit-profile]="!btnEditProfile">
+            {{ currentUser?.gender }}
+          </div>
+          <div class="edit-profile" [class.display-edit-profile]="btnEditProfile">
+            <mat-form-field appearance="outline">
+              <mat-label>Gender</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option [value]="0">Male</mat-option>
+                <mat-option [value]="1">Female</mat-option>
+              </mat-select>
+              <mat-error *ngIf="pr.gender.errors?.required">Gender is required</mat-error>
+            </mat-form-field>
+          </div>
+          <a [class.display-edit-profile]="btnEditProfile" (click)="editProfileBtn()" class="button" style="margin: 5px;">
+            Cancel
+          </a>
+          <button [class.display-edit-profile]="btnEditProfile" class="button" style="margin: 5px;">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+      <div class="info">
+        Email Address
+        <!-- | <a href="">Change </a> -->
+        <br>
+        {{ currentUser?.email }} <br>
+        <br>
+        Mobile | <a href="">Add</a>
+        <ng-container *ngIf="currentUser?.phone; else nothing">
+          {{ currentUser?.phone }}
+        </ng-container>
+        <ng-template #nothing>
+          <p style="color: #929292;">Please add your mobile</p>
+        </ng-template>
+        <br>
+      </div>
+      <div class="info">
       </div>
 
-      <div class="card" style="margin: 10px">
-          <div class="info-container">
-              <div class="info">
+      <!-- </form> -->
+    </div>
+    <div class="changepass" [class.display-change-pass]="btnChangePass">
+      <form [formGroup]="userChangePassForm" (ngSubmit)="submitChangePass()">
+        <div class="current-password">
+          <mat-form-field appearance="outline">
+            <mat-label>Current Password</mat-label>
+            <input class="inputpass" [type]="hide ? 'password' : 'text'" required formControlName="password" matInput placeholder="" />
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="p.password.errors?.required">Current Password is required</mat-error>
+            <mat-error *ngIf="p.password.errors?.minlength">Current Password must be 8 characters.</mat-error>
+            <mat-error *ngIf="p.password.errors?.maxlength">Current Password must not be more than 16 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="new-password">
+          <mat-form-field appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input class="inputpass" [type]="hidenew ? 'password' : 'text'" formControlName="newpassword" required matInput placeholder="" />
+            <mat-icon matSuffix (click)="hidenew = !hidenew">{{hidenew ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="p.newpassword.errors?.required">New Password is required</mat-error>
+            <mat-error *ngIf="p.newpassword.errors?.minlength">New Password must be 8 characters.</mat-error>
+            <mat-error *ngIf="p.newpassword.errors?.maxlength">New Password must not be more than 16 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="confirm-new-password">
+          <mat-form-field appearance="outline">
+            <mat-label>Confirm New Password</mat-label>
+            <input class="inputpass" [type]="hidenewconfirm ? 'password' : 'text'" formControlName="confirmnewpassword" required matInput
+              placeholder="" />
+            <mat-icon matSuffix (click)="hidenewconfirm = !hidenewconfirm">{{hidenewconfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="p.confirmnewpassword.errors?.required">Confirm New Password is required</mat-error>
+            <mat-error *ngIf="p.confirmnewpassword.errors?.minlength">Confirm New Password must be 8 characters.
+            </mat-error>
+            <mat-error *ngIf="p.confirmnewpassword.errors?.maxlength">Confirm New Password must not be more than 16
+              characters.</mat-error>
+            <mat-error *ngIf="p.confirmnewpassword.errors?.mustMatch">Confirm New Password must match!</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="submit-btn">
+          <a (click)="changePassBtn()" class="button" style="margin: 5px;">
+            Cancel
+          </a>
+          <button class="button" style="margin: 5px;">
+            SUBMIT
+          </button>
+        </div>
+      </form>
+    </div>
+    <br>
+    <br>
 
-                      Full Name <br>
-                      {{ currentUser?.name }} <br> <br>
-                      Birthday <br>
-                      {{ currentUser?.birthdate | date: birthDateFormat }}
-              </div>
-              <div class="info">
-                      Email Address
-                      <!-- | <a href="">Change </a> -->
-                       <br>
-                      {{ currentUser?.email }} <br> <br>
-                      Gender <br>
-                      {{ currentUser?.gender }}
-              </div>
-              <div class="info">
-                      Mobile
-                      | <a href="">Add</a>
-                      <ng-container *ngIf="currentUser?.phone; else nothing">
-                        {{ currentUser?.phone }}
-                      </ng-container>
-                      <ng-template #nothing>
-                        <p style="color: #929292;">Please add your mobile</p>
-                      </ng-template>
-
-              </div>
-          </div>
-          <div class="changepass" [class.display-change-pass]="btnChangePass">
-            <form [formGroup]="userChangePassForm" (ngSubmit)="submitChangePass()">
-              <div class="current-password">
-                <mat-form-field appearance="outline">
-                  <mat-label>Current Password</mat-label>
-                  <input class="inputpass" type="password" required formControlName="password" matInput placeholder="">
-                  <mat-error *ngIf="p.password.errors?.required">Current Password is required</mat-error>
-                  <mat-error *ngIf="p.password.errors?.minlength">Current Password must be 8 characters.</mat-error>
-                  <mat-error *ngIf="p.password.errors?.maxlength">Current Password must not be more than 16 characters.</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="new-password">
-                <mat-form-field appearance="outline">
-                  <mat-label>New Password</mat-label>
-                  <input class="inputpass" type="password" formControlName="newpassword" required matInput placeholder="">
-                  <mat-error *ngIf="p.newpassword.errors?.required">New Password is required</mat-error>
-                  <mat-error *ngIf="p.newpassword.errors?.minlength">New Password must be 8 characters.</mat-error>
-                  <mat-error *ngIf="p.newpassword.errors?.maxlength">New Password must not be more than 16 characters.</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="confirm-new-password">
-                <mat-form-field appearance="outline">
-                  <mat-label>Confirm New Password</mat-label>
-                  <input class="inputpass" type="password" formControlName="confirmnewpassword" required matInput placeholder="">
-                  <mat-error *ngIf="p.confirmnewpassword.errors?.required">Confirm New Password is required</mat-error>
-                  <mat-error *ngIf="p.confirmnewpassword.errors?.minlength">Confirm New Password must be 8 characters.</mat-error>
-                  <mat-error *ngIf="p.confirmnewpassword.errors?.maxlength">Confirm New Password must not be more than 16 characters.</mat-error>
-                  <mat-error *ngIf="p.confirmnewpassword.errors?.mustMatch">Confirm New Password must match!</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="submit-btn">
-                <a (click)="changePassBtn()" class="button"
-                  style="margin: 5px;">
-                  Cancel
-              </a>
-                <button class="button"
-                  style="margin: 5px;">
-                  SUBMIT
-                </button>
-              </div>
-            </form>
-          </div>
-          <br> <br>
-
-          <div>
-            <!-- <button class="button" style="margin: 5px;">EDIT PROFILE</button> -->
-            <button class="button"
-              [class.display-change-pass]="!btnChangePass"
-              style="margin: 5px;"
-              (click)="changePassBtn()">
-              CHANGE PASSWORD
-            </button>
-          </div>
-      </div>
+    <div>
+      <button class="button" [class.display-change-pass]="!btnChangePass || !btnEditProfile" style="margin: 5px;"
+      (click)="editProfileBtn()">
+        EDIT PROFILE
+      </button>
+      <button class="button" [class.display-change-pass]="!btnChangePass || !btnEditProfile" style="margin: 5px;"
+        (click)="changePassBtn()">
+        CHANGE PASSWORD
+      </button>
+    </div>
+  </div>
 </div>

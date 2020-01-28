@@ -44,6 +44,10 @@
     caret-color: black;
   }
 
+  .mat-icon{
+    cursor: pointer !important;
+  }
+
   .mat-form-field{
     width: 50% !important;
   }
@@ -63,6 +67,11 @@
 .display-change-pass{
   display: none;
 }
+
+.display-edit-profile{
+  display: none;
+}
+
 a{
   cursor: pointer;
 }

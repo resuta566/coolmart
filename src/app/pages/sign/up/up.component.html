@@ -79,26 +79,26 @@
         <br />
         <select formControlName="month" class="" name="attribute_pa_color">
           <option value="" disabled selected>Month</option>
-          <option *ngFor="let month of months; let i = index" [value]="i + 1">{{
-            month
-          }}</option>
+          <option *ngFor="let month of months; let i = index" [value]="i + 1">
+            {{ month }}
+          </option>
         </select>
         <select formControlName="date" class="" name="attribute_pa_color">
           <option value="" disabled selected>Day</option>
-          <option *ngFor="let day of days; let i = index" [value]="i + 1">{{
-            i + 1
-          }}</option>
+          <option *ngFor="let day of days; let i = index" [value]="i + 1">
+            {{ i + 1 }}
+          </option>
         </select>
         <select formControlName="year" class="" name="attribute_pa_color">
           <option value="" disabled selected>Year</option>
-          <option *ngFor="let year of years.slice().reverse()" [value]="year">{{
-            year
-          }}</option>
+          <option *ngFor="let year of years.slice().reverse()" [value]="year">
+            {{ year }}
+          </option>
         </select>
         <div *ngIf="submitted && f.month.errors" class="text-danger">
           <div *ngIf="f.month.errors.required">Month is required</div>
         </div>
-        <div *ngIf="submitted && f.date.errors " class="text-danger">
+        <div *ngIf="submitted && f.date.errors" class="text-danger">
           <div *ngIf="f.date.errors.required">Day is required</div>
         </div>
         <div *ngIf="submitted && f.year.errors" class="text-danger">
@@ -109,7 +109,7 @@
         <label for="reg_gender">Gender<span class="required">*</span></label>
         <br />
         <select formControlName="gender" name="gender">
-          <option value="" selected></option>
+          <option value="" disabled selected></option>
           <option value="0">Male</option>
           <option value="1">Female</option>
         </select>

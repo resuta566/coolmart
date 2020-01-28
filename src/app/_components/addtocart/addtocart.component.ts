@@ -18,32 +18,36 @@ import { takeUntil } from 'rxjs/operators';
   styles: [``]
 })
 export class AddtocartComponent implements OnInit, OnDestroy {
+  // tslint:disable: no-input-rename
   @Input('itemId') itemId: number;
   @Input('qty') qty: number;
   @Input('label') label: string;
   @Input('btnclass') btnclass: string;
-  @Input('option') option?= false;
-  @Input('redirect') redirect?= false;
-  @Input('service_name') service_name?: string;
+  @Input('option') option ? = false;
+  @Input('redirect') redirect ? = false;
+  @Input('service_name') serviceName?: string;
   @Input('value') value?: number;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   cartForm: FormGroup;
-
+  returnUrl: string;
   constructor(
     @Inject(NOTYF) private notyf: Notyf,
     private formBuilder: FormBuilder,
     private cartService: CartService,
     private router: Router,
     private authenticationService: AuthenticationService
-  ) { }
+  ) {
+    // console.log(JSON.stringify(router.url));
+    this.returnUrl = router.url;
+  }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true); // For Memory Leaks same below
     this.destroy$.unsubscribe();
-
   }
 
   addtocart() {
@@ -55,7 +59,7 @@ export class AddtocartComponent implements OnInit, OnDestroy {
           // this.itemId is a string so + would make it an integer
           itemId: [+this.itemId, Validators.required],
           qty: [this.qty, Validators.required],
-          service_name: [this.service_name],
+          service_name: [this.serviceName],
           value: [this.value]
         });
         this.cartService.addToDataBaseCart(this.cartForm.value, this.redirect);
@@ -63,7 +67,8 @@ export class AddtocartComponent implements OnInit, OnDestroy {
         this.notyf.error('Sorry the Item is currently out of stock.');
       }
     } else {
-      this.router.navigate(['dashboard']);
+      window.location.href = `/sign_in?returnUrl=${this.returnUrl}`;
+      // this.router.navigate(['sign_in'], { queryParams: { returnUrl: this.returnUrl } }); // Router Bug or my Bug lol
       this.notyf.error('Please Log In to Add this Item to Cart!');
     }
   }

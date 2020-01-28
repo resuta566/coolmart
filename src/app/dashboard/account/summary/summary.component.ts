@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthenticationService } from '@app/_service/core/authentication.service';
+import { AuthenticationService } from '@app/_service';
 import { CheckOutService } from '@app/_service/checkout/checkout.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

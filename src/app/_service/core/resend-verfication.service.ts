@@ -15,12 +15,12 @@ export class ResendVerficationService {
     ) {
   }
 
-  resendverification(){
-    const currentUser = localStorage.getItem('resendVerification').replace(/"/g,'');
+  resendverification() {
+    const currentUser = localStorage.getItem('resendVerification').replace(/"/g, '');
     const httpOptions = {
       headers: new HttpHeaders({
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${currentUser}`
+        Accept: 'application/json',
+        Authorization: `Bearer ${currentUser}`
       })
     };
     return this.http.get(`${environment.apiUrl}/api/email/resend`, httpOptions);

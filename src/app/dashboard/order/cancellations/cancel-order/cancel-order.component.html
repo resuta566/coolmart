@@ -3,7 +3,7 @@
 </div>
 <h3>Request Cancel Item</h3>
 <div class="order-details">
-  <form [formGroup]="cancelForm" (ngSubmit)="submitCancell()">
+  <form [formGroup]="cancelForm" (ngSubmit)="submitCancel()">
     <div class="shadow order">
       <div class="order-package-details">
           <div class="package-item">
@@ -50,7 +50,7 @@
             4. Once your item(s) has been successfully cancelled you will receive a notification from us with your refund summary.<br>
         </div>
         <div class="cancellation-checkbox">
-          <input formControlName="accept" type="checkbox" id="terms" name="cancellation" required> &nbsp;
+          <input formControlName="accept" type="checkbox" id="terms" name="cancellation"> &nbsp;
           <label for="cancellation">I’ve read and accept Cool Mart 635
             <a target="_blank" [routerLink]="['/pages/terms-and-conditions']">Cancellation Policy</a>
             <span class="required">*</span>
@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="submitbtn">
-      <button [disabled]="!cancelForm.valid && loading">SUBMIT</button>
+      <button [disabled]="!cancelForm.valid && !a.accept">SUBMIT</button>
     </div>
   </form>
 </div>

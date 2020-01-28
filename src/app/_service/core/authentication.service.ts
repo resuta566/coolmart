@@ -17,13 +17,22 @@ export class ResetPassword {
   token?: string;
 }
 
+export interface LogOut {
+  logout: boolean;
+  message: string;
+}
+
+export interface Profile {
+  success: boolean;
+  message: string;
+}
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+      headers: new HttpHeaders({ Accept: 'application/json', 'Content-Type': 'application/json'})
     };
 
     constructor(
@@ -85,6 +94,24 @@ export class AuthenticationService {
              );
     }
 
+    // Edit profile details
+    editProfile(user: User) {
+      return this.http.post(`${environment.apiUrl}/api/edit-profile`, user, this.httpOptions)
+              .pipe(
+                map((profile: Profile) => {
+                  if (profile.success) { // Else Error
+                    this.notyf.success(profile.message);
+                    this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {
+                      this.router.navigate(['/dashboard/account/profile']);
+                    });
+                  }
+                  return profile;
+                }),
+                catchError(this.handleError('editPorfile'))
+              );
+    }
+
+    // Send User email to forgot password
     forgotPassword(email: string) {
       return this.http.post(`${environment.apiUrl}/api/password/create`, { email })
           .pipe(
@@ -131,7 +158,7 @@ export class AuthenticationService {
         password: resetpass.current_password,
         new_password: resetpass.new_password
       };
-      console.log(JSON.stringify(body));
+
       return this.http.post(`${environment.apiUrl}/api/password/change`, body)
           .pipe(
             map((response: any) => {
@@ -141,18 +168,32 @@ export class AuthenticationService {
                   this.router.navigate(['/dashboard/account/profile']);
                 });
               } else {
-                this.notyf.error('Current ' + response.error);
+                this.notyf.error(response.error);
               }
             }),
-            retry(3),
             catchError(this.handleError('resetUserPassWord', []))
           );
     }
 
     logout() {
       // remove user from local storage to log user out
-      localStorage.removeItem('currentUser');
-      this.currentUserSubject.next(null);
-      return this.http.post(`${environment.apiUrl}/api/logout`, null);
+      const token = this.currentUserValue.accessToken;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        })
+      };
+      return this.http.post(`${environment.apiUrl}/api/logout`, null, this.httpOptions)
+              .pipe(
+                map((response: LogOut) => {
+                  console.log(response);
+                  if (response.logout) {
+                    localStorage.removeItem('currentUser');
+                    this.currentUserSubject.next(null);
+                    this.router.navigate(['/sign_in']);
+                  }
+                })
+              );
     }
 }
