@@ -16,7 +16,7 @@ import {
   styleUrls: ['./app.component.scss'],
   animations: [routerAnimation()]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'coolmart';
 
   showLoadingIndicator = true;
@@ -39,9 +39,9 @@ export class AppComponent implements OnInit{
       if (routerEvent instanceof NavigationEnd ||
         routerEvent instanceof NavigationError ||
         routerEvent instanceof NavigationCancel) {
-          setTimeout(()=>{
+          setTimeout(() => {
             this.showLoadingIndicator = false;
-          },1000)
+          }, 500);
       }
 
     });
@@ -58,8 +58,8 @@ export class AppComponent implements OnInit{
           while (child.firstChild) {
             child = child.firstChild;
           }
-          if (child.snapshot.data['title']) {
-            return child.snapshot.data['title'];
+          if (child.snapshot.data.title) {
+            return child.snapshot.data.title;
           }
           return appTitle;
         })
