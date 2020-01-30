@@ -175,6 +175,13 @@ export class AuthenticationService {
           );
     }
 
+    // If 401 Remove Token
+    removeToken(logout?: boolean) {
+      localStorage.removeItem('currentUser');
+      this.currentUserSubject.next(null);
+      if (!logout) { window.location.reload(); }
+    }
+
     logout() {
       // remove user from local storage to log user out
       const token = this.currentUserValue.accessToken;
@@ -184,13 +191,14 @@ export class AuthenticationService {
           Authorization: `Bearer ${token}`
         })
       };
-      return this.http.post(`${environment.apiUrl}/api/logout`, null, this.httpOptions)
+
+      this.removeToken(true);
+
+      return this.http.post(`${environment.apiUrl}/api/logout`, null, httpOptions)
               .pipe(
                 map((response: LogOut) => {
                   console.log(response);
                   if (response.logout) {
-                    localStorage.removeItem('currentUser');
-                    this.currentUserSubject.next(null);
                     this.router.navigate(['/sign_in']);
                   }
                 })

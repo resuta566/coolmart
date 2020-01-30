@@ -27,7 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             if (err.status === 401) {
               // auto logout if 401 response returned from api
               this.notyf.error(err.error.message);
-              this.authenticationService.logout();
+              this.authenticationService.removeToken();
             }
 
             if (err.status === 403) {

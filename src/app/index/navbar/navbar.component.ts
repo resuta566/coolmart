@@ -58,6 +58,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private navbarService: NavbarService
     ) {
+      this.count = 0;
       this.authenticationService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(x => this.currentUser = x);
       this.route.queryParams.pipe().subscribe(qp => {
         this.keyword = qp.q || '';
@@ -68,6 +69,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   ngOnInit() {
+    this.count = 0;
     if (this.currentUser) {
       this.loadCartItemCounter();
       setTimeout(() => {
