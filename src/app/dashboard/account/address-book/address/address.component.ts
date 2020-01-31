@@ -144,7 +144,7 @@ export class AddressComponent implements OnInit, OnDestroy {
       newAddress = {
         id: +this.addressIdEdit,
         fullname: this.a.fullname.value,
-        mobilenumber: this.a.mobilenumber.value,
+        contact: this.a.mobilenumber.value,
         other_notes: this.a.other_notes.value,
         building: this.a.building.value,
         province: this.provinceId.toString() + '--' + this.a.province.value,
@@ -173,7 +173,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     } else {
       newAddress = {
         fullname: this.a.fullname.value,
-        mobilenumber: this.a.mobilenumber.value,
+        contact: this.a.mobilenumber.value,
         other_notes: this.a.other_notes.value,
         building: this.a.building.value,
         province: this.provinceId.toString() + '--' + this.a.province.value,

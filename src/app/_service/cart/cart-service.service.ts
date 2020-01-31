@@ -82,7 +82,7 @@ export class CartService {
   }
 
   updateItemCartQty(cartId: number, btn: string) {
-    return this.http.patch(`${environment.apiUrl}/api/cart/${+cartId}`, { action: btn }, this.httpOptions ).pipe(
+    return this.http.patch(`${environment.apiUrl}/api/cart/${cartId}`, { action: btn }, this.httpOptions ).pipe(
       map(_ => {
         this.navbarService.reload();
         this.router.navigateByUrl('/not-found', { skipLocationChange: true }).then(() => {

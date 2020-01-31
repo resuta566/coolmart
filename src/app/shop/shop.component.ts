@@ -99,7 +99,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(qp => {
       this.keyword = qp.q || '';
       this.loadingProduct = true;
-      this.getProducts(this.keyword);
+      this.getProducts();
       if (this.keyword == null) {
         this.titleService.setTitle(`Buy at Best Price | Cool Mart`);
       } else {
@@ -123,22 +123,19 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
 
-  getProducts(keyword?: string, brand?: Array<any>, category?: Array<any>,
-              type?: Array<any>, min?: number, max?: number, sortBy?: string,
-              page?: string, hp?: Array<any>, tr?: Array<any>
-  ) {
+  private getProducts() {
     // Calling the getProducts service from the api
     const filterArray: Filter = {
-      name: keyword,
-      brandArray: brand,
-      categoryArray: category,
-      typeArray: type,
-      min,
-      max,
-      sort: sortBy,
-      page,
-      hp,
-      tr
+      name: this.keyword,
+      brandArray: this.brandArray,
+      categoryArray: this.categoryArray,
+      typeArray: this.typeArray,
+      min: this.mini,
+      max: this.maxi,
+      sort: this.sortby,
+      page: this.currentPage,
+      hp: this.airconhpselectedArray,
+      tr: this.aircontrselectedArray
     }; // Filter Options
 
     this.productService.getProducts(filterArray)
@@ -148,7 +145,7 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.link = datas.links;
         this.loadingProduct = false;
         this.loadingProductFilter = false;
-        // console.log(this.products ,'all products');
+        // console.log(this.products , 'all products');
       },
         error => {
           this.notyf.error(error);
@@ -161,13 +158,10 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.router.navigate([`/shop`], { queryParams: { q: this.keyword } });
   }
 
-  filter() {
+  private filter() {
     this.loadingProductFilter = true;
     // this will filter what are the options
-    this.getProducts(this.keyword, this.brandArray,
-      this.categoryArray, this.typeArray, this.mini,
-      this.maxi, this.sortby, this.currentPage,
-      this.airconhpselectedArray, this.aircontrselectedArray);
+    this.getProducts();
   }
 
   getBrands() {
@@ -300,7 +294,8 @@ export class ShopComponent implements OnInit, OnDestroy {
         window.location.reload();
       } else {
         window.location.reload();
-        this.getProducts(this.keyword);
+        this.keyword = this.keyword;
+        this.getProducts();
       }
     } else if (option === 'brands') {
       // Reset Brand Filter Only

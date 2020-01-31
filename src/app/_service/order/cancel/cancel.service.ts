@@ -23,7 +23,7 @@ export class CancelService {
     ) { }
 
     httpOptions = {
-      headers: new HttpHeaders({ 'Accept' : 'application/json'})
+      headers: new HttpHeaders({ Accept : 'application/json'})
     };
 
     private handleError<T>(operation = 'operation' , result?: T) {
@@ -71,14 +71,12 @@ export class CancelService {
 
     cancelOrder(order: CancelOrder ) {
       console.log(order);
-      const params = new HttpParams().set('reason', order.reason).set('optional', order.optional);
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser) {
-        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`, null,
-          {params: params}
+        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`, order
           )
           .pipe(
-            tap(_ => console.log('fetched cancelDetails')),
+            tap(_ => console.log(_, 'fetched cancelDetails')),
             catchError(this.handleError('cancelDetails', []))
         );
       }
