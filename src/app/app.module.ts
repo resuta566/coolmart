@@ -80,7 +80,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
   entryComponents: [
     ConfirmationDialogComponent
   ],
-  exports:[
+  exports: [
     DigitOnlyDirective
   ],
   providers: [

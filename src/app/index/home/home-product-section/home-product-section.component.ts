@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ProductSectionService } from '@app/_service/product/product-section/product-section.service';
 import { environment } from '@environments/environment';
 import { Subject } from 'rxjs';
@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './home-product-section.component.html',
   styleUrls: ['./home-product-section.component.scss']
 })
-export class HomeProductSectionComponent implements OnInit, OnDestroy {
+export class HomeProductSectionComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   loading = true;

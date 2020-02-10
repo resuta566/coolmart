@@ -5,7 +5,7 @@ import { User } from '@app/_models';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { first, takeUntil } from 'rxjs/operators';
 import { environment } from '@environments/environment';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
 import { NavbarService } from '@app/_service/navbar/navbar.service';

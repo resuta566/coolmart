@@ -11,11 +11,8 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-addtocart',
-  template:
-    `
-      <button [disabled]="option" (click)="addtocart()" class="{{ btnclass }}">{{ label }}</button>
-    `,
-  styles: [``]
+  template: '<button [disabled]="option" (click)="addtocart()" class="{{ btnclass }}">{{ label }}</button>',
+  styles: ['']
 })
 export class AddtocartComponent implements OnInit, OnDestroy {
   // tslint:disable: no-input-rename

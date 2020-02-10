@@ -1,4 +1,4 @@
-export class Filter {
+export interface Filter {
 
   name?: string;
   brandArray?: Array<any>;

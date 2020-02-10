@@ -1,4 +1,4 @@
-export class Cart {
+export interface Cart {
     itemId: number;
     authId?: number;
     qty: number;

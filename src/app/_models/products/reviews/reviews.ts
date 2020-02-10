@@ -1,13 +1,13 @@
-export class Reviews{
+export interface Reviews {
   data: {
     type: string,
     id: number,
-    attributes:{
+    attributes: {
       stars: number,
       star_percentage_rate: number,
       comment: string,
       user: string,
       date: string
     }
-  }
+  };
 }

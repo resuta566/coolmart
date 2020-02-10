@@ -1,4 +1,4 @@
-export class Products {
+export interface Products {
   data: {
     type: string,
     id: number,

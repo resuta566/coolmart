@@ -16,7 +16,7 @@ const routes: Routes = [
       num: 6,
       title: 'Manage My Account'
     },
-    children:[
+    children: [
       {
         path: '',
         pathMatch: 'full',
@@ -47,7 +47,7 @@ const routes: Routes = [
       {
         path: 'payment-options',
         component: PaymentOptionsComponent,
-        data:{
+        data: {
           num: 9,
           title: 'Select Payment Option'
         }

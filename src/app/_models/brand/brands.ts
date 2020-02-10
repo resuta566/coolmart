@@ -1,4 +1,4 @@
-export class Brands {
+export interface Brands {
   data: {
     type: string,
     id: number,

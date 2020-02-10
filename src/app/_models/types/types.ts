@@ -1,4 +1,4 @@
-export class Types {
+export interface Types {
   data: {
     type: string,
     id: number,
@@ -11,7 +11,7 @@ export class Types {
         data: {
           type: string,
           id: number,
-          attributes:{
+          attributes: {
             name: string,
             slug: string,
             description: string

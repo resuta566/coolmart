@@ -3,7 +3,7 @@ import { environment } from '@environments/environment';
 import { CartService } from '@app/_service/cart/cart-service.service';
 import { first, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
