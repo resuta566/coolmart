@@ -131,6 +131,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "coolmart"
+    }
+  },
+  "defaultProject": "coolmart",
+  "cli": {
+    "analytics": "cb703c0c-3516-4c6b-abc6-f65c085e8438"
+  }
 }
