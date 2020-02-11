@@ -2,7 +2,7 @@ export interface Address {
   id?: number;
   fullname?: string;
   mobilenumber?: number;
-  contact?: string;
+  contact?: string| number;
   other_notes?: string;
   building?: string;
   province?: string;

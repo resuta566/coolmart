@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { catchError, tap, map } from "rxjs/operators";
+import { catchError, tap, map } from 'rxjs/operators';
 import { Address } from '@app/_models/address/address';
 import { NOTYF } from '@app/_helpers/notyf.token';
 import { Notyf } from 'notyf';
@@ -56,6 +56,11 @@ export class AddressesService {
     }
 
     saveAddress(address: Address) {
+      console.log(address, '1');
+      if (address.contact === '' || address.contact === undefined || address.contact == null) {
+        address.contact = address.mobilenumber;
+      }
+      console.log(address);
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser) {
 
@@ -64,7 +69,10 @@ export class AddressesService {
     }
 
     updateAddress(address: Address) {
-
+      if (address.contact === '' || address.contact === undefined || address.contact === null) {
+        address.contact = address.mobilenumber;
+      }
+      console.log(address);
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser) {
 
