@@ -56,7 +56,6 @@ export class AddressesService {
     }
 
     saveAddress(address: Address) {
-      console.log(address, '1');
       if (address.contact === '' || address.contact === undefined || address.contact == null) {
         address.contact = address.mobilenumber;
       }
