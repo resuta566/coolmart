@@ -43,7 +43,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             if (err.status === 404) {
               console.log(err);
               this.router.navigate(['/pages/not-found']);
-              this.notyf.error(err.error.message);
+              this.notyf.error('Not Found!');
             }
 
             if (err.status === 422) {

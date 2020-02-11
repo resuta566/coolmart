@@ -14,7 +14,7 @@ import { Filter } from '@app/_models/filter/filter';
 export class ProductService {
   null = null;
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type' : 'application/json', 'Accept' : 'application/json'})
+    headers: new HttpHeaders({'Content-Type' : 'application/json', Accept : 'application/json'})
   };
 
   constructor(private http: HttpClient) { }

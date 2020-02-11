@@ -7,13 +7,13 @@ import { ProductService } from '@app/_service/product/product.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ShopItemResolverService implements Resolve<Products>{
+export class ShopItemResolverService implements Resolve<Products> {
 
   constructor(
     private productService: ProductService
-  ){}
+  ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Products>{
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Products> {
     // console.log(route.params);
     return this.productService.getProduct(route.params['slug']);
   }
