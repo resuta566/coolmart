@@ -94,9 +94,23 @@ export class CartService {
       );
     }
     return of({});
-
   }
-
+  /**
+   *
+   * Package cart page
+   *
+   */
+  packageCarts() {
+    const currentUser = this.authenticationService.currentUserValue;
+    if (currentUser) {
+      return this.http.get(`${environment.apiUrl}/api/packages`, this.httpOptions)
+        .pipe(
+          // tap(_ => console.log('fetched cart')),
+          catchError(this.handleError('getCart', []))
+      );
+    }
+    return of({});
+  }
   /**
    *
    * param Cart Id

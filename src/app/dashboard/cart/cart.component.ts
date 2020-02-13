@@ -14,6 +14,7 @@ import { ConfirmationDialogComponent } from '@app/_components/confirmation-dialo
 export class CartComponent implements OnInit, OnDestroy {
 
   carts: any;
+  packages: any;
   subtotal = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   sum = 0;
@@ -25,6 +26,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getCart();
+    this.getPackage();
   }
 
   ngOnDestroy(): void {
@@ -32,10 +34,16 @@ export class CartComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  getCart() {
+  protected getPackage() {
+    this.cartService.packageCarts().subscribe((packages: any) => {
+      this.packages = packages.data;
+      console.log(this.packages);
+    });
+  }
+
+  protected getCart() {
     this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.carts = data.data;
-      console.log(this.carts);
 
       // Compute the subtotal of all the items
       this.carts.forEach( item => {

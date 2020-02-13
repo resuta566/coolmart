@@ -157,72 +157,83 @@
 
                   <div class="order-items woocommerce-checkout-review-order shadow-padding" style="margin-top: 20px">
                     <h3 id="order_review_heading">Your order</h3>
-                    <table class="shop_table shop_table_responsive cart">
-                      <thead>
-                        <tr>
-                          <th class="product-remove">&nbsp;</th>
-                          <th class="product-thumbnail">&nbsp;</th>
-                          <th class="product-name">Product</th>
-                          <th class="product-price">Price</th>
-                          <th class="product-quantity">Quantity</th>
-                          <th class="product-subtotal">Total</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                    <div class="package" *ngFor="let package of packages?.package; let i = index">
+                      <div class="row">
+                        <div class="header">
+                          <i class="fa fa-gift"></i> Package {{ i+1 }} of {{ packages.package.length }}
+                        </div>
+                        <div class="fullfilledby">
+                          Fullfilled by <span style="font-weight: bold;">{{ package?.seller }}</span>
+                        </div>
+                      </div>
+                      <table class="shop_table shop_table_responsive cart">
+                        <thead>
+                          <tr>
+                            <th class="product-remove">&nbsp;</th>
+                            <th class="product-thumbnail">&nbsp;</th>
+                            <th class="product-name">Product</th>
+                            <th class="product-price">Price</th>
+                            <th class="product-quantity">Quantity</th>
+                            <th class="product-subtotal">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                        <tr class="cart_item" *ngFor="let cart of carts">
-                          <td class="product-remove">
-                            <a class="remove" (click)="removeItem(cart?.id)"><i class="fa fa-trash-o"></i></a>
-                          </td>
+                          <tr class="cart_item" *ngFor="let cart of package?.carts">
+                            <td class="product-remove">
+                              <a class="remove" (click)="removeItem(cart?.id)"><i class="fa fa-trash-o"></i></a>
+                            </td>
 
-                          <td class="product-thumbnail">
-                            <a [routerLink]="['/shop/item/', cart?.attributes.item_slug]">
-                              <ng-container *ngIf="cart?.attributes.item_images.length > 0;else noImg">
-                                <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
-                                  alt="{{ cart?.attributes.item_name }}">
-                              </ng-container>
-                              <ng-template #noImg>
-                                <img width="180" height="180" src="assets/images/noimage2.jpg"
-                                  alt="{{ cart?.attributes.item_name }}">
-                              </ng-template>
-                            </a>
-                          </td>
+                            <td class="product-thumbnail">
+                              <a [routerLink]="['/shop/item/', cart?.attributes.item_slug]">
+                                <ng-container *ngIf="cart?.attributes.item_images.length > 0;else noImg">
+                                  <img width="180" height="180" src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
+                                    alt="{{ cart?.attributes.item_name }}">
+                                </ng-container>
+                                <ng-template #noImg>
+                                  <img width="180" height="180" src="assets/images/noimage2.jpg"
+                                    alt="{{ cart?.attributes.item_name }}">
+                                </ng-template>
+                              </a>
+                            </td>
 
-                          <td data-title="Product" class="product-name">
-                            <a
-                              [routerLink]="['/shop/item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
-                              <ng-container *ngIf="cart?.attributes.services">
-                                <span class="additional-info">
-                                  {{ cart?.attributes.services.name }}:
-                                  <b>{{ cart?.attributes.services.total | currency: '₱'}}</b>
-                                </span> <br>
-                                <span class="additional-info">
-                                  Piping: <b>{{ cart?.attributes.services.total_feet }}</b> feet <br>
-                                  <small>*Additional <b>₱300</b>/feet after 10feet</small>
+                            <td data-title="Product" class="product-name">
+                              <a
+                                [routerLink]="['/shop/item/', cart?.attributes.item_slug]">{{ cart?.attributes.item_name }}</a>
+                                <ng-container *ngIf="cart?.attributes.services">
+                                  <span class="additional-info">
+                                    {{ cart?.attributes.services.name }}:
+                                    <b>{{ cart?.attributes.services.total | currency: '₱'}}</b>
+                                  </span> <br>
+                                  <span class="additional-info">
+                                    Piping: <b>{{ cart?.attributes.services.total_feet }}</b> feet <br>
+                                    <small>*Additional <b>₱300</b>/feet after 10feet</small>
+                                  </span>
+                                </ng-container>
+                            </td>
+
+                            <td data-title="Price" class="product-price">
+                              <span class="amount">₱{{ cart?.attributes.item_discountedSrp }}
+                              </span>
+                            </td>
+
+                            <td data-title="Quantity" class="product-quantity">
+                              <small>x</small> {{ cart?.attributes.validQty }} <br>
+                              <ng-container *ngIf="cart?.item.attributes.qty <= 5">
+                                <span  class="additional-info edit-cart">
+                                  <small>{{ cart?.item.attributes.qty }} item(s) left!</small>
                                 </span>
                               </ng-container>
-                          </td>
+                            </td>
 
-                          <td data-title="Price" class="product-price">
-                            <span class="amount">₱{{ cart?.attributes.item_discountedSrp }}
-                            </span>
-                          </td>
+                            <td data-title="Total" class="product-subtotal">
+                              <span class="amount">{{ cart?.attributes.subtotal_with_service_total | currency:'₱'}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
 
-                          <td data-title="Quantity" class="product-quantity">
-                            <small>x</small> {{ cart?.attributes.validQty }} <br>
-                            <ng-container *ngIf="cart?.item.attributes.qty <= 5">
-                              <span  class="additional-info edit-cart">
-                                <small>{{ cart?.item.attributes.qty }} item(s) left!</small>
-                              </span>
-                            </ng-container>
-                          </td>
-
-                          <td data-title="Total" class="product-subtotal">
-                            <span class="amount">{{ cart?.attributes.subtotal_with_service_total | currency:'₱'}}</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
                 </div>
               </div>

@@ -21,8 +21,17 @@
           </header><!-- .entry-header -->
 
           <form>
+            <div class="package" *ngFor="let package of packages?.package; let i = index">
+              <div class="row">
+                <div class="header">
+                  <i class="fa fa-gift"></i> Package {{ i+1 }} of {{ packages.package.length }}
+                </div>
+                <div class="fullfilledby">
+                  Fullfilled by <span style="font-weight: bold;">{{ package?.seller }}</span>
+                 </div>
+              </div>
 
-            <table class="shop_table shop_table_responsive cart">
+              <table class="shop_table shop_table_responsive cart">
               <thead>
                 <tr>
                   <th class="product-remove">&nbsp;</th>
@@ -35,7 +44,7 @@
               </thead>
               <tbody>
 
-                <tr class="cart_item" *ngFor="let cart of carts">
+                <tr class="cart_item" *ngFor="let cart of package?.carts">
                   <td class="product-remove">
                     <a class="remove" (click)="removeItem(cart?.id)"><i class="fa fa-trash-o"></i></a>
                   </td>
@@ -134,11 +143,11 @@
 
                                             </div> -->
 
-                    <div class="wc-proceed-to-checkout">
+                    <!-- <div class="wc-proceed-to-checkout">
 
                       <a class="checkout-button button alt wc-forward" [routerLink]="['/checkout']"
                         [queryParams]="{from: 'cart.proceed_to_checkout'}">Proceed to Checkout</a>
-                    </div>
+                    </div> -->
 
                     <input type="hidden" value="1eafc42c5e" name="_wpnonce"><input type="hidden" value="/electro/cart/"
                       name="_wp_http_referer">
@@ -146,6 +155,14 @@
                 </tr>
               </tbody>
             </table>
+            </div>
+
+            <div class="wc-proceed-to-checkout">
+              <a class="checkout-button button alt wc-forward" [routerLink]="['/checkout']"
+                [queryParams]="{from: 'cart.proceed_to_checkout'}">
+                Proceed to Checkout
+              </a>
+            </div>
           </form>
           <div class="cart-collaterals">
 

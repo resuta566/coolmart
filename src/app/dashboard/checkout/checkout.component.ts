@@ -31,6 +31,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   selected = false;
   placeorderForm: FormGroup;
   carts: any;
+  packages: any;
   subtotal = 0;
   sum = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -56,6 +57,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.provinceList();
     this.acceptForm();
     this.getCart();
+    this.getPackage();
   }
 
   ngOnDestroy(): void {
@@ -212,6 +214,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.carts.forEach( item => {
         this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
       });
+    });
+  }
+
+  protected getPackage() {
+    this.cartService.packageCarts().subscribe((packages: any) => {
+      this.packages = packages.data;
+      console.log(this.packages);
     });
   }
 
