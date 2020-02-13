@@ -42,6 +42,12 @@ export class CartService {
     };
   }
 
+  /**
+   *
+   * param cart see Cart Model @models
+   * param option for reloading
+   *
+   */
   addToDataBaseCart(cart: Cart, option?: boolean) {
     return this.http.post(`${environment.apiUrl}/api/cart`, cart, this.httpOptions ).pipe(
       map((data: any) => {
@@ -60,6 +66,11 @@ export class CartService {
     ).subscribe(serverdata => {});
   }
 
+/***
+ *
+ * Cart Edit
+ *
+ */
   cartItemEdit(cartId: number) {
     return this.http.get(`${environment.apiUrl}/api/cart/${cartId}/edit`, this.httpOptions).pipe(
       // map((data: any)=>{
@@ -68,6 +79,11 @@ export class CartService {
     );
   }
 
+  /**
+   *
+   * All the user carts
+   *
+   */
   carts() {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {
@@ -81,6 +97,11 @@ export class CartService {
 
   }
 
+  /**
+   *
+   * param Cart Id
+   * param btn the action decrease or increase the cart qty
+   */
   updateItemCartQty(cartId: number, btn: string) {
     return this.http.patch(`${environment.apiUrl}/api/cart/${cartId}`, { action: btn }, this.httpOptions ).pipe(
       map(_ => {
@@ -96,7 +117,11 @@ export class CartService {
   }
 
 
-
+/***
+ *
+ * Delete the Cart Item
+ *
+ */
   removeItemCartQty(id: number) {
     return this.http.delete(`${environment.apiUrl}/api/cart/${id}`, this.httpOptions).pipe(
       map(_ => {

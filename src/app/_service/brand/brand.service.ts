@@ -30,7 +30,10 @@ export class BrandService {
 
     };
   }
-
+  /**
+   * get all the brands
+   * to be edited
+   */
   getBrands() {
     return this.http.get<Brands[]>(`${environment.apiUrl}/api/brands`).pipe(
       tap(_ => console.log('fetched brands')),

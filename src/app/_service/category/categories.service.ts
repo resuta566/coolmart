@@ -30,7 +30,10 @@ export class CategoriesService {
 
     };
   }
-
+  /**
+   * Get all Categories
+   * To be edited
+   */
   getCategories() {
     return this.http.get<Categories[]>(`${environment.apiUrl}/api/categories`).pipe(
       tap(_ => console.log('fetched categories')),

@@ -39,7 +39,11 @@ export class CheckOutService {
 
     };
   }
-
+  /**
+   *
+   * On VSC Just Peek on References
+   *
+   */
   checkoutAddress() {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {
@@ -49,6 +53,11 @@ export class CheckOutService {
     }
   }
 
+  /**
+   *
+   * Checkout the user Carts
+   *
+   */
   checkout() {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {

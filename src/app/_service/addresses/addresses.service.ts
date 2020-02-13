@@ -40,6 +40,12 @@ export class AddressesService {
 
       };
     }
+
+    /**
+     *
+     * Get an address details
+     * param addressId
+     */
     oneUserAddress(addressId: number) {
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser) {
@@ -47,6 +53,12 @@ export class AddressesService {
                 .pipe(catchError(this.handleError<Address>('getOneUserAddress')));
       }
     }
+
+    /**
+     *
+     * User Address List
+     *
+     */
     userAddress() {
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser) {
@@ -55,6 +67,14 @@ export class AddressesService {
       }
     }
 
+    /**
+     *
+     * param address
+     * Save inputed address
+     * if there is no contact value pass the mobilenumber variable value
+     * Sorry for not consistent on naming
+     *
+     */
     saveAddress(address: Address) {
       if (address.contact === '' || address.contact === undefined || address.contact == null) {
         address.contact = address.mobilenumber;
@@ -67,6 +87,12 @@ export class AddressesService {
       }
     }
 
+    /**
+     *
+     * param address
+     * Update and address
+     *
+     */
     updateAddress(address: Address) {
       if (address.contact === '' || address.contact === undefined || address.contact === null) {
         address.contact = address.mobilenumber;
@@ -82,6 +108,15 @@ export class AddressesService {
       }
     }
 
+    /**
+     *
+     * param mobile
+     *
+     * param addressId
+     *
+     * Update Mobile from the default shipping address
+     *
+     */
     updateMobile(mobile: number, addressId: number) {
 
       const currentUser = this.authenticationService.currentUserValue;
@@ -97,7 +132,11 @@ export class AddressesService {
                 }));
       }
     }
-
+    /**
+     *
+     * param addressId
+     * Delete the selected Address
+     */
     deleteAddress(addressId: number) {
       return this.http.delete(`${environment.apiUrl}/api/user-address/${addressId}`).pipe(
             map((response: Address) => {
@@ -109,6 +148,11 @@ export class AddressesService {
       );
     }
 
+    /**
+     *
+     * Place APIs
+     *
+     */
     province() {
         return this.http.get(`${ADDRESS_API}/api/province-radius`, this.httpOptions)
           .pipe(
@@ -143,6 +187,15 @@ export class AddressesService {
             );
     }
 
+    /**
+     *
+     * param addressId
+     *
+     * Set an address to be shipping or billing
+     *
+     * 1 == true
+     *
+     */
     setDefaultShipping(addressId: number) {
       let setAddress: Address;
       setAddress = {
