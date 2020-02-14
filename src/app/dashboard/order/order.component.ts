@@ -37,6 +37,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.loadingOrder = true;
     this.orderService.orders(this.orderChangePage).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.orders = data.data;
+      console.log(this.orders);
       this.orderPage = data.links;
       this.orderMeta = data.meta;
       setTimeout(() => {

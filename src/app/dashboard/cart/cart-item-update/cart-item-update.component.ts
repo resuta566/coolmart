@@ -66,7 +66,8 @@ export class CartItemUpdateComponent implements OnInit, OnDestroy {
           this.label = 'Update Cart';
         }
       });
-      this.response = this.route.snapshot.data['data'];
+      this.response = this.route.snapshot.data.data;
+      console.log(this.response);
       this.relatedBrandArray = [ this.response.item.attributes.brand_id ];
       this.relatedCategoryArray = [ this.response.item.attributes.category_id ];
       this.relatedTypeArray = [ this.response.item.attributes.type_id  ];

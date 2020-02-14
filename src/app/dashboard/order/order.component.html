@@ -27,48 +27,51 @@
               </div>
               <div style="overflow-x:auto;">
                 <table>
-                  <tr *ngFor="let items of order?.relationships.carts.data">
-                    <div class="order-item">
-                      <td>
-                        <div class="item-pic">
-                          <ng-container *ngIf="items?.attributes.item_images.length <= 0;else thereIsImage">
-                            <img style="max-width: 100% !important;" src="assets/images/noimage2.jpg"
-                              alt="product-thumbnail0">
-                          </ng-container>
-                          <ng-template #thereIsImage>
-                            <img style="max-width: 100%;" src="{{ apiUrl }}/{{ items?.attributes.item_images[0] }}"
-                              alt="product-thumbnail1">
-                          </ng-template>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="item-main">
-                          <div class="item-name">
-                            {{ items?.attributes.item_name }}
+                  <tr *ngFor="let package of order?.relationships.packages">
+                    <ng-container *ngFor="let items of package.carts">
+                      <div class="order-item">
+                        <td>
+                          <div class="item-pic">
+                            <ng-container *ngIf="items?.attributes.item_images.length <= 0;else thereIsImage">
+                              <img style="max-width: 100% !important;" src="assets/images/noimage2.jpg"
+                                alt="product-thumbnail0">
+                            </ng-container>
+                            <ng-template #thereIsImage>
+                              <img style="max-width: 100%;" src="{{ apiUrl }}/{{ items?.attributes.item_images[0] }}"
+                                alt="product-thumbnail1">
+                            </ng-template>
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="item-quantity">
-                          Qty: {{ items?.attributes.cart_qty }}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="item-status">
-                          {{ items?.attributes.status }}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="item-info">
-                          <span *ngIf="items?.attributes.status == 'Pending'">
-                            <a [routerLink]="['/checkout/payment-options']"
-                              [queryParams]="{orderTranscationId: order?.id , acceptedTermsCondition: 'true'}">
-                              Pay Now
-                            </a>
-                          </span>
-                        </div>
-                      </td>
-                    </div>
+                        </td>
+                        <td>
+                          <div class="item-main">
+                            <div class="item-name">
+                              {{ items?.attributes.item_name }}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="item-quantity">
+                            Qty: {{ items?.attributes.cart_qty }}
+                          </div>
+                        </td>
+                        <td>
+                          <div class="item-status">
+                            {{ items?.attributes.status }}
+                          </div>
+                        </td>
+                        <td>
+                          <div class="item-info">
+                            <span *ngIf="items?.attributes.status == 'Pending'">
+                              <a [routerLink]="['/checkout/payment-options']"
+                                [queryParams]="{orderTranscationId: order?.id , acceptedTermsCondition: 'true'}">
+                                Pay Now
+                              </a>
+                            </span>
+                          </div>
+                        </td>
+                      </div>
+                    </ng-container>
+
                   </tr>
                 </table>
               </div>

@@ -31,17 +31,22 @@
               Delivery Details
             </div>
             <div class="border shadow">
-              <div class="itemrow" *ngFor="let item of successData?.items">
-                <div class="item-img-content column-img">
-                  <ng-container *ngIf="item.images.length > 0; else noImage">
-                    <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
-                  </ng-container>
-                  <ng-template #noImage>
-                    <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
-                  </ng-template>
+              <div class="itemrow" *ngFor="let package of successData?.items.package">
+                <div class="package" *ngFor="let cart of package.carts">
+                  <div class="items itemrow">
+                    <div class="item-img-content column-img">
+                    <ng-container *ngIf="cart?.item.attributes.images.length > 0; else noImage">
+                      <img src="{{ apiUrl }}/{{ cart?.item.attributes.images[0] }}" class="item-img" alt="product-image">
+                    </ng-container>
+                    <ng-template #noImage>
+                      <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+                    </ng-template>
+                    </div>
+                    <div class="date column">{{ cart?.attributes.item_name }}</div>
+                    <div class="">Qty: {{ cart?.attributes.cart_qty }}</div>
+                  </div>
+
                 </div>
-                <div class="date column">{{ item?.name }}</div>
-                <div class="">Qty: {{ item?.qty }}</div>
               </div>
               <hr>
               <div class="td-tip">
@@ -59,7 +64,7 @@
             </div>
           </div>
           <div class="payment-information border shadow">
-            <i class="fa fa-envelope-o"></i>&nbsp; We’ve sent a confirmation email to {{ currentUser?.email }} with the
+            <i class="fa fa-envelope-o"></i>&nbsp; We’ve sent a confirmation email to {{ successData?.email }} with the
             order
             details.
           </div>

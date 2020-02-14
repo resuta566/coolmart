@@ -13,11 +13,11 @@
       <span class="total-header-title">Total:</span> ₱{{  orderData?.sub_total }}
     </div>
   </div>
-  <div class="order" *ngFor="let item of orderData?.items;let i = index">
+  <div class="order" *ngFor="let package of orderData?.items.package; let i = index">
     <div class="order-detail">
       <div style="float: left;">
         <div class="item-number">
-          <span class="fa fa-gift"></span> Item {{ i+1 }} <br>
+          <span class="fa fa-gift"></span> Package {{ i+1 }} <br>
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
         Status
       </div>
       <div class="package-status">
-        {{ item?.status }}
+        {{ package?.status }}
       </div>
     </div>
     <div class="order-tracking-details">
@@ -35,43 +35,45 @@
       </div>
     </div>
     <div class="order-package-details">
-      <div class="package-item">
-        <div class="item-img">
-          <ng-container *ngIf="item.images.length > 0; else noImage">
-            <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
-          </ng-container>
-          <ng-template #noImage>
-            <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
-          </ng-template>
+      <ng-container *ngFor="let item of package.carts">
+        <div class="package-item">
+          <div class="item-img">
+            <ng-container *ngIf="item.attributes.item_images.length > 0; else noImage">
+              <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
+            </ng-container>
+            <ng-template #noImage>
+              <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+            </ng-template>
+          </div>
+          <div class="item-name">
+            {{ item.attributes.item_name }} <br>
+            <span class="additional-info" *ngIf="item?.attributes.services">
+              <span>{{ item?.attributes.services.name }}: <b>₱{{ item?.attributes.services.total }}</b></span> <br>
+              <span>Piping: <b>{{ item?.attributes.services.total_feet }} feet</b></span> <br>
+              <small>*Additional <b>₱300</b>/feet after 10feet</small>
+            </span>
+          </div>
+          <div class="item-price">
+            {{ item.attributes.one_item_price | currency: '₱' }}
+          </div>
+          <div class="item-ordered-qty">
+            Qty: {{ item.attributes.cart_qty }}
+          </div>
+          <div class="status-option">
+            <ng-container *ngIf="item?.attributes.cancellable">
+              <a (click)="cancelItem(item?.id)">
+                CANCEL
+              </a>
+            </ng-container>
+            <ng-container *ngIf="item?.attributes.returnable">
+              <a (click)="returnItem(item?.id)">
+                RETURN
+              </a>
+            </ng-container>
+          </div>
         </div>
-        <div class="item-name">
-          {{ item.name }} <br>
-          <span class="additional-info" *ngIf="item?.services">
-            <span>{{ item?.services.name }}: <b>₱{{ item?.services.total }}</b></span> <br>
-            <span>Piping: <b>{{ item?.services.total_feet }} feet</b></span> <br>
-            <small>*Additional <b>₱300</b>/feet after 10feet</small>
-          </span>
-        </div>
-        <div class="item-price">
-          ₱{{ item.price }}
-        </div>
-        <div class="item-ordered-qty">
-          Qty: {{ item.qty }}
-        </div>
-        <div class="status-option">
-          <ng-container *ngIf="item?.cancellable">
-            <a (click)="cancelItem(item?.cart_id)">
-              CANCEL
-            </a>
-          </ng-container>
-          <ng-container *ngIf="item?.returnable">
-            <a (click)="returnItem(item?.cart_id)">
-              RETURN
-            </a>
-          </ng-container>
+      </ng-container>
 
-        </div>
-      </div>
 
     </div>
   </div>

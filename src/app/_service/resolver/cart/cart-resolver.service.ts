@@ -12,7 +12,7 @@ export class CartResolverService implements Resolve<any>{
     private cartService: CartService
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>{
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     // console.log(route.params);
     return this.cartService.cartItemEdit(route.params['itemId']);
   }

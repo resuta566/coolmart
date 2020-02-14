@@ -36,6 +36,7 @@ export class PaymentSuccessComponent implements OnInit , OnDestroy {
       this.orderId = param.get('transactionId');
       this.paymentService.paymentSuccess(this.orderId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         this.successData = data;
+        console.log(this.successData);
         this.loading = false;
       }
       );
