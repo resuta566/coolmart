@@ -2,11 +2,11 @@
     <div class="shadow order-header-detail" style="width: 100%; min-height: 60px;">
       <div style="float: left;">
         <span style="color: #212121;">
-          Order #{{ cancelledData?.order_id }}
+          Order <a [routerLink]="['/dashboard/order/view-order', cancelledData?.address.transaction_id]">#{{ cancelledData?.address.order_id }}</a>
         </span>
         <br>
         <span class="order-date">
-          Cancelled on {{ cancelledData?.date_placed }}
+          Cancelled on {{ cancelledData?.address.date_placed }}
         </span>
       </div>
       <div class="order-header-total">
