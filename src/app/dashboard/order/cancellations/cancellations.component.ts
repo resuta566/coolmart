@@ -16,7 +16,7 @@ export class CancellationsComponent implements OnInit, OnDestroy {
   cancelOrders: any;
   cancelChangePage = '';
   constructor(
-    private cancellService: CancelService
+    private cancelService: CancelService
   ) { }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class CancellationsComponent implements OnInit, OnDestroy {
   }
 
   _cancelOrders() {
-    this.cancellService.cancelOrders(this.cancelChangePage).pipe(takeUntil(this.destroy$)).subscribe(orders => {
+    this.cancelService.cancelOrders(this.cancelChangePage).pipe(takeUntil(this.destroy$)).subscribe(orders => {
       this.cancelOrders = orders;
     });
   }
