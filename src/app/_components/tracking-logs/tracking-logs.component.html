@@ -1,0 +1,12 @@
+<div class="order-tracking-details">
+  <div class="tracking-area">
+    <div *ngFor="let log of logs | slice: 0 : limit">
+      <span class="log-date">{{ log?.created_at | date:'dd MMM yyyy - HH:MM' }}</span>
+      &nbsp;&nbsp;
+      <span class="log-detail">{{ log?.description }}</span>
+    </div>
+    <ng-container *ngIf="logs.length > 1">
+      <div class="view" (click)="view(logs.length)">{{ text }}</div>
+    </ng-container>
+  </div>
+</div>

@@ -2,7 +2,7 @@
     <div class="shadow order-header-detail" style="width: 100%; min-height: 60px;">
       <div style="float: left;">
         <span style="color: #212121;">
-          Order <a [routerLink]="['/dashboard/order/view-order', cancelledData?.address.transaction_id]">#{{ cancelledData?.address.order_id }}</a>
+          Order <a *ngIf="cancelledData" [routerLink]="['/dashboard/order/view-order', cancelledData?.address.transaction_id]">#{{ cancelledData?.address.order_id }}</a>
         </span>
         <br>
         <span class="order-date">
@@ -29,11 +29,8 @@
           {{ item?.status }}
         </div>
       </div>
-      <div class="order-tracking-details">
-        <div class="tracking-area">
-
-        </div>
-      </div>
+      <tracking-logs [logs]="item.logs">
+      </tracking-logs>
       <div class="order-package-details">
           <div class="package-item">
               <div class="item-img">

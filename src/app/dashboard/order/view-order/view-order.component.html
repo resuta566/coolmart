@@ -29,11 +29,8 @@
         {{ package?.status }}
       </div>
     </div>
-    <div class="order-tracking-details">
-      <div class="tracking-area">
-
-      </div>
-    </div>
+    <tracking-logs [logs]="package.logs">
+    </tracking-logs>
     <div class="order-package-details">
       <ng-container *ngFor="let item of package.carts">
         <div class="package-item">

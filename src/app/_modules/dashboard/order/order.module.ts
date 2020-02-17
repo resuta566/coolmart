@@ -17,6 +17,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '@app/_modules/material.module';
 import { StarRatingComponent } from '@app/_components/star-rating/star-rating.component';
 import { StarRatingReviewComponent } from '@app/_components/star-rating-reviews/star-rating-reviews.component';
+import { TrackingLogsComponent } from '@app/_components/tracking-logs/tracking-logs.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { StarRatingReviewComponent } from '@app/_components/star-rating-reviews/
     ReturnedOrderComponent,
     StarRatingComponent,
     StarRatingReviewComponent,
+    TrackingLogsComponent
   ],
   imports: [
     CommonModule,
