@@ -1,7 +1,7 @@
 <div class="order-tracking-details">
   <div class="tracking-area">
     <div *ngFor="let log of logs | slice: 0 : limit">
-      <span class="log-date">{{ log?.created_at | date:'dd MMM yyyy - HH:MM' }}</span>
+      <span class="log-date">{{ log?.created_at | date:'dd MMM yyyy - HH:mm' }}</span>
       &nbsp;&nbsp;
       <span class="log-detail">{{ log?.description }}</span>
     </div>

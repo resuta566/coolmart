@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+export class Logs {
+  description: string;
+  created_at: string;
+}
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'tracking-logs',
@@ -9,7 +13,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TrackingLogsComponent implements OnInit {
 
   // tslint:disable-next-line: no-input-rename
-  @Input('logs') logs: Array<string>;
+  @Input('logs') logs: Array<Logs>;
 
   text = 'View More';
   limit = 1;
