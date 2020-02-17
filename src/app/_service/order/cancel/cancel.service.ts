@@ -73,7 +73,7 @@ export class CancelService {
       console.log(order);
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser) {
-        return this.http.put(`${environment.apiUrl}/api/cart-cancellation/${order.cartId}`, order
+        return this.http.put(`${environment.apiUrl}/api/cart-cancellation`, order
           )
           .pipe(
             tap(_ => console.log(_, 'fetched cancelDetails')),

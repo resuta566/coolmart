@@ -39,10 +39,10 @@
         <div class="package-item">
           <div class="item-img">
             <ng-container *ngIf="item.attributes.item_images.length > 0; else noImage">
-              <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image">
+              <img src="{{ apiUrl }}/{{ item.images[0] }}" class="item-img" alt="product-image"/>
             </ng-container>
             <ng-template #noImage>
-              <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image">
+              <img src="assets/images/noimage2.jpg" class="item-img" alt="product-image"/>
             </ng-template>
           </div>
           <div class="item-name">

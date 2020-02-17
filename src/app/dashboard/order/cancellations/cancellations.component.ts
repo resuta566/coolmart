@@ -30,6 +30,7 @@ export class CancellationsComponent implements OnInit, OnDestroy {
   _cancelOrders() {
     this.cancellService.cancelOrders(this.cancelChangePage).pipe(takeUntil(this.destroy$)).subscribe(orders => {
       this.cancelOrders = orders;
+      console.log(this.cancelOrders);
     });
   }
 

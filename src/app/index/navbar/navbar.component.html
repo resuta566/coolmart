@@ -132,9 +132,16 @@
                   <li class="mini_cart_item" *ngFor="let cart of carts | slice: 0:4">
                     <a title="Remove this item" class="remove" (click)="removeItem(cart?.id)">×</a>
                     <a [routerLink]="['shop/item/', cart?.attributes.item_slug]">
-                      <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" src="{{ apiUrl }}/{{
-                          (cart?.attributes.item_images)[0]
-                        }}" alt="" />
+                      <ng-container *ngIf="cart?.attributes.item_images.length > 0; else noImg">
+                        <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
+                          src="{{ apiUrl }}/{{ cart?.attributes.item_images[0] }}"
+                          [alt]="cart?.attributes.item_name" />
+                      </ng-container>
+                      <ng-template #noImg>
+                        <img class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
+                          src="assets/images/noimage2.jpg"
+                          [alt]="cart?.attributes.item_name">
+                      </ng-template>
                       {{ cart?.attributes.item_name }}&nbsp;
                     </a>
 
