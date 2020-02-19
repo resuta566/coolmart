@@ -58,11 +58,11 @@ export class ReturnOrderComponent implements OnInit, OnDestroy {
 
   showItem() {
     this.returnService.returnShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-      const max = parseFloat(data.attributes.checkedout_subtotal.replace(',', '').replace('.', ',')).toFixed(2);
+      const max = data.attributes.subtotal_with_service_total.toFixed(2);
       this.a.refund_amount.setValidators(Validators.max(+max));
       setTimeout(() => {
         this.a.cartId.setValue(this.cartId);
-        this.a.refund_amount.setValue(data.attributes.checkedout_subtotal);
+        this.a.refund_amount.setValue(data.attributes.subtotal_with_service_total);
       }, 500);
       this.itemDetails = data;
       if (!this.itemDetails.attributes.returnable) {

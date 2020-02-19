@@ -108,7 +108,7 @@
 
                   <p class="price">
                     <span class="electro-price">
-                      <ins><span class="amount itemprice">₱{{ feetPrice | number }} </span></ins>
+                      <ins><span class="amount itemprice">₱{{ feetPrice | number: '0.2-2' }} </span></ins>
                       <ng-container *ngIf="response?.attributes.discountType">
                         <del><span class="amount">₱{{ response?.attributes.srp }}</span></del>
                         <span class="discount"> {{ response?.attributes.discountType }} </span>
