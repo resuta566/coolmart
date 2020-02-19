@@ -58,17 +58,17 @@ export class ReturnOrderComponent implements OnInit, OnDestroy {
 
   showItem() {
     this.returnService.returnShowItem(this.cartId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-      const max = data.attributes.subtotal_with_service_total.toFixed(2);
+      const max = parseFloat(data.attributes.subtotal_with_service_total_checkedout.replace(',', ''));
       this.a.refund_amount.setValidators(Validators.max(+max));
       setTimeout(() => {
         this.a.cartId.setValue(this.cartId);
-        this.a.refund_amount.setValue(data.attributes.subtotal_with_service_total);
+        this.a.refund_amount.setValue(max);
       }, 500);
       this.itemDetails = data;
       if (!this.itemDetails.attributes.returnable) {
         this.router.navigate(['/pages/not-found']);
       }
-      console.log(this.itemDetails);
+      console.log(max);
 
     });
   }

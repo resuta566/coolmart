@@ -208,12 +208,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.carts = data.data;
       console.log(this.carts);
-      if (this.carts.length <= 0) this.thereIsItem = false;
+      if (this.carts.length <= 0) { this.thereIsItem = false; }
 
-      // Compute the subtotal of all the items
-      this.carts.forEach( item => {
-        this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
-      });
+      // Cart Total
+      this.subtotal = data.cartTotal;
     });
   }
 

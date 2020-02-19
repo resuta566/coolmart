@@ -15,7 +15,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   carts: any;
   packages: any;
-  subtotal = 0;
+  subtotal = '';
   private destroy$: Subject<boolean> = new Subject<boolean>();
   sum = 0;
   apiUrl = `${environment.apiUrl}`;
@@ -44,11 +44,8 @@ export class CartComponent implements OnInit, OnDestroy {
   protected getCart() {
     this.cartService.carts().pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.carts = data.data;
+      this.subtotal = data.cartTotal;
 
-      // Compute the subtotal of all the items
-      this.carts.forEach( item => {
-        this.subtotal += parseFloat(item.attributes.subtotal_with_service_total);
-      });
     });
   }
 
