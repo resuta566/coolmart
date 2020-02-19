@@ -14,6 +14,7 @@ export class ReturnsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   apiUrl = `${environment.apiUrl}`;
   returnDetails: any;
+  returnChangePage = '';
   constructor(
     private returnService: ReturnService
   ) { }
@@ -27,12 +28,14 @@ export class ReturnsComponent implements OnInit, OnDestroy {
   }
 
   returns() {
-    this.returnService.returnOrders().pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.returnService.returnOrders(this.returnChangePage).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.returnDetails = data;
       console.log(this.returnDetails);
     });
   }
   changePageReturns(page: string) {
     console.log(page);
+    this.returnChangePage = page;
+    this.returns();
   }
 }

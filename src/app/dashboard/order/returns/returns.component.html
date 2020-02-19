@@ -4,7 +4,7 @@
   </div>
 
   <div class="order-list">
-      <ng-container *ngIf="returnDetails?.data.length == 0"> No Returned Items yet.</ng-container>
+    <ng-container *ngIf="returnDetails?.data.length == 0"> No Returned Items yet.</ng-container>
     <div class="order" *ngFor="let returnDetail of returnDetails?.data">
       <div class="order-detail">
         <div class="order-left">
@@ -23,40 +23,42 @@
       </div>
       <div id="item" style="overflow-x:auto;">
         <table>
-          <tr *ngFor="let item of returnDetail?.relationships.carts.data">
-            <div class="order-item">
-              <td>
-                <div class="item-pic">
-                  <ng-container *ngIf="item?.attributes.item_images > 0;else noImage">
-                    <img src="{{ apiUrl }}/{{ item?.attributes.item_images[0] }}" alt="product-thumbnail">
-                  </ng-container>
-                  <ng-template #noImage>
-                    <img src="assets/images/noimage2.jpg" alt="product-thumbnail">
-                  </ng-template>
+          <tr *ngFor="let package of returnDetail?.relationships.packages">
+            <ng-container *ngFor="let item of package?.carts">
+              <div class="order-item">
+                <td>
+                  <div class="item-pic">
+                    <ng-container *ngIf="item?.attributes.item_images > 0;else noImage">
+                      <img src="{{ apiUrl }}/{{ item?.attributes.item_images[0] }}" alt="product-thumbnail">
+                    </ng-container>
+                    <ng-template #noImage>
+                      <img src="assets/images/noimage2.jpg" alt="product-thumbnail">
+                    </ng-template>
 
-                </div>
-              </td>
-              <td>
-                <div class="item-main">
-                  <div class="item-name">
-                    {{ item.attributes.item_name }}
                   </div>
-                </div>
-              </td>
-              <td>
-                <div class="item-quantity">
-                  Qty: {{ item.attributes.cart_qty }}
-                </div>
-              </td>
-              <td>
-                <div class="item-status">
-                  {{ item.attributes.status }}
-                </div>
-              </td>
-              <td>
-                &nbsp;
-              </td>
-            </div>
+                </td>
+                <td>
+                  <div class="item-main">
+                    <div class="item-name">
+                      {{ item.attributes.item_name }}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="item-quantity">
+                    Qty: {{ item.attributes.cart_qty }}
+                  </div>
+                </td>
+                <td>
+                  <div class="item-status">
+                    {{ item.attributes.status }}
+                  </div>
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+              </div>
+            </ng-container>
           </tr>
         </table>
       </div>

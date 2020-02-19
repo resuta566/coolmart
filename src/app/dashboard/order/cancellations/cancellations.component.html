@@ -23,8 +23,8 @@
       </div>
       <div id="item" style="overflow-x:auto;">
         <table>
-          <tr *ngFor="let packages of cancelOrder?.relationships.packages">
-            <ng-container *ngFor="let cancelItem of packages.carts">
+          <tr *ngFor="let package of cancelOrder?.relationships.packages">
+            <ng-container *ngFor="let cancelItem of package.carts">
               <div class="order-item">
                 <td>
                   <div class="item-pic">
@@ -53,9 +53,11 @@
                     {{ cancelItem?.attributes.status }}
                   </div>
                 </td>
+                <td>
+                  &nbsp;
+                </td>
               </div>
             </ng-container>
-
           </tr>
         </table>
       </div>
