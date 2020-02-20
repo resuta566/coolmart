@@ -82,18 +82,21 @@
             Shipping Address
           </div>
           <span class="shipping-name">
-            {{ orderData?.address.ship_post_code[0] }}
+            {{ orderData?.address.shipping_details.fullname }}
           </span> <br>
           <span class="shipping-address">
-            {{ orderData?.address.ship_post_code[1] }}
+            <span
+            [class.type-home]="orderData?.address.shipping_details.type == 'HOME'"
+            [class.type-office]="orderData?.address.shipping_details.type == 'OFFICE'"
+            >{{ orderData?.address.shipping_details.type }}</span>&nbsp;{{ orderData?.address.shipping_details.building }}
           </span>
           <br>
           <span class="shipping-post-code">
-            {{ orderData?.address.ship_post_code[2] }}
+            {{ orderData?.address.shipping_details.address }}
           </span>
           <br>
           <span class="shipping-contact">
-            {{ orderData?.address.ship_post_code[3] }}
+            {{ orderData?.address.shipping_details.contact }}
           </span>
         </div>
       </div>
@@ -103,18 +106,21 @@
             Billing Address
           </div>
           <span class="billing-name">
-            {{ orderData?.address.bill_post_code[0] }}
+            {{ orderData?.address.billing_details.fullname }}
           </span> <br>
           <span class="billing-address">
-            {{ orderData?.address.bill_post_code[1] }}
+            <span
+            [class.type-home]="orderData?.address.shipping_details.type == 'HOME'"
+            [class.type-office]="orderData?.address.shipping_details.type == 'OFFICE'"
+            >{{ orderData?.address.shipping_details.type }}</span>&nbsp;{{ orderData?.address.billing_details.building }}
           </span>
           <br>
           <span class="billing-post-code">
-            {{ orderData?.address.bill_post_code[2] }}
+            {{ orderData?.address.billing_details.address }}
           </span>
           <br>
           <span class="billing-contact">
-            {{ orderData?.address.bill_post_code[3] }}
+            {{ orderData?.address.billing_details.contact }}
           </span>
         </div>
       </div>
