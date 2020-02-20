@@ -63,6 +63,7 @@ export class InComponent implements OnInit, OnDestroy {
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
+        this.submitted = false;
         return;
     }
 
