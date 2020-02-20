@@ -10,7 +10,7 @@
         </span>
       </div>
       <div class="order-header-total">
-        <span class="total-header-title">Total:</span>  ₱{{  cancelledData?.sub_total }}
+        <!-- <span class="total-header-title">Total:</span>  ₱{{  cancelledData?.sub_total }} -->
       </div>
     </div>
     <div class="order" *ngFor="let item of cancelledData?.items;let i = index">
@@ -43,6 +43,9 @@
               </div>
               <div class="item-name">
                   {{ item.name }}<br>
+                  <span class="additional-info" *ngIf="item?.cancelReason">
+                    <span>Reason: <b>{{ item?.cancelReason }}</b></span>
+                  </span> <br>
                   <span class="additional-info" *ngIf="item?.services">
                     <span>{{ item?.services.name }}: <b>₱{{ item?.services.total }}</b></span> <br>
                     <span>Piping: <b>{{ item?.services.total_feet }} feet</b></span> <br>
@@ -59,7 +62,7 @@
 
       </div>
     </div>
-    <div class="shipping-billing-total-details">
+    <!-- <div class="shipping-billing-total-details">
       <div class="delivery-details">
         <div class="shipping-details shadow">
           <div class="content">
@@ -142,5 +145,5 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
