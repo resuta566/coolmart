@@ -32,7 +32,7 @@ const routes: Routes = [
     component: CartComponent,
     canActivate: [AuthGuard],
     data: {
-      title: `Cart${htmlTitle}`
+      title: 'Cart${htmlTitle}'
     }
   },
   {
@@ -102,19 +102,19 @@ const routes: Routes = [
   {
     path: 'forgot-password' ,
     loadChildren: () =>
-      import(`@app/_modules/pages/forgot-password/forgot-password.module`)
+      import('@app/_modules/pages/forgot-password/forgot-password.module')
       .then(module => module.ForgotPasswordModule)
   },
   {
     path: 'dashboard' ,
     loadChildren: () =>
-      import(`@app/_modules/dashboard/dashboard.module`)
+      import('@app/_modules/dashboard/dashboard.module')
       .then( module => module.DashboardModule)
   },
   {
     path: 'pages' ,
     loadChildren: () =>
-      import(`@app/_modules/pages/pages.module`)
+      import('@app/_modules/pages/pages.module')
       .then(module => module.PagesModule)
   },
 

@@ -19,13 +19,13 @@ const routes: Routes = [
         {
           path: 'account' ,
           loadChildren: () =>
-            import(`@app/_modules/dashboard/account/account.module`)
+            import('@app/_modules/dashboard/account/account.module')
               .then(module => module.AccountModule)
         },
         {
           path: 'order' ,
           loadChildren: () =>
-            import(`@app/_modules/dashboard/order/order.module`)
+            import('@app/_modules/dashboard/order/order.module')
               .then(module => module.OrderModule)
         }
       ]

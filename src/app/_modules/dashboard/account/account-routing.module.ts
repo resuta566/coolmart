@@ -41,13 +41,13 @@ const routes: Routes = [
       {
         path: 'address-book' ,
           loadChildren: () =>
-            import(`@app/_modules/dashboard/account/address-book/address-book.module`)
+            import('@app/_modules/dashboard/account/address-book/address-book.module')
             .then(module => module.AddressBookModule)
         },
       {
         path: 'payment-options',
         component: PaymentOptionsComponent,
-        data:{
+        data: {
           num: 9,
           title: 'Select Payment Option'
         }

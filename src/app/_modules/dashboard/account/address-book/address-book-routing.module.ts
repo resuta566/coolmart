@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: 'address' ,
     loadChildren: () =>
-      import(`@app/_modules/dashboard/account/address-book/address/address.module`)
+      import('@app/_modules/dashboard/account/address-book/address/address.module')
       .then(module => module.AddressModule)
   }
 ];
