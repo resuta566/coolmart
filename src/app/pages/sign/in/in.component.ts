@@ -18,6 +18,7 @@ import { NavbarService } from '@app/_service/navbar/navbar.service';
 export class InComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   submitted = false;
+  loading = false;
   returnUrl: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -58,12 +59,13 @@ export class InComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
+    this.loading = true;
     // reset alerts on submit
     this.alertService.clear();
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-        this.submitted = false;
+        this.loading = false;
         return;
     }
 
@@ -84,6 +86,7 @@ export class InComponent implements OnInit, OnDestroy {
               this.alertService.error(error);
               this.notyf.error(error);
               this.submitted = false;
+              this.loading = false;
             });
 }
 }
